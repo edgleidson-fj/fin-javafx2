@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="561.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ContasQuitadasController">
+   <children>
+      <AnchorPane prefHeight="555.0" prefWidth="674.0">
+         <children>
+            <Label layoutX="254.0" layoutY="14.0" text="CONTAS QUITADAS">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="480.0" prefWidth="663.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
+              <columns>
+                <TableColumn fx:id="colunaLanData" prefWidth="103.0" text="DATA" />
+                <TableColumn fx:id="colunaLanId" prefWidth="67.0" text="ID" />
+                  <TableColumn fx:id="colunaLanRef" prefWidth="213.0" text="REFERÊNCIA" />
+                  <TableColumn fx:id="colunaLanDesconto" prefWidth="72.0" text="DESCONTO" />
+                  <TableColumn fx:id="colunaLanAcrescimo" prefWidth="75.0" text="ACRÉSCIMO" />
+                  <TableColumn fx:id="colunaLanValor" prefWidth="59.0" text="TOTAL" />
+                  <TableColumn fx:id="colunaTipoPag" maxWidth="2000.0" prefWidth="165.0" text="FORMA DE PAGAMENTO" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="53.0" text="x" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
