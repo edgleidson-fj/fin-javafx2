@@ -1,6 +1,8 @@
 package gui;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -12,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,8 +37,8 @@ public class DetalheDialogFormController implements Initializable {
 	private TextField txtId;
 	@FXML
 	private TextField txtRef;
-//		@FXML
-//		private TextField txtData;
+	@FXML
+	private DatePicker datePickerData;
 	@FXML
 	private Label lbTotal;
 	@FXML
@@ -94,6 +97,8 @@ public class DetalheDialogFormController implements Initializable {
 	public void atualizarDialogForm() {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtRef.setText(lancamentoEntidade.getReferencia());
+//		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		if (lancamentoEntidade.getDesconto() != 0) {
 			lbDescontoAcrescimo.setText(String.format("Desconto %.2f",lancamentoEntidade.getDesconto()));

@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -61,8 +60,8 @@ public class PagamentoDialogFormController implements Initializable {
 	private TextField txtDesconto;
 	@FXML
 	private TextField txtAcrescimo;
-//		@FXML
-//		private TextField txtData;
+	@FXML
+	private DatePicker datePickerData;
 	@FXML
 	private Label lbTotal;
 	@FXML
@@ -178,7 +177,8 @@ public class PagamentoDialogFormController implements Initializable {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtRef.setText(lancamentoEntidade.getReferencia());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
-		// txtData.setText(String.valueOf(lancamentoEntidade.getData()));
+	//	datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+
 		txtDesconto.setText(String.valueOf(0));
 		txtAcrescimo.setText(String.valueOf(0));
 	}

@@ -19,7 +19,7 @@
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="480.0" prefWidth="663.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
               <columns>
                   <TableColumn fx:id="colunaPagar" prefWidth="41.0" text="\$" />
-                <TableColumn fx:id="colunaLanData" prefWidth="104.0" text="DATA" />
+                <TableColumn fx:id="colunaLanData" prefWidth="104.0" text="VENCIMENTO" />
                 <TableColumn fx:id="colunaLanId" prefWidth="70.0" text="ID" />
                   <TableColumn fx:id="colunaLanRef" prefWidth="400.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanValor" prefWidth="58.0" text="VALOR" />

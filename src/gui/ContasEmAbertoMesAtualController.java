@@ -116,15 +116,15 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 			controle.carregarTableView();
 			}
 			else {
-			PagamentoDialogFormController controle = loader.getController();
-			controle.setLancamento(obj);
-			controle.setLancamentoService(new LancamentoService());
-			controle.setDespesaService(new DespesaService());
-			controle.setTipoPag(new TipoPag());
-			controle.setTipoPagService(new TipoPagService());
-			controle.atualizarDialogForm();			
-			controle.carregarTableView();
-			controle.carregarObjetosAssociados();
+				PagamentoDialogFormController controle = loader.getController();
+				controle.setLancamento(obj);
+				controle.setLancamentoService(new LancamentoService());
+				controle.setDespesaService(new DespesaService());
+				controle.setTipoPag(new TipoPag());
+				controle.setTipoPagService(new TipoPagService());
+				controle.atualizarDialogForm();			
+				controle.carregarTableView();
+				controle.carregarObjetosAssociados();
 			}
 			// Caixa de Dialogo.
 			Stage stageDialog = new Stage();

@@ -105,7 +105,7 @@ public class LanAPagarController implements Initializable {
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
 		if (datePickerData.getValue() == null) {
-			obj.setData(hoje);
+			Alertas.mostrarAlerta("", null, "Necessário informar a data para pagamento", AlertType.INFORMATION);
 		} else {
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			obj.setData(Date.from(instant));
