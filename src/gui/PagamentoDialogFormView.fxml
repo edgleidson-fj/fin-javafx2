@@ -57,7 +57,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <DatePicker fx:id="datePickerData" layoutX="357.0" layoutY="43.0" />
+            <DatePicker fx:id="datePickerData" layoutX="357.0" layoutY="43.0" prefHeight="25.0" prefWidth="133.0" />
          </children>
       </AnchorPane>
    </children>

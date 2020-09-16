@@ -177,8 +177,8 @@ public class PagamentoDialogFormController implements Initializable {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtRef.setText(lancamentoEntidade.getReferencia());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
-	//	datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
-
+		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		txtDesconto.setText(String.valueOf(0));
 		txtAcrescimo.setText(String.valueOf(0));
 	}

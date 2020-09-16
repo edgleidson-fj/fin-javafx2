@@ -97,7 +97,8 @@ public class DetalheDialogFormController implements Initializable {
 	public void atualizarDialogForm() {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtRef.setText(lancamentoEntidade.getReferencia());
-//		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		if (lancamentoEntidade.getDesconto() != 0) {

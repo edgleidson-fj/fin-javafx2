@@ -403,7 +403,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				Lancamento l = new Lancamento(); 
 				l.setId(rs.getInt("lancamento.id"));
 				l.setReferencia(rs.getString("lancamento.referencia"));
-				l.setData(rs.getDate("lancamento.data"));
+				l.setData(new java.util.Date(rs.getTimestamp("lancamento.data").getTime()));
 				l.setTotal(rs.getDouble("lancamento.total"));
 				l.setDesconto(rs.getDouble("lancamento.desconto"));
 				l.setAcrescimo(rs.getDouble("lancamento.acrescimo"));					
@@ -512,7 +512,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				Lancamento l = new Lancamento(); 
 				l.setId(rs.getInt("lancamento.id"));
 				l.setReferencia(rs.getString("lancamento.referencia"));
-				l.setData(rs.getDate("lancamento.data"));
+				l.setData(new java.util.Date(rs.getTimestamp("lancamento.data").getTime()));				
 				l.setTotal(rs.getDouble("lancamento.total"));
 				l.setDesconto(rs.getDouble("lancamento.desconto"));
 				l.setAcrescimo(rs.getDouble("lancamento.acrescimo"));					
