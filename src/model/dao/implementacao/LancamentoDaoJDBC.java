@@ -532,6 +532,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 			}	
 		
+		//Rotinas Automáticas
 		@Override
 		public void cancelamentoAutomatico(Lancamento obj) {
 			PreparedStatement ps = null;
@@ -548,5 +549,29 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharStatement(ps);
 			}
 		}
+		
+		@Override
+		public void vencimentoAutomatico(Lancamento obj) {
+			PreparedStatement ps = null;
+			try {
+				Calendar datahoje = Calendar.getInstance();
+				int mesAtual = datahoje.get(Calendar.MONTH)+1;
+				int diaAtual = datahoje.get(Calendar.DAY_OF_MONTH);
+			
+				ps = connection.prepareStatement(
+						"UPDATE lancamento " 
+						+ "SET status_id = 3 "
+						+ "WHERE status_id = 1 "
+						+ "AND Month(data) =  '"+mesAtual+"' "
+						+ "AND Day(data) < '"+diaAtual+"' "
+						+ "AND Year(data) = Year(now()) ");
+				ps.executeUpdate();
+			} catch (SQLException ex) {
+				new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+			}
+		}
+		
 
 }

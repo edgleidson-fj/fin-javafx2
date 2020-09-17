@@ -49,4 +49,7 @@ public class LancamentoService {
 	public void cancelamentoAutomatico(Lancamento obj) {
 		dao.cancelamentoAutomatico(obj);
 	}
+	public void vencimentoAutomatico(Lancamento obj) {
+		dao.vencimentoAutomatico(obj);
+	}
 }
