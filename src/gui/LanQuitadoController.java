@@ -420,21 +420,30 @@ public class LanQuitadoController implements Initializable {
 			}
 			try {
 				Lancamento lan = new Lancamento();
-				lan.setId(idLan);
-				itemService.excluir(lan, desp);
-				// Total
+				lan.setId(Utils.stringParaInteiro(txtId.getText()));
+				System.out.println("idLan "+Utils.stringParaInteiro(txtId.getText()));
+				itemService.excluir(lan,desp);
+			/*	//Total
 				total -= desp.getPreco();
 				lbTotal.setText(String.format("R$ %.2f", total));
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
 				lan.setTotal(total);
-				lancamentoService.atualizar(lan);
-				// Carregar TableView do Lançamento
-				List<Despesa> listaDespesa = despesaService.listarPorId(lan.getId());
+				lancamentoService.atualizar(lan);				
+				//Carregar TableView do Lançamento 		*/			
+				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText())); 
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
-				tbDespesa.setItems(obsListaDespesaTbView);
-				iniciarBotaoRemover();
-				iniciarBotaoEditar();
-			} catch (BDIntegrityException ex) {
+				  tbDespesa.setItems(obsListaDespesaTbView);			
+				  iniciarBotaoRemover();				  
+				// Valor Total
+					Double soma = 0.0;
+					for (Despesa tab : obsListaDespesaTbView) {
+						soma += tab.getPreco();
+					}
+					lbTotal.setText(String.format("R$ %.2f", soma));
+					lan.setTotal(soma);
+					lancamentoService.atualizar(lan);
+				
+				  } catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
