@@ -56,10 +56,14 @@ public class DespesaDaoJDBC implements DespesaDao {
 	public void atualizar(Despesa obj) {
 		PreparedStatement ps = null;
 		try {
-			ps = connection.prepareStatement(" update despesa set ativo = ?  where id = ? ");
-
-//			ps.setString(1, obj.getAtivo());
-			ps.setInt(2, obj.getId());
+			ps = connection.prepareStatement(
+					 "UPDATE despesa "
+					+ "SET nome = ?,  "
+					+ "preco = ? "
+					+ "WHERE id = ? ");
+			ps.setString(1, obj.getNome());
+			ps.setDouble(2, obj.getPreco());
+			ps.setInt(3, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());
