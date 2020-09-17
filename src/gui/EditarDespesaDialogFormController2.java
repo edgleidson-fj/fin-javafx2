@@ -15,24 +15,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
-import model.entidade.Status;
-import model.entidade.TipoPag;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
-import model.servico.StatusService;
-import model.servico.TipoPagService;
 
-public class EditarDespesaDialogFormController implements Initializable{
+public class EditarDespesaDialogFormController2 implements Initializable{
 	
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade; 
@@ -71,7 +67,7 @@ public class EditarDespesaDialogFormController implements Initializable{
 		
 		parentStage.close();
 			
-		carregarView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {
+		carregarView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {
 			Lancamento lan = new Lancamento();
 			lan.setId(lancamentoEntidade.getId());
 			lan.setReferencia(lancamentoEntidade.getReferencia());
@@ -81,11 +77,6 @@ public class EditarDespesaDialogFormController implements Initializable{
 			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
 			controller.setItem(new Item());			
-			controller.setTipoPag(new TipoPag());
-			controller.setTipoPagService(new TipoPagService());
-			controller.setStatus(new Status());
-			controller.setStatusService(new StatusService());
-			controller.carregarObjetosAssociados();
 			controller.carregarTableView();
 			});
 		}

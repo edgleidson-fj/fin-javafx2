@@ -421,14 +421,7 @@ public class LanQuitadoController implements Initializable {
 			try {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				System.out.println("idLan "+Utils.stringParaInteiro(txtId.getText()));
 				itemService.excluir(lan,desp);
-			/*	//Total
-				total -= desp.getPreco();
-				lbTotal.setText(String.format("R$ %.2f", total));
-				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				lan.setTotal(total);
-				lancamentoService.atualizar(lan);				
 				//Carregar TableView do Lançamento 		*/			
 				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText())); 
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
@@ -441,17 +434,14 @@ public class LanQuitadoController implements Initializable {
 					}
 					lbTotal.setText(String.format("R$ %.2f", soma));
 					lan.setTotal(soma);
-					lancamentoService.atualizar(lan);
-				
+					lancamentoService.atualizar(lan);				
 				  } catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
 	}
 
-	// teste
 	public void carregarTableView() {
-		System.out.println("3 -- " + lancamentoEntidade.getId());
 		List<Despesa> listaDespesa = despesaService.listarPorId(lancamentoEntidade.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
@@ -459,6 +449,8 @@ public class LanQuitadoController implements Initializable {
 		iniciarBotaoEditar();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
+	//	datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+	//	Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		// Valor Total
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {

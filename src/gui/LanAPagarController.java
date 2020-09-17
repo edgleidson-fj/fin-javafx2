@@ -37,7 +37,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
@@ -80,6 +82,8 @@ public class LanAPagarController implements Initializable {
 	private TableView<Despesa> tbDespesa;
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaRemover;
+	@FXML
+	private TableColumn<Despesa, Despesa> colunaEditar;
 	@FXML
 	private TableColumn<Despesa, Integer> colunaDespId;
 	@FXML
@@ -139,12 +143,12 @@ public class LanAPagarController implements Initializable {
 		item.setLancamento(obj);
 		item.setDespesa(desp);
 		itemService.salvar(item);
-		// Total
+		/*/ Total
 		total += desp.getPreco();
 		lbTotal.setText(String.format("R$ %.2f", total));
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		obj.setTotal(total);
-		lancamentoService.atualizar(obj);
+		lancamentoService.atualizar(obj);*/
 		// Limpando os campos
 		txtItem.setText("");
 		txtPreco.setText(String.valueOf(0));
@@ -153,6 +157,15 @@ public class LanAPagarController implements Initializable {
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		  tbDespesa.setItems(obsListaDespesaTbView);			
 		  iniciarBotaoRemover();
+		  iniciarBotaoEditar();
+		// Valor Total
+			Double soma = 0.0;
+			for (Despesa tab : obsListaDespesaTbView) {
+				soma += tab.getPreco();
+			}
+			lbTotal.setText(String.format("R$ %.2f", soma));
+			obj.setTotal(soma);
+			lancamentoService.atualizar(obj);		
 		 }
 
 	@FXML
@@ -254,8 +267,56 @@ public class LanAPagarController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}	
-	//-----------------------------------------------------------------------------------------------------------
-	
+
+	public void criarDialogForm(Despesa obj, String nomeAbsoluto, Stage stagePai) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
+			Pane painel = loader.load();
+			// Referencia para controlador.
+			EditarDespesaDialogFormController2 controle = loader.getController();
+			controle.setLancamentoService(new LancamentoService());
+			Lancamento lan = new Lancamento();
+			lan.setId(Utils.stringParaInteiro(txtId.getText()));
+			lan.setTotal(total);
+			lan.setReferencia(txtReferencia.getText());
+			controle.setLancamento(lan);
+			controle.setDespesaService(new DespesaService());
+			controle.setDespesa(obj);
+			controle.carregarCamposDeCadastro();
+			// Caixa de Dialogo.
+			Stage stageDialog = new Stage();
+			stageDialog.setTitle("");
+			stageDialog.setScene(new Scene(painel));
+			stageDialog.setResizable(false); // Redimencionavel.
+			stageDialog.initOwner(stagePai); // Stage pai da janela.
+			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
+			stageDialog.showAndWait();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
+		}
+	}
+	// -----------------------------------------------------------------------------------------------------------
+
+	private void iniciarBotaoEditar() {
+		colunaEditar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		colunaEditar.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
+			private final Button button = new Button("editar");
+
+			@Override
+			protected void updateItem(Despesa obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView2.fxml",
+						Utils.stageAtual(evento)));
+			}
+		});
+	}
+
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
@@ -282,23 +343,43 @@ public class LanAPagarController implements Initializable {
 			}
 			try {
 				Lancamento lan = new Lancamento();
-				lan.setId(idLan);
-				itemService.excluir(lan,desp);
-				//Total
-				total -= desp.getPreco();
-				lbTotal.setText(String.format("R$ %.2f", total));
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				lan.setTotal(total);
-				lancamentoService.atualizar(lan);				
-				//Carregar TableView do Lançamento 					
-				List<Despesa> listaDespesa = despesaService.listarPorId(lan.getId()); 
+				itemService.excluir(lan,desp);
+				//Carregar TableView do Lançamento 		*/			
+				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText())); 
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 				  tbDespesa.setItems(obsListaDespesaTbView);			
-				  iniciarBotaoRemover();				
-			}
+				  iniciarBotaoRemover();				  
+				// Valor Total
+					Double soma = 0.0;
+					for (Despesa tab : obsListaDespesaTbView) {
+						soma += tab.getPreco();
+					}
+					lbTotal.setText(String.format("R$ %.2f", soma));
+					lan.setTotal(soma);
+					lancamentoService.atualizar(lan);				
+				}
 			catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
+	}
+	
+	public void carregarTableView() {
+		List<Despesa> listaDespesa = despesaService.listarPorId(lancamentoEntidade.getId());
+		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
+		tbDespesa.setItems(obsListaDespesaTbView);
+		iniciarBotaoRemover();
+		iniciarBotaoEditar();
+		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
+		txtReferencia.setText(lancamentoEntidade.getReferencia());
+		//datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+		//Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+		// Valor Total
+		Double soma = 0.0;
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPreco();
+		}
+		lbTotal.setText(String.format("R$ %.2f", soma));
 	}
 }

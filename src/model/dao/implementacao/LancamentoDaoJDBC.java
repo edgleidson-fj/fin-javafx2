@@ -561,6 +561,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				ps = connection.prepareStatement(
 						"UPDATE lancamento " 
 						+ "SET status_id = 3 "
+					//	+ "referencia = CONCAT('(PENDENTE) ',referencia ) "
 						+ "WHERE status_id = 1 "
 						+ "AND Month(data) =  '"+mesAtual+"' "
 						+ "AND Day(data) < '"+diaAtual+"' "
