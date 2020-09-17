@@ -226,7 +226,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
 				while (rs.next()) {
-				TipoPag pag = new TipoPag();
+			//	TipoPag pag = new TipoPag();
 					Lancamento obj = new Lancamento();
 					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
 					obj.setId(rs.getInt("id"));
@@ -530,5 +530,23 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharStatement(ps);
 				BD.fecharResultSet(rs);
 			}
-			}			
+			}	
+		
+		@Override
+		public void cancelamentoAutomatico(Lancamento obj) {
+			PreparedStatement ps = null;
+			try {
+				ps = connection.prepareStatement(
+						"UPDATE lancamento " 
+						+ "SET status_id = 4 "
+						+ "WHERE total <= ? ");
+				ps.setDouble(1, obj.getTotal());
+				ps.executeUpdate();
+			} catch (SQLException ex) {
+				new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+			}
+		}
+
 }

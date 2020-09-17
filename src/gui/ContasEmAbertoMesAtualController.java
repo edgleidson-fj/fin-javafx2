@@ -179,4 +179,9 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 			}
 		});
 	}
+	
+	public void rotinasAutomaticas() {
+		lancamentoEntidade.setTotal(0.00);
+		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
+	}
 }

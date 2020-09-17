@@ -19,4 +19,5 @@ public interface LancamentoDao {
 	void confirmarLanQuitado(Lancamento obj);
 	void confirmarLanAPagar(Lancamento obj);
 	void confirmarPagamento(Lancamento obj);
+	void cancelamentoAutomatico(Lancamento obj);
 }

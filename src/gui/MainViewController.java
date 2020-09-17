@@ -86,6 +86,7 @@ public class MainViewController implements Initializable {
 	carregarView("/gui/ContasQuitadasMesAtualView.fxml", (ContasQuitadasMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
 	}
@@ -95,6 +96,7 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasQuitadasView.fxml", (ContasQuitadasController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
 	}
@@ -104,6 +106,7 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
 	}
@@ -113,6 +116,7 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoView.fxml", (ContasEmAbertoController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
 	}
@@ -122,6 +126,7 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/TodasContasView.fxml", (TodasContasController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
 	}
