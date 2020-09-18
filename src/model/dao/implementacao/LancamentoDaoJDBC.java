@@ -50,8 +50,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	public void inserir(Lancamento obj) {
 		PreparedStatement ps = null;
 		if(obj.getData() == null) {
-			Date hoje = new Date();
-			System.out.println(hoje);
+		/*	Date hoje = new Date();
+			System.out.println(hoje);*/
 		}
 		try {
 			ps = connection.prepareStatement(
@@ -271,11 +271,11 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		try {
 			ps = connection.prepareStatement("UPDATE lancamento " 
 		+ "SET tipopag_id = ?, "
-		//+ "total = ?, "
-		+"status_id = '"+status+"' "
+		+"status_id = '"+status+"', "
+		+ "finalizado = 'S' "			
 		+ "WHERE Id = ? ");
 			ps.setInt(1, obj.getTipoPagamento().getId());
-			//ps.setDouble(2, obj.getTotal());
+		//	ps.setString(2, obj.getFinalizado());
 			ps.setInt(2, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
@@ -317,8 +317,10 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			PreparedStatement ps = null;
 			int status = 1; //Em Aberto.
 			try {
-				ps = connection.prepareStatement("UPDATE lancamento " 
-			+ "SET status_id = '"+status+"' "
+				ps = connection.prepareStatement(
+			"UPDATE lancamento " 
+			+ "SET status_id = '"+status+"', "
+			+ "finalizado = 'S' "
 			+ "WHERE Id = ? ");
 				ps.setInt(1, obj.getId());
 				ps.executeUpdate();
@@ -540,8 +542,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				ps = connection.prepareStatement(
 						"UPDATE lancamento " 
 						+ "SET status_id = 4 "
-						+ "WHERE total <= ? ");
-				ps.setDouble(1, obj.getTotal());
+						+ "WHERE finalizado = 'N' ");
+			//	ps.setDouble(1, obj.getTotal());
 				ps.executeUpdate();
 			} catch (SQLException ex) {
 				new BDException(ex.getMessage());
