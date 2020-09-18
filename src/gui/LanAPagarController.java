@@ -345,6 +345,7 @@ public class LanAPagarController implements Initializable {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
 				itemService.excluir(lan,desp);
+				despesaService.excluir(desp);
 				//Carregar TableView do Lançamento 		*/			
 				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText())); 
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
