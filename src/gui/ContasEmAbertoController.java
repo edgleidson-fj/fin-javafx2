@@ -185,7 +185,8 @@ public class ContasEmAbertoController implements Initializable {
 	
 	public void rotinasAutomaticas() {
 		lancamentoEntidade.setTotal(0.00);
-		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
+		//lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
+		lancamentoService.exclusaoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
 }

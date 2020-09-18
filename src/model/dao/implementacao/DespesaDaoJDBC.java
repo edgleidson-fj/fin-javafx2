@@ -52,7 +52,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 		}
 	}
 
-	@Override //Falta testar
+	@Override //ok
 	public void atualizar(Despesa obj) {
 		PreparedStatement ps = null;
 		try {
@@ -72,11 +72,13 @@ public class DespesaDaoJDBC implements DespesaDao {
 		}
 	}
 
-	@Override //Falta testar
+	@Override //ok
 	public void excluirPorId(Integer id) {
 		PreparedStatement ps = null;
 		try {
-			ps = connection.prepareStatement("DELETE FROM despesa  " + "WHERE Id = ? ");
+			ps = connection.prepareStatement(
+			"DELETE FROM despesa  " 
+			+ "WHERE Id = ? ");
 			ps.setInt(1, id);
 			ps.executeUpdate();
 		} catch (SQLException ex) {

@@ -574,5 +574,20 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-
+		@Override
+		public void exclusaoAutomatico(Lancamento obj) {
+			PreparedStatement ps = null;
+			try {
+				ps = connection.prepareStatement(
+						"DELETE lancamento " 
+						+ "FROM lancamento "
+						+ "WHERE total <= ? ");
+				ps.setDouble(1, obj.getTotal());
+				ps.executeUpdate();
+			} catch (SQLException ex) {
+				new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+			}
+		}
 }

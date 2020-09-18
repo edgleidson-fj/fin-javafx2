@@ -81,7 +81,10 @@ public class ItemDaoJDBC implements ItemDao {
 	public void excluirPorId(Integer lanId, Integer despId) {
 		PreparedStatement ps = null;
 		try {
-			ps = connection.prepareStatement("DELETE FROM item WHERE lancamento_id = ? AND despesa_id = ?");
+			ps = connection.prepareStatement(
+					"DELETE FROM item "
+					+ "WHERE lancamento_id = ? "
+					+ "AND despesa_id = ?");
 			ps.setInt(1, lanId);
 			ps.setInt(2, despId);
 			ps.executeUpdate();
