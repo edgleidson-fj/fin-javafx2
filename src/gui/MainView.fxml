@@ -33,12 +33,14 @@
                         <Menu mnemonicParsing="false" text="Contas Quitadas">
                           <items>
                             <MenuItem fx:id="menuItemContasQuitadoMesAtual" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoMesAtual" text="Mês Atual" />
+                              <MenuItem fx:id="menuItemContasQuitadoPeriodo" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoPeriodo" text="Período" />
                               <MenuItem fx:id="menuItemContasQuitadoTodos" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoTodos" text="Todos" />
                           </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Contas A Pagar">
                           <items>
                             <MenuItem fx:id="menuItemContasEmAbertoMesAtual" mnemonicParsing="false" onAction="#onMenuItemContasEmAbertoMesAtual" text="Mês Atual" />
+                              <MenuItem fx:id="menuItemContasEmAbertoPeriodo" mnemonicParsing="false" onAction="#onMenuItemContasEmAbertoPeriodo" text="Período" />
                             <MenuItem fx:id="menuItemContasEmAbertoTodos" mnemonicParsing="false" onAction="#onMenuItemContasEmAbertoTodos" text="Todos" />
                           </items>
                         </Menu>

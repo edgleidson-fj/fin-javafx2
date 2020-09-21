@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -534,6 +536,84 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 			}	
 		
+		@Override //ok
+		public List<Lancamento> buscarContasEmAbertoPeriodo(String dataInicial, String dataFinal) {
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				ps = connection.prepareStatement(
+						"SELECT * FROM lancamento "
+						+ "INNER JOIN status "
+						+ "ON lancamento.status_id = status.id "
+						+ "WHERE data >=  '"+dataInicial+"' "
+						+ "AND data <= '"+dataFinal+"' "
+						+ "AND status_id = 1 "
+						+ "OR (status_id = 3 "
+						+ "AND data >=  '"+dataInicial+"' "
+						+ "AND data <= '"+dataFinal+"') "
+						+ "ORDER BY data");  
+				rs = ps.executeQuery();
+				List<Lancamento> lista = new ArrayList<>();				
+				while (rs.next()) {
+			//	TipoPag pag = new TipoPag();
+					Status status = new Status();
+					status.setNome(rs.getString("status.nome"));
+					Lancamento obj = new Lancamento();
+					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+					obj.setId(rs.getInt("id"));
+					obj.setReferencia(rs.getString("referencia"));
+					obj.setTotal(rs.getDouble("total"));
+					obj.setDesconto(rs.getDouble("desconto"));
+					obj.setAcrescimo(rs.getDouble("acrescimo"));
+					obj.setStatus(status);
+					lista.add(obj);
+				}
+				return lista;
+			} catch (SQLException ex) {
+				throw new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+				BD.fecharResultSet(rs);
+			}
+		}
+		
+		@Override 
+		public List<Lancamento> buscarContasQuitadoPeriodo(String dataInicial, String dataFinal) {
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				ps = connection.prepareStatement(
+						"SELECT * FROM lancamento "
+						+ "INNER JOIN tipopag "
+						+ "ON lancamento.tipopag_id = tipopag.id "
+						+ "WHERE data >=  '"+dataInicial+"' "
+						+ "AND data <= '"+dataFinal+"' "
+						+ "AND status_id = 2 "
+						+ "ORDER BY data");  
+				rs = ps.executeQuery();
+				List<Lancamento> lista = new ArrayList<>();				
+				while (rs.next()) {
+				TipoPag pag = new TipoPag();
+					pag.setNome(rs.getString("tipopag.nome"));
+					Lancamento obj = new Lancamento();
+					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+					obj.setId(rs.getInt("id"));
+					obj.setReferencia(rs.getString("referencia"));
+					obj.setTotal(rs.getDouble("total"));
+					obj.setDesconto(rs.getDouble("desconto"));
+					obj.setAcrescimo(rs.getDouble("acrescimo"));
+					obj.setTipoPagamento(pag);
+					lista.add(obj);
+				}
+				return lista;
+			} catch (SQLException ex) {
+				throw new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+				BD.fecharResultSet(rs);
+			}
+		}
+				
 		//Rotinas Automáticas
 		@Override
 		public void cancelamentoAutomatico(Lancamento obj) {

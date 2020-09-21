@@ -38,9 +38,13 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemContasQuitadoMesAtual;
 	@FXML
+	private MenuItem menuItemContasQuitadoPeriodo;
+	@FXML
 	private MenuItem menuItemContasQuitadoTodos;
 	@FXML
 	private MenuItem menuItemContasEmAbertoMesAtual;
+	@FXML
+	private MenuItem menuItemContasEmAbertoPeriodo;
 	@FXML
 	private MenuItem menuItemContasEmAbertoTodos;
 	@FXML
@@ -92,6 +96,15 @@ public class MainViewController implements Initializable {
 	}
 	
 	@FXML
+	public void onMenuItemContasQuitadoPeriodo() {
+		carregarView("/gui/ContasQuitadasPeriodoView.fxml", (ContasQuitadasPeriodoController controller) ->{
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.rotinasAutomaticas();
+		});
+	}
+	
+	@FXML
 	public void onMenuItemContasQuitadoTodos() {
 		carregarView("/gui/ContasQuitadasView.fxml", (ContasQuitadasController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
@@ -111,6 +124,15 @@ public class MainViewController implements Initializable {
 		});
 	}
 	
+	@FXML
+	public void onMenuItemContasEmAbertoPeriodo() {
+		carregarView("/gui/ContasEmAbertoPeriodoView.fxml", (ContasEmAbertoPeriodoController controller) ->{
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.rotinasAutomaticas();
+		});
+	}
+		
 	@FXML
 	public void onMenuItemContasEmAbertoTodos() {
 		carregarView("/gui/ContasEmAbertoView.fxml", (ContasEmAbertoController controller) ->{
