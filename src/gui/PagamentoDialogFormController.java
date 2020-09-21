@@ -89,7 +89,8 @@ public class PagamentoDialogFormController implements Initializable {
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	private ObservableList<TipoPag> obsListaTipoPag;
 	// ---------------------------------------------------------
-
+	double desconto, acrescimo;
+	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
@@ -100,8 +101,17 @@ public class PagamentoDialogFormController implements Initializable {
 		double total = Utils.stringParaDouble(lbTotal.getText());
 		total -= Utils.stringParaDouble(txtDesconto.getText());
 		total += Utils.stringParaDouble(txtAcrescimo.getText());
-		obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
-		obj.setAcrescimo(Utils.stringParaDouble(txtAcrescimo.getText()));
+		if (Utils.stringParaDouble(txtDesconto.getText()) != 0) {
+			obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
+		}else {
+			obj.setDesconto(desconto);
+		}
+		if (Utils.stringParaDouble(txtAcrescimo.getText()) != 0) {
+			obj.setAcrescimo(Utils.stringParaDouble(txtAcrescimo.getText()));
+		}
+		else {
+			obj.setAcrescimo(acrescimo);
+		}
 		obj.setTotal(total);
 		lancamentoService.confirmarPagamento(obj);
 		Utils.stageAtual(evento).close();
@@ -123,10 +133,12 @@ public class PagamentoDialogFormController implements Initializable {
 		if (Utils.stringParaDouble(txtDesconto.getText()) != 0) {
 			total -= Utils.stringParaDouble(txtDesconto.getText());
 			lbOutro.setText(String.format("-%.2f", Utils.stringParaDouble(txtDesconto.getText())));
+			 desconto = Utils.stringParaDouble(txtDesconto.getText());
 		}
 		if (Utils.stringParaDouble(txtAcrescimo.getText()) != 0) {
 			total += Utils.stringParaDouble(txtAcrescimo.getText());
 			lbOutro.setText(String.format("+%.2f", Utils.stringParaDouble(txtAcrescimo.getText())));
+			 acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
 		}
 		lbTotal.setText(String.format("%.2f", total));
 		txtDesconto.setText(String.valueOf(0));

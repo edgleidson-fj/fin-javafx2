@@ -577,7 +577,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		@Override 
+		@Override //ok
 		public List<Lancamento> buscarContasQuitadoPeriodo(String dataInicial, String dataFinal) {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
