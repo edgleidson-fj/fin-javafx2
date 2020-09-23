@@ -53,6 +53,9 @@ public class LancamentoService {
 	public void confirmarPagamento(Lancamento obj) {
 		dao.confirmarPagamento(obj);
 	}
+	public void lanConfig(Lancamento obj) {
+		dao.lanConfig(obj);
+	}
 	public void cancelamentoAutomatico(Lancamento obj) {
 		dao.cancelamentoAutomatico(obj);
 	}

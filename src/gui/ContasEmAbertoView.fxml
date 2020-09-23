@@ -23,7 +23,7 @@
                 <TableColumn fx:id="colunaLanId" prefWidth="92.0" text="ID" />
                   <TableColumn fx:id="colunaLanRef" prefWidth="307.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanValor" prefWidth="70.0" text="VALOR" />
-                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="27.0" text="x" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="53.0" text="x" />
               </columns>
             </TableView>
             <Label fx:id="lbTotal" layoutX="613.0" layoutY="6.0" textFill="#3008f8">

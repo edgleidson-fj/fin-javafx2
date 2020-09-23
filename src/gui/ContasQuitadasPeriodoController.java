@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import application.Main;
 import gui.util.Alertas;
 import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -148,6 +149,9 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		colunaLanAcrescimo.setCellValueFactory(new PropertyValueFactory<>("acrescimo"));
 		Utils.formatTableColumnValorDecimais(colunaLanAcrescimo, 2);
 		colunaTipoPag.setCellValueFactory(new PropertyValueFactory<>("tipoPagamento"));
+		
+		Stage stage = (Stage) Main.pegarMainScene().getWindow();
+		tbLancamento.prefHeightProperty().bind(stage.heightProperty());	
 	}
 
 	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai) {

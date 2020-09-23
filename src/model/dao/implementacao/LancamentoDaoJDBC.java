@@ -332,6 +332,34 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharStatement(ps);
 			}
 		}
+		
+		// Confirmar Lancamento (A Pagar) ok
+				@Override
+				public void lanConfig(Lancamento obj) {
+					PreparedStatement ps = null;
+					int status = 1; //Em Aberto.
+					try {
+						ps = connection.prepareStatement(
+					"UPDATE lancamento " 
+					+ "SET referencia = ?, "
+					+ "data = ?, "
+				//	+ "status_id = ?, "
+					+ "tipopag_id = ?, "
+					+ "total = ? "
+					+ "WHERE Id = ? ");
+						ps.setString(1, obj.getReferencia());
+						ps.setDate(2, new java.sql.Date(obj.getData().getTime()));
+				//		ps.setInt(3, obj.getStatus().getId());
+						ps.setInt(3, obj.getTipoPagamento().getId());
+						ps.setDouble(4, obj.getTotal());
+						ps.setInt(5, obj.getId());
+						ps.executeUpdate();
+					} catch (SQLException ex) {
+						new BDException(ex.getMessage());
+					} finally {
+						BD.fecharStatement(ps);
+					}
+				}
 	
 		//Listar todos Lançamentos (Em Aberto do mês) ok
 		public ArrayList<Lancamento> buscarContasAPagarMesAtual() {	

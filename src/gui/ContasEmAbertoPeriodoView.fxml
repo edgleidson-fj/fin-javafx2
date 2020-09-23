@@ -34,7 +34,7 @@
             <DatePicker fx:id="datePickerDataInicial" layoutX="235.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Inicial" AnchorPane.leftAnchor="218.0" />
             <DatePicker fx:id="datePickerDataFinal" layoutX="354.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Final" AnchorPane.leftAnchor="338.0" />
             <Button fx:id="btConsultar" layoutX="477.0" layoutY="55.0" mnemonicParsing="false" onAction="#onConsulta" text="Consultar" AnchorPane.leftAnchor="457.0" />
-            <Label fx:id="lbTotal" layoutX="613.0" layoutY="33.0" prefHeight="35.0" prefWidth="128.0" textFill="#3008f8" AnchorPane.bottomAnchor="487.0" AnchorPane.leftAnchor="604.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="33.0">
+            <Label fx:id="lbTotal" layoutX="613.0" layoutY="33.0" maxHeight="-Infinity" prefHeight="35.0" prefWidth="128.0" textFill="#3008f8" AnchorPane.bottomAnchor="487.0" AnchorPane.leftAnchor="604.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="33.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>

@@ -26,7 +26,7 @@
                   <TableColumn fx:id="colunaLanValor" minWidth="0.0" prefWidth="47.0" text="TOTAL" />
                   <TableColumn fx:id="colunaTipoPag" maxWidth="2000.0" prefWidth="149.0" text="FORMA DE PAGAMENTO" />
                   <TableColumn fx:id="colunaStatus" prefWidth="78.0" text="STATUS" />
-                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="54.0" text="x" />
+                  <TableColumn fx:id="colunaConfig" minWidth="7.0" prefWidth="54.0" text="x" />
               </columns>
             </TableView>
          </children>

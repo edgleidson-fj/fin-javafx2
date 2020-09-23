@@ -54,6 +54,8 @@ public class ContasEmAbertoController implements Initializable {
 	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaPagar;
 	@FXML
+	private TableColumn<Lancamento, Lancamento> colunaConfig;
+	@FXML
 	private Label lbTotal;
 	// -----------------------------------------------------
 
@@ -96,6 +98,7 @@ public class ContasEmAbertoController implements Initializable {
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();
+		//criarBotaoConfig();
 		criarBotaoPagar();
 		// Valor Total
 		Double soma = 0.0;
@@ -118,7 +121,7 @@ public class ContasEmAbertoController implements Initializable {
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
 				}
-				else {
+				else if (dialogForm == "pagar"){
 				PagamentoDialogFormController controle = loader.getController();
 				controle.setLancamento(obj);
 				controle.setLancamentoService(new LancamentoService());
@@ -128,6 +131,16 @@ public class ContasEmAbertoController implements Initializable {
 				controle.atualizarDialogForm();			
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();
+				}
+				else {
+					LanConfigController controle = loader.getController();
+					controle.setLancamento(obj);
+					controle.setLancamentoService(new LancamentoService());
+					controle.setDespesaService(new DespesaService());
+					controle.setTipoPag(new TipoPag());
+					controle.setTipoPagService(new TipoPagService());
+					controle.carregarCamposDeCadastro();		
+					controle.carregarTableView();
 				}
 			// Caixa de Dialogo.
 			Stage stageDialog = new Stage();
@@ -176,9 +189,29 @@ public class ContasEmAbertoController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
-				String dialogForm = "pagar";
+				String dialogForm = "@";
 				botao.setOnAction(
 						evento -> criarDialogForm(obj, "/gui/PagamentoDialogFormView.fxml", Utils.stageAtual(evento), dialogForm));
+			}
+		});
+	}
+	
+	private void criarBotaoConfig() {
+		colunaConfig.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		colunaConfig.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
+			private final Button botao = new Button("@");
+
+			@Override
+			protected void updateItem(Lancamento obj, boolean vazio) {
+				super.updateItem(obj, vazio);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(botao);
+				String dialogForm = "config";
+				botao.setOnAction(
+						evento -> criarDialogForm(obj, "/gui/LanConfigView.fxml", Utils.stageAtual(evento), dialogForm));
 			}
 		});
 	}

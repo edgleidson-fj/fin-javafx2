@@ -62,6 +62,8 @@ public class TodasContasController implements Initializable {
 	private TableColumn<Lancamento, Status> colunaStatus;
 	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
+	@FXML
+	private TableColumn<Lancamento, Lancamento> colunaConfig;	
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -108,27 +110,39 @@ public class TodasContasController implements Initializable {
 	}
 
 	public void carregarTableView() {
-		if (lancamentoService == null) {
-			throw new IllegalStateException("Service was null");
-		}
 		List<Lancamento> lista = lancamentoService.buscarTodos();
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
-		criarBotaoDetalhe();
+		//criarBotaoDetalhe();
+		criarBotaoConfig();
 	}
 
 	// Detalhe do Lançamento.
-	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai) {
+	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai, String dialogForm) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
 			// Referencia para controlador.
-			DetalheDialogFormController controle = loader.getController();
+			if(dialogForm == "detalhe"){DetalheDialogFormController controle = loader.getController();
 			controle.setLancamento(obj);
 			controle.setLancamentoService(new LancamentoService());
 			controle.setDespesaService(new DespesaService());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
+		}
+		else {
+				LanConfigController controle = loader.getController();
+				controle.setLancamento(obj);
+				controle.setLancamentoService(new LancamentoService());
+				controle.setDespesaService(new DespesaService());
+				controle.setTipoPag(new TipoPag());
+				controle.setTipoPagService(new TipoPagService());
+				controle.setStatus(new Status());
+				controle.setStatusService(new StatusService());
+				controle.carregarCamposDeCadastro();
+				controle.carregarObjetosAssociados();
+				controle.carregarTableView();
+			}
 			// Caixa de Dialogo.
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
@@ -157,8 +171,29 @@ public class TodasContasController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
+				String dialogForm = "detalhe";
 				botao.setOnAction(
-						evento -> criarDialogForm(obj, "/gui/DetalheDialogFormView.fxml", Utils.stageAtual(evento)));
+						evento -> criarDialogForm(obj, "/gui/DetalheDialogFormView.fxml", Utils.stageAtual(evento),dialogForm));
+			}
+		});
+	}
+	
+	private void criarBotaoConfig() {
+		colunaConfig.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		colunaConfig.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
+			private final Button botao = new Button("@");
+
+			@Override
+			protected void updateItem(Lancamento obj, boolean vazio) {
+				super.updateItem(obj, vazio);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(botao);
+				String dialogForm = "config";
+				botao.setOnAction(
+						evento -> criarDialogForm(obj, "/gui/LanConfigView.fxml", Utils.stageAtual(evento), dialogForm));
 			}
 		});
 	}
