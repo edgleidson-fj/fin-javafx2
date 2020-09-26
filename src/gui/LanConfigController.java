@@ -196,6 +196,7 @@ public class LanConfigController implements Initializable {
 		lbTotal.setText(String.format("R$ %.2f", soma));
 		obj.setTotal(soma);
 		lancamentoService.atualizar(obj);
+		total = soma;
 	}
 
 	@FXML
@@ -464,7 +465,16 @@ public class LanConfigController implements Initializable {
 		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação", "Tem certeza que deseja remover?");
 		if (result.get() == ButtonType.OK) {
 			if (despesaService == null) {
-				throw new IllegalStateException("Service nulo");
+				throw new IllegalStateException("Service desp nulo");
+			}
+			if (despesaEntidade == null) {
+				throw new IllegalStateException("Entidade desp nulo");
+			}
+			if (itemService == null) {
+				throw new IllegalStateException("Service item nulo");
+			}
+			if (itemEntidade == null) {
+				throw new IllegalStateException("Entidade item nulo");
 			}
 			try {
 				Lancamento lan = new Lancamento();
@@ -481,9 +491,11 @@ public class LanConfigController implements Initializable {
 					for (Despesa tab : obsListaDespesaTbView) {
 						soma += tab.getPreco();
 					}
+					System.out.println("soma "+soma);
 					lbTotal.setText(String.format("R$ %.2f", soma));
 					lan.setTotal(soma);
-					lancamentoService.atualizar(lan);				
+					lancamentoService.atualizar(lan);
+					total = soma;
 				  } catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
@@ -506,5 +518,6 @@ public class LanConfigController implements Initializable {
 			soma += tab.getPreco();
 		}
 		lbTotal.setText(String.format("R$ %.2f", soma));
+		total = soma;
 	}
 }
