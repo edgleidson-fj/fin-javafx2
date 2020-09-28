@@ -36,6 +36,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemLancamentoAPagar;
 	@FXML
+	private MenuItem menuItemLancamentoAPagarParcelado;
+	@FXML
 	private MenuItem menuItemContasQuitadoMesAtual;
 	@FXML
 	private MenuItem menuItemContasQuitadoPeriodo;
@@ -76,6 +78,18 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onMenuItemLancamentoAPagar() {
 		carregarView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.setDespesaService(new DespesaService());
+			controller.setDespesa(new Despesa());
+			controller.setItemService(new ItemService());
+			controller.setItem(new Item());			
+			});
+	}
+	
+	@FXML
+	public void onMenuItemLancamentoAPagarParcelado() {
+		carregarView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.setDespesaService(new DespesaService());

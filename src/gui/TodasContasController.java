@@ -5,7 +5,9 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
+import application.Main;
 import gui.util.Alertas;
 import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -14,14 +16,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
@@ -119,7 +124,27 @@ public class TodasContasController implements Initializable {
 		//criarBotaoDetalhe();
 		criarBotaoConfig();
 	}
+//---------------------------------------------------------------------------
+	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
+			VBox novoVBox = loader.load();
 
+			Scene mainScene = Main.pegarMainScene();
+			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+
+			Node mainMenu = mainVBox.getChildren().get(0);
+			mainVBox.getChildren().clear();
+			mainVBox.getChildren().add(mainMenu);
+			mainVBox.getChildren().addAll(novoVBox);
+
+			// Pegando segundo parametro dos onMenuItem()
+			T controller = loader.getController();
+			acaoDeInicializacao.accept(controller);
+		} catch (IOException ex) {
+			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
+		}
+	}
 	// Detalhe do Lançamento.
 	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai, String dialogForm) {
 		try {
@@ -199,7 +224,22 @@ public class TodasContasController implements Initializable {
 				setGraphic(botao);
 				String dialogForm = "config";
 				botao.setOnAction(
-						evento -> criarDialogForm(obj, "/gui/LanConfigView.fxml", Utils.stageAtual(evento), dialogForm));
+					//	evento -> criarDialogForm(obj, "/gui/LanConfigView.fxml", Utils.stageAtual(evento), dialogForm));
+						evento -> carregarPropriaView("/gui/LanConfigView.fxml", (LanConfigController controle) -> {
+							controle.setLancamento(obj);
+							controle.setLancamentoService(new LancamentoService());
+							controle.setDespesaService(new DespesaService());
+							controle.setDespesa(new Despesa());
+							controle.setItemService(new ItemService());
+							controle.setItem(new Item());
+							controle.setTipoPag(new TipoPag());
+							controle.setTipoPagService(new TipoPagService());
+							controle.setStatus(new Status());
+							controle.setStatusService(new StatusService());
+							controle.carregarCamposDeCadastro();
+							controle.carregarObjetosAssociados();
+							controle.carregarTableView();
+						}));
 			}
 		});
 	}

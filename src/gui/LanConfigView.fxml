@@ -33,9 +33,9 @@
               <columns>
                   <TableColumn fx:id="colunaEditar" prefWidth="75.0" />
                   <TableColumn fx:id="colunaRemover" prefWidth="75.0" />
-                  <TableColumn fx:id="colunaDespId" prefWidth="75.0" text="Código" />
-                  <TableColumn fx:id="colunaDespNome" prefWidth="280.0" resizable="false" text="Item" />
-                <TableColumn fx:id="colunaDespValor" prefWidth="89.0" text="Valor" />
+                  <TableColumn fx:id="colunaDespId" prefWidth="52.0" text="Código" />
+                  <TableColumn fx:id="colunaDespNome" prefWidth="192.0" resizable="false" text="Item" />
+                <TableColumn fx:id="colunaDespValor" prefWidth="73.0" text="Valor" />
               </columns>
             </TableView>
             <Button fx:id="btAtualizar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtAtualizar" prefHeight="42.0" prefWidth="123.0" text="Atualizar" />

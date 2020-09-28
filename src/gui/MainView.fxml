@@ -22,8 +22,8 @@
                       <MenuItem fx:id="menuItemLancamentoQuitado" mnemonicParsing="false" onAction="#onMenuItemLancamentoQuitado" text="Lançamento (Quitado)" />
                         <Menu mnemonicParsing="false" text="Lançamento (A Pagar)">
                           <items>
-                            <MenuItem fx:id="menuItemLancamentoAPagar" mnemonicParsing="false" onAction="#onMenuItemLancamentoAPagar" text="Resumido" />
-                              <MenuItem mnemonicParsing="false" text="Completo" />
+                            <MenuItem fx:id="menuItemLancamentoAPagar" mnemonicParsing="false" onAction="#onMenuItemLancamentoAPagar" text="Simples" />
+                              <MenuItem fx:id="menuItemLancamentoAPagarParcelado" mnemonicParsing="false" onAction="#onMenuItemLancamentoAPagarParcelado" text="Parcelado" />
                           </items>
                         </Menu>
                     </items>

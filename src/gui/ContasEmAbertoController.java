@@ -189,7 +189,7 @@ public class ContasEmAbertoController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
-				String dialogForm = "@";
+				String dialogForm = "pagar";
 				botao.setOnAction(
 						evento -> criarDialogForm(obj, "/gui/PagamentoDialogFormView.fxml", Utils.stageAtual(evento), dialogForm));
 			}
