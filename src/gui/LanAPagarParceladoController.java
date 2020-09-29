@@ -102,7 +102,11 @@ public class LanAPagarParceladoController implements Initializable {
 	int idLan;
 	int idDesp;
 	int idItem;
-	int t,y,z,d;
+//	int t,y,z,d;
+	int parcela; //t
+	int aux; //z
+	int despesaId; //d
+	int lancamentoIds; //y
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
@@ -119,23 +123,21 @@ public class LanAPagarParceladoController implements Initializable {
 			obj.setData(Date.from(instant));
 		}
 		//lancamentoService.salvar(obj);
-		t = Utils.stringParaInteiro(txtParcela.getText());
-		System.out.println("t = "+t);
-		for(int x=1; x<=t; x++) {
+		parcela = Utils.stringParaInteiro(txtParcela.getText());
+		System.out.println("btRegistrar parcela = "+parcela);
+		for(int x=1; x<=parcela; x++) {
 			System.out.println("Parcela Nº "+x);
 			lancamentoService.salvar(obj);
-			y = obj.getId();
+			lancamentoIds = obj.getId();
 			//y+=1;
-			System.out.println("y++ "+y);
-		}
-		
-		
+			System.out.println("btRegistrar lancamentoIds "+lancamentoIds);
+		}		
 		txtId.setText(String.valueOf(obj.getId()));
 		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
 		int id = obj.getId();
 		idLan = id;
-		z = id - t;
-		System.out.println("z "+z);
+		aux = id - parcela;
+		System.out.println("btRegistrar aux "+aux);
 	}
 
 	@FXML
@@ -148,17 +150,19 @@ public class LanAPagarParceladoController implements Initializable {
 		desp.setNome(txtItem.getText());
 		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));	
 		despesaService.salvar(desp);
-		d = desp.getId();
+		despesaId = desp.getId();
 				
-		for(int x=0; x<t; x++) {
+		for(int x=0; x<parcela; x++) {
 		// Lancamento
 		Lancamento obj = new Lancamento();
 		lbTotal.setText(String.valueOf(obj.getTotal()));
-		obj.setId(y);
+		obj.setId(lancamentoIds);
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal((total));
 		lancamentoService.atualizar(obj);
-		y--;
+		System.out.println("btADDItem "+lancamentoIds);
+		lancamentoIds--;
+		
 				
 		// Item
 		Item item = new Item();
@@ -185,6 +189,8 @@ public class LanAPagarParceladoController implements Initializable {
 			obj.setTotal(soma);
 			lancamentoService.atualizar(obj);		
 	}	
+		lancamentoIds+= parcela;
+		System.out.println("btADDItem---- "+lancamentoIds);
 	}
 		
 	@FXML
@@ -192,12 +198,12 @@ public class LanAPagarParceladoController implements Initializable {
 		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 	//	try {
-		for(int x=0; x<t; x++) {
-		obj.setId(y);
-		System.out.println("Y "+y);
+		for(int x=0; x<parcela; x++) {
+		obj.setId(lancamentoIds);
+		System.out.println("btConfirmar lancamentoIds "+lancamentoIds);
 			lancamentoService.confirmarLanAPagar(obj);
-			y--;
-			System.out.println("Y2 "+y);			
+			System.out.println("btConfirmar lancamentoIds2 "+lancamentoIds);
+			lancamentoIds--;
 		}
 			 carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> { 
 			  controller.setLancamentoService(new LancamentoService());
