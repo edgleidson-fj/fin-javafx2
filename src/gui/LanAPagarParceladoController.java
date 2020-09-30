@@ -5,7 +5,9 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -38,8 +40,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
@@ -74,7 +76,7 @@ public class LanAPagarParceladoController implements Initializable {
 	@FXML
 	private DatePicker datePickerData;
 	@FXML
-	private Button btCriarRegistroDeLancamento;	
+	private Button btCriarRegistroDeLancamento;
 	@FXML
 	private Button btItem;
 	@FXML
@@ -104,11 +106,11 @@ public class LanAPagarParceladoController implements Initializable {
 	int idLan;
 	int idDesp;
 	int idItem;
-	int parcela; 
-	int aux; 
-	int despesaId; 
+	int parcela;
+	int aux;
+	int despesaId;
 	int lancamentoIds;
-	//----------------------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
@@ -121,58 +123,65 @@ public class LanAPagarParceladoController implements Initializable {
 		if (datePickerData.getValue() == null) {
 			Alertas.mostrarAlerta("", null, "Necessário informar a data para pagamento", AlertType.INFORMATION);
 		} else {
-			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
-			obj.setData(Date.from(instant));
+			parcela = Utils.stringParaInteiro(txtParcela.getText());
+			LocalDate dtPicker = datePickerData.getValue();
+			for (int x = 0; x < parcela; x++) {
+				int mais30Dias = x * 30;
+				GregorianCalendar data = new GregorianCalendar(dtPicker.getYear(), dtPicker.getMonthValue(),
+						dtPicker.getDayOfMonth(), 0, 0, 0);
+				int numero = 0;
+				data.add(Calendar.DATE, numero + mais30Dias);
+				data.add(Calendar.MONTH, numero - 1);
+				Date dataParcelas = data.getTime();
+				obj.setData(dataParcelas);
+				lancamentoService.salvar(obj);
+				lancamentoIds = obj.getId();
+			}
+			txtId.setText(String.valueOf(obj.getId()));
+			datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
+			int id = obj.getId();
+			idLan = id;
+			aux = id - parcela;
 		}
-		parcela = Utils.stringParaInteiro(txtParcela.getText());
-		for(int x=1; x<=parcela; x++) {
-			lancamentoService.salvar(obj);
-			lancamentoIds = obj.getId();
-		}		
-		txtId.setText(String.valueOf(obj.getId()));
-		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
-		int id = obj.getId();
-		idLan = id;
-		aux = id - parcela;
 	}
 
 	@FXML
 	public void onBtADDItem(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
 		Locale.setDefault(Locale.US);
-		
+
 		// Despesa
-		Despesa desp = new Despesa();	
+		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
-		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));	
+		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));
 		despesaService.salvar(desp);
 		despesaId = desp.getId();
-				
-		for(int x=0; x<parcela; x++) {
-		// Lancamento
-		Lancamento obj = new Lancamento();
-		lbTotal.setText(String.valueOf(obj.getTotal()));
-		obj.setId(lancamentoIds);
-		obj.setReferencia(txtReferencia.getText());
-		obj.setTotal((total));
-		lancamentoService.atualizar(obj);
-		lancamentoIds--;
-		// Item
-		Item item = new Item();
-		item.setLancamento(obj);
-		item.setDespesa(desp);
-		itemService.salvar(item);		
-		// Carregar campos
-		txtId.setText(String.valueOf(obj.getId()));
-		txtItem.setText("");
-		txtPreco.setText(String.valueOf(0));
-		//Carregar TableView do Lançamento 
-		List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId()); 
-		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
-		  tbDespesa.setItems(obsListaDespesaTbView);			
-		  iniciarBotaoRemover();
-		  iniciarBotaoEditar();
-		// Valor Total
+
+		for (int x = 0; x < parcela; x++) {
+			// Lancamento
+			Lancamento obj = new Lancamento();
+			lbTotal.setText(String.valueOf(obj.getTotal()));
+			obj.setId(lancamentoIds);
+			obj.setReferencia(txtReferencia.getText());
+			obj.setTotal((total));
+			lancamentoService.atualizar(obj);
+			lancamentoIds--;
+			// Item
+			Item item = new Item();
+			item.setLancamento(obj);
+			item.setDespesa(desp);
+			itemService.salvar(item);
+			// Carregar campos
+			txtId.setText(String.valueOf(obj.getId()));
+			txtItem.setText("");
+			txtPreco.setText(String.valueOf(0));
+			// Carregar TableView do Lançamento
+			List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
+			obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
+			tbDespesa.setItems(obsListaDespesaTbView);
+			iniciarBotaoRemover();
+			iniciarBotaoEditar();
+			// Valor Total
 			Double soma = 0.0;
 			for (Despesa tab : obsListaDespesaTbView) {
 				soma += tab.getPreco();
@@ -180,32 +189,33 @@ public class LanAPagarParceladoController implements Initializable {
 			}
 			lbTotal.setText(String.format("R$ %.2f", soma));
 			obj.setTotal(soma);
-			lancamentoService.atualizar(obj);		
-	}	
-		lancamentoIds+= parcela; //Voltar o valor do primeiro ID Lançamentos do loop. 
+			lancamentoService.atualizar(obj);
+		}
+		lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
 	}
-		
+
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
-	//	try {
-		for(int x=0; x<parcela; x++) {
-		obj.setId(lancamentoIds);
+		// try {
+		for (int x = 0; x < parcela; x++) {
+			obj.setId(lancamentoIds);
 			lancamentoService.confirmarLanAPagar(obj);
 			lancamentoIds--;
 		}
-			 carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> { 
-			  controller.setLancamentoService(new LancamentoService());
-			  controller.setLancamento(new Lancamento()); 
-			  controller.setDespesaService(new  DespesaService()); 
-			  controller.setDespesa(new Despesa());
-			  controller.setItemService(new ItemService()); 
-			  controller.setItem(new Item());
-			  }); 
-	//	}catch (RuntimeException ex) {
-	//		Alertas.mostrarAlerta("Pendente", null, "Falta registrar lançamento", AlertType.INFORMATION);
-	//	}
+		carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.setDespesaService(new DespesaService());
+			controller.setDespesa(new Despesa());
+			controller.setItemService(new ItemService());
+			controller.setItem(new Item());
+		});
+		// }catch (RuntimeException ex) {
+		// Alertas.mostrarAlerta("Pendente", null, "Falta registrar lançamento",
+		// AlertType.INFORMATION);
+		// }
 	}
 
 	@FXML
@@ -213,33 +223,38 @@ public class LanAPagarParceladoController implements Initializable {
 		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		lancamentoService.cancelar(obj);		
-		  carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
-		  controller.setLancamentoService(new LancamentoService());
-		  controller.setLancamento(new Lancamento()); 
-		  controller.setDespesaService(new DespesaService()); 
-		  controller.setDespesa(new Despesa());
-		  controller.setItemService(new ItemService()); 
-		  controller.setItem(new Item());
-		   });		 
+		lancamentoService.cancelar(obj);
+		carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.setDespesaService(new DespesaService());
+			controller.setDespesa(new Despesa());
+			controller.setItemService(new ItemService());
+			controller.setItem(new Item());
+		});
 	}
 	// ------------------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
 	}
+
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
+
 	public void setItemService(ItemService itemService) {
 		this.itemService = itemService;
 	}
+
 	public void setItem(Item itemEntidade) {
 		this.itemEntidade = itemEntidade;
 	}
+
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
+
 	public void setDespesa(Despesa despesaEntidade) {
 		this.despesaEntidade = despesaEntidade;
 	}
@@ -253,7 +268,7 @@ public class LanAPagarParceladoController implements Initializable {
 	public void carregarCamposDeCadastro() {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 	}
-	
+
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 50);
@@ -286,7 +301,7 @@ public class LanAPagarParceladoController implements Initializable {
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
-	}	
+	}
 
 	public void criarDialogForm(Despesa obj, String nomeAbsoluto, Stage stagePai) {
 		try {
@@ -363,39 +378,38 @@ public class LanAPagarParceladoController implements Initializable {
 			}
 			try {
 				Lancamento lan = new Lancamento();
-				for(int x=0; x<parcela; x++) {
-				lan.setId(lancamentoIds);
-				itemService.excluir(lan,desp);
-				despesaService.excluir(desp);				
-				//Carregar TableView do Lançamento 					
-				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText())); 
-				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
-				  tbDespesa.setItems(obsListaDespesaTbView);			
-				  iniciarBotaoRemover();				  
-				// Valor Total
+				for (int x = 0; x < parcela; x++) {
+					lan.setId(lancamentoIds);
+					itemService.excluir(lan, desp);
+					despesaService.excluir(desp);
+					// Carregar TableView do Lançamento
+					List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText()));
+					obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
+					tbDespesa.setItems(obsListaDespesaTbView);
+					iniciarBotaoRemover();
+					// Valor Total
 					Double soma = 0.0;
 					for (Despesa tab : obsListaDespesaTbView) {
 						soma += tab.getPreco();
-					}	
+					}
 					total = soma;
 					lbTotal.setText(String.format("R$ %.2f", soma));
 					lancamentoIds--;
 				}
-				lancamentoIds+= parcela; //Voltar o valor do primeiro ID Lançamentos do loop.
-				for(int x=0; x<parcela; x++) {
+				lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+				for (int x = 0; x < parcela; x++) {
 					lan.setId(lancamentoIds);
 					lan.setTotal(total);
-					lancamentoService.atualizar(lan);	
+					lancamentoService.atualizar(lan);
 					lancamentoIds--;
 				}
-					lancamentoIds+= parcela; //Voltar o valor do primeiro ID Lançamentos do loop. 
-				}
-			catch (BDIntegrityException ex) {
+				lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
 	}
-	
+
 	public void carregarTableView() {
 		List<Despesa> listaDespesa = despesaService.listarPorId(lancamentoEntidade.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
@@ -404,8 +418,9 @@ public class LanAPagarParceladoController implements Initializable {
 		iniciarBotaoEditar();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
-		//datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
-		//Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+		// datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(),
+		// ZoneId.systemDefault()));
+		// Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		// Valor Total
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {

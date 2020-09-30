@@ -150,7 +150,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					+ "INNER JOIN Status s "
 					+ "ON l.status_id = s.id "
 					+ "INNER JOIN TipoPag t "
-					+ "ON l.tipoPag_id = t.id "); 			
+					+ "ON l.tipoPag_id = t.id "
+					+ "ORDER BY l.id DESC"); 			
 		rs = ps.executeQuery();
 			List<Lancamento> lista = new ArrayList<>();			
 			while (rs.next()) {
