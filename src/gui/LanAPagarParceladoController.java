@@ -102,7 +102,7 @@ public class LanAPagarParceladoController implements Initializable {
 
 	// Auxiliar
 	double total;
-	double t;
+	//double t;
 	int idLan;
 	int idDesp;
 	int idItem;

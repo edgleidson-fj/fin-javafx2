@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `finjavafx3`.`despesa` (
   `preco` DECIMAL(10,2) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 785
+AUTO_INCREMENT = 68
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `finjavafx3`.`tipopag` (
   `nome` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 17
+AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -59,13 +59,10 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `finjavafx3`.`lancamento` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `referencia` VARCHAR(45) NULL DEFAULT NULL,
-  `tipopag_id` INT(11) NULL DEFAULT '0',
+  `tipopag_id` INT(11) NULL DEFAULT NULL,
   `total` DECIMAL(10,2) NULL DEFAULT '0.00',
   `data` DATETIME NULL DEFAULT NULL,
-  `status_id` INT(11) NULL DEFAULT '1',
-  `desconto` DECIMAL(10,2) NULL DEFAULT NULL,
-  `acrescimo` DECIMAL(10,2) NULL DEFAULT NULL,
-  `finalizado` VARCHAR(45) NULL DEFAULT 'N',
+  `status_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Lancament_tipopag_idx` (`tipopag_id` ASC),
   INDEX `fk_lancamento_status1_idx` (`status_id` ASC),
@@ -80,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `finjavafx3`.`lancamento` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 682
+AUTO_INCREMENT = 87
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -103,18 +100,6 @@ CREATE TABLE IF NOT EXISTS `finjavafx3`.`item` (
     REFERENCES `finjavafx3`.`despesa` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `finjavafx3`.`usuario`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `finjavafx3`.`usuario` (
-  `usuarioId` INT(11) NOT NULL AUTO_INCREMENT,
-  `usuarioNome` VARCHAR(45) NOT NULL,
-  `usuarioSenha` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`usuarioId`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

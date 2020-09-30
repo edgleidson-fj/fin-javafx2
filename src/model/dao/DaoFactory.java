@@ -6,9 +6,9 @@ import model.dao.implementacao.ItemDaoJDBC;
 import model.dao.implementacao.LancamentoDaoJDBC;
 import model.dao.implementacao.StatusDaoJDBC;
 import model.dao.implementacao.TipoPagDaoJDBC;
+import model.dao.implementacao.UsuarioDaoJDBC;
 
 public class DaoFactory {
-
 	
 	public static TipoPagDao criarTipoPagDao() {
 		return new TipoPagDaoJDBC(BD.abrirConexao());
@@ -29,4 +29,8 @@ public class DaoFactory {
 	public static StatusDao criarStatusDao() {
 		return new StatusDaoJDBC(BD.abrirConexao());
 	}
+	
+	public static UsuarioDao criarUsuarioDao() {
+		return new UsuarioDaoJDBC(BD.abrirConexao());
+	}	
 }
