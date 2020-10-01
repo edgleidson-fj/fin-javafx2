@@ -15,6 +15,7 @@ public class Lancamento implements Serializable{
 	private Double desconto;
 	private Double acrescimo;
 	private String finalizado;
+	private Usuario usuario;
 	
 	//Composto "Teste"
 	private Item itemLan;
@@ -22,7 +23,7 @@ public class Lancamento implements Serializable{
 	public Lancamento() {
 		}
 	
-	public Lancamento(Integer id, String referencia, TipoPag tipoPagamento, Double total, Status status, Item itemLan, Date data, Double desconto, Double acrescimo, String finalizado) {
+	public Lancamento(Integer id, String referencia, TipoPag tipoPagamento, Double total, Status status, Item itemLan, Date data, Double desconto, Double acrescimo, String finalizado, Usuario usuario) {
 		super();
 		this.id = id;
 		this.referencia = referencia;
@@ -34,6 +35,7 @@ public class Lancamento implements Serializable{
 		this.desconto = desconto;
 		this.acrescimo = acrescimo;
 		this.finalizado = finalizado;
+		this.usuario = usuario;
 	}
 
 	public Integer getId() {
@@ -106,6 +108,14 @@ public class Lancamento implements Serializable{
 
 	public void setFinalizado(String finalizado) {
 		this.finalizado = finalizado;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	//------- "TESTE"
