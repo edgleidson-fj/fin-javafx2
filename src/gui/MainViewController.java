@@ -2,33 +2,48 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alertas;
+import gui.util.Utils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
 import model.entidade.Status;
 import model.entidade.TipoPag;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.StatusService;
 import model.servico.TipoPagService;
+import model.servico.UsuarioService;
 
 public class MainViewController implements Initializable {
 
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade; 
+	//-------------------------------------------------------
+	
+	@FXML
+	private MenuItem menuItemEntrar;
 	@FXML
 	private MenuItem menuItemSair;
 	@FXML
@@ -53,13 +68,47 @@ public class MainViewController implements Initializable {
 	private MenuItem menuItemTodasContas;
 	@FXML
 	private MenuItem menuItemTipoPagamento;
+	@FXML
+	private Label lbUsuario;
+	@FXML
+	private TextField txtNome;
+	@FXML
+	private TextField txtSenha;
+	@FXML
+	private Button btEntrar;
+	//-----------------------------------------------------
+	int userId;
+	String userNome;
+	int id;
 
 	@FXML
-	public void onMenuItemSair() {		
+	public void onMenuItemEntrar() {			
+		 List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {
+				 System.out.println("Entrar");
+			 }
+		 }
 		}
+	
+	@FXML
+	public void onMenuItemSair(ActionEvent evento) {	
+		System.out.println("Sair");
+	}
 
 	@FXML
 	public void onMenuItemLancamentoQuitado() {
+ List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {		
 		carregarView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
@@ -71,12 +120,26 @@ public class MainViewController implements Initializable {
 			controller.setTipoPagService(new TipoPagService());
 			controller.setStatus(new Status());
 			controller.setStatusService(new StatusService());
-			controller.carregarObjetosAssociados();			
+			Usuario user = new Usuario();
+			user.setId(userId);
+			user.setNome(userNome);
+			controller.setUsuario(user);
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarObjetosAssociados();	
 		});
-	}
+			 }
+		 }
+		}
 	
 	@FXML
 	public void onMenuItemLancamentoAPagar() {
+ List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {	
 		carregarView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
@@ -85,10 +148,19 @@ public class MainViewController implements Initializable {
 			controller.setItemService(new ItemService());
 			controller.setItem(new Item());			
 			});
+			 }
+		 }
 	}
 	
 	@FXML
 	public void onMenuItemLancamentoAPagarParcelado() {
+ List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {		
 		carregarView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
@@ -97,88 +169,203 @@ public class MainViewController implements Initializable {
 			controller.setItemService(new ItemService());
 			controller.setItem(new Item());			
 			});
+			 }
+		 }
 	}
 	
 	@FXML
 	public void onMenuItemContasQuitadoMesAtual() {
+ List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {	
 	carregarView("/gui/ContasQuitadasMesAtualView.fxml", (ContasQuitadasMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
+			 }
+		 }
 	}
 	
 	@FXML
 	public void onMenuItemContasQuitadoPeriodo() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasQuitadasPeriodoView.fxml", (ContasQuitadasPeriodoController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 		});
+			 }
+		 }
 	}
 	
 	@FXML
 	public void onMenuItemContasQuitadoTodos() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasQuitadasView.fxml", (ContasQuitadasController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
+			 }
+		 }
 	}
 	
 	@FXML
 	public void onMenuItemContasEmAbertoMesAtual() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
+			 }
+		 }
 	}
 	
 	@FXML
 	public void onMenuItemContasEmAbertoPeriodo() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasEmAbertoPeriodoView.fxml", (ContasEmAbertoPeriodoController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 		});
+			 }
+		 }
 	}
 		
 	@FXML
 	public void onMenuItemContasEmAbertoTodos() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasEmAbertoView.fxml", (ContasEmAbertoController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
+			 }
+		 }
 	}
 	
 	@FXML
 	public void onMenuItemTodasContas() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/TodasContasView.fxml", (TodasContasController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
+			 }
+		 }
 	}
 
 	@FXML
 	public void onMenuItemTipoPagamento() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {	
 		carregarView("/gui/TipoPagView.fxml", (TipoPagController controller) -> {
 			controller.setTipoPagService(new TipoPagService());
 			controller.carregarTableView();
 		});
+			 }
+		 }
 	}
-
+	
+	@FXML
+	public void onBtConfirmar(ActionEvent evento) {
+		Stage parentStage = Utils.stageAtual(evento);
+		
+		//parentStage.close();
+		String nome = txtNome.getText();
+		String senha = txtSenha.getText();		
+		usuarioEntidade.setNome(nome);
+		usuarioEntidade.setSenha(senha);	
+		Usuario u = usuarioService.login(nome,senha);
+		
+		if(u != null) {
+			System.out.println("Usuário OK");		
+			usuarioEntidade.setId(1);
+			usuarioEntidade.setLogado("S");
+			usuarioService.logado(usuarioEntidade);
+			
+			carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
+				controller.setLancamentoService(new LancamentoService());
+				controller.setLancamento(new Lancamento());
+				controller.rotinasAutomaticas();
+				controller.carregarTableView();
+			});			
+		} else{
+			System.out.println("Usuário Errado!");
+		}			
+		}
+	
+	//-------------------------------------------------------
+	
+		public void setUsuarioService(UsuarioService usuarioService) {
+			this.usuarioService = usuarioService;
+		}
+		public void setUsuario(Usuario usuarioEntidade) {
+			this.usuarioEntidade = usuarioEntidade;
+		}
+		//-------------------------------------------------------
+		
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-	}
-
+		setUsuario(new Usuario());
+		setUsuarioService(new UsuarioService());
+		}
+	// ------------------------------------------------------------------
+		
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
@@ -199,4 +386,5 @@ public class MainViewController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}	
-}
+	}
+

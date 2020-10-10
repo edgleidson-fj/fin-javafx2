@@ -140,7 +140,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		}
 	}
 	
-	//Listar todos Lancamento ok.
+	//Listar tudo.
 	@Override
 	public List<Lancamento> buscarTudo() {
 		PreparedStatement ps = null;
@@ -152,6 +152,9 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					+ "ON l.status_id = s.id "
 					+ "INNER JOIN TipoPag t "
 					+ "ON l.tipoPag_id = t.id "
+	//			+ "INNER JOIN Usuario u "
+	//			+ "ON l.usuario_id = u.usuarioid "
+	//			+ "WHERE l.usuario_id = 2 "
 					+ "ORDER BY l.id DESC"); 			
 		rs = ps.executeQuery();
 			List<Lancamento> lista = new ArrayList<>();			
@@ -701,5 +704,5 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			} finally {
 				BD.fecharStatement(ps);
 			}
-		}
+		}		
 }

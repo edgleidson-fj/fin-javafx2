@@ -33,4 +33,16 @@ public class UsuarioService {
 	public Usuario buscarPorId(Integer id){
 		return dao.buscarPorId(id);
 	}	
+	
+/*	public Usuario login(Usuario obj){
+			return dao.login(obj);
+	}*/
+	
+	public Usuario login(String nome, String senha){
+		return dao.login(nome, senha);
+	}
+	
+	public void logado(Usuario obj) {
+		dao.logado(obj);		
+	}
 }

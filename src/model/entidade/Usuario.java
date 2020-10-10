@@ -8,15 +8,17 @@ public class Usuario implements Serializable{
 	private Integer id;
 	private String nome;
 	private String senha;
+	private String logado;
 	
 	public Usuario() {
 		}
 
-	public Usuario(Integer id, String nome, String senha) {
+	public Usuario(Integer id, String nome, String senha, String logado) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.senha = senha;
+		this.logado = logado;
 	}
 
 	public Integer getId() {
@@ -43,7 +45,15 @@ public class Usuario implements Serializable{
 		this.senha = senha;
 	}
 
+	public String getLogado() {
+		return logado;
+	}
 
+	public void setLogado(String logado) {
+		this.logado = logado;
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -68,4 +78,9 @@ public class Usuario implements Serializable{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return nome;
+	}	
 }

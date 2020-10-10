@@ -23,13 +23,13 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 //-------------------------------------------------------------------
 
-	@Override //ok
+	@Override 
 	public void inserir(Usuario obj) {
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement(
-					"INSERT INTO despesa "
-						+ "(nome, preco) "
+					"INSERT INTO usuario "
+						+ "(usuarioNome, usuarioSenha) "
 							+ "VALUES  ( ?, ?) ",
 							Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, obj.getNome());
@@ -52,15 +52,15 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-	@Override //ok
+	@Override 
 	public void atualizar(Usuario obj) {
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement(
-					 "UPDATE despesa "
-					+ "SET nome = ?,  "
-					+ "preco = ? "
-					+ "WHERE id = ? ");
+					 "UPDATE usuario "
+					+ "SET usuarioNome = ?,  "
+					+ "usuarioSenha = ? "
+					+ "WHERE usuarioId = ? ");
 			ps.setString(1, obj.getNome());
 			ps.setString(2, obj.getSenha());
 			ps.setInt(3, obj.getId());
@@ -72,13 +72,13 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-	@Override //ok
+	@Override 
 	public void excluirPorId(Integer id) {
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement(
-			"DELETE FROM despesa  " 
-			+ "WHERE Id = ? ");
+			"DELETE FROM usuario  " 
+			+ "WHERE usuarioId = ? ");
 			ps.setInt(1, id);
 			ps.executeUpdate();
 		} catch (SQLException ex) {
@@ -88,19 +88,21 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-	@Override //Falta testar
+	@Override 
 	public Usuario buscarPorId(Integer id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM despesa " + "WHERE Id = ? ");
+			ps = connection.prepareStatement(
+					"SELECT * FROM usuario " 
+					+ "WHERE usuarioId = ? ");
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
 				Usuario obj = new Usuario();
-				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("nome"));
+				obj.setId(rs.getInt("usuarioId"));
+				obj.setNome(rs.getString("usuarioNome"));
 				return obj;
 			}
 			return null;
@@ -112,31 +114,23 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-	@Override //Falta testar
+	@Override 
 	public List<Usuario> buscarTudo() {
 		PreparedStatement ps = null;
 		PreparedStatement ps1 = null;
 		ResultSet rs = null;
 		try {
-	//		ps = connection.prepareStatement("SELECT * FROM despesa " + " ORDER BY nome ");
-			int x = 100;
-	
 			ps = connection.prepareStatement(
-					"SELECT *  "
-				+ "from lancamento as l, item as i, despesa as d "	
-+ "where l.id = i.lancamento_id "
-+ "and i.despesa_id = d.id "
-//+ "and l.id = 100 "
-//+ "and l.id = 99 "
-+ "order by l.id desc");
-			
+					"SELECT * FROM usuario ");
 			rs = ps.executeQuery();
 			List<Usuario> lista = new ArrayList<>();
 
 			while (rs.next()) {
 				Usuario obj = new Usuario();
-				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("nome"));
+				obj.setId(rs.getInt("usuarioId"));
+				obj.setNome(rs.getString("usuarioNome"));
+				obj.setSenha(rs.getString("usuarioSenha"));
+				obj.setLogado(rs.getString("logado"));
 				lista.add(obj);
 			}
 			return lista;
@@ -148,25 +142,20 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-	//Listar Usuarios da tela de Lancamentos ok.
     public List<Usuario> listarPorId(Integer id){
         PreparedStatement ps = null;
         ResultSet rs = null;
      try {
     	 ps = connection.prepareStatement(
-        		"SELECT * "
-        				+ "from lancamento as l, item as i, despesa as d "	
-        				+ "where l.id = i.lancamento_id "
-        				+ "and i.despesa_id = d.id "
-        				+ "and l.id = ?");     
+        		"");     
     	 ps.setInt(1, id);
         rs = ps.executeQuery();        
         List<Usuario> lista = new ArrayList<Usuario>();
         while(rs.next()){
             Usuario d = new Usuario();
-            d.setNome(rs.getString("nome"));
-            d.setId(rs.getInt("d.id"));
-            d.setSenha(rs.getString("preco"));
+            d.setNome(rs.getString("usuarioNome"));
+            d.setId(rs.getInt("usuarioId"));
+            d.setSenha(rs.getString("usuarioSenha"));
             lista.add(d);
         }
         rs.close();
@@ -179,4 +168,55 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			BD.fecharResultSet(rs);
 		}
 	     }
+    
+	
+    
+    @Override 
+	public Usuario login(String nome, String senha) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = connection.prepareStatement(
+					"SELECT * FROM usuario " 
+					+ "WHERE usuarioNome = ? "
+					+ "AND usuarioSenha = ? ");
+		//	ps.setInt(1, id);
+			ps.setString(1, nome);
+			ps.setString(2, senha);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getInt("usuarioId"));
+				obj.setNome(rs.getString("usuarioNome"));
+				obj.setSenha(rs.getString("usuarioSenha"));
+				return obj;
+			}
+			return null;
+		} catch (SQLException ex) {
+			throw new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+			BD.fecharResultSet(rs);
+		}
+	}
+    
+    @Override
+	public void logado(Usuario obj) {
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(
+					"UPDATE usuario " 
+					+ "SET logado = ? "
+					+ "WHERE usuarioId = ?");
+			ps.setString(1, obj.getLogado());
+			ps.setInt(2, obj.getId());
+			ps.executeUpdate();
+		} catch (SQLException ex) {
+			new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+		}
+	}
+
+
 }

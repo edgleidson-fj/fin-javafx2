@@ -47,6 +47,7 @@ import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
@@ -134,6 +135,12 @@ public class LanAPagarParceladoController implements Initializable {
 				data.add(Calendar.MONTH, numero - 1);
 				Date dataParcelas = data.getTime();
 				obj.setData(dataParcelas);
+				
+				//Teste de usuário.
+				Usuario user = new Usuario();
+				user.setId(1);
+				obj.setUsuario(user);
+				
 				lancamentoService.salvar(obj);
 				lancamentoIds = obj.getId();
 			}

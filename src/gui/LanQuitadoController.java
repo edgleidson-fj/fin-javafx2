@@ -56,6 +56,7 @@ import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.StatusService;
 import model.servico.TipoPagService;
+import model.servico.UsuarioService;
 
 public class LanQuitadoController implements Initializable {
 
@@ -69,6 +70,8 @@ public class LanQuitadoController implements Initializable {
 	private TipoPag tipoPagEntidade;
 	private StatusService statusService;
 	private Status statusEntidade;
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade;
 	// ----------------------------------------------------------------
 
 	@FXML
@@ -81,6 +84,8 @@ public class LanQuitadoController implements Initializable {
 	private TextField txtPreco;
 	@FXML
 	private Label lbTotal;
+	@FXML
+	private Label lbUsuario;
 	@FXML
 	private DatePicker datePickerData;
 	@FXML
@@ -115,6 +120,8 @@ public class LanQuitadoController implements Initializable {
 	int idDesp;
 	int idItem;
 	String ref;
+	int userId;
+	String userNome;
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
@@ -141,7 +148,7 @@ public class LanQuitadoController implements Initializable {
 		int id = obj.getId();
 		idLan = id;
 		ref = txtReferencia.getText();
-	}
+		}
 
 	@FXML
 	public void onBtItemAction(ActionEvent evento) {
@@ -168,8 +175,6 @@ public class LanQuitadoController implements Initializable {
 		total += desp.getPreco();
 		lbTotal.setText(String.format("R$ %.2f", total));
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-	//	obj.setTotal(total);
-	//	lancamentoService.atualizar(obj);
 		// Limpando os campos
 		txtItem.setText("");
 		txtPreco.setText(String.valueOf(0));
@@ -196,7 +201,6 @@ public class LanQuitadoController implements Initializable {
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			obj.setTipoPagamento(cmbTipoPag.getValue());
-			//obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 			lancamentoService.confirmarLanQuitado(obj);
 			carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {
 				controller.setLancamentoService(new LancamentoService());
@@ -278,6 +282,14 @@ public class LanQuitadoController implements Initializable {
 		this.statusEntidade = statusEntidade;
 	}
 
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	public void setUsuario(Usuario usuarioEntidade) {
+		this.usuarioEntidade = usuarioEntidade;
+	}
+
 	// -----------------------------------------------------------------
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -287,13 +299,8 @@ public class LanQuitadoController implements Initializable {
 			carregarTableView();
 		}
 	}
-
 	// ------------------------------------------------------------------
-	public void carregarCamposDeCadastro() {
-		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
-	}
-	// -----------------------------------------------------------------------------------------------------
-
+	
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 50);

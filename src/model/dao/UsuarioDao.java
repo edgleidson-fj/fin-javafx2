@@ -11,6 +11,8 @@ public interface UsuarioDao {
 	void excluirPorId(Integer id);
 	Usuario buscarPorId(Integer id);
 	List<Usuario> buscarTudo();
-
 	List<Usuario> listarPorId(Integer id);
+	Usuario login (String nome, String senha);
+	void logado(Usuario obj);
+
 }

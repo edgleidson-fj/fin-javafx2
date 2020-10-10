@@ -44,6 +44,7 @@ import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
@@ -114,6 +115,11 @@ public class LanAPagarController implements Initializable {
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			obj.setData(Date.from(instant));
 		}
+		//Teste de usuário.
+				Usuario user = new Usuario();
+				user.setId(1);
+				obj.setUsuario(user);
+		
 		lancamentoService.salvar(obj);
 		txtId.setText(String.valueOf(obj.getId()));
 		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
