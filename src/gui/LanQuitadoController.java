@@ -120,7 +120,8 @@ public class LanQuitadoController implements Initializable {
 	int idDesp;
 	int idItem;
 	String ref;
-	int userId;
+	//int userId;
+	int usuarioId;
 	String userNome;
 
 	@FXML
@@ -139,7 +140,7 @@ public class LanQuitadoController implements Initializable {
 		}
 		//Teste de usuário.
 		Usuario user = new Usuario();
-		user.setId(1);
+		user.setId(usuarioId);
 		obj.setUsuario(user);
 		
 		lancamentoService.salvar(obj);
@@ -289,8 +290,8 @@ public class LanQuitadoController implements Initializable {
 	public void setUsuario(Usuario usuarioEntidade) {
 		this.usuarioEntidade = usuarioEntidade;
 	}
-
 	// -----------------------------------------------------------------
+	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarComboBoxTipoPag();
@@ -471,5 +472,25 @@ public class LanQuitadoController implements Initializable {
 			soma += tab.getPreco();
 		}
 		lbTotal.setText(String.format("R$ %.2f", soma));
+	}
+	
+	
+	
+	public void carregarUsuarioLogado() {
+		if(usuarioEntidade == null) {
+			System.out.println("entidade nulo");
+		}
+		if(usuarioService == null) {
+			System.out.println("service nulo");
+		}
+		List<Usuario> lista = usuarioService.buscarTodos();
+		for(Usuario u : lista) {
+			 u.getLogado();
+			
+			 if(u.getLogado().equals("S")) {
+				 usuarioId = u.getId();			 
+				 lbUsuario.setText(String.valueOf(usuarioId));				 
+			 }
+		 }
 	}
 }

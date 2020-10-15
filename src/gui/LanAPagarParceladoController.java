@@ -51,6 +51,7 @@ import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
+import model.servico.UsuarioService;
 
 public class LanAPagarParceladoController implements Initializable {
 
@@ -60,6 +61,8 @@ public class LanAPagarParceladoController implements Initializable {
 	private Item itemEntidade;
 	private DespesaService despesaService;
 	private Despesa despesaEntidade;
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade;		
 	// ------------------------------------------------------
 
 	@FXML
@@ -111,6 +114,7 @@ public class LanAPagarParceladoController implements Initializable {
 	int aux;
 	int despesaId;
 	int lancamentoIds;
+	int usuarioId;
 	// ----------------------------------------------------------------------------------------------------------
 
 	@FXML
@@ -138,8 +142,9 @@ public class LanAPagarParceladoController implements Initializable {
 				
 				//Teste de usuário.
 				Usuario user = new Usuario();
-				user.setId(1);
+				user.setId(usuarioId);
 				obj.setUsuario(user);
+			
 				
 				lancamentoService.salvar(obj);
 				lancamentoIds = obj.getId();
@@ -264,6 +269,13 @@ public class LanAPagarParceladoController implements Initializable {
 
 	public void setDespesa(Despesa despesaEntidade) {
 		this.despesaEntidade = despesaEntidade;
+	}
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	public void setUsuario(Usuario usuarioEntidade) {
+		this.usuarioEntidade = usuarioEntidade;
 	}
 	// ------------------------------------------------------------
 
@@ -434,5 +446,22 @@ public class LanAPagarParceladoController implements Initializable {
 			soma += tab.getPreco();
 		}
 		lbTotal.setText(String.format("R$ %.2f", soma));
+	}
+	
+	public void carregarUsuarioLogado() {
+		if(usuarioEntidade == null) {
+			System.out.println("entidade nulo");
+		}
+		if(usuarioService == null) {
+			System.out.println("service nulo");
+		}
+		List<Usuario> lista = usuarioService.buscarTodos();
+		for(Usuario u : lista) {
+			 u.getLogado();
+			
+			 if(u.getLogado().equals("S")) {
+				 usuarioId = u.getId();			 
+			 }
+		 }
 	}
 }

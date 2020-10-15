@@ -171,7 +171,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
     
 	
     
-    @Override 
+ /*   @Override 
 	public Usuario login(String nome, String senha) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -198,7 +198,36 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			BD.fecharStatement(ps);
 			BD.fecharResultSet(rs);
 		}
-	}
+	}*/
+    
+    
+    @Override 
+  	public Usuario login(int id, String senha) {
+  		PreparedStatement ps = null;
+  		ResultSet rs = null;
+  		try {
+  			ps = connection.prepareStatement(
+  					"SELECT * FROM usuario " 
+  					+ "WHERE usuarioId = ? "
+  					+ "AND usuarioSenha = ? ");
+  			ps.setInt(1, id);
+  			ps.setString(2, senha);
+  			rs = ps.executeQuery();
+  			if (rs.next()) {
+  				Usuario obj = new Usuario();
+  				obj.setId(rs.getInt("usuarioId"));
+  				obj.setNome(rs.getString("usuarioNome"));
+  				obj.setSenha(rs.getString("usuarioSenha"));
+  				return obj;
+  			}
+  			return null;
+  		} catch (SQLException ex) {
+  			throw new BDException(ex.getMessage());
+  		} finally {
+  			BD.fecharStatement(ps);
+  			BD.fecharResultSet(rs);
+  		}
+  	}
     
     @Override
 	public void logado(Usuario obj) {
@@ -210,6 +239,22 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 					+ "WHERE usuarioId = ?");
 			ps.setString(1, obj.getLogado());
 			ps.setInt(2, obj.getId());
+			ps.executeUpdate();
+		} catch (SQLException ex) {
+			new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+		}
+	}
+    
+    @Override
+	public void logadoN(Usuario obj) {
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(
+					"UPDATE usuario " 
+					+ "SET logado = ? ");
+			ps.setString(1, obj.getLogado());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());

@@ -48,6 +48,7 @@ import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
+import model.servico.UsuarioService;
 
 public class LanAPagarController implements Initializable {
 
@@ -57,6 +58,8 @@ public class LanAPagarController implements Initializable {
 	private Item itemEntidade;
 	private DespesaService despesaService;
 	private Despesa despesaEntidade;
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade;	
 	// ------------------------------------------------------
 
 	@FXML
@@ -100,6 +103,7 @@ public class LanAPagarController implements Initializable {
 	int idLan;
 	int idDesp;
 	int idItem;
+	int usuarioId;
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
@@ -117,8 +121,9 @@ public class LanAPagarController implements Initializable {
 		}
 		//Teste de usuário.
 				Usuario user = new Usuario();
-				user.setId(1);
+				user.setId(usuarioId);
 				obj.setUsuario(user);
+				
 		
 		lancamentoService.salvar(obj);
 		txtId.setText(String.valueOf(obj.getId()));
@@ -228,6 +233,13 @@ public class LanAPagarController implements Initializable {
 	}
 	public void setDespesa(Despesa despesaEntidade) {
 		this.despesaEntidade = despesaEntidade;
+	}
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	public void setUsuario(Usuario usuarioEntidade) {
+		this.usuarioEntidade = usuarioEntidade;
 	}
 	// ------------------------------------------------------------
 
@@ -388,5 +400,22 @@ public class LanAPagarController implements Initializable {
 			soma += tab.getPreco();
 		}
 		lbTotal.setText(String.format("R$ %.2f", soma));
+	}
+	
+	public void carregarUsuarioLogado() {
+		if(usuarioEntidade == null) {
+			System.out.println("entidade nulo");
+		}
+		if(usuarioService == null) {
+			System.out.println("service nulo");
+		}
+		List<Usuario> lista = usuarioService.buscarTodos();
+		for(Usuario u : lista) {
+			 u.getLogado();
+			
+			 if(u.getLogado().equals("S")) {
+				 usuarioId = u.getId();			 
+			 }
+		 }
 	}
 }

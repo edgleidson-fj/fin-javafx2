@@ -34,11 +34,13 @@ import model.entidade.Item;
 import model.entidade.Lancamento;
 import model.entidade.Status;
 import model.entidade.TipoPag;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.StatusService;
 import model.servico.TipoPagService;
+import model.servico.UsuarioService;
 
 public class TodasContasController implements Initializable {
 
@@ -48,6 +50,8 @@ public class TodasContasController implements Initializable {
 	private TipoPag tipoPagEntidade;
 	private StatusService statusService;
 	private Status statusEntidade;	
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade;	
 	// -------------------------------------------
 
 	@FXML
@@ -94,6 +98,13 @@ public class TodasContasController implements Initializable {
 	}
 	public void setStatus(Status statusEntidade) {
 		this.statusEntidade = statusEntidade;
+	}
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	public void setUsuario(Usuario usuarioEntidade) {
+		this.usuarioEntidade = usuarioEntidade;
 	}
 	// ----------------------------------------------------------
 	
@@ -250,4 +261,6 @@ public class TodasContasController implements Initializable {
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
+	
+
 }

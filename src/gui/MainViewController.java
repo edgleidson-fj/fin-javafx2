@@ -75,11 +75,13 @@ public class MainViewController implements Initializable {
 	@FXML
 	private TextField txtSenha;
 	@FXML
+	private TextField txtID;
+	@FXML
 	private Button btEntrar;
 	//-----------------------------------------------------
-	int userId;
+	int usuarioId;
 	String userNome;
-	int id;
+	int id;	
 
 	@FXML
 	public void onMenuItemEntrar() {			
@@ -87,7 +89,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {
 				 System.out.println("Entrar");
@@ -106,7 +107,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {		
 		carregarView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {
@@ -121,11 +121,12 @@ public class MainViewController implements Initializable {
 			controller.setStatus(new Status());
 			controller.setStatusService(new StatusService());
 			Usuario user = new Usuario();
-			user.setId(userId);
+			user.setId(usuarioId);
 			user.setNome(userNome);
 			controller.setUsuario(user);
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarObjetosAssociados();	
+			controller.carregarUsuarioLogado();
 		});
 			 }
 		 }
@@ -137,7 +138,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {	
 		carregarView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {
@@ -146,7 +146,13 @@ public class MainViewController implements Initializable {
 			controller.setDespesaService(new DespesaService());
 			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());			
+			controller.setItem(new Item());	
+			Usuario user = new Usuario();
+			user.setId(usuarioId);
+			user.setNome(userNome);
+			controller.setUsuario(user);
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarUsuarioLogado();
 			});
 			 }
 		 }
@@ -158,7 +164,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {		
 		carregarView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
@@ -167,7 +172,13 @@ public class MainViewController implements Initializable {
 			controller.setDespesaService(new DespesaService());
 			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());			
+			controller.setItem(new Item());	
+			Usuario user = new Usuario();
+			user.setId(usuarioId);
+			user.setNome(userNome);
+			controller.setUsuario(user);
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarUsuarioLogado();
 			});
 			 }
 		 }
@@ -179,7 +190,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {	
 	carregarView("/gui/ContasQuitadasMesAtualView.fxml", (ContasQuitadasMesAtualController controller) ->{
@@ -198,7 +208,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasQuitadasPeriodoView.fxml", (ContasQuitadasPeriodoController controller) ->{
@@ -216,7 +225,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasQuitadasView.fxml", (ContasQuitadasController controller) ->{
@@ -235,7 +243,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
@@ -254,7 +261,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasEmAbertoPeriodoView.fxml", (ContasEmAbertoPeriodoController controller) ->{
@@ -272,7 +278,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/ContasEmAbertoView.fxml", (ContasEmAbertoController controller) ->{
@@ -291,7 +296,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {
 		carregarView("/gui/TodasContasView.fxml", (TodasContasController controller) ->{
@@ -299,7 +303,8 @@ public class MainViewController implements Initializable {
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
-		});
+			Usuario user = new Usuario();
+			});
 			 }
 		 }
 	}
@@ -325,24 +330,36 @@ public class MainViewController implements Initializable {
 	public void onBtConfirmar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
 		
-		//parentStage.close();
-		String nome = txtNome.getText();
+	//	String nome = txtNome.getText();
+		int id = Utils.stringParaInteiro(txtNome.getText());
 		String senha = txtSenha.getText();		
-		usuarioEntidade.setNome(nome);
+		//usuarioEntidade.setNome(nome);
+		usuarioEntidade.setId(id);
 		usuarioEntidade.setSenha(senha);	
-		Usuario u = usuarioService.login(nome,senha);
+		Usuario user = usuarioService.login(id,senha);
 		
-		if(u != null) {
-			System.out.println("Usuário OK");		
-			usuarioEntidade.setId(1);
-			usuarioEntidade.setLogado("S");
-			usuarioService.logado(usuarioEntidade);
-			
+		if(user != null) {				
+				usuarioEntidade.setId(id);
+				usuarioEntidade.setLogado("S");
+				usuarioService.logado(usuarioEntidade);
+				//usuarioId = usuarioEntidade.getId();
+		
+				List<Usuario> lista = usuarioService.buscarTodos();
+			for(Usuario u : lista) {
+				 u.getLogado();		
+				 if(u.getLogado().equals("S")) {
+					 usuarioId = u.getId();			 
+				 }				
+			 }
+				
 			carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 				controller.setLancamentoService(new LancamentoService());
 				controller.setLancamento(new Lancamento());
+				controller.setUsuario(usuarioEntidade);
+				controller.setUsuarioService(new UsuarioService());
 				controller.rotinasAutomaticas();
 				controller.carregarTableView();
+				controller.x();
 			});			
 		} else{
 			System.out.println("Usuário Errado!");
@@ -385,6 +402,6 @@ public class MainViewController implements Initializable {
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
-	}	
 	}
+		}
 

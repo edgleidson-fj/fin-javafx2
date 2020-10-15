@@ -140,7 +140,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		}
 	}
 	
-	//Listar tudo.
+	/*/Listar tudo.
 	@Override
 	public List<Lancamento> buscarTudo() {
 		PreparedStatement ps = null;
@@ -155,6 +155,48 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	//			+ "INNER JOIN Usuario u "
 	//			+ "ON l.usuario_id = u.usuarioid "
 	//			+ "WHERE l.usuario_id = 2 "
+					+ "ORDER BY l.id DESC"); 			
+		rs = ps.executeQuery();
+			List<Lancamento> lista = new ArrayList<>();			
+			while (rs.next()) {
+				TipoPag pag = new TipoPag();
+				pag.setNome(rs.getString("t.nome"));	
+				Status status = new Status();
+				status.setNome(rs.getString("s.nome"));	
+				Lancamento obj = new Lancamento();
+				obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+				obj.setId(rs.getInt("id"));
+				obj.setReferencia(rs.getString("referencia"));
+				obj.setDesconto(rs.getDouble("desconto"));
+				obj.setAcrescimo(rs.getDouble("acrescimo"));
+				obj.setTotal(rs.getDouble("total"));
+				obj.setTipoPagamento(pag);	
+				obj.setStatus(status);
+				lista.add(obj);
+			}
+			return lista;
+		} catch (SQLException ex) {
+			throw new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+			BD.fecharResultSet(rs);
+		}
+	}*/
+	
+	@Override
+	public List<Lancamento> buscarTudo() {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = connection.prepareStatement(
+					"SELECT * FROM Lancamento l "
+					+ "INNER JOIN Status s "
+					+ "ON l.status_id = s.id "
+					+ "INNER JOIN TipoPag t "
+					+ "ON l.tipoPag_id = t.id "
+				+ "INNER JOIN Usuario u "
+				+ "ON l.usuario_id = u.usuarioid "
+				+ "WHERE u.logado = 'S' "
 					+ "ORDER BY l.id DESC"); 			
 		rs = ps.executeQuery();
 			List<Lancamento> lista = new ArrayList<>();			

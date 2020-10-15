@@ -63,7 +63,7 @@
                <children>
                   <Button fx:id="btEntrar" layoutX="111.0" layoutY="75.0" mnemonicParsing="false" onAction="#onBtConfirmar" text="Entrar" />
                   <Label layoutX="45.0" layoutY="49.0" text="Senha" />
-                  <Label layoutX="50.0" layoutY="22.0" text="Nome" />
+                  <Label layoutX="50.0" layoutY="22.0" text="ID" />
                   <TextField fx:id="txtSenha" layoutX="111.0" layoutY="45.0" />
                   <TextField fx:id="txtNome" layoutX="111.0" layoutY="15.0" />
                </children>

@@ -13,7 +13,8 @@ public class LancamentoService {
 
 	public List<Lancamento> buscarTodos(){
 		return dao.buscarTudo();
-	}	
+	}
+	
 	public List<Lancamento> buscarTudoQuitado(){
 		return dao.buscarTudoQuitado();
 	}	

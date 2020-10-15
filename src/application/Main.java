@@ -33,9 +33,9 @@ public class Main extends Application {
 			// Usuário
 			UsuarioService usuarioService = new UsuarioService();
 			Usuario usuarioEntidade = new Usuario();
-			usuarioEntidade.setId(1);
+			//usuarioEntidade.setId(1);
 			usuarioEntidade.setLogado("N");
-			usuarioService.logado(usuarioEntidade);
+			usuarioService.logadoN(usuarioEntidade);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

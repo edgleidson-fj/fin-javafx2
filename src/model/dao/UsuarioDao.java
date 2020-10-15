@@ -12,7 +12,8 @@ public interface UsuarioDao {
 	Usuario buscarPorId(Integer id);
 	List<Usuario> buscarTudo();
 	List<Usuario> listarPorId(Integer id);
-	Usuario login (String nome, String senha);
+	//Usuario login (String nome, String senha);
+	Usuario login (int id, String senha);
 	void logado(Usuario obj);
-
+	void logadoN(Usuario obj);
 }
