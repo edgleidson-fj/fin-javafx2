@@ -235,7 +235,10 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						"SELECT * FROM Lancamento l "
 						+ "INNER JOIN TipoPag t "
 						+ "ON l.tipoPag_id = t.id "
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = l.usuario_Id "
 						+ "WHERE status_id = 2 "
+						+ "AND u.logado = 'S' "
 						+ "ORDER BY data ASC");			
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
@@ -270,7 +273,10 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			try {
 				ps = connection.prepareStatement(
 						"SELECT * FROM Lancamento "
-						+ "WHERE status_id = 1 OR status_id = 3 ");      
+								+ "INNER JOIN Usuario u "
+								+ "ON u.usuarioId = lancamento.usuario_Id "
+						+ "WHERE u.logado = 'S' "
+						+ "AND (status_id = 1 OR status_id = 3) ");      
 						
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
@@ -419,62 +425,78 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			switch (mesAtual) {
 			case 0:
 			ps = connection.prepareStatement("SELECT * FROM lancamento " 
-			+"WHERE Month(data) =  '01' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+					+ "INNER JOIN Usuario u "
+					+ "ON u.usuarioId = lancamento.usuario_Id "
+			+"WHERE u.logado = 'S' AND (Month(data) = '01' and Status_id = 1 and Year(data) = Year(now())) "
+			+ "OR status_id = 3 "
 			+ "ORDER BY data ASC ");
 			break;
 			case 1:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '02' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '02' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 2:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '03' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '03' and Status_id = 1 and Year(data) = Year(now())) "
+				+ " OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 3:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '04' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '04' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 4:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '05' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '05' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 5:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '06' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '06' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 6:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '07' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '07' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 7:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '08' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '08' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 8:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '09' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3 "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '09' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3 "
 				+ "ORDER BY data ASC ");
 				break;
 			case 9:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '10' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '10' and Status_id = 1 and Year(data) = Year(now()) "
+				+ "OR status_id = 3) "
 				+ "ORDER BY data ASC ");
 				break;
 			case 10:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '11' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '11' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			default:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
-				+"WHERE Month(data) =  '12' and Status_id = 1 and Year(data) = Year(now()) OR status_id = 3  "
+				+"WHERE u.logado = 'S' AND (Month(data) =  '12' and Status_id = 1 and Year(data) = Year(now())) "
+				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			}
@@ -508,78 +530,90 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			try {
 			Calendar datahoje = Calendar.getInstance();
 			int mesAtual = datahoje.get(Calendar.MONTH);
-		
+			
 			switch (mesAtual) {
 			case 0:
-			ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-			+"WHERE Month(data) =  '01' and Status_id = 2 and Year(data) = Year(now()) "
+			ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+			+"WHERE usuario.logado = 'S' AND  Month(data) =  '01' and Status_id = 2 and Year(data) = Year(now()) "
 			+ "AND tipopag.id = tipopag_id "
+			+ "AND usuario.usuarioId = usuario_id "
 			+ "ORDER BY data ASC ");
 			break;
 			case 1:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '02' and Status_id = 2 and Year(data) = Year(now()) "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '02' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			case 2:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '03' and Status_id = 2 and Year(data) = Year(now()) "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '03' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			case 3:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag " 
-				+"WHERE Month(data) =  '04' and Status_id = 2 and Year(data) = Year(now()) "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario " 
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '04' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			case 4:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '05' and Status_id = 2 and Year(data) = Year(now()) "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '05' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			case 5:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '06' and Status_id = 2 and Year(data) = Year(now()) "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '06' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			case 6:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '07' and Status_id = 2 and Year(data) = Year(now()) "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '07' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			case 7:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '08' and Status_id = 2 and Year(data) = Year(now()) "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '08' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			case 8:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '09' and Status_id = 2 and Year(data) = Year(now()) "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '09' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			case 9:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '10' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "		
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+					+"WHERE usuario.logado = 'S' AND Month(data) =  '10' and Status_id = 2 and Year(data) = Year(now()) "
+				+ "AND tipopag.id = tipopag_id "
+				+ "AND usuario.usuarioId = usuario_id "		
 				+ "ORDER BY data ASC ");
 				break;
 			case 10:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '11' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "		
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '11' and Status_id = 2 and Year(data) = Year(now()) "
+				+ "AND tipopag.id = tipopag_id "
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			default:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag "
-				+"WHERE Month(data) =  '12' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "		
+				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				+"WHERE usuario.logado = 'S' AND  Month(data) =  '12' and Status_id = 2 and Year(data) = Year(now()) "
+				+ "AND tipopag.id = tipopag_id "
+				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data ASC ");
 				break;
 			}	
@@ -620,12 +654,16 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						"SELECT * FROM lancamento "
 						+ "INNER JOIN status "
 						+ "ON lancamento.status_id = status.id "
-						+ "WHERE data >=  '"+dataInicial+"' "
+						+ "INNER JOIN Usuario u "			
+						+ "ON u.usuarioId = lancamento.usuario_Id "
+						+ "WHERE u.logado = 'S' "
+						+ "AND data >=  '"+dataInicial+"' "
 						+ "AND data <= '"+dataFinal+"' "
 						+ "AND status_id = 1 "
 						+ "OR (status_id = 3 "
 						+ "AND data >=  '"+dataInicial+"' "
-						+ "AND data <= '"+dataFinal+"') "
+						+ "AND data <= '"+dataFinal+"' "
+						+ "AND u.logado = 'S') "
 						+ "ORDER BY data");  
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
@@ -660,8 +698,10 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				ps = connection.prepareStatement(
 						"SELECT * FROM lancamento "
 						+ "INNER JOIN tipopag "
-						+ "ON lancamento.tipopag_id = tipopag.id "
-						+ "WHERE data >=  '"+dataInicial+"' "
+						+ "ON lancamento.tipopag_id = tipopag.id "+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
+						+ "WHERE u.logado = 'S' "
+						+ "AND data >=  '"+dataInicial+"' "
 						+ "AND data <= '"+dataFinal+"' "
 						+ "AND status_id = 2 "
 						+ "ORDER BY data");  
