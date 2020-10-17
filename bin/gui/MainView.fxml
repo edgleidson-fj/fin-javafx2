@@ -55,6 +55,7 @@
                   <Menu mnemonicParsing="false" text="Cadastros">
                     <items>
                       <MenuItem fx:id="menuItemTipoPagamento" mnemonicParsing="false" onAction="#onMenuItemTipoPagamento" text="Tipos de Pagamento" />
+                        <MenuItem fx:id="menuItemUsuario" mnemonicParsing="false" onAction="#onMenuItemUsuario" text="Usuário" />
                     </items>
                   </Menu>
               </menus>

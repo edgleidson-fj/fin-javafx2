@@ -69,6 +69,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemTipoPagamento;
 	@FXML
+	private MenuItem menuItemUsuario;
+	@FXML
 	private Label lbUsuario;
 	@FXML
 	private TextField txtNome;
@@ -324,6 +326,24 @@ public class MainViewController implements Initializable {
 		});
 			 }
 		 }
+	}
+	
+	@FXML
+	public void onMenuItemUsuario() {
+	/*	List<Usuario> lista = usuarioService.buscarTodos();
+		 
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 System.out.println("logado "+u.getLogado());			 
+			 
+			 if(u.getLogado().equals("S")) {	*/
+		carregarView("/gui/UsuarioView.fxml", (UsuarioController controller) -> {
+			controller.setUsuarioService(new UsuarioService());
+			controller.setUsuario(new Usuario());
+			controller.carregarCamposDeCadastro();
+		});
+			 /*}
+		 }*/
 	}
 	
 	@FXML

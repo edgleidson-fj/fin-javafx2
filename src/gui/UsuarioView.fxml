@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="414.0" prefWidth="696.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UsuarioController">
+   <children>
+      <Label contentDisplay="CENTER" text="Cadastro de Usuário" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="15.0" left="100.0" top="5.0" />
+         </VBox.margin>
+         <padding>
+            <Insets left="50.0" />
+         </padding></Label>
+      <HBox prefHeight="404.0" prefWidth="740.0">
+         <children>
+            <Pane prefHeight="367.0" prefWidth="695.0">
+               <children>
+                  <TextField fx:id="txtId" editable="false" layoutX="224.0" layoutY="60.0" prefHeight="27.0" prefWidth="40.0" promptText="ID" />
+                  <TextField fx:id="txtNome" layoutX="277.0" layoutY="61.0" prefHeight="25.0" prefWidth="149.0" promptText="NOME" />
+                  <Button fx:id="btSalvar" layoutX="277.0" layoutY="141.0" mnemonicParsing="false" onAction="#onBtSalvar" text="Salvar" />
+                  <Button fx:id="btCancelar" layoutX="348.0" layoutY="141.0" mnemonicParsing="false" onAction="#onBtCancelar" text="Cancelar" />
+                  <TextField fx:id="txtSenha" layoutX="277.0" layoutY="98.0" promptText="SENHA" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+   </children>
+</VBox>
