@@ -43,8 +43,6 @@ public class MainViewController implements Initializable {
 	//-------------------------------------------------------
 	
 	@FXML
-	private MenuItem menuItemEntrar;
-	@FXML
 	private MenuItem menuItemSair;
 	@FXML
 	private MenuItem menuItemLancamentoQuitado;
@@ -80,27 +78,21 @@ public class MainViewController implements Initializable {
 	private TextField txtID;
 	@FXML
 	private Button btEntrar;
+	@FXML
+	private Button btCriarUsuario;
 	//-----------------------------------------------------
 	int usuarioId;
 	String userNome;
 	int id;	
-
-	@FXML
-	public void onMenuItemEntrar() {			
-		 List<Usuario> lista = usuarioService.buscarTodos();
-		 
-		 for(Usuario u : lista) {
-			 u.getLogado();
-			 
-			 if(u.getLogado().equals("S")) {
-				 System.out.println("Entrar");
-			 }
-		 }
-		}
 	
 	@FXML
 	public void onMenuItemSair(ActionEvent evento) {	
-		System.out.println("Sair");
+		usuarioEntidade.setLogado("N");
+		usuarioService.logadoN(usuarioEntidade);
+		carregarView("/gui/LoginView.fxml", (LoginController controller) -> {
+			controller.setUsuarioService(new UsuarioService());
+			controller.setUsuario(new Usuario());
+		});		
 	}
 
 	@FXML
@@ -385,6 +377,15 @@ public class MainViewController implements Initializable {
 			System.out.println("Usuário Errado!");
 		}			
 		}
+	
+	@FXML
+	public void onBtCriarUsuario() {
+		carregarView("/gui/UsuarioView.fxml", (UsuarioController controller) -> {
+			controller.setUsuarioService(new UsuarioService());
+			controller.setUsuario(new Usuario());
+			controller.carregarCamposDeCadastro();
+		});
+	}
 	
 	//-------------------------------------------------------
 	

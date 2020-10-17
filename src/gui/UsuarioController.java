@@ -73,12 +73,11 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 			atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 		} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
-		}
+		}		
 	}
 
 	public void onBtCancelar() {
-		entidade = new Usuario();
-		atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
+		atualizarPropriaView(null, "/gui/LoginView.fxml");
 	}
 
 		
@@ -113,11 +112,18 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
 			VBox novoVBox = loader.load();			
 			
+			if(obj == null) {
+				LoginController controller = loader.getController();
+				controller.setUsuario(new Usuario());
+				controller.setUsuarioService(new UsuarioService());
+			}
+			else {
 			UsuarioController controller = loader.getController();
 			controller.setUsuario(obj);
 			controller.carregarCamposDeCadastro();
 			controller.setUsuarioService(new UsuarioService());
-			        	
+			}
+			
 			Scene mainScene = Main.pegarMainScene();
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 

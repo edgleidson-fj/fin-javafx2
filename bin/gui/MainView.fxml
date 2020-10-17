@@ -18,7 +18,6 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Login">
                   <items>
-                        <MenuItem fx:id="menuItemEntrar" mnemonicParsing="false" onAction="#onMenuItemEntrar" text="Entrar" />
                         <MenuItem fx:id="menuItemSair" mnemonicParsing="false" onAction="#onMenuItemSair" text="Sair" />
                   </items>
                 </Menu>
@@ -67,6 +66,7 @@
                   <Label layoutX="50.0" layoutY="22.0" text="ID" />
                   <TextField fx:id="txtSenha" layoutX="111.0" layoutY="45.0" />
                   <TextField fx:id="txtNome" layoutX="111.0" layoutY="15.0" />
+                  <Button fx:id="btCriarUsuario" layoutX="189.0" layoutY="75.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" text="Criar" />
                </children>
             </AnchorPane>
          </children>

@@ -28,7 +28,7 @@
                   <TextField fx:id="txtId" editable="false" layoutX="224.0" layoutY="60.0" prefHeight="27.0" prefWidth="40.0" promptText="ID" />
                   <TextField fx:id="txtNome" layoutX="277.0" layoutY="61.0" prefHeight="25.0" prefWidth="149.0" promptText="NOME" />
                   <Button fx:id="btSalvar" layoutX="277.0" layoutY="141.0" mnemonicParsing="false" onAction="#onBtSalvar" text="Salvar" />
-                  <Button fx:id="btCancelar" layoutX="348.0" layoutY="141.0" mnemonicParsing="false" onAction="#onBtCancelar" text="Cancelar" />
+                  <Button fx:id="btCancelar" layoutX="348.0" layoutY="141.0" mnemonicParsing="false" onAction="#onBtCancelar" text="Voltar" />
                   <TextField fx:id="txtSenha" layoutX="277.0" layoutY="98.0" promptText="SENHA" />
                </children>
             </Pane>
