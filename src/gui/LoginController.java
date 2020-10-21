@@ -90,7 +90,7 @@ public class LoginController implements Initializable {
 				controller.setUsuarioService(new UsuarioService());
 				controller.rotinasAutomaticas();
 				controller.carregarTableView();
-				controller.x();
+				//controller.carregarUsuarioLogado();
 			});			
 		} else{
 			System.out.println("Usuário Errado!");

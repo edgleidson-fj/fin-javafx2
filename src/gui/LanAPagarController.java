@@ -73,6 +73,8 @@ public class LanAPagarController implements Initializable {
 	@FXML
 	private Label lbTotal;
 	@FXML
+	private Label lbUsuario;
+	@FXML
 	private DatePicker datePickerData;
 	@FXML
 	private Button btCriarRegistroDeLancamento;
@@ -414,7 +416,8 @@ public class LanAPagarController implements Initializable {
 			 u.getLogado();
 			
 			 if(u.getLogado().equals("S")) {
-				 usuarioId = u.getId();			 
+				 usuarioId = u.getId();	
+				 lbUsuario.setText(String.valueOf(u.getNome()));
 			 }
 		 }
 	}

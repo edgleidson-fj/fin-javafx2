@@ -27,9 +27,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
 import model.entidade.TipoPag;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
+import model.servico.UsuarioService;
 
 public class ContasEmAbertoController implements Initializable {
 
@@ -37,6 +39,8 @@ public class ContasEmAbertoController implements Initializable {
 	private Lancamento lancamentoEntidade;
 	private TipoPagService tipoPagService;
 	private TipoPag tipoPagEntidade;
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade;
 	// -------------------------------------------
 
 	@FXML
@@ -57,6 +61,8 @@ public class ContasEmAbertoController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaConfig;
 	@FXML
 	private Label lbTotal;
+	@FXML
+	private Label lbUsuario;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -73,6 +79,12 @@ public class ContasEmAbertoController implements Initializable {
 	}
 	public void setTipoPag(TipoPag tipoPagEntidade) {
 		this.tipoPagEntidade = tipoPagEntidade;
+	}
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+	public void setUsuario(Usuario usuarioEntidade) {
+		this.usuarioEntidade = usuarioEntidade;
 	}
 	// ----------------------------------------------------------
 
@@ -221,5 +233,22 @@ public class ContasEmAbertoController implements Initializable {
 		lancamentoService.exclusaoAutomatico(lancamentoEntidade);
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
+	}
+	
+	public void carregarUsuarioLogado() {
+		if(usuarioEntidade == null) {
+			System.out.println("entidade nulo");
+		}
+		if(usuarioService == null) {
+			System.out.println("service nulo");
+		}
+		List<Usuario> lista = usuarioService.buscarTodos();
+		for(Usuario u : lista) {
+			 u.getLogado();
+			
+			 if(u.getLogado().equals("S")) {
+				 lbUsuario.setText(String.valueOf(u.getNome()));
+			 }
+		 }
 	}
 }

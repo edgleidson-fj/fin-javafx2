@@ -488,8 +488,8 @@ public class LanQuitadoController implements Initializable {
 			 u.getLogado();
 			
 			 if(u.getLogado().equals("S")) {
-				 usuarioId = u.getId();			 
-				 lbUsuario.setText(String.valueOf(usuarioId));				 
+				 usuarioId = u.getId();
+				 lbUsuario.setText(String.valueOf(u.getNome()));				 
 			 }
 		 }
 	}

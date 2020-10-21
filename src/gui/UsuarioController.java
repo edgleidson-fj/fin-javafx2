@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
@@ -66,17 +67,32 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 		carregarTableView();
 	} */
 
+	int x;
 	public void onBtSalvar() {
 		try {
-			entidade = dadosDoCampoDeTexto();
-			service.salvar(entidade);
-			atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
-		} catch (BDException ex) {
+			/*List<Usuario> lista = service.buscarTodos();
+			for(Usuario u : lista) {
+				 u.getLogado();*/
+				
+				 if(txtId.getText().equals("")) {
+						x=1;
+						entidade = dadosDoCampoDeTexto();
+							service.salvar(entidade);
+							atualizarPropriaView(entidade, "/gui/LoginView.fxml");						
+				 }
+				 else{
+						x=2;
+						 entidade = dadosDoCampoDeTexto();
+							service.atualizar(entidade);
+							atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
+				 }
+			} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
 		}		
 	}
 
 	public void onBtCancelar() {
+		x=1;
 		atualizarPropriaView(null, "/gui/LoginView.fxml");
 	}
 
@@ -103,8 +119,15 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 	}
 
 	public void carregarCamposDeCadastro() {
-		txtId.setText(String.valueOf(entidade.getId()));
-		txtNome.setText(entidade.getNome());
+		List<Usuario> lista = service.buscarTodos();
+		for(Usuario u : lista) {
+			 u.getLogado();
+			
+			 if(u.getLogado().equals("S")) {
+				 txtId.setText(String.valueOf(u.getId()));
+					txtNome.setText(u.getNome());
+			 }
+		 }		
 	}
 	
 	private  void atualizarPropriaView(Usuario obj, String caminhoDaView) {
@@ -112,7 +135,7 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
 			VBox novoVBox = loader.load();			
 			
-			if(obj == null) {
+			if(x == 1) {
 				LoginController controller = loader.getController();
 				controller.setUsuario(new Usuario());
 				controller.setUsuarioService(new UsuarioService());
@@ -120,8 +143,8 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 			else {
 			UsuarioController controller = loader.getController();
 			controller.setUsuario(obj);
-			controller.carregarCamposDeCadastro();
 			controller.setUsuarioService(new UsuarioService());
+			controller.carregarCamposDeCadastro();
 			}
 			
 			Scene mainScene = Main.pegarMainScene();

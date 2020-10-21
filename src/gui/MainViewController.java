@@ -189,6 +189,8 @@ public class MainViewController implements Initializable {
 	carregarView("/gui/ContasQuitadasMesAtualView.fxml", (ContasQuitadasMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.setUsuario(usuarioEntidade);
+			controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
@@ -224,6 +226,8 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasQuitadasView.fxml", (ContasQuitadasController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.setUsuario(usuarioEntidade);
+			controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
@@ -242,8 +246,11 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.setUsuario(usuarioEntidade);
+			controller.setUsuarioService(new UsuarioService());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
+			//controller.carregarUsuarioLogado();
 		});
 			 }
 		 }
@@ -260,7 +267,13 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoPeriodoView.fxml", (ContasEmAbertoPeriodoController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			Usuario user = new Usuario();
+			user.setId(u.getId());
+			user.setNome(u.getNome());
+			controller.setUsuario(user);
+			controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
+			//controller.carregarUsuarioLogado();
 		});
 			 }
 		 }
@@ -277,8 +290,11 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoView.fxml", (ContasEmAbertoController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.setUsuario(usuarioEntidade);
+			controller.setUsuarioService(new UsuarioService());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
+			//controller.carregarUsuarioLogado();
 		});
 			 }
 		 }
@@ -309,7 +325,6 @@ public class MainViewController implements Initializable {
 		 
 		 for(Usuario u : lista) {
 			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
 			 
 			 if(u.getLogado().equals("S")) {	
 		carregarView("/gui/TipoPagView.fxml", (TipoPagController controller) -> {
@@ -322,22 +337,14 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemUsuario() {
-	/*	List<Usuario> lista = usuarioService.buscarTodos();
-		 
-		 for(Usuario u : lista) {
-			 u.getLogado();
-			 System.out.println("logado "+u.getLogado());			 
-			 
-			 if(u.getLogado().equals("S")) {	*/
-		carregarView("/gui/UsuarioView.fxml", (UsuarioController controller) -> {
+	carregarView("/gui/UsuarioView.fxml", (UsuarioController controller) -> {
 			controller.setUsuarioService(new UsuarioService());
 			controller.setUsuario(new Usuario());
 			controller.carregarCamposDeCadastro();
-		});
-			 /*}
-		 }*/
+		});			
 	}
 	
+	//--------------------------------------------------------
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
@@ -371,7 +378,7 @@ public class MainViewController implements Initializable {
 				controller.setUsuarioService(new UsuarioService());
 				controller.rotinasAutomaticas();
 				controller.carregarTableView();
-				controller.x();
+				//controller.carregarUsuarioLogado();
 			});			
 		} else{
 			System.out.println("Usuário Errado!");
@@ -424,5 +431,7 @@ public class MainViewController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
+	
+	
 		}
 

@@ -52,6 +52,7 @@
             </Label>
             <Label layoutX="519.0" layoutY="286.0" text="Nº de Parcelas" />
             <TextField fx:id="txtParcela" layoutX="615.0" layoutY="282.0" prefHeight="25.0" prefWidth="45.0" />
+            <Label fx:id="lbUsuario" layoutX="559.0" layoutY="419.0" text="Label" />
          </children>
       </AnchorPane>
    </children>

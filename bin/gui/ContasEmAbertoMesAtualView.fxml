@@ -16,7 +16,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="480.0" prefWidth="663.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
+            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="447.0" prefWidth="735.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
               <columns>
                   <TableColumn fx:id="colunaPagar" prefWidth="41.0" text="\$" />
                 <TableColumn fx:id="colunaLanData" prefWidth="104.0" text="VENCIMENTO" />

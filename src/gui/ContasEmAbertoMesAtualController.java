@@ -59,6 +59,8 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaPagar;
 	@FXML
 	private Label lbTotal;
+	@FXML
+	private Label lbUsuario;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -198,25 +200,20 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
 	
-	public void x () {
-		System.out.println("x");
+	/*public void carregarUsuarioLogado() {
 		if(usuarioEntidade == null) {
 			System.out.println("entidade nulo");
 		}
 		if(usuarioService == null) {
 			System.out.println("service nulo");
 		}
-		/**/	
 		List<Usuario> lista = usuarioService.buscarTodos();
 		for(Usuario u : lista) {
 			 u.getLogado();
 			
 			 if(u.getLogado().equals("S")) {
-				 usuarioId = u.getId();			 
-				 System.out.println("logado "+u.getLogado());
-				 System.out.println("logado ID "+usuarioId);
-				 
+				 lbUsuario.setText(String.valueOf(u.getNome()));
 			 }
-		 }/**/
-	}
+		 }
+	}*/
 }
