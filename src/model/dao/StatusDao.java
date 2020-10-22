@@ -6,7 +6,7 @@ import model.entidade.Status;
 
 public interface StatusDao {
 
-//	void inserir(Status obj);
+	void inserir(Status obj);
 //	void atualizar(Status obj);
 //	void excluirPorId(Integer id);
 	Status buscarPorId(Integer id);

@@ -5,7 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import model.entidade.Status;
+import model.entidade.TipoPag;
 import model.entidade.Usuario;
+import model.servico.StatusService;
+import model.servico.TipoPagService;
 import model.servico.UsuarioService;
 
 public class Main extends Application {
@@ -31,10 +35,25 @@ public class Main extends Application {
 			// Usuário
 			UsuarioService usuarioService = new UsuarioService();
 			Usuario usuarioEntidade = new Usuario();
-			//usuarioEntidade.setId(1);
 			usuarioEntidade.setLogado("N");
 			usuarioService.logadoN(usuarioEntidade);
-		} catch (Exception ex) {
+			
+			// Inserir Status no BD automaticamente.
+			StatusService statusService = new StatusService();
+			Status statusEntidade = new Status();
+			statusEntidade.setId(1);
+			statusEntidade.setNome("EM ABERTO");
+			statusService.salvar(statusEntidade);
+			statusEntidade.setId(2);
+			statusEntidade.setNome("PAGO");
+			statusService.salvar(statusEntidade);
+			statusEntidade.setId(3);
+			statusEntidade.setNome("VENCIDO");
+			statusService.salvar(statusEntidade);
+			statusEntidade.setId(4);
+			statusEntidade.setNome("CANCELADO");
+			statusService.salvar(statusEntidade);
+			} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

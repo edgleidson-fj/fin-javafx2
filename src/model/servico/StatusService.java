@@ -14,16 +14,9 @@ public class StatusService {
 		return dao.buscarTudo();
 	}
 	
-/*	public void salvarOuAtualizar(Status obj) {
-		if(obj.getId() == null) {
+	public void salvar(Status obj) {
 			dao.inserir(obj);
 			}
-		else {
-			dao.atualizar(obj);
-		}
-	}
 	
-	public void excluir (Status obj) {
-		dao.excluirPorId(obj.getId());
-	}*/
+	
 }

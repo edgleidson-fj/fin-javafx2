@@ -23,6 +23,7 @@ public class TipoPagService {
 		}
 	}
 	
+	
 	public void excluir (TipoPag obj) {
 		dao.excluirPorId(obj.getId());
 	}

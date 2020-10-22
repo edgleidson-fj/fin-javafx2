@@ -142,5 +142,5 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 			BD.fecharResultSet(rs);
 		}
 	}
-
+		
 }

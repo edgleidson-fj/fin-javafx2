@@ -23,17 +23,17 @@ public class StatusDaoJDBC implements StatusDao {
 		this.connection = connection;
 	}
 
-/*	@Override
+	@Override
 	public void inserir(Status obj) {
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement(
-					"INSERT INTO tipopag "
-							+ "(nome) " 
-							+ "VALUES  (?) ",
-					Statement.RETURN_GENERATED_KEYS);
-
-			ps.setString(1, obj.getNome());
+					"INSERT INTO status "
+							+ "(id,nome) " 
+							+ "VALUES  (?,?) ",
+					Statement.RETURN_GENERATED_KEYS);			
+			ps.setInt(1, obj.getId());
+			ps.setString(2, obj.getNome());
 			int linhasAfetadas = ps.executeUpdate();
 
 			if (linhasAfetadas > 0) {
@@ -51,7 +51,7 @@ public class StatusDaoJDBC implements StatusDao {
 		} finally {
 			BD.fecharStatement(ps);
 		}
-	} */
+	} 
 	
 	@Override
 	public Status buscarPorId(Integer id) {
