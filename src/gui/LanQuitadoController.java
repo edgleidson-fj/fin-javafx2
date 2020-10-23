@@ -235,7 +235,7 @@ public class LanQuitadoController implements Initializable {
 			});
 			}
 		} catch (RuntimeException ex) {
-			Alertas.mostrarAlerta("Pendente", null, "Lançamento incompleto! Favor revisar todos campos.", AlertType.WARNING);
+			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos.", AlertType.WARNING);
 		}
 	}
 

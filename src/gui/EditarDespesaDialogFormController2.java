@@ -24,9 +24,11 @@ import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
+import model.servico.UsuarioService;
 
 public class EditarDespesaDialogFormController2 implements Initializable{
 	
@@ -76,7 +78,10 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 			controller.setDespesaService(new DespesaService());
 			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());			
+			controller.setItem(new Item());	
+			controller.setUsuario(new Usuario());
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarUsuarioLogado();
 			controller.carregarTableView();
 			});
 		}

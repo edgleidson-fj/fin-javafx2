@@ -115,6 +115,10 @@ public class LanAPagarController implements Initializable {
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
+		if(txtReferencia.getText().equals("")) {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir registro do lançamento ", AlertType.WARNING);
+		}
+		else {
 		if (datePickerData.getValue() == null) {
 			Alertas.mostrarAlerta("", null, "Necessário informar a data para pagamento", AlertType.INFORMATION);
 		} else {
@@ -132,6 +136,7 @@ public class LanAPagarController implements Initializable {
 		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
 		int id = obj.getId();
 		idLan = id;
+		}
 	}
 
 	@FXML
@@ -150,6 +155,9 @@ public class LanAPagarController implements Initializable {
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
 		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));
+		if(txtItem.getText().equals("") || txtPreco.getText().equals("")) {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir Item e Valor", AlertType.WARNING);
+		}else {
 		despesaService.salvar(desp);
 		// Item
 		Item item = new Item();
@@ -178,7 +186,8 @@ public class LanAPagarController implements Initializable {
 			}
 			lbTotal.setText(String.format("R$ %.2f", soma));
 			obj.setTotal(soma);
-			lancamentoService.atualizar(obj);		
+			lancamentoService.atualizar(obj);	
+		}
 		 }
 
 	@FXML
@@ -195,9 +204,12 @@ public class LanAPagarController implements Initializable {
 			  controller.setDespesa(new Despesa());
 			  controller.setItemService(new ItemService()); 
 			  controller.setItem(new Item());
+			  controller.setUsuario(new Usuario());
+				controller.setUsuarioService(new UsuarioService());
+				controller.carregarUsuarioLogado();
 			  }); 
 		}catch (RuntimeException ex) {
-			Alertas.mostrarAlerta("Pendente", null, "Falta registrar lançamento", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
 		}
 	}
 
@@ -205,8 +217,10 @@ public class LanAPagarController implements Initializable {
 	public void onBtCancelar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		lancamentoService.cancelar(obj);		
+		obj.setId(Utils.stringParaInteiro(txtId.getText()));if(!txtId.getText().equals("")) {
+			lancamentoService.cancelar(obj);
+			Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
+		}
 		  carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {
 		  controller.setLancamentoService(new LancamentoService());
 		  controller.setLancamento(new Lancamento()); 
@@ -214,6 +228,9 @@ public class LanAPagarController implements Initializable {
 		  controller.setDespesa(new Despesa());
 		  controller.setItemService(new ItemService()); 
 		  controller.setItem(new Item());
+		  controller.setUsuario(new Usuario());
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarUsuarioLogado();
 		   });		 
 	}
 	// ------------------------------------------------------------------

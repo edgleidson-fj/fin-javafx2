@@ -93,7 +93,7 @@ public class LoginController implements Initializable {
 				//controller.carregarUsuarioLogado();
 			});			
 		} else{
-			System.out.println("Usuário Errado!");
+			Alertas.mostrarAlerta(null,null , "Usuário ou Senha incorreto!", AlertType.ERROR);
 		}			
 		}
 	
