@@ -97,6 +97,10 @@ public class PagamentoDialogFormController implements Initializable {
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		obj.setTipoPagamento(cmbTipoPag.getValue());
+		if(cmbTipoPag.getValue()== null) {
+			Alertas.mostrarAlerta("Atenção", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
+		}
+		else {
 		// Desconto-Acréscimo
 		double total = Utils.stringParaDouble(lbTotal.getText());
 		total -= Utils.stringParaDouble(txtDesconto.getText());
@@ -120,6 +124,8 @@ public class PagamentoDialogFormController implements Initializable {
 			controller.setLancamento(new Lancamento());
 			controller.carregarTableView();
 		});
+		 Alertas.mostrarAlerta(null, null, "Pagamento realizado com sucesso", AlertType.INFORMATION);
+		}
 	}
 
 	@FXML
