@@ -226,6 +226,7 @@ public class LanConfigController implements Initializable {
 				controller.setStatusService(new StatusService());
 				controller.carregarTableView();
 			});
+			 Alertas.mostrarAlerta(null, null, "Lançamento editado com sucesso", AlertType.INFORMATION);
 		} catch (RuntimeException ex) {
 			Alertas.mostrarAlerta("Pendente", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
 		}
@@ -247,6 +248,7 @@ public class LanConfigController implements Initializable {
 			controller.setStatusService(new StatusService());
 			controller.carregarTableView();
 		});
+		 Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
 	}
 	
 		@FXML
