@@ -196,10 +196,14 @@ public class LanAPagarController implements Initializable {
 		Lancamento obj = new Lancamento();
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
+			if(txtId.getText().equals("") || txtPreco.getText().equals("")) {
+			 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+			}
+			else {
 			lancamentoService.confirmarLanAPagar(obj);
-			 carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> { 
-			  controller.setLancamentoService(new LancamentoService());
+			 carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {			  
 			  controller.setLancamento(new Lancamento()); 
+			  controller.setLancamentoService(new LancamentoService());
 			  controller.setDespesaService(new  DespesaService()); 
 			  controller.setDespesa(new Despesa());
 			  controller.setItemService(new ItemService()); 
@@ -208,6 +212,7 @@ public class LanAPagarController implements Initializable {
 				controller.setUsuarioService(new UsuarioService());
 				controller.carregarUsuarioLogado();
 			  }); 
+			}
 		}catch (RuntimeException ex) {
 			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
 		}

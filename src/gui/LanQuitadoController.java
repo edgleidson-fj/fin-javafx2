@@ -212,6 +212,10 @@ public class LanQuitadoController implements Initializable {
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			obj.setTipoPagamento(cmbTipoPag.getValue());
+			if(txtId.getText().equals("") || txtPreco.getText().equals("")) {
+				 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+			}
+			else {
 			if(cmbTipoPag.getValue()== null) {
 				Alertas.mostrarAlerta("Atenção", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
 			}
@@ -233,6 +237,7 @@ public class LanQuitadoController implements Initializable {
 				controller.carregarObjetosAssociados();
 				controller.carregarUsuarioLogado();
 			});
+			}
 			}
 		} catch (RuntimeException ex) {
 			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos.", AlertType.WARNING);
