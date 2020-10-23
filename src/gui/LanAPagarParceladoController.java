@@ -127,6 +127,10 @@ public class LanAPagarParceladoController implements Initializable {
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
+		if(txtReferencia.getText().equals("")) {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir registro do lançamento ", AlertType.WARNING);
+		}
+		else {
 		if (datePickerData.getValue() == null) {
 			Alertas.mostrarAlerta("", null, "Necessário informar a data para pagamento", AlertType.INFORMATION);
 		} else {
@@ -157,6 +161,7 @@ public class LanAPagarParceladoController implements Initializable {
 			idLan = id;
 			aux = id - parcela;
 		}
+		}
 	}
 
 	@FXML
@@ -168,6 +173,9 @@ public class LanAPagarParceladoController implements Initializable {
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
 		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));
+		if(txtItem.getText().equals("") || txtPreco.getText().equals("")) {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir Item e Valor", AlertType.WARNING);
+		}else {
 		despesaService.salvar(desp);
 		despesaId = desp.getId();
 
@@ -194,7 +202,7 @@ public class LanAPagarParceladoController implements Initializable {
 			obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 			tbDespesa.setItems(obsListaDespesaTbView);
 			iniciarBotaoRemover();
-			iniciarBotaoEditar();
+			//iniciarBotaoEditar();
 			// Valor Total
 			Double soma = 0.0;
 			for (Despesa tab : obsListaDespesaTbView) {
@@ -206,6 +214,7 @@ public class LanAPagarParceladoController implements Initializable {
 			lancamentoService.atualizar(obj);
 		}
 		lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+		}
 	}
 
 	@FXML
@@ -227,8 +236,7 @@ public class LanAPagarParceladoController implements Initializable {
 			controller.setItem(new Item());
 		});
 		// }catch (RuntimeException ex) {
-		// Alertas.mostrarAlerta("Pendente", null, "Falta registrar lançamento",
-		// AlertType.INFORMATION);
+		// Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
 		// }
 	}
 
@@ -237,14 +245,20 @@ public class LanAPagarParceladoController implements Initializable {
 		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		lancamentoService.cancelar(obj);
+		if(!txtId.getText().equals("")) {
+			lancamentoService.cancelar(obj);
+			Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
+		}
 		carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
-			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.setLancamentoService(new LancamentoService());			
 			controller.setDespesaService(new DespesaService());
 			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
 			controller.setItem(new Item());
+			controller.setUsuario(new Usuario());
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarUsuarioLogado();
 		});
 	}
 	// ------------------------------------------------------------------
@@ -324,12 +338,12 @@ public class LanAPagarParceladoController implements Initializable {
 		}
 	}
 
-	public void criarDialogForm(Despesa obj, String nomeAbsoluto, Stage stagePai) {
+	/*public void criarDialogForm(Despesa obj, String nomeAbsoluto, Stage stagePai) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
 			// Referencia para controlador.
-			EditarDespesaDialogFormController2 controle = loader.getController();
+			EditarDespesaDialogFormController4 controle = loader.getController();
 			controle.setLancamentoService(new LancamentoService());
 			Lancamento lan = new Lancamento();
 			lan.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -351,10 +365,10 @@ public class LanAPagarParceladoController implements Initializable {
 			ex.printStackTrace();
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
 		}
-	}
+	}*/
 	// -----------------------------------------------------------------------------------------------------------
 
-	private void iniciarBotaoEditar() {
+/*	private void iniciarBotaoEditar() {
 		colunaEditar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaEditar.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
 			private final Button button = new Button("editar");
@@ -367,11 +381,11 @@ public class LanAPagarParceladoController implements Initializable {
 					return;
 				}
 				setGraphic(button);
-				button.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView2.fxml",
+				button.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView4.fxml",
 						Utils.stageAtual(evento)));
 			}
 		});
-	}
+	}*/
 
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -436,7 +450,7 @@ public class LanAPagarParceladoController implements Initializable {
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
 		iniciarBotaoRemover();
-		iniciarBotaoEditar();
+		//iniciarBotaoEditar();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
 		// datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(),

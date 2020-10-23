@@ -217,7 +217,8 @@ public class LanAPagarController implements Initializable {
 	public void onBtCancelar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));if(!txtId.getText().equals("")) {
+		obj.setId(Utils.stringParaInteiro(txtId.getText()));
+		if(!txtId.getText().equals("")) {
 			lancamentoService.cancelar(obj);
 			Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
 		}
