@@ -26,11 +26,13 @@ import model.entidade.Item;
 import model.entidade.Lancamento;
 import model.entidade.Status;
 import model.entidade.TipoPag;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.StatusService;
 import model.servico.TipoPagService;
+import model.servico.UsuarioService;
 
 public class EditarDespesaDialogFormController implements Initializable{
 	
@@ -85,7 +87,10 @@ public class EditarDespesaDialogFormController implements Initializable{
 			controller.setTipoPagService(new TipoPagService());
 			controller.setStatus(new Status());
 			controller.setStatusService(new StatusService());
+			controller.setUsuario(new Usuario());
+			controller.setUsuarioService(new UsuarioService());
 			controller.carregarObjetosAssociados();
+			controller.carregarUsuarioLogado();
 			controller.carregarTableView();
 			});
 		}

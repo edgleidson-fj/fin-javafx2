@@ -26,6 +26,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -132,6 +133,10 @@ public class LanQuitadoController implements Initializable {
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
+		if(txtReferencia.getText().equals("")) {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir registro do lançamento ", AlertType.WARNING);
+		}
+		else {
 		if (datePickerData.getValue() == null) {
 			obj.setData(hoje);
 		} else {
@@ -150,6 +155,7 @@ public class LanQuitadoController implements Initializable {
 		idLan = id;
 		ref = txtReferencia.getText();
 		}
+	}
 
 	@FXML
 	public void onBtItemAction(ActionEvent evento) {
@@ -165,7 +171,10 @@ public class LanQuitadoController implements Initializable {
 		// Despesa
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
-		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));
+		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));		
+		if(txtItem.getText().equals("") || txtPreco.getText().equals("")) {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir Item e Valor", AlertType.WARNING);
+		}else {
 		despesaService.salvar(desp);
 		// Item
 		Item item = new Item();
@@ -193,8 +202,9 @@ public class LanQuitadoController implements Initializable {
 		lbTotal.setText(String.format("R$ %.2f", soma));
 		obj.setTotal(soma);
 		lancamentoService.atualizar(obj);
+		}
 	}
-
+		
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
@@ -202,10 +212,14 @@ public class LanQuitadoController implements Initializable {
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			obj.setTipoPagamento(cmbTipoPag.getValue());
+			if(cmbTipoPag.getValue()== null) {
+				Alertas.mostrarAlerta("Atenção", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
+			}
+			else {
 			lancamentoService.confirmarLanQuitado(obj);
-			carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {
-				controller.setLancamentoService(new LancamentoService());
+			carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {				
 				controller.setLancamento(new Lancamento());
+				controller.setLancamentoService(new LancamentoService());
 				controller.setDespesaService(new DespesaService());
 				controller.setDespesa(new Despesa());
 				controller.setItemService(new ItemService());
@@ -214,10 +228,14 @@ public class LanQuitadoController implements Initializable {
 				controller.setTipoPagService(new TipoPagService());
 				controller.setStatus(new Status());
 				controller.setStatusService(new StatusService());
+				controller.setUsuario(new Usuario());
+				controller.setUsuarioService(new UsuarioService());
 				controller.carregarObjetosAssociados();
+				controller.carregarUsuarioLogado();
 			});
+			}
 		} catch (RuntimeException ex) {
-			Alertas.mostrarAlerta("Pendente", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
+			Alertas.mostrarAlerta("Pendente", null, "Lançamento incompleto! Favor revisar todos campos.", AlertType.WARNING);
 		}
 	}
 
@@ -226,10 +244,13 @@ public class LanQuitadoController implements Initializable {
 		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		lancamentoService.cancelar(obj);
+		if(!txtId.getText().equals("")) {
+			lancamentoService.cancelar(obj);
+			Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
+		}
 		carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {
-			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			controller.setLancamentoService(new LancamentoService());
 			controller.setDespesaService(new DespesaService());
 			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
@@ -238,8 +259,11 @@ public class LanQuitadoController implements Initializable {
 			controller.setTipoPagService(new TipoPagService());
 			controller.setStatus(new Status());
 			controller.setStatusService(new StatusService());
+			controller.setUsuario(new Usuario());
+			controller.setUsuarioService(new UsuarioService());
 			controller.carregarObjetosAssociados();
-		});
+			controller.carregarUsuarioLogado();
+		});		
 	}
 	// ------------------------------------------------------------------
 
