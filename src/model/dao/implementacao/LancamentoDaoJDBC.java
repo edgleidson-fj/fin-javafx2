@@ -737,7 +737,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				ps = connection.prepareStatement(
 						"UPDATE lancamento " 
 						+ "SET status_id = 4 "
-						+ "WHERE finalizado = 'N' ");
+						+ "WHERE finalizado = 'N' "
+						+ "OR total = 0");
 			//	ps.setDouble(1, obj.getTotal());
 				ps.executeUpdate();
 			} catch (SQLException ex) {
@@ -771,6 +772,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
+		//Não está excluindo por causa do vinculo do Usuário no Lançamento.
 		@Override
 		public void exclusaoAutomatico(Lancamento obj) {
 			PreparedStatement ps = null;
