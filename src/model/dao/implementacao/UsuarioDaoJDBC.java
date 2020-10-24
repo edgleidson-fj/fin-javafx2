@@ -171,7 +171,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
     
 	
     
- /*   @Override 
+    @Override 
 	public Usuario login(String nome, String senha) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -198,10 +198,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			BD.fecharStatement(ps);
 			BD.fecharResultSet(rs);
 		}
-	}*/
+	}
     
     
-    @Override 
+    /*@Override 
   	public Usuario login(int id, String senha) {
   		PreparedStatement ps = null;
   		ResultSet rs = null;
@@ -227,7 +227,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
   			BD.fecharStatement(ps);
   			BD.fecharResultSet(rs);
   		}
-  	}
+  	}*/
     
     @Override
 	public void logado(Usuario obj) {
@@ -236,9 +236,11 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			ps = connection.prepareStatement(
 					"UPDATE usuario " 
 					+ "SET logado = ? "
-					+ "WHERE usuarioId = ?");
+					//+ "WHERE usuarioId = ?");
+					+ "WHERE usuarioNome = ?");
 			ps.setString(1, obj.getLogado());
-			ps.setInt(2, obj.getId());
+			//ps.setInt(2, obj.getId());
+			ps.setString(2, obj.getNome());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());

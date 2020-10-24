@@ -34,13 +34,13 @@ public class UsuarioService {
 		return dao.buscarPorId(id);
 	}	
 	
-	/*public Usuario login(String nome, String senha){
+	public Usuario login(String nome, String senha){
 		return dao.login(nome, senha);
-	}*/
-	
-	public Usuario login(int id, String senha){
-		return dao.login(id, senha);
 	}
+	
+	/*public Usuario login(int id, String senha){
+		return dao.login(id, senha);
+	}*/
 	
 	public void logado(Usuario obj) {
 		dao.logado(obj);		

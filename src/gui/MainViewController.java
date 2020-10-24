@@ -19,6 +19,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -347,21 +348,15 @@ public class MainViewController implements Initializable {
 	//--------------------------------------------------------
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
-		
-	//	String nome = txtNome.getText();
-		int id = Utils.stringParaInteiro(txtNome.getText());
+		String nome = txtNome.getText();
 		String senha = txtSenha.getText();		
-		//usuarioEntidade.setNome(nome);
-		usuarioEntidade.setId(id);
-		usuarioEntidade.setSenha(senha);	
-		Usuario user = usuarioService.login(id,senha);
-		
+		usuarioEntidade.setNome(nome);
+		usuarioEntidade.setSenha(senha);
+		Usuario user = usuarioService.login(nome, senha);
 		if(user != null) {				
-				usuarioEntidade.setId(id);
+				usuarioEntidade.setNome(nome);
 				usuarioEntidade.setLogado("S");
 				usuarioService.logado(usuarioEntidade);
-				//usuarioId = usuarioEntidade.getId();
 		
 				List<Usuario> lista = usuarioService.buscarTodos();
 			for(Usuario u : lista) {

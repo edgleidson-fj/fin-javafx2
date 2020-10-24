@@ -121,8 +121,9 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 		ResultSet rs = null;
 		try {
 			ps = connection.prepareStatement(
-					"SELECT * FROM tipopag " 
-							+ " ORDER BY nome ");
+					"SELECT * FROM tipopag "
+					+ "WHERE id > 0 " 
+							+ " ORDER BY id ");
 			rs = ps.executeQuery();
 			List<TipoPag> lista = new ArrayList<>();
 
