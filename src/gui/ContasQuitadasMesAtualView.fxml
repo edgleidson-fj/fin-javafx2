@@ -13,19 +13,19 @@
          <children>
             <Label layoutX="254.0" layoutY="14.0" text="CONTAS QUITADAS DO MÊS">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="440.0" prefWidth="733.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
               <columns>
                 <TableColumn fx:id="colunaLanData" prefWidth="88.0" text="DATA" />
-                <TableColumn fx:id="colunaLanId" prefWidth="65.0" text="ID" />
-                  <TableColumn fx:id="colunaLanRef" prefWidth="234.0" text="REFERÊNCIA" />
-                  <TableColumn fx:id="colunaLanDesconto" prefWidth="79.0" text="DESCONTO" />
-                  <TableColumn fx:id="colunaLanAcrescimo" prefWidth="105.0" text="ACRÉSCIMO" />
-                  <TableColumn fx:id="colunaLanValor" prefWidth="55.0" text="VALOR" />
-                  <TableColumn fx:id="colunaTipoPag" prefWidth="208.0" text="FORMA DE PAGAMENTO" />
-                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="39.0" text="x" />
+                <TableColumn fx:id="colunaLanId" prefWidth="50.0" text="ID" />
+                  <TableColumn fx:id="colunaLanRef" prefWidth="210.0" text="REFERÊNCIA" />
+                  <TableColumn fx:id="colunaLanDesconto" prefWidth="72.0" text="DESCONTO" />
+                  <TableColumn fx:id="colunaLanAcrescimo" prefWidth="77.0" text="ACRÉSCIMO" />
+                  <TableColumn fx:id="colunaLanValor" prefWidth="70.0" text="VALOR" />
+                  <TableColumn fx:id="colunaTipoPag" prefWidth="150.0" text="FORMA DE PAGAMENTO" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="39.0" text="x" />
               </columns>
             </TableView>
             <Label fx:id="lbTotal" layoutX="639.0" layoutY="14.0" textFill="#3008f8">

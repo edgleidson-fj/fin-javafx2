@@ -13,7 +13,7 @@
          <children>
             <Label layoutX="254.0" layoutY="14.0" text="CONTAS EM ABERTO DO MÊS">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="447.0" prefWidth="735.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">

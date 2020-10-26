@@ -13,7 +13,7 @@
 
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
    <content>
-      <VBox prefHeight="264.0" prefWidth="430.0">
+      <VBox prefHeight="485.0" prefWidth="785.0">
          <children>
             <MenuBar>
               <menus>
@@ -60,17 +60,17 @@
                   </Menu>
               </menus>
             </MenuBar>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane prefHeight="465.0" prefWidth="785.0">
                <children>
-                  <Button fx:id="btEntrar" layoutX="111.0" layoutY="75.0" mnemonicParsing="false" onAction="#onBtConfirmar" text="Entrar" />
-                  <Label layoutX="45.0" layoutY="49.0" text="Senha" />
-                  <Label layoutX="50.0" layoutY="22.0" text="Usuário" />
-                  <TextField fx:id="txtSenha" accessibleRole="PASSWORD_FIELD" layoutX="111.0" layoutY="45.0">
+                  <Button fx:id="btEntrar" layoutX="379.0" layoutY="240.0" mnemonicParsing="false" onAction="#onBtConfirmar" text="Entrar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="379.0" AnchorPane.rightAnchor="358.0" AnchorPane.topAnchor="240.0" />
+                  <Label layoutX="314.0" layoutY="205.0" text="Senha" AnchorPane.leftAnchor="314.0" />
+                  <Label layoutX="314.0" layoutY="171.0" text="Usuário" AnchorPane.leftAnchor="314.0" />
+                  <TextField fx:id="txtSenha" accessibleRole="PASSWORD_FIELD" layoutX="362.0" layoutY="201.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.bottomAnchor="234.0" AnchorPane.leftAnchor="365.0" AnchorPane.rightAnchor="282.0" AnchorPane.topAnchor="201.0">
                      <effect>
                         <Bloom />
                      </effect></TextField>
-                  <TextField fx:id="txtNome" layoutX="111.0" layoutY="15.0" />
-                  <Button fx:id="btCriarUsuario" layoutX="189.0" layoutY="75.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" text="Criar" />
+                  <TextField fx:id="txtNome" layoutX="362.0" layoutY="167.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.leftAnchor="365.0" AnchorPane.rightAnchor="282.0" />
+                  <Button fx:id="btCriarUsuario" layoutX="450.0" layoutY="240.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" text="Criar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="450.0" />
                </children>
             </AnchorPane>
          </children>

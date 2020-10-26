@@ -134,7 +134,7 @@ public class PagamentoDialogFormController implements Initializable {
 	}
 
 	public void onBtAtualizarTotal() {
-		lbDespesa.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
+		lbDespesa.setText(String.format("R$ %.2f", lancamentoEntidade.getTotal()));
 		double total = lancamentoEntidade.getTotal();
 		if (Utils.stringParaDouble(txtDesconto.getText()) != 0) {
 			total -= Utils.stringParaDouble(txtDesconto.getText());
@@ -146,7 +146,7 @@ public class PagamentoDialogFormController implements Initializable {
 			lbOutro.setText(String.format("+%.2f", Utils.stringParaDouble(txtAcrescimo.getText())));
 			 acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
 		}
-		lbTotal.setText(String.format("%.2f", total));
+		lbTotal.setText(String.format("R$ %.2f", total));
 		txtDesconto.setText(String.valueOf(0));
 		txtAcrescimo.setText(String.valueOf(0));
 	}
@@ -194,7 +194,7 @@ public class PagamentoDialogFormController implements Initializable {
 	public void atualizarDialogForm() {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtRef.setText(lancamentoEntidade.getReferencia());
-		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
+		lbTotal.setText(String.format("R$ %.2f", lancamentoEntidade.getTotal()));
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		txtDesconto.setText(String.valueOf(0));

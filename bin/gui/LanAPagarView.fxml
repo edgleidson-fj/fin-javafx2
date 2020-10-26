@@ -45,7 +45,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lbUsuario" layoutX="607.0" layoutY="411.0" text="Label" />
+            <Label fx:id="lbUsuario" layoutX="607.0" layoutY="411.0" text="Label" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="30.0" />
          </children>
       </AnchorPane>
    </children>

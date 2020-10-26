@@ -40,7 +40,7 @@
             </TableView>
             <Button fx:id="btAtualizar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtAtualizar" prefHeight="42.0" prefWidth="123.0" text="Atualizar" />
             <Button fx:id="btCancelar" layoutX="240.0" layoutY="397.0" mnemonicParsing="false" onAction="#onBtCancelar" prefHeight="42.0" prefWidth="123.0" text="Cancelar" />
-            <Label fx:id="lbTotal" layoutX="484.0" layoutY="247.0" prefHeight="107.0" prefWidth="248.0" textFill="#3008f8">
+            <Label fx:id="lbTotal" layoutX="484.0" layoutY="247.0" prefHeight="107.0" prefWidth="248.0" textFill="#3008f8" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="5.0">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>

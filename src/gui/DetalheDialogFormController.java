@@ -99,7 +99,7 @@ public class DetalheDialogFormController implements Initializable {
 		txtRef.setText(lancamentoEntidade.getReferencia());
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
+		lbTotal.setText(String.format("R$ %.2f", lancamentoEntidade.getTotal()));
 		if (lancamentoEntidade.getDesconto() != 0) {
 			lbDescontoAcrescimo.setText(String.format("Desconto %.2f",lancamentoEntidade.getDesconto()));
 		}

@@ -16,10 +16,10 @@
          <children>
             <Label layoutX="254.0" layoutY="14.0" text="CONTAS QUITADAS POR PERÍODO" AnchorPane.leftAnchor="215.0">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" maxHeight="370.0" prefHeight="370.0" prefWidth="820.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="113.0">
+            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" maxHeight="370.0" prefHeight="331.0" prefWidth="847.0" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="113.0">
               <columns>
                 <TableColumn fx:id="colunaLanData" text="DATA" />
                 <TableColumn fx:id="colunaLanId" prefWidth="60.0" text="ID" />
