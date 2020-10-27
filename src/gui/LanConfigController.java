@@ -53,7 +53,6 @@ import model.entidade.TipoPag;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
-import model.servico.StatusService;
 import model.servico.TipoPagService;
 
 public class LanConfigController implements Initializable {
@@ -65,9 +64,6 @@ public class LanConfigController implements Initializable {
 	private DespesaService despesaService;
 	private Despesa despesaEntidade;
 	private TipoPagService tipoPagService;
-	private TipoPag tipoPagEntidade;
-	private StatusService statusService;
-	private Status statusEntidade;
 	// ----------------------------------------------------------------
 
 	@FXML
@@ -121,7 +117,6 @@ public class LanConfigController implements Initializable {
 //--------------------------------------------------------
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<Despesa> obsListaDespesaTbView;
-	private ObservableList<Status> obsListaStatus;
 	// ---------------------------------------------------------
 
 	double total;
@@ -130,31 +125,10 @@ public class LanConfigController implements Initializable {
 	int idItem;
 	String ref;
 
-	/*@FXML
-	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
-		total += 0.0;
-		Date hoje = new Date();
-		Stage parentStage = Utils.stageAtual(evento);
-		Lancamento obj = new Lancamento();
-		obj.setReferencia(txtReferencia.getText());
-		obj.setTotal(total);
-		if (datePickerData.getValue() == null) {
-			obj.setData(hoje);
-		} else {
-			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
-			obj.setData(Date.from(instant));
-		}
-		lancamentoService.salvar(obj);
-		txtId.setText(String.valueOf(obj.getId()));
-		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
-		int id = obj.getId();
-		idLan = id;
-		ref = txtReferencia.getText();
-	}*/
+	
 
 	@FXML
 	public void onBtItemAction(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Locale.setDefault(Locale.US);
 		// Lancamento
 		Lancamento obj = new Lancamento();
@@ -177,8 +151,6 @@ public class LanConfigController implements Initializable {
 		total += desp.getPreco();
 		lbTotal.setText(String.format("R$ %.2f", total));
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-	//	obj.setTotal(total);
-	//	lancamentoService.atualizar(obj);
 		// Limpando os campos
 		txtItem.setText("");
 		txtPreco.setText(String.valueOf(0));
@@ -187,7 +159,6 @@ public class LanConfigController implements Initializable {
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
 		iniciarBotaoRemover();
-		//iniciarBotaoEditar();
 		// Valor Total
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
@@ -201,7 +172,6 @@ public class LanConfigController implements Initializable {
 
 	@FXML
 	public void onBtAtualizar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -216,14 +186,9 @@ public class LanConfigController implements Initializable {
 			obj.setTipoPagamento(cmbTipoPag.getValue());
 			}	
 		lancamentoService.lanConfig(obj);
-		//parentStage.close();
 			carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
 				controller.setLancamentoService(new LancamentoService());
 				controller.setLancamento(new Lancamento());
-				controller.setTipoPag(new TipoPag());
-				controller.setTipoPagService(new TipoPagService());
-				controller.setStatus(new Status());
-				controller.setStatusService(new StatusService());
 				controller.carregarTableView();
 			});
 			 Alertas.mostrarAlerta(null, null, "Lançamento editado com sucesso", AlertType.INFORMATION);
@@ -234,18 +199,12 @@ public class LanConfigController implements Initializable {
 
 	@FXML
 	public void onBtCancelar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		lancamentoService.cancelar(obj);
-	//	parentStage.close();
 		carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			controller.setTipoPag(new TipoPag());
-			controller.setTipoPagService(new TipoPagService());
-			controller.setStatus(new Status());
-			controller.setStatusService(new StatusService());
 			controller.carregarTableView();
 		});
 		 Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
@@ -253,15 +212,9 @@ public class LanConfigController implements Initializable {
 	
 		@FXML
 		public void onBtVoltar(ActionEvent evento) {
-			Stage parentStage = Utils.stageAtual(evento);	
-			//parentStage.close();
 			carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
 				controller.setLancamentoService(new LancamentoService());
 				controller.setLancamento(new Lancamento());
-				controller.setTipoPag(new TipoPag());
-				controller.setTipoPagService(new TipoPagService());
-				controller.setStatus(new Status());
-				controller.setStatusService(new StatusService());
 				controller.carregarTableView();
 			});
 	}
@@ -294,24 +247,10 @@ public class LanConfigController implements Initializable {
 	public void setTipoPagService(TipoPagService tipoPagService) {
 		this.tipoPagService = tipoPagService;
 	}
-
-	public void setTipoPag(TipoPag tipoPagEntidade) {
-		this.tipoPagEntidade = tipoPagEntidade;
-	}
-
-	public void setStatusService(StatusService statusService) {
-		this.statusService = statusService;
-	}
-
-	public void setStatus(Status tipoPagEntidade) {
-		this.statusEntidade = statusEntidade;
-	}
-
 	// -----------------------------------------------------------------
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarComboBoxTipoPag();
-	//	inicializarComboBoxStatus();
 		inicializarNodes();
 		if (lancamentoEntidade != null) {
 			carregarTableView();
@@ -325,7 +264,6 @@ public class LanConfigController implements Initializable {
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		cmbTipoPag.setValue(lancamentoEntidade.getTipoPagamento());
-	//	cmbStatus.setValue(lancamentoEntidade.getStatus());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		total = lancamentoEntidade.getTotal();
 		lbStatus.setText(lancamentoEntidade.getStatus().getNome());
@@ -353,11 +291,7 @@ public class LanConfigController implements Initializable {
 		List<TipoPag> listaTipoPag = tipoPagService.buscarTodos();
 		obsListaTipoPag = FXCollections.observableArrayList(listaTipoPag);
 		cmbTipoPag.setItems(obsListaTipoPag);
-		
-		/*List<Status> listaStatus = statusService.buscarTodos();
-		obsListaStatus = FXCollections.observableArrayList(listaStatus);
-		cmbStatus.setItems(obsListaStatus);*/
-	}
+		}
 
 	private void inicializarComboBoxTipoPag() {
 		Callback<ListView<TipoPag>, ListCell<TipoPag>> factory = lv -> new ListCell<TipoPag>() {
@@ -371,17 +305,6 @@ public class LanConfigController implements Initializable {
 		cmbTipoPag.setButtonCell(factory.call(null));
 	}
 	
-	/*private void inicializarComboBoxStatus() {
-		Callback<ListView<Status>, ListCell<Status>> factory = lv -> new ListCell<Status>() {
-			@Override
-			protected void updateItem(Status item, boolean empty) {
-				super.updateItem(item, empty);
-				setText(empty ? "" : item.getNome());
-			}
-		};
-		cmbStatus.setCellFactory(factory);
-		cmbStatus.setButtonCell(factory.call(null));
-	}*/
 	// --------------------------------------------------
 
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
@@ -409,7 +332,7 @@ public class LanConfigController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
-			// Referencia para controlador.
+
 			EditarDespesaDialogFormController3 controle = loader.getController();
 			controle.setLancamentoService(new LancamentoService());
 			controle.setDespesaService(new DespesaService());
@@ -422,7 +345,7 @@ public class LanConfigController implements Initializable {
 			controle.setDespesaService(new DespesaService());
 			controle.setDespesa(obj);
 			controle.carregarCamposDeCadastro();
-			// Caixa de Dialogo.
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
@@ -436,25 +359,6 @@ public class LanConfigController implements Initializable {
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------
-
-/*	private void iniciarBotaoEditar() {
-		colunaEditar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		colunaEditar.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
-			private final Button button = new Button("editar");
-
-			@Override
-			protected void updateItem(Despesa obj, boolean empty) {
-				super.updateItem(obj, empty);
-				if (obj == null) {
-					setGraphic(null);
-					return;
-				}
-				setGraphic(button);
-				button.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView3.fxml",
-						Utils.stageAtual(evento)));
-			}
-		});
-	}*/
 
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -519,7 +423,6 @@ public class LanConfigController implements Initializable {
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
 		iniciarBotaoRemover();
-		//iniciarBotaoEditar();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
 	//	datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));

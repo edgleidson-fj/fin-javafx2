@@ -34,24 +34,15 @@ import model.entidade.Item;
 import model.entidade.Lancamento;
 import model.entidade.Status;
 import model.entidade.TipoPag;
-import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
-import model.servico.StatusService;
 import model.servico.TipoPagService;
-import model.servico.UsuarioService;
 
 public class TodasContasController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	private TipoPagService tipoPagService;
-	private TipoPag tipoPagEntidade;
-	private StatusService statusService;
-	private Status statusEntidade;	
-	private UsuarioService usuarioService;
-	private Usuario usuarioEntidade;	
 	// -------------------------------------------
 
 	@FXML
@@ -87,25 +78,7 @@ public class TodasContasController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-	public void setTipoPagService(TipoPagService tipoPagService) {
-		this.tipoPagService = tipoPagService;
-	}
-	public void setTipoPag(TipoPag tipoPagEntidade) {
-		this.tipoPagEntidade = tipoPagEntidade;
-	}
-	public void setStatusService(StatusService statusService) {
-		this.statusService = statusService;
-	}
-	public void setStatus(Status statusEntidade) {
-		this.statusEntidade = statusEntidade;
-	}
-	public void setUsuarioService(UsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
-
-	public void setUsuario(Usuario usuarioEntidade) {
-		this.usuarioEntidade = usuarioEntidade;
-	}
+	
 	// ----------------------------------------------------------
 	
 	@Override
@@ -132,7 +105,6 @@ public class TodasContasController implements Initializable {
 		List<Lancamento> lista = lancamentoService.buscarTodos();
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
-		//criarBotaoDetalhe();
 		criarBotaoConfig();
 	}
 //---------------------------------------------------------------------------
@@ -156,12 +128,12 @@ public class TodasContasController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-	// Detalhe do Lançamento.
+
 	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai, String dialogForm) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
-			// Referencia para controlador.
+
 			if(dialogForm == "detalhe"){DetalheDialogFormController controle = loader.getController();
 			controle.setLancamento(obj);
 			controle.setLancamentoService(new LancamentoService());
@@ -177,15 +149,12 @@ public class TodasContasController implements Initializable {
 				controle.setDespesa(new Despesa());
 				controle.setItemService(new ItemService());
 				controle.setItem(new Item());
-				controle.setTipoPag(new TipoPag());
 				controle.setTipoPagService(new TipoPagService());
-				controle.setStatus(new Status());
-				controle.setStatusService(new StatusService());
 				controle.carregarCamposDeCadastro();
 				controle.carregarObjetosAssociados();
 				controle.carregarTableView();
 			}
-			// Caixa de Dialogo.
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
@@ -199,7 +168,7 @@ public class TodasContasController implements Initializable {
 		}
 	}
 
-	private void criarBotaoDetalhe() {
+	/*private void criarBotaoDetalhe() {
 		colunaDetalhe.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaDetalhe.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
 			private final Button botao = new Button("+");
@@ -218,7 +187,7 @@ public class TodasContasController implements Initializable {
 						evento -> criarDialogForm(obj, "/gui/DetalheDialogFormView.fxml", Utils.stageAtual(evento),dialogForm));
 			}
 		});
-	}
+	}*/
 	
 	private void criarBotaoConfig() {
 		colunaConfig.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -233,9 +202,8 @@ public class TodasContasController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
-				String dialogForm = "config";
+				//String dialogForm = "config";
 				botao.setOnAction(
-					//	evento -> criarDialogForm(obj, "/gui/LanConfigView.fxml", Utils.stageAtual(evento), dialogForm));
 						evento -> carregarPropriaView("/gui/LanConfigView.fxml", (LanConfigController controle) -> {
 							controle.setLancamento(obj);
 							controle.setLancamentoService(new LancamentoService());
@@ -243,10 +211,7 @@ public class TodasContasController implements Initializable {
 							controle.setDespesa(new Despesa());
 							controle.setItemService(new ItemService());
 							controle.setItem(new Item());
-							controle.setTipoPag(new TipoPag());
 							controle.setTipoPagService(new TipoPagService());
-							controle.setStatus(new Status());
-							controle.setStatusService(new StatusService());
 							controle.carregarCamposDeCadastro();
 							controle.carregarObjetosAssociados();
 							controle.carregarTableView();

@@ -121,7 +121,6 @@ public class LanQuitadoController implements Initializable {
 	int idDesp;
 	int idItem;
 	String ref;
-	//int userId;
 	int usuarioId;
 	String userNome;
 
@@ -143,7 +142,7 @@ public class LanQuitadoController implements Initializable {
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			obj.setData(Date.from(instant));
 		}
-		//Teste de usuário.
+		//Usuário logado.
 		Usuario user = new Usuario();
 		user.setId(usuarioId);
 		obj.setUsuario(user);
@@ -392,7 +391,7 @@ public class LanQuitadoController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
-			// Referencia para controlador.
+
 			EditarDespesaDialogFormController controle = loader.getController();
 			controle.setLancamentoService(new LancamentoService());
 			Lancamento lan = new Lancamento();
@@ -403,7 +402,7 @@ public class LanQuitadoController implements Initializable {
 			controle.setDespesaService(new DespesaService());
 			controle.setDespesa(obj);
 			controle.carregarCamposDeCadastro();
-			// Caixa de Dialogo.
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));

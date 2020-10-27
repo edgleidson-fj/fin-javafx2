@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -35,23 +34,14 @@ import javafx.stage.Stage;
 import model.entidade.Lancamento;
 import model.entidade.Status;
 import model.entidade.TipoPag;
-import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
-import model.servico.StatusService;
 import model.servico.TipoPagService;
-import model.servico.UsuarioService;
 
 public class ContasEmAbertoPeriodoController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	private TipoPagService tipoPagService;
-	private TipoPag tipoPagEntidade;
-	private StatusService statusService;
-	private Status statusEntidade;
-	private UsuarioService usuarioService;
-	private Usuario usuarioEntidade;
 	// -------------------------------------------
 
 	@FXML
@@ -96,33 +86,10 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-
-	public void setTipoPagService(TipoPagService tipoPagService) {
-		this.tipoPagService = tipoPagService;
-	}
-
-	public void setTipoPag(TipoPag tipoPagEntidade) {
-		this.tipoPagEntidade = tipoPagEntidade;
-	}
-
-	public void setStatusService(StatusService statusService) {
-		this.statusService = statusService;
-	}
-
-	public void setStatus(Status statusEntidade) {
-		this.statusEntidade = statusEntidade;
-	}
-	public void setUsuarioService(UsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
-	public void setUsuario(Usuario usuarioEntidade) {
-		this.usuarioEntidade = usuarioEntidade;
-	}
 	// ----------------------------------------------------------
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Instant instant1 = Instant.from(datePickerDataInicial.getValue().atStartOfDay(ZoneId.systemDefault()));
 		Date d1 = (Date.from(instant1));
 		Instant instant2 = Instant.from(datePickerDataFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
@@ -193,7 +160,7 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();
 			}
-			// Caixa de Dialogo.
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
@@ -254,21 +221,4 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
-	
-/*	public void carregarUsuarioLogado() {
-		if(usuarioEntidade == null) {
-			System.out.println("entidade nulo");
-		}
-		if(usuarioService == null) {
-			System.out.println("service nulo");
-		}
-		List<Usuario> lista = usuarioService.buscarTodos();
-		for(Usuario u : lista) {
-			 u.getLogado();
-			
-			 if(u.getLogado().equals("S")) {
-				 lbUsuario.setText(String.valueOf(u.getNome()));
-			 }
-		 }
-	}*/
 }

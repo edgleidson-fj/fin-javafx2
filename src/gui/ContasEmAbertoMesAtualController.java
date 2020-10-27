@@ -15,32 +15,26 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
 import model.entidade.TipoPag;
-import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
-import model.servico.UsuarioService;
 
 public class ContasEmAbertoMesAtualController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	private TipoPagService tipoPagService;
-	private TipoPag tipoPagEntidade;
-	private UsuarioService usuarioService;
-	private Usuario usuarioEntidade;
 	// -------------------------------------------
 
 	@FXML
@@ -59,8 +53,6 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaPagar;
 	@FXML
 	private Label lbTotal;
-	@FXML
-	private Label lbUsuario;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -72,19 +64,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	}
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
-	}
-	public void setTipoPagService(TipoPagService tipoPagService) {
-		this.tipoPagService = tipoPagService;
-	}
-	public void setTipoPag(TipoPag tipoPagEntidade) {
-		this.tipoPagEntidade = tipoPagEntidade;
-	}
-	public void setUsuarioService(UsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
-	public void setUsuario(Usuario usuarioEntidade) {
-		this.usuarioEntidade = usuarioEntidade;
-	}
+	}	
 	// ----------------------------------------------------------
 
 	@Override
@@ -119,7 +99,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
-			// Referencia para controlador.
+			
 			if(dialogForm == "detalhe") {
 			DetalheDialogFormController controle = loader.getController();
 			controle.setLancamento(obj);
@@ -139,7 +119,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();
 			}
-			// Caixa de Dialogo.
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
@@ -198,22 +178,5 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		lancamentoService.exclusaoAutomatico(lancamentoEntidade);
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
-	}
-	
-	/*public void carregarUsuarioLogado() {
-		if(usuarioEntidade == null) {
-			System.out.println("entidade nulo");
-		}
-		if(usuarioService == null) {
-			System.out.println("service nulo");
-		}
-		List<Usuario> lista = usuarioService.buscarTodos();
-		for(Usuario u : lista) {
-			 u.getLogado();
-			
-			 if(u.getLogado().equals("S")) {
-				 lbUsuario.setText(String.valueOf(u.getNome()));
-			 }
-		 }
-	}*/
+	}	
 }

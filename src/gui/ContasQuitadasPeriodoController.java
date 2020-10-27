@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -33,21 +32,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
-import model.entidade.Status;
 import model.entidade.TipoPag;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
-import model.servico.StatusService;
-import model.servico.TipoPagService;
 
 public class ContasQuitadasPeriodoController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	private TipoPagService tipoPagService;
-	private TipoPag tipoPagEntidade;
-	private StatusService statusService;
-	private Status statusEntidade;
 	// -------------------------------------------
 
 	@FXML
@@ -88,27 +80,10 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-
-	public void setTipoPagService(TipoPagService tipoPagService) {
-		this.tipoPagService = tipoPagService;
-	}
-
-	public void setTipoPag(TipoPag tipoPagEntidade) {
-		this.tipoPagEntidade = tipoPagEntidade;
-	}
-
-	public void setStatusService(StatusService statusService) {
-		this.statusService = statusService;
-	}
-
-	public void setStatus(Status statusEntidade) {
-		this.statusEntidade = statusEntidade;
-	}
 	// ----------------------------------------------------------
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Instant instant1 = Instant.from(datePickerDataInicial.getValue().atStartOfDay(ZoneId.systemDefault()));		
 		Date d1 = (Date.from(instant1));		
 		Instant instant2 = Instant.from(datePickerDataFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
@@ -165,7 +140,7 @@ public class ContasQuitadasPeriodoController implements Initializable {
 			controle.setDespesaService(new DespesaService());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
-			// Caixa de Dialogo.
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));

@@ -22,7 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
-import model.entidade.Item;
 import model.entidade.Lancamento;
 import model.entidade.Usuario;
 import model.servico.DespesaService;
@@ -76,9 +75,7 @@ public class EditarDespesaDialogFormController4 implements Initializable{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(lan);
 			controller.setDespesaService(new DespesaService());
-			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());	
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();

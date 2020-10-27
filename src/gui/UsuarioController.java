@@ -10,7 +10,6 @@ import bd.BDException;
 import gui.util.Alertas;
 import gui.util.Restricoes;
 import gui.util.Utils;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,9 +27,7 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 
 	private UsuarioService service;
 	private Usuario entidade;
-	private ObservableList<Usuario> obsLista;
-	//private List<DataChangerListener> dataChangeListeners = new ArrayList<>();
-
+	
 	@FXML
 	private TextField txtId;
 	@FXML
@@ -52,29 +49,11 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 		this.entidade = entidade;
 	}
 	
-/*	public void sobrescrevaDataChangeListeners(DataChangerListener listener) {
-		dataChangeListeners.add(listener);
-	}
-	
-	public void notificacaoDataChangeListeners() {
-		for(DataChangerListener x : dataChangeListeners) {
-			x.onDataChanged();
-		}
-	}
-	
-	@Override
-	public void onDataChanged() {
-		carregarTableView();
-	} */
 
 	int x;
 	public void onBtSalvar() {
 		try {
-			/*List<Usuario> lista = service.buscarTodos();
-			for(Usuario u : lista) {
-				 u.getLogado();*/
-				
-				 if(txtId.getText().equals("")) {
+					 if(txtId.getText().equals("")) {
 						x=1;
 						entidade = dadosDoCampoDeTexto();
 							service.salvar(entidade);

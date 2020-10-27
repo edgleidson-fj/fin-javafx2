@@ -55,9 +55,7 @@ public class LanAPagarController implements Initializable {
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
 	private ItemService itemService;
-	private Item itemEntidade;
 	private DespesaService despesaService;
-	private Despesa despesaEntidade;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;	
 	// ------------------------------------------------------
@@ -110,8 +108,8 @@ public class LanAPagarController implements Initializable {
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
 		total += 0.0;
-		Date hoje = new Date();
-		Stage parentStage = Utils.stageAtual(evento);
+		//Date hoje = new Date();
+		//Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
@@ -125,12 +123,11 @@ public class LanAPagarController implements Initializable {
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			obj.setData(Date.from(instant));
 		}
-		//Teste de usuário.
+		//Usuário Logado.
 				Usuario user = new Usuario();
 				user.setId(usuarioId);
 				obj.setUsuario(user);
 				
-		
 		lancamentoService.salvar(obj);
 		txtId.setText(String.valueOf(obj.getId()));
 		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
@@ -141,7 +138,6 @@ public class LanAPagarController implements Initializable {
 
 	@FXML
 	public void onBtADDItem(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Locale.setDefault(Locale.US);
 		// Lancamento
 		Lancamento obj = new Lancamento();
@@ -164,12 +160,6 @@ public class LanAPagarController implements Initializable {
 		item.setLancamento(obj);
 		item.setDespesa(desp);
 		itemService.salvar(item);
-		/*/ Total
-		total += desp.getPreco();
-		lbTotal.setText(String.format("R$ %.2f", total));
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		obj.setTotal(total);
-		lancamentoService.atualizar(obj);*/
 		// Limpando os campos
 		txtItem.setText("");
 		txtPreco.setText(String.valueOf(0));
@@ -192,7 +182,6 @@ public class LanAPagarController implements Initializable {
 
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -205,9 +194,7 @@ public class LanAPagarController implements Initializable {
 			  controller.setLancamento(new Lancamento()); 
 			  controller.setLancamentoService(new LancamentoService());
 			  controller.setDespesaService(new  DespesaService()); 
-			  controller.setDespesa(new Despesa());
 			  controller.setItemService(new ItemService()); 
-			  controller.setItem(new Item());
 			  controller.setUsuario(new Usuario());
 				controller.setUsuarioService(new UsuarioService());
 				controller.carregarUsuarioLogado();
@@ -220,7 +207,6 @@ public class LanAPagarController implements Initializable {
 
 	@FXML
 	public void onBtCancelar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		if(!txtId.getText().equals("")) {
@@ -231,9 +217,7 @@ public class LanAPagarController implements Initializable {
 		  controller.setLancamentoService(new LancamentoService());
 		  controller.setLancamento(new Lancamento()); 
 		  controller.setDespesaService(new DespesaService()); 
-		  controller.setDespesa(new Despesa());
 		  controller.setItemService(new ItemService()); 
-		  controller.setItem(new Item());
 		  controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
@@ -250,15 +234,11 @@ public class LanAPagarController implements Initializable {
 	public void setItemService(ItemService itemService) {
 		this.itemService = itemService;
 	}
-	public void setItem(Item itemEntidade) {
-		this.itemEntidade = itemEntidade;
-	}
+	
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
-	public void setDespesa(Despesa despesaEntidade) {
-		this.despesaEntidade = despesaEntidade;
-	}
+	
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
@@ -315,7 +295,7 @@ public class LanAPagarController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
-			// Referencia para controlador.
+
 			EditarDespesaDialogFormController2 controle = loader.getController();
 			controle.setLancamentoService(new LancamentoService());
 			Lancamento lan = new Lancamento();
@@ -326,7 +306,7 @@ public class LanAPagarController implements Initializable {
 			controle.setDespesaService(new DespesaService());
 			controle.setDespesa(obj);
 			controle.carregarCamposDeCadastro();
-			// Caixa de Dialogo.
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));

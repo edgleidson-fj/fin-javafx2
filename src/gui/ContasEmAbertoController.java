@@ -27,20 +27,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
 import model.entidade.TipoPag;
-import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
-import model.servico.UsuarioService;
 
 public class ContasEmAbertoController implements Initializable {
 
 	private LancamentoService lancamentoService;
-	private Lancamento lancamentoEntidade;
-	private TipoPagService tipoPagService;
-	private TipoPag tipoPagEntidade;
-	private UsuarioService usuarioService;
-	private Usuario usuarioEntidade;
+	private Lancamento lancamentoEntidade;	
 	// -------------------------------------------
 
 	@FXML
@@ -61,8 +55,6 @@ public class ContasEmAbertoController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaConfig;
 	@FXML
 	private Label lbTotal;
-	@FXML
-	private Label lbUsuario;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -73,18 +65,6 @@ public class ContasEmAbertoController implements Initializable {
 	}
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
-	}
-	public void setTipoPagService(TipoPagService tipoPagService) {
-		this.tipoPagService = tipoPagService;
-	}
-	public void setTipoPag(TipoPag tipoPagEntidade) {
-		this.tipoPagEntidade = tipoPagEntidade;
-	}
-	public void setUsuarioService(UsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
-	public void setUsuario(Usuario usuarioEntidade) {
-		this.usuarioEntidade = usuarioEntidade;
 	}
 	// ----------------------------------------------------------
 
@@ -110,7 +90,6 @@ public class ContasEmAbertoController implements Initializable {
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();
-		//criarBotaoConfig();
 		criarBotaoPagar();
 		// Valor Total
 		Double soma = 0.0;
@@ -124,7 +103,7 @@ public class ContasEmAbertoController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
-			// Referencia para controlador.
+
 			if(dialogForm == "detalhe") {
 				DetalheDialogFormController controle = loader.getController();
 				controle.setLancamento(obj);
@@ -149,12 +128,12 @@ public class ContasEmAbertoController implements Initializable {
 					controle.setLancamento(obj);
 					controle.setLancamentoService(new LancamentoService());
 					controle.setDespesaService(new DespesaService());
-					controle.setTipoPag(new TipoPag());
+					//controle.setTipoPag(new TipoPag());
 					controle.setTipoPagService(new TipoPagService());
 					controle.carregarCamposDeCadastro();		
 					controle.carregarTableView();
 				}
-			// Caixa de Dialogo.
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
@@ -207,48 +186,11 @@ public class ContasEmAbertoController implements Initializable {
 			}
 		});
 	}
-	
-	private void criarBotaoConfig() {
-		colunaConfig.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		colunaConfig.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
-			private final Button botao = new Button("@");
-
-			@Override
-			protected void updateItem(Lancamento obj, boolean vazio) {
-				super.updateItem(obj, vazio);
-				if (obj == null) {
-					setGraphic(null);
-					return;
-				}
-				setGraphic(botao);
-				String dialogForm = "config";
-				botao.setOnAction(
-						evento -> criarDialogForm(obj, "/gui/LanConfigView.fxml", Utils.stageAtual(evento), dialogForm));
-			}
-		});
-	}
-	
+		
 	public void rotinasAutomaticas() {
 		lancamentoEntidade.setTotal(0.00);
 		lancamentoService.exclusaoAutomatico(lancamentoEntidade);
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
-	}
-	
-	public void carregarUsuarioLogado() {
-		if(usuarioEntidade == null) {
-			System.out.println("entidade nulo");
-		}
-		if(usuarioService == null) {
-			System.out.println("service nulo");
-		}
-		List<Usuario> lista = usuarioService.buscarTodos();
-		for(Usuario u : lista) {
-			 u.getLogado();
-			
-			 if(u.getLogado().equals("S")) {
-				 lbUsuario.setText(String.valueOf(u.getNome()));
-			 }
-		 }
-	}
+	}		
 }

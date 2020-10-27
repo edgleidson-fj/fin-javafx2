@@ -139,9 +139,9 @@ public class MainViewController implements Initializable {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.setDespesaService(new DespesaService());
-			controller.setDespesa(new Despesa());
+			//controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());	
+			//controller.setItem(new Item());	
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
 			user.setNome(userNome);
@@ -165,9 +165,9 @@ public class MainViewController implements Initializable {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.setDespesaService(new DespesaService());
-			controller.setDespesa(new Despesa());
+			//controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());	
+			//controller.setItem(new Item());	
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
 			user.setNome(userNome);
@@ -190,8 +190,8 @@ public class MainViewController implements Initializable {
 	carregarView("/gui/ContasQuitadasMesAtualView.fxml", (ContasQuitadasMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			controller.setUsuario(usuarioEntidade);
-			controller.setUsuarioService(new UsuarioService());			
+			//controller.setUsuario(usuarioEntidade);
+			//controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
@@ -227,8 +227,8 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasQuitadasView.fxml", (ContasQuitadasController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			controller.setUsuario(usuarioEntidade);
-			controller.setUsuarioService(new UsuarioService());			
+			//controller.setUsuario(usuarioEntidade);
+			//controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
@@ -247,8 +247,8 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			controller.setUsuario(usuarioEntidade);
-			controller.setUsuarioService(new UsuarioService());
+			//controller.setUsuario(usuarioEntidade);
+			//controller.setUsuarioService(new UsuarioService());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 			//controller.carregarUsuarioLogado();
@@ -271,8 +271,8 @@ public class MainViewController implements Initializable {
 			Usuario user = new Usuario();
 			user.setId(u.getId());
 			user.setNome(u.getNome());
-			controller.setUsuario(user);
-			controller.setUsuarioService(new UsuarioService());			
+			//controller.setUsuario(user);
+			//controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
 			//controller.carregarUsuarioLogado();
 		});
@@ -291,8 +291,8 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoView.fxml", (ContasEmAbertoController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			controller.setUsuario(usuarioEntidade);
-			controller.setUsuarioService(new UsuarioService());
+			//controller.setUsuario(usuarioEntidade);
+			//controller.setUsuarioService(new UsuarioService());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 			//controller.carregarUsuarioLogado();
@@ -369,8 +369,8 @@ public class MainViewController implements Initializable {
 			carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 				controller.setLancamentoService(new LancamentoService());
 				controller.setLancamento(new Lancamento());
-				controller.setUsuario(usuarioEntidade);
-				controller.setUsuarioService(new UsuarioService());
+				//controller.setUsuario(usuarioEntidade);
+				//controller.setUsuarioService(new UsuarioService());
 				controller.rotinasAutomaticas();
 				controller.carregarTableView();
 				//controller.carregarUsuarioLogado();

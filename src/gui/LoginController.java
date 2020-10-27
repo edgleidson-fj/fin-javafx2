@@ -8,32 +8,21 @@ import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alertas;
-import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import model.entidade.Despesa;
-import model.entidade.Item;
 import model.entidade.Lancamento;
-import model.entidade.Status;
-import model.entidade.TipoPag;
 import model.entidade.Usuario;
-import model.servico.DespesaService;
-import model.servico.ItemService;
 import model.servico.LancamentoService;
-import model.servico.StatusService;
-import model.servico.TipoPagService;
 import model.servico.UsuarioService;
 
 public class LoginController implements Initializable {
@@ -81,11 +70,8 @@ public class LoginController implements Initializable {
 			carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 				controller.setLancamentoService(new LancamentoService());
 				controller.setLancamento(new Lancamento());
-				controller.setUsuario(usuarioEntidade);
-				controller.setUsuarioService(new UsuarioService());
 				controller.rotinasAutomaticas();
 				controller.carregarTableView();
-				//controller.carregarUsuarioLogado();
 			});			
 		} else{
 			Alertas.mostrarAlerta(null,null , "Usuário ou Senha incorreto!", AlertType.ERROR);

@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -39,11 +38,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
@@ -58,9 +53,7 @@ public class LanAPagarParceladoController implements Initializable {
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
 	private ItemService itemService;
-	private Item itemEntidade;
 	private DespesaService despesaService;
-	private Despesa despesaEntidade;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;		
 	// ------------------------------------------------------
@@ -106,9 +99,7 @@ public class LanAPagarParceladoController implements Initializable {
 	private ObservableList<Despesa> obsListaDespesaTbView;
 // ---------------------------------------------------------
 
-	// Auxiliar
 	double total;
-	//double t;
 	int idLan;
 	int idDesp;
 	int idItem;
@@ -122,8 +113,8 @@ public class LanAPagarParceladoController implements Initializable {
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
 		total += 0.0;
-		Date hoje = new Date();
-		Stage parentStage = Utils.stageAtual(evento);
+		//Date hoje = new Date();
+		//Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
@@ -146,12 +137,11 @@ public class LanAPagarParceladoController implements Initializable {
 				Date dataParcelas = data.getTime();
 				obj.setData(dataParcelas);
 				
-				//Teste de usuário.
+				//Usuário logado.
 				Usuario user = new Usuario();
 				user.setId(usuarioId);
 				obj.setUsuario(user);
-			
-				
+							
 				lancamentoService.salvar(obj);
 				lancamentoIds = obj.getId();
 			}
@@ -166,9 +156,7 @@ public class LanAPagarParceladoController implements Initializable {
 
 	@FXML
 	public void onBtADDItem(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Locale.setDefault(Locale.US);
-
 		// Despesa
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
@@ -202,7 +190,6 @@ public class LanAPagarParceladoController implements Initializable {
 			obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 			tbDespesa.setItems(obsListaDespesaTbView);
 			iniciarBotaoRemover();
-			//iniciarBotaoEditar();
 			// Valor Total
 			Double soma = 0.0;
 			for (Despesa tab : obsListaDespesaTbView) {
@@ -219,7 +206,6 @@ public class LanAPagarParceladoController implements Initializable {
 
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		if(txtId.getText().equals("") || txtPreco.getText().equals("")) {
 			 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
@@ -234,9 +220,7 @@ public class LanAPagarParceladoController implements Initializable {
 			controller.setLancamento(new Lancamento());
 			controller.setLancamentoService(new LancamentoService());
 			controller.setDespesaService(new DespesaService());
-			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
@@ -246,7 +230,6 @@ public class LanAPagarParceladoController implements Initializable {
 
 	@FXML
 	public void onBtCancelar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		if(!txtId.getText().equals("")) {
@@ -257,9 +240,7 @@ public class LanAPagarParceladoController implements Initializable {
 			controller.setLancamento(new Lancamento());
 			controller.setLancamentoService(new LancamentoService());			
 			controller.setDespesaService(new DespesaService());
-			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
@@ -279,17 +260,12 @@ public class LanAPagarParceladoController implements Initializable {
 		this.itemService = itemService;
 	}
 
-	public void setItem(Item itemEntidade) {
-		this.itemEntidade = itemEntidade;
-	}
-
+	
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
 
-	public void setDespesa(Despesa despesaEntidade) {
-		this.despesaEntidade = despesaEntidade;
-	}
+	
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
@@ -342,55 +318,7 @@ public class LanAPagarParceladoController implements Initializable {
 		}
 	}
 
-	/*public void criarDialogForm(Despesa obj, String nomeAbsoluto, Stage stagePai) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
-			Pane painel = loader.load();
-			// Referencia para controlador.
-			EditarDespesaDialogFormController4 controle = loader.getController();
-			controle.setLancamentoService(new LancamentoService());
-			Lancamento lan = new Lancamento();
-			lan.setId(Utils.stringParaInteiro(txtId.getText()));
-			lan.setTotal(total);
-			lan.setReferencia(txtReferencia.getText());
-			controle.setLancamento(lan);
-			controle.setDespesaService(new DespesaService());
-			controle.setDespesa(obj);
-			controle.carregarCamposDeCadastro();
-			// Caixa de Dialogo.
-			Stage stageDialog = new Stage();
-			stageDialog.setTitle("");
-			stageDialog.setScene(new Scene(painel));
-			stageDialog.setResizable(false); // Redimencionavel.
-			stageDialog.initOwner(stagePai); // Stage pai da janela.
-			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
-			stageDialog.showAndWait();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
-		}
-	}*/
-	// -----------------------------------------------------------------------------------------------------------
-
-/*	private void iniciarBotaoEditar() {
-		colunaEditar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		colunaEditar.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
-			private final Button button = new Button("editar");
-
-			@Override
-			protected void updateItem(Despesa obj, boolean empty) {
-				super.updateItem(obj, empty);
-				if (obj == null) {
-					setGraphic(null);
-					return;
-				}
-				setGraphic(button);
-				button.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView4.fxml",
-						Utils.stageAtual(evento)));
-			}
-		});
-	}*/
-
+	
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
@@ -454,7 +382,6 @@ public class LanAPagarParceladoController implements Initializable {
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
 		iniciarBotaoRemover();
-		//iniciarBotaoEditar();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
 		// datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(),
