@@ -26,7 +26,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -49,13 +48,11 @@ import javafx.util.Callback;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
-import model.entidade.Status;
 import model.entidade.TipoPag;
 import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
-import model.servico.StatusService;
 import model.servico.TipoPagService;
 import model.servico.UsuarioService;
 
@@ -64,13 +61,8 @@ public class LanQuitadoController implements Initializable {
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
 	private ItemService itemService;
-	private Item itemEntidade;
 	private DespesaService despesaService;
-	private Despesa despesaEntidade;
 	private TipoPagService tipoPagService;
-	private TipoPag tipoPagEntidade;
-	private StatusService statusService;
-	private Status statusEntidade;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;
 	// ----------------------------------------------------------------
@@ -128,7 +120,6 @@ public class LanQuitadoController implements Initializable {
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
 		total += 0.0;
 		Date hoje = new Date();
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
@@ -158,7 +149,6 @@ public class LanQuitadoController implements Initializable {
 
 	@FXML
 	public void onBtItemAction(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Locale.setDefault(Locale.US);
 		// Lancamento
 		Lancamento obj = new Lancamento();
@@ -206,7 +196,6 @@ public class LanQuitadoController implements Initializable {
 		
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -224,13 +213,8 @@ public class LanQuitadoController implements Initializable {
 				controller.setLancamento(new Lancamento());
 				controller.setLancamentoService(new LancamentoService());
 				controller.setDespesaService(new DespesaService());
-				controller.setDespesa(new Despesa());
 				controller.setItemService(new ItemService());
-				controller.setItem(new Item());
-				controller.setTipoPag(new TipoPag());
 				controller.setTipoPagService(new TipoPagService());
-				controller.setStatus(new Status());
-				controller.setStatusService(new StatusService());
 				controller.setUsuario(new Usuario());
 				controller.setUsuarioService(new UsuarioService());
 				controller.carregarObjetosAssociados();
@@ -245,7 +229,6 @@ public class LanQuitadoController implements Initializable {
 
 	@FXML
 	public void onBtCancelar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		if(!txtId.getText().equals("")) {
@@ -256,13 +239,8 @@ public class LanQuitadoController implements Initializable {
 			controller.setLancamento(new Lancamento());
 			controller.setLancamentoService(new LancamentoService());
 			controller.setDespesaService(new DespesaService());
-			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());
-			controller.setTipoPag(new TipoPag());
 			controller.setTipoPagService(new TipoPagService());
-			controller.setStatus(new Status());
-			controller.setStatusService(new StatusService());
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarObjetosAssociados();
@@ -283,34 +261,17 @@ public class LanQuitadoController implements Initializable {
 		this.itemService = itemService;
 	}
 
-	public void setItem(Item itemEntidade) {
-		this.itemEntidade = itemEntidade;
-	}
-
+	
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
 
-	public void setDespesa(Despesa despesaEntidade) {
-		this.despesaEntidade = despesaEntidade;
-	}
-
+	
 	public void setTipoPagService(TipoPagService tipoPagService) {
 		this.tipoPagService = tipoPagService;
 	}
 
-	public void setTipoPag(TipoPag tipoPagEntidade) {
-		this.tipoPagEntidade = tipoPagEntidade;
-	}
-
-	public void setStatusService(StatusService statusService) {
-		this.statusService = statusService;
-	}
-
-	public void setStatus(Status tipoPagEntidade) {
-		this.statusEntidade = statusEntidade;
-	}
-
+	
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}

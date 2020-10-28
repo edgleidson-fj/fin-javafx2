@@ -8,7 +8,6 @@ import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alertas;
-import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,21 +18,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import model.entidade.Despesa;
-import model.entidade.Item;
 import model.entidade.Lancamento;
-import model.entidade.Status;
-import model.entidade.TipoPag;
 import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
-import model.servico.StatusService;
 import model.servico.TipoPagService;
 import model.servico.UsuarioService;
 
@@ -108,13 +100,8 @@ public class MainViewController implements Initializable {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.setDespesaService(new DespesaService());
-			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());			
-			controller.setTipoPag(new TipoPag());
 			controller.setTipoPagService(new TipoPagService());
-			controller.setStatus(new Status());
-			controller.setStatusService(new StatusService());
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
 			user.setNome(userNome);
@@ -139,9 +126,7 @@ public class MainViewController implements Initializable {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.setDespesaService(new DespesaService());
-			//controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			//controller.setItem(new Item());	
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
 			user.setNome(userNome);
@@ -165,9 +150,7 @@ public class MainViewController implements Initializable {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.setDespesaService(new DespesaService());
-			//controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			//controller.setItem(new Item());	
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
 			user.setNome(userNome);
@@ -190,8 +173,6 @@ public class MainViewController implements Initializable {
 	carregarView("/gui/ContasQuitadasMesAtualView.fxml", (ContasQuitadasMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			//controller.setUsuario(usuarioEntidade);
-			//controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
@@ -227,8 +208,6 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasQuitadasView.fxml", (ContasQuitadasController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			//controller.setUsuario(usuarioEntidade);
-			//controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
@@ -247,11 +226,8 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			//controller.setUsuario(usuarioEntidade);
-			//controller.setUsuarioService(new UsuarioService());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
-			//controller.carregarUsuarioLogado();
 		});
 			 }
 		 }
@@ -271,10 +247,7 @@ public class MainViewController implements Initializable {
 			Usuario user = new Usuario();
 			user.setId(u.getId());
 			user.setNome(u.getNome());
-			//controller.setUsuario(user);
-			//controller.setUsuarioService(new UsuarioService());			
 			controller.rotinasAutomaticas();
-			//controller.carregarUsuarioLogado();
 		});
 			 }
 		 }
@@ -291,11 +264,8 @@ public class MainViewController implements Initializable {
 		carregarView("/gui/ContasEmAbertoView.fxml", (ContasEmAbertoController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
-			//controller.setUsuario(usuarioEntidade);
-			//controller.setUsuarioService(new UsuarioService());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
-			//controller.carregarUsuarioLogado();
 		});
 			 }
 		 }
@@ -314,7 +284,6 @@ public class MainViewController implements Initializable {
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
-			Usuario user = new Usuario();
 			});
 			 }
 		 }
@@ -369,11 +338,8 @@ public class MainViewController implements Initializable {
 			carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 				controller.setLancamentoService(new LancamentoService());
 				controller.setLancamento(new Lancamento());
-				//controller.setUsuario(usuarioEntidade);
-				//controller.setUsuarioService(new UsuarioService());
 				controller.rotinasAutomaticas();
 				controller.carregarTableView();
-				//controller.carregarUsuarioLogado();
 			});			
 		} else{
 			Alertas.mostrarAlerta(null,null , "Usuário ou Senha incorreto!", AlertType.ERROR);

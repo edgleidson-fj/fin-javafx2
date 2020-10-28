@@ -5,11 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import bd.BD;
@@ -27,46 +24,24 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	public LancamentoDaoJDBC(Connection connection) {
 		this.connection = connection;
 	}
-	/*/-------------------------------------------------------------------------------------
-	
-			private TipoPag instanciaTipoPag(ResultSet rs) throws SQLException {
-				TipoPag pag = new TipoPag();
-			//	pag.setId(rs.getInt("id"));
-				pag.setNome(rs.getString("nome"));
-				return pag;
-			}
-			
-			private Lancamento instanciaLancamento(ResultSet rs,TipoPag pag) throws SQLException {
-				Lancamento obj = new Lancamento();
-				obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
-				obj.setId(rs.getInt("id"));
-				obj.setReferencia(rs.getString("referencia"));
-				obj.setTotal(rs.getDouble("total"));
-				obj.setTipoPagamento(pag);
-				return obj;
-			}				
-			//--------------------------------------------------------------------------*/
-	
 	//Registrar Lancamento. ok
 	@Override
 	public void inserir(Lancamento obj) {
 		PreparedStatement ps = null;
-		if(obj.getData() == null) {
-		/*	Date hoje = new Date();
-			System.out.println(hoje);*/
-		}
+		/*if(obj.getData() == null) {
+			Date hoje = new Date();
+			System.out.println(hoje);
+		}*/
 		try {
 			ps = connection.prepareStatement(
 					"INSERT INTO lancamento "
 						+ "(referencia, total, data, usuario_id) "
 							+ "VALUES  (?, ?, ?, ?) ",
 							Statement.RETURN_GENERATED_KEYS);
-
 			ps.setString(1, obj.getReferencia());
 			ps.setDouble(2, obj.getTotal());
 			ps.setDate(3, new java.sql.Date(obj.getData().getTime()));
-			ps.setInt(4, obj.getUsuario().getId());
-			
+			ps.setInt(4, obj.getUsuario().getId());			
 			int linhasAfetadas = ps.executeUpdate();
 			if (linhasAfetadas > 0) {
 				ResultSet rs = ps.getGeneratedKeys(); // ID gerado no Insert.
@@ -140,48 +115,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		}
 	}
 	
-	/*/Listar tudo.
-	@Override
-	public List<Lancamento> buscarTudo() {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement(
-					"SELECT * FROM Lancamento l "
-					+ "INNER JOIN Status s "
-					+ "ON l.status_id = s.id "
-					+ "INNER JOIN TipoPag t "
-					+ "ON l.tipoPag_id = t.id "
-	//			+ "INNER JOIN Usuario u "
-	//			+ "ON l.usuario_id = u.usuarioid "
-	//			+ "WHERE l.usuario_id = 2 "
-					+ "ORDER BY l.id DESC"); 			
-		rs = ps.executeQuery();
-			List<Lancamento> lista = new ArrayList<>();			
-			while (rs.next()) {
-				TipoPag pag = new TipoPag();
-				pag.setNome(rs.getString("t.nome"));	
-				Status status = new Status();
-				status.setNome(rs.getString("s.nome"));	
-				Lancamento obj = new Lancamento();
-				obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
-				obj.setId(rs.getInt("id"));
-				obj.setReferencia(rs.getString("referencia"));
-				obj.setDesconto(rs.getDouble("desconto"));
-				obj.setAcrescimo(rs.getDouble("acrescimo"));
-				obj.setTotal(rs.getDouble("total"));
-				obj.setTipoPagamento(pag);	
-				obj.setStatus(status);
-				lista.add(obj);
-			}
-			return lista;
-		} catch (SQLException ex) {
-			throw new BDException(ex.getMessage());
-		} finally {
-			BD.fecharStatement(ps);
-			BD.fecharResultSet(rs);
-		}
-	}*/
 	
 	@Override
 	public List<Lancamento> buscarTudo() {
@@ -276,12 +209,10 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+ "INNER JOIN Usuario u "
 								+ "ON u.usuarioId = lancamento.usuario_Id "
 						+ "WHERE u.logado = 'S' "
-						+ "AND (status_id = 1 OR status_id = 3) ");      
-						
+						+ "AND (status_id = 1 OR status_id = 3) ");					
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
 				while (rs.next()) {
-			//	TipoPag pag = new TipoPag();
 					Lancamento obj = new Lancamento();
 					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
 					obj.setId(rs.getInt("id"));
@@ -330,7 +261,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		+ "finalizado = 'S' "			
 		+ "WHERE Id = ? ");
 			ps.setInt(1, obj.getTipoPagamento().getId());
-		//	ps.setString(2, obj.getFinalizado());
 			ps.setInt(2, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
@@ -390,19 +320,16 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				@Override
 				public void lanConfig(Lancamento obj) {
 					PreparedStatement ps = null;
-					int status = 1; //Em Aberto.
 					try {
 						ps = connection.prepareStatement(
 					"UPDATE lancamento " 
 					+ "SET referencia = ?, "
 					+ "data = ?, "
-				//	+ "status_id = ?, "
 					+ "tipopag_id = ?, "
 					+ "total = ? "
 					+ "WHERE Id = ? ");
 						ps.setString(1, obj.getReferencia());
 						ps.setDate(2, new java.sql.Date(obj.getData().getTime()));
-				//		ps.setInt(3, obj.getStatus().getId());
 						ps.setInt(3, obj.getTipoPagamento().getId());
 						ps.setDouble(4, obj.getTotal());
 						ps.setInt(5, obj.getId());
@@ -420,8 +347,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			ResultSet rs = null;
 			try {
 			Calendar datahoje = Calendar.getInstance();
-			int mesAtual = datahoje.get(Calendar.MONTH);
-			
+			int mesAtual = datahoje.get(Calendar.MONTH);			
 			switch (mesAtual) {
 			case 0:
 			ps = connection.prepareStatement("SELECT * FROM lancamento " 
@@ -529,8 +455,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			ResultSet rs = null;
 			try {
 			Calendar datahoje = Calendar.getInstance();
-			int mesAtual = datahoje.get(Calendar.MONTH);
-			
+			int mesAtual = datahoje.get(Calendar.MONTH);			
 			switch (mesAtual) {
 			case 0:
 			ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
@@ -623,7 +548,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				TipoPag tp = new TipoPag();
 				tp.setId(rs.getInt("tipopag.id"));
 				tp.setNome(rs.getString("tipopag.nome"));
-
 				Lancamento l = new Lancamento(); 
 				l.setId(rs.getInt("lancamento.id"));
 				l.setReferencia(rs.getString("lancamento.referencia"));
@@ -645,7 +569,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 			}	
 		
-		@Override //ok
+		@Override
 		public List<Lancamento> buscarContasEmAbertoPeriodo(String dataInicial, String dataFinal) {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
@@ -668,7 +592,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
 				while (rs.next()) {
-			//	TipoPag pag = new TipoPag();
 					Status status = new Status();
 					status.setNome(rs.getString("status.nome"));
 					Lancamento obj = new Lancamento();
@@ -690,7 +613,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		@Override //ok
+		@Override 
 		public List<Lancamento> buscarContasQuitadoPeriodo(String dataInicial, String dataFinal) {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
@@ -739,7 +662,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "SET status_id = 4 "
 						+ "WHERE finalizado = 'N' "
 						+ "OR total = 0");
-			//	ps.setDouble(1, obj.getTotal());
 				ps.executeUpdate();
 			} catch (SQLException ex) {
 				new BDException(ex.getMessage());
@@ -755,11 +677,9 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				Calendar datahoje = Calendar.getInstance();
 				int mesAtual = datahoje.get(Calendar.MONTH)+1;
 				int diaAtual = datahoje.get(Calendar.DAY_OF_MONTH);
-			
 				ps = connection.prepareStatement(
 						"UPDATE lancamento " 
 						+ "SET status_id = 3 "
-					//	+ "referencia = CONCAT('(PENDENTE) ',referencia ) "
 						+ "WHERE status_id = 1 "
 						+ "AND Month(data) =  '"+mesAtual+"' "
 						+ "AND Day(data) < '"+diaAtual+"' "

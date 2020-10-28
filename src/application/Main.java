@@ -6,10 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import model.entidade.Status;
-import model.entidade.TipoPag;
 import model.entidade.Usuario;
 import model.servico.StatusService;
-import model.servico.TipoPagService;
 import model.servico.UsuarioService;
 
 public class Main extends Application {

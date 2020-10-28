@@ -136,7 +136,6 @@ public class TodasContasController implements Initializable {
 
 			if(dialogForm == "detalhe"){DetalheDialogFormController controle = loader.getController();
 			controle.setLancamento(obj);
-			controle.setLancamentoService(new LancamentoService());
 			controle.setDespesaService(new DespesaService());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
@@ -168,26 +167,7 @@ public class TodasContasController implements Initializable {
 		}
 	}
 
-	/*private void criarBotaoDetalhe() {
-		colunaDetalhe.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		colunaDetalhe.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
-			private final Button botao = new Button("+");
-
-			@Override
-			protected void updateItem(Lancamento obj, boolean vazio) {
-				super.updateItem(obj, vazio);
-
-				if (obj == null) {
-					setGraphic(null);
-					return;
-				}
-				setGraphic(botao);
-				String dialogForm = "detalhe";
-				botao.setOnAction(
-						evento -> criarDialogForm(obj, "/gui/DetalheDialogFormView.fxml", Utils.stageAtual(evento),dialogForm));
-			}
-		});
-	}*/
+	
 	
 	private void criarBotaoConfig() {
 		colunaConfig.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -202,7 +182,6 @@ public class TodasContasController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
-				//String dialogForm = "config";
 				botao.setOnAction(
 						evento -> carregarPropriaView("/gui/LanConfigView.fxml", (LanConfigController controle) -> {
 							controle.setLancamento(obj);

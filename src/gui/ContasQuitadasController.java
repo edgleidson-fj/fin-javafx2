@@ -105,7 +105,6 @@ public class ContasQuitadasController implements Initializable {
 
 			DetalheDialogFormController controle = loader.getController();
 			controle.setLancamento(obj);
-			controle.setLancamentoService(new LancamentoService());
 			controle.setDespesaService(new DespesaService());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();

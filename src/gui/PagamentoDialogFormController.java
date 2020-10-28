@@ -33,7 +33,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.entidade.Despesa;
 import model.entidade.Lancamento;
@@ -44,12 +43,10 @@ import model.servico.TipoPagService;
 
 public class PagamentoDialogFormController implements Initializable {
 
-	private Despesa despesaEntidade;
 	private DespesaService despesaService;
 	private Lancamento lancamentoEntidade;
 	private LancamentoService lancamentoService;
 	private TipoPagService tipoPagService;
-	private TipoPag tipoPagEntidade;
 	// ---------------------------------------------
 
 	@FXML
@@ -93,7 +90,6 @@ public class PagamentoDialogFormController implements Initializable {
 	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		obj.setTipoPagamento(cmbTipoPag.getValue());
@@ -152,10 +148,7 @@ public class PagamentoDialogFormController implements Initializable {
 	}
 	// -----------------------------------------------
 
-	public void setDespesa(Despesa despesaEntidade) {
-		this.despesaEntidade = despesaEntidade;
-	}
-
+	
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
@@ -172,9 +165,6 @@ public class PagamentoDialogFormController implements Initializable {
 		this.tipoPagService = tipoPagService;
 	}
 
-	public void setTipoPag(TipoPag tipoPagEntidade) {
-		this.tipoPagEntidade = tipoPagEntidade;
-	}
 	// ----------------------------------------------------------------
 
 	@Override

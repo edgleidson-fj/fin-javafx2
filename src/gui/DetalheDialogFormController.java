@@ -23,14 +23,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.entidade.Despesa;
 import model.entidade.Lancamento;
 import model.servico.DespesaService;
-import model.servico.LancamentoService;
 
 public class DetalheDialogFormController implements Initializable {
 
-	private Despesa despesaEntidade;
 	private DespesaService despesaService;
 	private Lancamento lancamentoEntidade;
-	private LancamentoService lancamentoService;
 	// ---------------------------------------------
 
 	@FXML
@@ -58,9 +55,6 @@ public class DetalheDialogFormController implements Initializable {
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	// ---------------------------------------------------------
 
-	public void setDespesa(Despesa despesaEntidade) {
-		this.despesaEntidade = despesaEntidade;
-	}
 
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
@@ -70,9 +64,6 @@ public class DetalheDialogFormController implements Initializable {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
 
-	public void setLancamentoService(LancamentoService lancamentoService) {
-		this.lancamentoService = lancamentoService;
-	}
 	// ----------------------------------------------------------------
 
 	@FXML

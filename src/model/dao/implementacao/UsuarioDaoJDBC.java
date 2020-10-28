@@ -13,7 +13,6 @@ import bd.BDException;
 import bd.BDIntegrityException;
 import model.dao.UsuarioDao;
 import model.entidade.Usuario;
-import model.entidade.Lancamento;
 
 public class UsuarioDaoJDBC implements UsuarioDao {
 
@@ -117,7 +116,6 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	@Override 
 	public List<Usuario> buscarTudo() {
 		PreparedStatement ps = null;
-		PreparedStatement ps1 = null;
 		ResultSet rs = null;
 		try {
 			ps = connection.prepareStatement(
@@ -142,7 +140,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-    public List<Usuario> listarPorId(Integer id){
+	//Sem Uso.
+   public List<Usuario> listarPorId(Integer id){
         PreparedStatement ps = null;
         ResultSet rs = null;
      try {
@@ -180,7 +179,6 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 					"SELECT * FROM usuario " 
 					+ "WHERE usuarioNome = ? "
 					+ "AND usuarioSenha = ? ");
-		//	ps.setInt(1, id);
 			ps.setString(1, nome);
 			ps.setString(2, senha);
 			rs = ps.executeQuery();
@@ -201,33 +199,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
     
     
-    /*@Override 
-  	public Usuario login(int id, String senha) {
-  		PreparedStatement ps = null;
-  		ResultSet rs = null;
-  		try {
-  			ps = connection.prepareStatement(
-  					"SELECT * FROM usuario " 
-  					+ "WHERE usuarioId = ? "
-  					+ "AND usuarioSenha = ? ");
-  			ps.setInt(1, id);
-  			ps.setString(2, senha);
-  			rs = ps.executeQuery();
-  			if (rs.next()) {
-  				Usuario obj = new Usuario();
-  				obj.setId(rs.getInt("usuarioId"));
-  				obj.setNome(rs.getString("usuarioNome"));
-  				obj.setSenha(rs.getString("usuarioSenha"));
-  				return obj;
-  			}
-  			return null;
-  		} catch (SQLException ex) {
-  			throw new BDException(ex.getMessage());
-  		} finally {
-  			BD.fecharStatement(ps);
-  			BD.fecharResultSet(rs);
-  		}
-  	}*/
+  
     
     @Override
 	public void logado(Usuario obj) {
@@ -236,10 +208,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			ps = connection.prepareStatement(
 					"UPDATE usuario " 
 					+ "SET logado = ? "
-					//+ "WHERE usuarioId = ?");
 					+ "WHERE usuarioNome = ?");
 			ps.setString(1, obj.getLogado());
-			//ps.setInt(2, obj.getId());
 			ps.setString(2, obj.getNome());
 			ps.executeUpdate();
 		} catch (SQLException ex) {

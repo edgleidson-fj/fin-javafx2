@@ -10,7 +10,6 @@ import java.util.List;
 
 import bd.BD;
 import bd.BDException;
-import bd.BDIntegrityException;
 import model.dao.StatusDao;
 import model.entidade.Status;
 

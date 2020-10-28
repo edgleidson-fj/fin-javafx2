@@ -33,7 +33,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
 import model.entidade.Status;
-import model.entidade.TipoPag;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
@@ -145,7 +144,6 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 			if (dialogForm == "detalhe") {
 				DetalheDialogFormController controle = loader.getController();
 				controle.setLancamento(obj);
-				controle.setLancamentoService(new LancamentoService());
 				controle.setDespesaService(new DespesaService());
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
@@ -154,7 +152,6 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 				controle.setLancamento(obj);
 				controle.setLancamentoService(new LancamentoService());
 				controle.setDespesaService(new DespesaService());
-				controle.setTipoPag(new TipoPag());
 				controle.setTipoPagService(new TipoPagService());
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
