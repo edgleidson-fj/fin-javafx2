@@ -34,12 +34,11 @@ import javafx.stage.Stage;
 import model.entidade.TipoPag;
 import model.servico.TipoPagService;
 
-public class TipoPagController implements Initializable/*, DataChangerListener*/ {
+public class TipoPagController implements Initializable {
 
 	private TipoPagService service;
 	private TipoPag entidade;
 	private ObservableList<TipoPag> obsLista;
-	//private List<DataChangerListener> dataChangeListeners = new ArrayList<>();
 
 	@FXML
 	private TextField txtId;
@@ -77,20 +76,6 @@ public class TipoPagController implements Initializable/*, DataChangerListener*/
 		this.entidade = entidade;
 	}
 	
-/*	public void sobrescrevaDataChangeListeners(DataChangerListener listener) {
-		dataChangeListeners.add(listener);
-	}
-	
-	public void notificacaoDataChangeListeners() {
-		for(DataChangerListener x : dataChangeListeners) {
-			x.onDataChanged();
-		}
-	}
-	
-	@Override
-	public void onDataChanged() {
-		carregarTableView();
-	} */
 
 	public void onBtSalvar() {
 		try {
@@ -120,6 +105,7 @@ public class TipoPagController implements Initializable/*, DataChangerListener*/
 					return;
 				}
 				setGraphic(botao);
+				setStyle("-fx-color: #FFD700");	
 				botao.setOnAction(evento -> atualizarPropriaView(obj, "/gui/TipoPagView.fxml"));
 			}			
 		});
@@ -139,6 +125,7 @@ public class TipoPagController implements Initializable/*, DataChangerListener*/
 					return;
 				}
 				setGraphic(button);
+				setStyle("-fx-color: #FF6347");	
 				button.setOnAction(evento -> excluirEntidade(obj));
 			}
 		});

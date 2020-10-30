@@ -133,7 +133,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private void criarBotaoDetalhe() {
 		colunaDetalhe.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaDetalhe.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
-			private final Button botao = new Button("+");
+			private final Button botao = new Button("?");
 
 			@Override
 			protected void updateItem(Lancamento obj, boolean vazio) {
@@ -153,7 +153,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private void criarBotaoPagar() {
 		colunaPagar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaPagar.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
-			private final Button botao = new Button("$");
+			private final Button botao = new Button("R$");
 
 			@Override
 			protected void updateItem(Lancamento obj, boolean vazio) {
@@ -163,6 +163,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
+				setStyle("-fx-color: #00FA9A");
 				String dialogForm = "pagar";
 				botao.setOnAction(
 						evento -> criarDialogForm(obj, "/gui/PagamentoDialogFormView.fxml", Utils.stageAtual(evento), dialogForm));

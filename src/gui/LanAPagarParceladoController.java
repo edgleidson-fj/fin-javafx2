@@ -332,6 +332,7 @@ public class LanAPagarParceladoController implements Initializable {
 					return;
 				}
 				setGraphic(button);
+				setStyle("-fx-color: #FF6347");	
 				button.setOnAction(event -> removerDespesa(obj));
 			}
 		});

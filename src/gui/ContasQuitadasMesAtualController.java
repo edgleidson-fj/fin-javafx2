@@ -132,7 +132,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	private void criarBotaoDetalhe() {
 		colunaDetalhe.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaDetalhe.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
-			private final Button botao = new Button("+");
+			private final Button botao = new Button("?");
 
 			@Override
 			protected void updateItem(Lancamento obj, boolean vazio) {

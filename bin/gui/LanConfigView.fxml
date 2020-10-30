@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="462.0" prefWidth="737.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LanConfigController">
+<VBox prefHeight="462.0" prefWidth="737.0" styleClass="background" stylesheets="@zTema.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LanConfigController">
    <children>
       <AnchorPane maxHeight="-Infinity" prefHeight="464.0" prefWidth="737.0">
          <children>
@@ -29,24 +29,24 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
+            <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" stylesheets="@zBotaoCancelar.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
               <columns>
-                  <TableColumn fx:id="colunaEditar" prefWidth="75.0" />
-                  <TableColumn fx:id="colunaRemover" prefWidth="75.0" />
-                  <TableColumn fx:id="colunaDespId" prefWidth="52.0" text="Código" />
-                  <TableColumn fx:id="colunaDespNome" prefWidth="192.0" resizable="false" text="Item" />
-                <TableColumn fx:id="colunaDespValor" prefWidth="73.0" text="Valor" />
+                  <TableColumn fx:id="colunaEditar" prefWidth="55.0" />
+                  <TableColumn fx:id="colunaRemover" prefWidth="70.0" />
+                  <TableColumn fx:id="colunaDespId" prefWidth="52.0" text="ID" />
+                  <TableColumn fx:id="colunaDespNome" prefWidth="220.0" resizable="false" text="Item" />
+                <TableColumn fx:id="colunaDespValor" prefWidth="100.0" text="Valor" />
               </columns>
             </TableView>
-            <Button fx:id="btAtualizar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtAtualizar" prefHeight="42.0" prefWidth="123.0" text="Atualizar" />
-            <Button fx:id="btCancelar" layoutX="240.0" layoutY="397.0" mnemonicParsing="false" onAction="#onBtCancelar" prefHeight="42.0" prefWidth="123.0" text="Cancelar" />
+            <Button fx:id="btAtualizar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtAtualizar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoConfirmar.css" text="Atualizar" />
+            <Button fx:id="btCancelar" layoutX="240.0" layoutY="397.0" mnemonicParsing="false" onAction="#onBtCancelar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoCancelar.css" text="Cancelar" />
             <Label fx:id="lbTotal" layoutX="484.0" layoutY="247.0" prefHeight="107.0" prefWidth="248.0" textFill="#3008f8" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="5.0">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
             <Label layoutX="53.0" layoutY="103.0" text="Tipo de Pagamento" />
-            <Button fx:id="btVoltar" layoutX="394.0" layoutY="396.0" mnemonicParsing="false" onAction="#onBtVoltar" prefHeight="42.0" prefWidth="92.0" text="Voltar" />
+            <Button fx:id="btVoltar" layoutX="394.0" layoutY="396.0" mnemonicParsing="false" onAction="#onBtVoltar" prefHeight="42.0" prefWidth="92.0" stylesheets="@zBotaoVoltar.css" text="Voltar" />
             <ComboBox fx:id="cmbTipoPag" layoutX="165.0" layoutY="99.0" prefHeight="25.0" prefWidth="123.0" />
             <Label fx:id="lbStatus" layoutX="579.0" layoutY="9.0" prefHeight="53.0" prefWidth="176.0" textFill="#05f829" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="540.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="9.0">
                <font>

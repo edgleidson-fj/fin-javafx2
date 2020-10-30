@@ -27,9 +27,9 @@
          <children>
             <TableView fx:id="tableViewTipoPagamento" prefHeight="177.0" prefWidth="527.0">
               <columns>
-                <TableColumn fx:id="tableColumnExcluir" prefWidth="45.0" />
-                  <TableColumn fx:id="tableColumnEditar" prefWidth="51.0" />
-                  <TableColumn fx:id="tableColumnID" prefWidth="36.0" />
+                <TableColumn fx:id="tableColumnExcluir" prefWidth="30.0" />
+                  <TableColumn fx:id="tableColumnEditar" prefWidth="30.0" />
+                  <TableColumn fx:id="tableColumnID" prefWidth="45.0" />
                   <TableColumn fx:id="tableColumnNome" maxWidth="1.7976931348623157E308" prefWidth="287.0" />
               </columns>
                <padding>
@@ -54,11 +54,11 @@
                         <TextField fx:id="txtNome" prefHeight="25.0" prefWidth="221.0" promptText="NOVO" GridPane.columnIndex="2" />
                         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <children>
-                              <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#onBtSalvar" text="Salvar">
+                              <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#onBtSalvar" stylesheets="@zBotaoConfirmar.css" text="Salvar">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin></Button>
-                              <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#onBtCancelar" text="Cancelar" />
+                              <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#onBtCancelar" stylesheets="@zBotaoVoltar.css" text="Limpar" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" />

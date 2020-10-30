@@ -28,7 +28,7 @@
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="78.0" text="ACRÉSCIMO" />
                   <TableColumn fx:id="colunaLanValor" prefWidth="60.0" text="TOTAL" />
                   <TableColumn fx:id="colunaTipoPag" maxWidth="500.0" prefWidth="130.0" text="TIPO DE PAGAMENTO" />
-                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="50.0" text="x" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="50.0" />
               </columns>
             </TableView>
             <DatePicker fx:id="datePickerDataInicial" layoutX="235.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Inicial" AnchorPane.leftAnchor="218.0" />

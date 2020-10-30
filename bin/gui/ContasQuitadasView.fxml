@@ -25,7 +25,7 @@
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="75.0" text="ACRÉSCIMO" />
                   <TableColumn fx:id="colunaLanValor" prefWidth="70.0" text="TOTAL" />
                   <TableColumn fx:id="colunaTipoPag" maxWidth="2000.0" prefWidth="150.0" text="FORMA DE PAGAMENTO" />
-                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="53.0" text="x" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="53.0" />
               </columns>
             </TableView>
          </children>

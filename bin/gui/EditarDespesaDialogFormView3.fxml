@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EditarDespesaDialogFormController3">
+<HBox styleClass="background" stylesheets="@zTema.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EditarDespesaDialogFormController3">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -14,8 +14,8 @@
             <Label layoutX="14.0" layoutY="77.0" text="Valor" />
             <TextField fx:id="txtNome" layoutX="51.0" layoutY="41.0" prefHeight="25.0" prefWidth="112.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="20.0" />
             <TextField fx:id="txtPreco" layoutX="51.0" layoutY="73.0" prefHeight="25.0" prefWidth="58.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-            <Button fx:id="btConfirmar" layoutX="28.0" layoutY="131.0" mnemonicParsing="false" onAction="#onBtConfirmar" text="Confirma" />
-            <Button fx:id="btVoltar" layoutX="113.0" layoutY="131.0" mnemonicParsing="false" onAction="#onBtVoltar" text="Voltar" />
+            <Button fx:id="btConfirmar" layoutX="28.0" layoutY="131.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Confirma" />
+            <Button fx:id="btVoltar" layoutX="113.0" layoutY="131.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" />
             <TextField fx:id="txtId" layoutX="51.0" layoutY="8.0" prefHeight="25.0" prefWidth="33.0" />
             <Label layoutX="17.0" layoutY="12.0" text="ID" />
          </children>

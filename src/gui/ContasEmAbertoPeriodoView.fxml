@@ -20,7 +20,7 @@
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" prefHeight="326.0" prefWidth="737.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="113.0">
               <columns>
-                  <TableColumn fx:id="colunaPagar" prefWidth="60.0" text="\$" />
+                  <TableColumn fx:id="colunaPagar" prefWidth="60.0" />
                 <TableColumn fx:id="colunaLanData" text="DATA" />
                 <TableColumn fx:id="colunaLanId" prefWidth="60.0" text="ID" />
                   <TableColumn fx:id="colunaLanRef" minWidth="0.0" prefWidth="210.0" text="REFERÊNCIA" />
@@ -28,7 +28,7 @@
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="78.0" text="ACRÉSCIMO" />
                   <TableColumn fx:id="colunaLanValor" prefWidth="70.0" text="TOTAL" />
                   <TableColumn fx:id="colunaStatus" maxWidth="500.0" prefWidth="70.0" text="STATUS" />
-                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="50.0" text="x" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="50.0" />
               </columns>
             </TableView>
             <DatePicker fx:id="datePickerDataInicial" layoutX="235.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Inicial" AnchorPane.leftAnchor="218.0" />

@@ -25,7 +25,7 @@
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="77.0" text="ACRÉSCIMO" />
                   <TableColumn fx:id="colunaLanValor" prefWidth="70.0" text="VALOR" />
                   <TableColumn fx:id="colunaTipoPag" prefWidth="150.0" text="FORMA DE PAGAMENTO" />
-                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="39.0" text="x" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="39.0" />
               </columns>
             </TableView>
             <Label fx:id="lbTotal" layoutX="639.0" layoutY="14.0" textFill="#3008f8">

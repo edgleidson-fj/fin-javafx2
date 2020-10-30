@@ -182,6 +182,7 @@ public class TodasContasController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
+				setStyle("-fx-color: #008080");
 				botao.setOnAction(
 						evento -> carregarPropriaView("/gui/LanConfigView.fxml", (LanConfigController controle) -> {
 							controle.setLancamento(obj);

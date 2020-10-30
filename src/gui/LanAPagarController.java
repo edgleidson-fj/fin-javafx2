@@ -334,6 +334,7 @@ public class LanAPagarController implements Initializable {
 					return;
 				}
 				setGraphic(button);
+				setStyle("-fx-color: #FFD700");
 				button.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView2.fxml",
 						Utils.stageAtual(evento)));
 			}
@@ -353,6 +354,7 @@ public class LanAPagarController implements Initializable {
 					return;
 				}
 				setGraphic(button);
+				setStyle("-fx-color: #FF6347");	
 				button.setOnAction(event -> removerDespesa(obj));
 			}
 		});

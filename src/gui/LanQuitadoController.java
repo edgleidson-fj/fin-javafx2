@@ -55,6 +55,7 @@ import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
 import model.servico.UsuarioService;
+//import javafx.scene.paint.Color;
 
 public class LanQuitadoController implements Initializable {
 
@@ -381,7 +382,7 @@ public class LanQuitadoController implements Initializable {
 	private void iniciarBotaoEditar() {
 		colunaEditar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaEditar.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
-			private final Button button = new Button("editar");
+			private final Button button = new Button("Editar");
 
 			@Override
 			protected void updateItem(Despesa obj, boolean empty) {
@@ -389,8 +390,9 @@ public class LanQuitadoController implements Initializable {
 				if (obj == null) {
 					setGraphic(null);
 					return;
-				}
-				setGraphic(button);
+				}				
+				setGraphic(button);				
+				setStyle("-fx-color: #FFD700");				
 				button.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView.fxml",
 						Utils.stageAtual(evento)));
 			}
@@ -400,7 +402,7 @@ public class LanQuitadoController implements Initializable {
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
-			private final Button button = new Button("remover");
+			private final Button button = new Button("Remover");
 
 			@Override
 			protected void updateItem(Despesa obj, boolean empty) {
@@ -411,7 +413,8 @@ public class LanQuitadoController implements Initializable {
 				}
 				setGraphic(button);
 				button.setOnAction(event -> removerDespesa(obj));
-			}
+				setStyle("-fx-color: #FF6347");	
+				}
 		});
 	}
 
