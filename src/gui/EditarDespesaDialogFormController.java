@@ -48,7 +48,7 @@ public class EditarDespesaDialogFormController implements Initializable{
 	private Button btConfirmar;
 	@FXML
 	private Button btVoltar;	
-	//-------------------------------------------------------
+	//----------------------------------------------------
 	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {

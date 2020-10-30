@@ -21,6 +21,7 @@
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" maxHeight="370.0" prefHeight="331.0" prefWidth="847.0" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="113.0">
               <columns>
+                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="50.0" />
                 <TableColumn fx:id="colunaLanData" text="DATA" />
                 <TableColumn fx:id="colunaLanId" prefWidth="60.0" text="ID" />
                   <TableColumn fx:id="colunaLanRef" minWidth="0.0" prefWidth="220.0" text="REFERÊNCIA" />
@@ -28,7 +29,6 @@
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="78.0" text="ACRÉSCIMO" />
                   <TableColumn fx:id="colunaLanValor" prefWidth="60.0" text="TOTAL" />
                   <TableColumn fx:id="colunaTipoPag" maxWidth="500.0" prefWidth="130.0" text="TIPO DE PAGAMENTO" />
-                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="50.0" />
               </columns>
             </TableView>
             <DatePicker fx:id="datePickerDataInicial" layoutX="235.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Inicial" AnchorPane.leftAnchor="218.0" />

@@ -15,10 +15,10 @@
    <children>
       <AnchorPane fx:id="txtData" prefHeight="389.0" prefWidth="534.0">
          <children>
-            <TextField fx:id="txtId" editable="false" layoutX="40.0" layoutY="43.0" prefHeight="25.0" prefWidth="59.0" promptText="id lan" AnchorPane.bottomAnchor="321.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="435.0" AnchorPane.topAnchor="43.0" />
+            <TextField fx:id="txtId" editable="false" layoutX="40.0" layoutY="43.0" prefHeight="25.0" prefWidth="59.0" promptText="ID" AnchorPane.bottomAnchor="321.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="435.0" AnchorPane.topAnchor="43.0" />
             <TableView fx:id="tbDespesa" layoutX="46.0" layoutY="80.0" prefHeight="161.0" prefWidth="443.0" AnchorPane.bottomAnchor="148.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="80.0">
               <columns>
-                <TableColumn fx:id="colunaDespId" prefWidth="70.0" text="Código" />
+                <TableColumn fx:id="colunaDespId" prefWidth="70.0" text="ID" />
                 <TableColumn fx:id="colunaDespNome" prefWidth="265.0" text="Item" />
                   <TableColumn fx:id="colunaDespValor" prefWidth="90.0" text="Valor" />
               </columns>
@@ -57,7 +57,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <DatePicker fx:id="datePickerData" layoutX="357.0" layoutY="43.0" prefHeight="25.0" prefWidth="133.0" />
+            <DatePicker fx:id="datePickerData" editable="false" layoutX="357.0" layoutY="43.0" prefHeight="25.0" prefWidth="133.0" />
          </children>
       </AnchorPane>
    </children>

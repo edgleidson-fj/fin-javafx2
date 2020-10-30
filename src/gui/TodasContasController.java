@@ -27,6 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+//import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
@@ -99,6 +100,35 @@ public class TodasContasController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaLanAcrescimo, 2);
 		colunaTipoPag.setCellValueFactory(new PropertyValueFactory<>("tipoPagamento"));
 		colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+		
+		
+		/*/ Custom rendering of the table cell.
+				colunaStatus.setCellFactory(column -> {
+					return new TableCell<Lancamento, Status>() {
+						@Override
+						protected void updateItem(Status item, boolean empty) {
+							super.updateItem(item, empty);
+							
+							if (item == null || empty) {
+								setText(null);
+								setStyle("");
+							} else {
+								
+								// Style all dates in March with a different color.
+								if (item.getNome().equals("CANCELADO")) {
+									setStyle("-fx-background-color: #FF6347");	
+								} else {
+									setStyle("-fx-color: #FF6347");	
+								}
+							}
+						}
+					};
+				});
+				
+				// Add data to the table
+				tbLancamento.setItems(obsListaLancamentoTbView);
+			}*/
+		
 	}
 
 	public void carregarTableView() {
@@ -148,6 +178,7 @@ public class TodasContasController implements Initializable {
 				controle.setDespesa(new Despesa());
 				controle.setItemService(new ItemService());
 				controle.setItem(new Item());
+				//controle.setTipoPag(new TipoPag());
 				controle.setTipoPagService(new TipoPagService());
 				controle.carregarCamposDeCadastro();
 				controle.carregarObjetosAssociados();

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -113,6 +114,8 @@ public class PagamentoDialogFormController implements Initializable {
 			obj.setAcrescimo(acrescimo);
 		}
 		obj.setTotal(total);
+		Date hoje = new Date();
+		obj.setData(hoje);
 		lancamentoService.confirmarPagamento(obj);
 		Utils.stageAtual(evento).close();
 		carregarPropriaView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) -> {

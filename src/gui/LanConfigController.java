@@ -63,6 +63,7 @@ public class LanConfigController implements Initializable {
 	private Item itemEntidade;
 	private DespesaService despesaService;
 	private Despesa despesaEntidade;
+	//private TipoPag tipoPagEntidade;
 	private TipoPagService tipoPagService;
 	// ----------------------------------------------------------------
 
@@ -120,9 +121,8 @@ public class LanConfigController implements Initializable {
 	// ---------------------------------------------------------
 
 	double total;
-	int idLan;
-	int idDesp;
-	int idItem;
+	int idLan, idDesp, idItem;
+	TipoPag pag = new TipoPag();
 	String ref;
 
 	
@@ -173,18 +173,12 @@ public class LanConfigController implements Initializable {
 	@FXML
 	public void onBtAtualizar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
-		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			obj.setReferencia(txtReferencia.getText());
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			obj.setData(Date.from(instant));
 			obj.setTotal(total);
-			if(cmbTipoPag.getValue().getId() == null ) {
-			obj.setTipoPagamento(new TipoPag(0, null));
-			}
-			else {
 			obj.setTipoPagamento(cmbTipoPag.getValue());
-			}	
 		lancamentoService.lanConfig(obj);
 			carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
 				controller.setLancamentoService(new LancamentoService());
@@ -192,9 +186,6 @@ public class LanConfigController implements Initializable {
 				controller.carregarTableView();
 			});
 			 Alertas.mostrarAlerta(null, null, "Lançamento editado com sucesso", AlertType.INFORMATION);
-		} catch (RuntimeException ex) {
-			Alertas.mostrarAlerta("Pendente", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
-		}
 	}
 
 	@FXML
@@ -247,6 +238,10 @@ public class LanConfigController implements Initializable {
 	public void setTipoPagService(TipoPagService tipoPagService) {
 		this.tipoPagService = tipoPagService;
 	}
+	
+	/*public void setTipoPag(TipoPag tipoPagEntidade) {
+		this.tipoPagEntidade = tipoPagEntidade;
+	}*/
 	// -----------------------------------------------------------------
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -266,7 +261,8 @@ public class LanConfigController implements Initializable {
 		cmbTipoPag.setValue(lancamentoEntidade.getTipoPagamento());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		total = lancamentoEntidade.getTotal();
-		lbStatus.setText(lancamentoEntidade.getStatus().getNome());
+		lbStatus.setText(lancamentoEntidade.getStatus().getNome());		
+		pag = lancamentoEntidade.getTipoPagamento();		
 	}	
 	// -----------------------------------------------------------------------------------------------------
 

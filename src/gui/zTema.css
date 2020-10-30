@@ -6,3 +6,34 @@
     -fx-background-color: derive(#ADD8E6,20%);
 }
 
+.context-menu {
+    -fx-background-color: derive(#ADD8E6,50%);
+}
+
+.menu-bar .label {
+    -fx-font-size: 14pt;
+    -fx-font-family: "Segoe UI Light";  
+}
+
+
+.scroll-pane {
+    -fx-background-color: black;
+}
+
+ .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #7FFFD4;
+}

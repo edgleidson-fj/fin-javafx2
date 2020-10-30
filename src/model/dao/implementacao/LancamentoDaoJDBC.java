@@ -135,6 +135,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			List<Lancamento> lista = new ArrayList<>();			
 			while (rs.next()) {
 				TipoPag pag = new TipoPag();
+				pag.setId(rs.getInt("t.id"));
 				pag.setNome(rs.getString("t.nome"));	
 				Status status = new Status();
 				status.setNome(rs.getString("s.nome"));	
@@ -280,13 +281,15 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		+"status_id = '"+status+"', "
 		+"total = ?, "
 		+"desconto = ?, "
-		+"acrescimo = ? "
+		+"acrescimo = ?, "
+		+ "data = ? "
 		+ "WHERE Id = ? ");
 			ps.setInt(1, obj.getTipoPagamento().getId());
 			ps.setDouble(2, obj.getTotal());
 			ps.setDouble(3, obj.getDesconto());
 			ps.setDouble(4, obj.getAcrescimo());
-			ps.setInt(5, obj.getId());
+			ps.setDate(5, new java.sql.Date(obj.getData().getTime()));
+			ps.setInt(6, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());

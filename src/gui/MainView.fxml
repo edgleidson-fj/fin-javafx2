@@ -18,7 +18,7 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Login">
                   <items>
-                        <MenuItem fx:id="menuItemSair" mnemonicParsing="false" onAction="#onMenuItemSair" text="Sair" />
+                        <MenuItem fx:id="menuItemSair" mnemonicParsing="false" onAction="#onMenuItemSair" text="Trocar Usuário" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Lançamentos">

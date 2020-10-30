@@ -18,7 +18,8 @@
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="480.0" prefWidth="663.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
               <columns>
-                <TableColumn fx:id="colunaLanData" prefWidth="86.0" text="DATA" />
+                  <TableColumn fx:id="colunaConfig" minWidth="5.0" prefWidth="42.0" />
+                <TableColumn fx:id="colunaLanData" prefWidth="82.0" text="DATA" />
                 <TableColumn fx:id="colunaLanId" prefWidth="54.0" text="ID" />
                   <TableColumn fx:id="colunaLanRef" prefWidth="152.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanDesconto" prefWidth="74.0" text="DESCONTO" />
@@ -26,7 +27,6 @@
                   <TableColumn fx:id="colunaLanValor" minWidth="0.0" prefWidth="62.0" text="TOTAL" />
                   <TableColumn fx:id="colunaTipoPag" maxWidth="2000.0" prefWidth="149.0" text="FORMA DE PAGAMENTO" />
                   <TableColumn fx:id="colunaStatus" minWidth="82.0" prefWidth="42.0" text="STATUS" />
-                  <TableColumn fx:id="colunaConfig" minWidth="5.0" prefWidth="42.0" />
               </columns>
             </TableView>
          </children>
