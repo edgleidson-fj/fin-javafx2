@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
+//import javafx.scene.paint.Color;
 import application.Main;
 import gui.util.Alertas;
 import gui.util.Utils;
@@ -27,7 +28,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-//import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
@@ -67,7 +67,7 @@ public class TodasContasController implements Initializable {
 	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
-	private TableColumn<Lancamento, Lancamento> colunaConfig;	
+	private TableColumn<Lancamento, Lancamento> colunaConfig;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -76,12 +76,13 @@ public class TodasContasController implements Initializable {
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
 	}
+
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-	
+
 	// ----------------------------------------------------------
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		inicializarNodes();
@@ -100,35 +101,26 @@ public class TodasContasController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaLanAcrescimo, 2);
 		colunaTipoPag.setCellValueFactory(new PropertyValueFactory<>("tipoPagamento"));
 		colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-		
-		
-		/*/ Custom rendering of the table cell.
-				colunaStatus.setCellFactory(column -> {
-					return new TableCell<Lancamento, Status>() {
-						@Override
-						protected void updateItem(Status item, boolean empty) {
-							super.updateItem(item, empty);
-							
-							if (item == null || empty) {
-								setText(null);
-								setStyle("");
-							} else {
-								
-								// Style all dates in March with a different color.
-								if (item.getNome().equals("CANCELADO")) {
-									setStyle("-fx-background-color: #FF6347");	
-								} else {
-									setStyle("-fx-color: #FF6347");	
-								}
-							}
-						}
-					};
-				});
-				
-				// Add data to the table
-				tbLancamento.setItems(obsListaLancamentoTbView);
-			}*/
-		
+
+		// Custom rendering of the table cell.
+		/*
+		 * colunaStatus.setCellFactory(column -> { return new TableCell<Lancamento,
+		 * Status>() {
+		 * 
+		 * @Override protected void updateItem(Status item, boolean empty) {
+		 * super.updateItem(item, empty);
+		 * 
+		 * if (item == null || empty) { setText(null); setStyle(""); } else {
+		 * 
+		 * // Style all dates in March with a different color. if
+		 * (item.getNome().equals("CANCELADO")) {
+		 * 
+		 * setStyle("-fx-color: #008080"); } else {
+		 * setStyle("-fx-background-color:  #FF00FF"); } } } }; });
+		 * 
+		 * // Add data to the table tbLancamento.setItems(obsListaLancamentoTbView); //}
+		 */
+
 	}
 
 	public void carregarTableView() {
@@ -137,6 +129,7 @@ public class TodasContasController implements Initializable {
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoConfig();
 	}
+
 //---------------------------------------------------------------------------
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
@@ -164,13 +157,13 @@ public class TodasContasController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
 
-			if(dialogForm == "detalhe"){DetalheDialogFormController controle = loader.getController();
-			controle.setLancamento(obj);
-			controle.setDespesaService(new DespesaService());
-			controle.atualizarDialogForm();
-			controle.carregarTableView();
-		}
-		else {
+			if (dialogForm == "detalhe") {
+				DetalheDialogFormController controle = loader.getController();
+				controle.setLancamento(obj);
+				controle.setDespesaService(new DespesaService());
+				controle.atualizarDialogForm();
+				controle.carregarTableView();
+			} else {
 				LanConfigController controle = loader.getController();
 				controle.setLancamento(obj);
 				controle.setLancamentoService(new LancamentoService());
@@ -178,7 +171,7 @@ public class TodasContasController implements Initializable {
 				controle.setDespesa(new Despesa());
 				controle.setItemService(new ItemService());
 				controle.setItem(new Item());
-				//controle.setTipoPag(new TipoPag());
+				// controle.setTipoPag(new TipoPag());
 				controle.setTipoPagService(new TipoPagService());
 				controle.carregarCamposDeCadastro();
 				controle.carregarObjetosAssociados();
@@ -198,8 +191,6 @@ public class TodasContasController implements Initializable {
 		}
 	}
 
-	
-	
 	private void criarBotaoConfig() {
 		colunaConfig.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaConfig.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
@@ -212,8 +203,13 @@ public class TodasContasController implements Initializable {
 					setGraphic(null);
 					return;
 				}
-				setGraphic(botao);
-				setStyle("-fx-color: #008080");
+				if (obj.getStatus().getNome().equals("CANCELADO")) {
+					setGraphic(null);
+				} else {
+					setGraphic(botao);
+					setStyle("-fx-color: #008080");
+				}
+
 				botao.setOnAction(
 						evento -> carregarPropriaView("/gui/LanConfigView.fxml", (LanConfigController controle) -> {
 							controle.setLancamento(obj);
@@ -230,13 +226,12 @@ public class TodasContasController implements Initializable {
 			}
 		});
 	}
-	
+
 	public void rotinasAutomaticas() {
 		lancamentoEntidade.setTotal(0.00);
 		lancamentoService.exclusaoAutomatico(lancamentoEntidade);
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
-	
 
 }

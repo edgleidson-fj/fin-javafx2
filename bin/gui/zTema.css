@@ -37,3 +37,10 @@
 .scroll-bar:vertical .thumb {
     -fx-background-color: #7FFFD4;
 }
+
+.table-row-cell:empty .table-cell {
+-fx-border-width: 0px;
+}
+.table-row-cell:empty {
+-fx-background-color: #F0F8FF;
+}
