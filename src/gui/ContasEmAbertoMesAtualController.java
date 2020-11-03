@@ -102,6 +102,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 			if(dialogForm == "detalhe") {
 			DetalheDialogFormController controle = loader.getController();
 			controle.setLancamento(obj);
+			//controle.setLancamentoService(new LancamentoService());
 			controle.setDespesaService(new DespesaService());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
@@ -112,7 +113,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				controle.setLancamentoService(new LancamentoService());
 				controle.setDespesaService(new DespesaService());
 				controle.setTipoPagService(new TipoPagService());
-				controle.atualizarDialogForm();			
+				controle.atualizarDialogForm();
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();
 			}

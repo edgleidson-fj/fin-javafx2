@@ -28,6 +28,7 @@ public class DetalheDialogFormController implements Initializable {
 
 	private DespesaService despesaService;
 	private Lancamento lancamentoEntidade;
+	//private LancamentoService lancamentoService;
 	// ---------------------------------------------
 
 	@FXML
@@ -64,6 +65,9 @@ public class DetalheDialogFormController implements Initializable {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
 
+	/*public void setLancamentoService(LancamentoService lancamentoService) {
+		this.lancamentoService = lancamentoService;
+	}*/
 	// ----------------------------------------------------------------
 
 	@FXML

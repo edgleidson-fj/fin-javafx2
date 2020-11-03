@@ -362,48 +362,64 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			break;
 			case 1:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '02' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 2:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '03' and Status_id = 1 and Year(data) = Year(now())) "
 				+ " OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 3:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '04' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 4:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '05' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 5:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '06' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 6:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '07' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 7:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '08' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			case 8:
-				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+				ps = connection.prepareStatement("SELECT * FROM lancamento "
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '09' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3 "
 				+ "ORDER BY data ASC ");
@@ -418,12 +434,16 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				break;
 			case 10:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '11' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
 				break;
 			default:
 				ps = connection.prepareStatement("SELECT * FROM lancamento " 
+						+ "INNER JOIN Usuario u "
+						+ "ON u.usuarioId = lancamento.usuario_Id "
 				+"WHERE u.logado = 'S' AND (Month(data) =  '12' and Status_id = 1 and Year(data) = Year(now())) "
 				+ "OR status_id = 3  "
 				+ "ORDER BY data ASC ");
