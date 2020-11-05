@@ -11,19 +11,20 @@
    <children>
       <AnchorPane prefHeight="555.0" prefWidth="674.0">
          <children>
-            <Label layoutX="254.0" layoutY="14.0" text="CONTAS EM ABERTO DO MÊS">
+            <Label layoutX="254.0" layoutY="14.0" text="CONTAS A PAGAR DO MÊS">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="447.0" prefWidth="735.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
               <columns>
-                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="41.0" />
-                  <TableColumn fx:id="colunaPagar" prefWidth="41.0" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="30.0" />
+                  <TableColumn fx:id="colunaPagar" prefWidth="38.0" />
                 <TableColumn fx:id="colunaLanData" prefWidth="104.0" text="VENCIMENTO" />
                 <TableColumn fx:id="colunaLanId" prefWidth="70.0" text="ID" />
-                  <TableColumn fx:id="colunaLanRef" prefWidth="400.0" text="REFERÊNCIA" />
-                  <TableColumn fx:id="colunaLanValor" prefWidth="58.0" text="VALOR" />
+                  <TableColumn fx:id="colunaLanRef" prefWidth="300.0" text="REFERÊNCIA" />
+                  <TableColumn fx:id="colunaLanValor" text="VALOR" />
+                  <TableColumn fx:id="colunaStatus" prefWidth="75.0" text="status" />
               </columns>
             </TableView>
             <Label fx:id="lbTotal" layoutX="613.0" layoutY="14.0" textFill="#3008f8">

@@ -101,26 +101,7 @@ public class TodasContasController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaLanAcrescimo, 2);
 		colunaTipoPag.setCellValueFactory(new PropertyValueFactory<>("tipoPagamento"));
 		colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-		// Custom rendering of the table cell.
-		/*
-		 * colunaStatus.setCellFactory(column -> { return new TableCell<Lancamento,
-		 * Status>() {
-		 * 
-		 * @Override protected void updateItem(Status item, boolean empty) {
-		 * super.updateItem(item, empty);
-		 * 
-		 * if (item == null || empty) { setText(null); setStyle(""); } else {
-		 * 
-		 * // Style all dates in March with a different color. if
-		 * (item.getNome().equals("CANCELADO")) {
-		 * 
-		 * setStyle("-fx-color: #008080"); } else {
-		 * setStyle("-fx-background-color:  #FF00FF"); } } } }; });
-		 * 
-		 * // Add data to the table tbLancamento.setItems(obsListaLancamentoTbView); //}
-		 */
-
+		renderizarColunas();
 	}
 
 	public void carregarTableView() {
@@ -171,7 +152,6 @@ public class TodasContasController implements Initializable {
 				controle.setDespesa(new Despesa());
 				controle.setItemService(new ItemService());
 				controle.setItem(new Item());
-				// controle.setTipoPag(new TipoPag());
 				controle.setTipoPagService(new TipoPagService());
 				controle.carregarCamposDeCadastro();
 				controle.carregarObjetosAssociados();
@@ -232,6 +212,38 @@ public class TodasContasController implements Initializable {
 		lancamentoService.exclusaoAutomatico(lancamentoEntidade);
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
+	}
+
+	private void renderizarColunas() {
+		// Status.
+		colunaStatus.setCellFactory(column -> {
+			return new TableCell<Lancamento, Status>() {
+				@Override
+				protected void updateItem(Status item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						if (item.getNome().equals("CANCELADO")) {
+							setText(item.getNome());
+							setStyle("-fx-background-color:#DCDCDC");
+						}
+						else {
+						if(item.getNome().equals("VENCIDO")) {
+							setText(item.getNome());
+							setStyle("-fx-background-color:#FF6347");
+						}
+						else {
+							setText(item.getNome());
+							setStyle("");
+						}
+						}
+					}
+				}
+			};
+		});
 	}
 
 }

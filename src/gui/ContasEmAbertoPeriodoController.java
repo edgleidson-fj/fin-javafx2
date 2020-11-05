@@ -64,10 +64,6 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 	@FXML
 	private TableColumn<Lancamento, Double> colunaLanValor;
 	@FXML
-	private TableColumn<Lancamento, Double> colunaLanDesconto;
-	@FXML
-	private TableColumn<Lancamento, Double> colunaLanAcrescimo;
-	@FXML
 	private TableColumn<Lancamento, Status> colunaStatus;
 	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
@@ -126,11 +122,8 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 		colunaLanRef.setCellValueFactory(new PropertyValueFactory<>("referencia"));
 		colunaLanValor.setCellValueFactory(new PropertyValueFactory<>("total"));
 		Utils.formatTableColumnValorDecimais(colunaLanValor, 2); // Formatar com(0,00)
-		colunaLanDesconto.setCellValueFactory(new PropertyValueFactory<>("desconto"));
-		Utils.formatTableColumnValorDecimais(colunaLanDesconto, 2);
-		colunaLanAcrescimo.setCellValueFactory(new PropertyValueFactory<>("acrescimo"));
-		Utils.formatTableColumnValorDecimais(colunaLanAcrescimo, 2);
 		colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+		renderizarColunas();
 		
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbLancamento.prefHeightProperty().bind(stage.heightProperty());	
@@ -218,5 +211,30 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 		lancamentoService.exclusaoAutomatico(lancamentoEntidade);
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
+	}
+	
+	private void renderizarColunas() {
+		// Status.
+		colunaStatus.setCellFactory(column -> {
+			return new TableCell<Lancamento, Status>() {
+				@Override
+				protected void updateItem(Status item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						if (item.getNome().equals("VENCIDO")) {
+							setText(item.getNome());
+							setStyle("-fx-background-color:#FF6347");
+						} else {
+							setText("");
+							setStyle("");
+						}
+					}
+				}
+			};
+		});
 	}
 }

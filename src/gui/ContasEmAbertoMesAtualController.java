@@ -26,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
+import model.entidade.Status;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
@@ -46,6 +47,8 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private TableColumn<Lancamento, String> colunaLanRef;
 	@FXML
 	private TableColumn<Lancamento, Double> colunaLanValor;
+	@FXML
+	private TableColumn<Lancamento, Status> colunaStatus;
 	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
@@ -78,6 +81,8 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		colunaLanRef.setCellValueFactory(new PropertyValueFactory<>("referencia"));
 		colunaLanValor.setCellValueFactory(new PropertyValueFactory<>("total"));
 		Utils.formatTableColumnValorDecimais(colunaLanValor, 2); // Formatar com(0,00)
+		colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+		renderizarColunas();
 	}
 
 	public void carregarTableView() {
@@ -178,4 +183,29 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}	
+	
+	private void renderizarColunas() {
+		// Status.
+		colunaStatus.setCellFactory(column -> {
+			return new TableCell<Lancamento, Status>() {
+				@Override
+				protected void updateItem(Status item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						if (item.getNome().equals("VENCIDO")) {
+							setText(item.getNome());
+							setStyle("-fx-background-color:#FF6347");
+						} else {
+							setText("");
+							setStyle("");
+						}
+					}
+				}
+			};
+		});
+	}
 }

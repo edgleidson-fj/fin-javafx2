@@ -13,22 +13,20 @@
    <children>
       <AnchorPane prefHeight="450.0" prefWidth="743.0">
          <children>
-            <Label layoutX="254.0" layoutY="14.0" text="CONTAS EM ABERTO POR PERÍODO" AnchorPane.leftAnchor="215.0">
+            <Label layoutX="254.0" layoutY="14.0" text="CONTAS A PAGAR POR PERÍODO" AnchorPane.leftAnchor="215.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" prefHeight="326.0" prefWidth="737.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="113.0">
               <columns>
-                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="50.0" />
-                  <TableColumn fx:id="colunaPagar" prefWidth="60.0" />
-                <TableColumn fx:id="colunaLanData" text="DATA" />
-                <TableColumn fx:id="colunaLanId" prefWidth="60.0" text="ID" />
-                  <TableColumn fx:id="colunaLanRef" minWidth="0.0" prefWidth="210.0" text="REFERÊNCIA" />
-                  <TableColumn fx:id="colunaLanDesconto" prefWidth="70.0" text="DESCONTO" />
-                  <TableColumn fx:id="colunaLanAcrescimo" prefWidth="78.0" text="ACRÉSCIMO" />
-                  <TableColumn fx:id="colunaLanValor" prefWidth="70.0" text="TOTAL" />
-                  <TableColumn fx:id="colunaStatus" maxWidth="500.0" prefWidth="70.0" text="STATUS" />
+                  <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="30.0" />
+                  <TableColumn fx:id="colunaPagar" prefWidth="40.0" />
+                <TableColumn fx:id="colunaLanData" prefWidth="99.0" text="VENCIMENTO" />
+                <TableColumn fx:id="colunaLanId" prefWidth="72.0" text="ID" />
+                  <TableColumn fx:id="colunaLanRef" minWidth="0.0" prefWidth="300.0" text="REFERÊNCIA" />
+                  <TableColumn fx:id="colunaLanValor" text="TOTAL" />
+                  <TableColumn fx:id="colunaStatus" maxWidth="500.0" prefWidth="66.0" />
               </columns>
             </TableView>
             <DatePicker fx:id="datePickerDataInicial" layoutX="235.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Inicial" AnchorPane.leftAnchor="218.0" />
