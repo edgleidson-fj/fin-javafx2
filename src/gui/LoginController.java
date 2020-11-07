@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import model.entidade.Lancamento;
 import model.entidade.Usuario;
@@ -34,7 +35,7 @@ public class LoginController implements Initializable {
 	@FXML
 	private Label lbUsuario;
 	@FXML
-	private TextField txtNome;
+	private TextField txtCPF;
 	@FXML
 	private PasswordField txtSenha;
 	@FXML
@@ -43,6 +44,10 @@ public class LoginController implements Initializable {
 	private Button btEntrar;
 	@FXML
 	private Button btCriarUsuario;
+	@FXML
+	private Button btLimpar;
+	@FXML
+	private Button btEsqueciSenha;
 	//-----------------------------------------------------
 	int usuarioId;
 	String userNome;
@@ -50,13 +55,14 @@ public class LoginController implements Initializable {
 	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		String nome = txtNome.getText();
+		String cpf = txtCPF.getText();
 		String senha = txtSenha.getText();		
-		usuarioEntidade.setNome(nome);
+		usuarioEntidade.setCpf(cpf);
 		usuarioEntidade.setSenha(senha);
-		Usuario user = usuarioService.login(nome, senha);
+		Usuario user = usuarioService.login(cpf, senha);
 		if(user != null) {				
-				usuarioEntidade.setNome(nome);
+				//usuarioEntidade.setNome(nome);
+				usuarioEntidade.setCpf(cpf);
 				usuarioEntidade.setLogado("S");
 				usuarioService.logado(usuarioEntidade);
 		
@@ -82,6 +88,21 @@ public class LoginController implements Initializable {
 	@FXML
 	public void onBtCriarUsuario() {
 		carregarView("/gui/UsuarioView.fxml", (UsuarioController controller) -> {
+			controller.setUsuarioService(new UsuarioService());
+			controller.setUsuario(new Usuario());
+			controller.carregarCamposDeCadastro();
+		});
+	}
+	
+	@FXML
+	public void onBtLimpar() {
+		txtCPF.setText("");
+		txtSenha.setText("");
+	}
+	
+	@FXML
+	public void onBtEsqueciASenha() {
+		carregarView("/gui/EsqueciASenha.fxml", (EsqueciASenhaController controller) -> {
 			controller.setUsuarioService(new UsuarioService());
 			controller.setUsuario(new Usuario());
 			controller.carregarCamposDeCadastro();
@@ -124,5 +145,51 @@ public class LoginController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
+	
+	
+	
+	
+	
+	//Mascara 999.999.999-99
+	@FXML
+	private void mascaraCPF() {
+	   txtCPF.setOnKeyTyped((KeyEvent evento) -> {
+            if (!"01234567891234".contains(evento.getCharacter())) {
+                evento.consume();
+            }
+            if (evento.getCharacter().trim().length() == 0) {
+
+            } else if (txtCPF.getText().length() == 16) {
+                evento.consume();
+            }
+            switch (txtCPF.getText().length()) {
+                case 3:
+                	txtCPF.setText(txtCPF.getText() + ".");
+                	txtCPF.positionCaret(txtCPF.getText().length());
+                    break;
+                case 7:
+                	txtCPF.setText(txtCPF.getText() + ".");
+                	txtCPF.positionCaret(txtCPF.getText().length());
+                    break;
+                case 11:
+                	txtCPF.setText(txtCPF.getText() + "-");
+                	txtCPF.positionCaret(txtCPF.getText().length());
+                    break;
+                case 14:
+                	txtCPF.positionCaret(txtCPF.getText().length());
+                    break;
+            }
+
+        });
+
+    }
+	
+	
+	
+	
+	
+	
+	
+	
 		}
 

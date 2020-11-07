@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -11,12 +12,18 @@
    <children>
       <AnchorPane prefHeight="300.0" prefWidth="780.0">
          <children>
-            <Label layoutX="314.0" layoutY="195.0" text="Usuário" />
+            <Label layoutX="314.0" layoutY="195.0" text="CPF" />
             <Label layoutX="314.0" layoutY="231.0" text="Senha" />
-            <TextField fx:id="txtNome" layoutX="119.0" layoutY="137.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="362.0" />
-            <Button fx:id="btEntrar" layoutX="132.0" layoutY="217.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Entrar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="379.0" AnchorPane.rightAnchor="353.0" AnchorPane.topAnchor="266.0" />
-            <Button fx:id="btCriarUsuario" layoutX="196.0" layoutY="217.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" stylesheets="@zBotaoVoltar.css" text="Criar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="450.0" />
-            <PasswordField fx:id="txtSenha" layoutX="362.0" layoutY="227.0" />
+            <TextField fx:id="txtCPF" layoutX="119.0" layoutY="137.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="___.___.____-__" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="362.0" />
+            <Button fx:id="btEntrar" layoutX="132.0" layoutY="217.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Entrar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="266.0" />
+            <Button fx:id="btCriarUsuario" layoutX="196.0" layoutY="217.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" stylesheets="@zBotaoVoltar.css" text="Cadastrar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="430.0" />
+            <PasswordField fx:id="txtSenha" layoutX="362.0" layoutY="227.0" prefHeight="25.0" prefWidth="141.0" />
+            <Separator layoutX="290.0" layoutY="161.0" prefHeight="0.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="235.0" AnchorPane.topAnchor="150.0" />
+            <Separator layoutX="291.0" layoutY="310.0" prefHeight="3.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="235.0" />
+            <Separator layoutX="287.0" layoutY="152.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="176.0" AnchorPane.topAnchor="152.0" />
+            <Separator layoutX="545.0" layoutY="152.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="176.0" AnchorPane.topAnchor="152.0" />
+            <Button fx:id="btEsqueciSenha" layoutX="288.0" layoutY="350.0" mnemonicParsing="false" onAction="#onBtEsqueciASenha" text="Esqueci a senha" />
+            <Button fx:id="btLimpar" layoutX="514.0" layoutY="215.0" mnemonicParsing="false" onAction="#onBtLimpar" text="x" />
          </children>
       </AnchorPane>
    </children>

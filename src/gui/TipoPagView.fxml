@@ -27,10 +27,10 @@
          <children>
             <TableView fx:id="tableViewTipoPagamento" prefHeight="177.0" prefWidth="527.0">
               <columns>
-                <TableColumn fx:id="tableColumnExcluir" prefWidth="30.0" />
-                  <TableColumn fx:id="tableColumnEditar" prefWidth="30.0" />
+                <TableColumn fx:id="tableColumnExcluir" prefWidth="70.0" />
+                  <TableColumn fx:id="tableColumnEditar" prefWidth="55.0" />
                   <TableColumn fx:id="tableColumnID" prefWidth="45.0" />
-                  <TableColumn fx:id="tableColumnNome" maxWidth="1.7976931348623157E308" prefWidth="287.0" />
+                  <TableColumn fx:id="tableColumnNome" maxWidth="1.7976931348623157E308" prefWidth="270.0" />
               </columns>
                <padding>
                   <Insets bottom="1.0" />

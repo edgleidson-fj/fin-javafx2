@@ -641,11 +641,10 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "WHERE u.logado = 'S' "
 						+ "AND data >=  '"+dataInicial+"' "
 						+ "AND data <= '"+dataFinal+"' "
-						+ "AND status_id = 1 "
-						+ "OR (status_id = 3 "
-						//+ "AND data >=  '"+dataInicial+"' "
-						//+ "AND data <= '"+dataFinal+"' "
-						+ "AND u.logado = 'S') "
+						+ "AND (status_id = 1 "
+						+ "OR status_id = 3) "
+						/*+ "OR (status_id = 3 "
+						+ "AND u.logado = 'S') "*/
 						+ "ORDER BY data ASC");  
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				

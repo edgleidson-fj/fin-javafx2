@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -62,12 +63,16 @@
             </MenuBar>
             <AnchorPane prefHeight="465.0" prefWidth="785.0">
                <children>
-                  <Button fx:id="btEntrar" layoutX="377.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtConfirmar" prefHeight="25.0" prefWidth="48.0" stylesheets="@zBotaoConfirmar.css" text="Entrar" AnchorPane.bottomAnchor="214.0" AnchorPane.leftAnchor="377.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="239.0" />
+                  <Button fx:id="btEntrar" layoutX="377.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtConfirmar" prefHeight="25.0" prefWidth="55.0" stylesheets="@zBotaoConfirmar.css" text="Entrar" AnchorPane.bottomAnchor="214.0" AnchorPane.leftAnchor="370.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="239.0" />
                   <Label layoutX="314.0" layoutY="205.0" text="Senha" AnchorPane.leftAnchor="314.0" />
-                  <Label layoutX="314.0" layoutY="171.0" text="Usuário" AnchorPane.leftAnchor="314.0" />
-                  <TextField fx:id="txtNome" layoutX="362.0" layoutY="167.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.leftAnchor="365.0" AnchorPane.rightAnchor="282.0" />
-                  <Button fx:id="btCriarUsuario" layoutX="445.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" stylesheets="@zBotaoVoltar.css" text="Criar" AnchorPane.bottomAnchor="214.0" AnchorPane.leftAnchor="445.0" />
-                  <PasswordField fx:id="txtSenha" layoutX="365.0" layoutY="201.0" prefHeight="25.0" prefWidth="138.0" />
+                  <Label layoutX="314.0" layoutY="171.0" text="CPF" AnchorPane.leftAnchor="314.0" />
+                  <TextField fx:id="txtCPF" layoutX="362.0" layoutY="167.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="___.___.___-__" AnchorPane.leftAnchor="365.0" AnchorPane.rightAnchor="282.0" />
+                  <Button fx:id="btCriarUsuario" layoutX="445.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" prefHeight="25.0" prefWidth="70.0" stylesheets="@zBotaoVoltar.css" text="Cadastrar" AnchorPane.bottomAnchor="214.0" AnchorPane.leftAnchor="430.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="239.0" />
+                  <PasswordField fx:id="txtSenha" layoutX="365.0" layoutY="201.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.leftAnchor="365.0" AnchorPane.rightAnchor="282.0" />
+                  <Separator layoutX="293.0" layoutY="125.0" prefHeight="1.0" prefWidth="260.0" AnchorPane.leftAnchor="293.0" AnchorPane.rightAnchor="232.0" />
+                  <Separator layoutX="293.0" layoutY="284.0" prefHeight="1.0" prefWidth="267.0" AnchorPane.leftAnchor="293.0" AnchorPane.rightAnchor="232.0" />
+                  <Separator layoutX="290.0" layoutY="126.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="193.0" AnchorPane.topAnchor="126.0" />
+                  <Separator layoutX="553.0" layoutY="126.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="193.0" AnchorPane.topAnchor="126.0" />
                </children>
             </AnchorPane>
          </children>

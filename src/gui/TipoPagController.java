@@ -95,7 +95,7 @@ public class TipoPagController implements Initializable {
 	private void criarBotaoEditar() {
 		tableColumnEditar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEditar.setCellFactory(param -> new TableCell<TipoPag, TipoPag>() {
-			private final Button botao = new Button("!");
+			private final Button botao = new Button("Editar");
 
 			@Override
 			protected void updateItem(TipoPag obj, boolean vazio) {
@@ -114,7 +114,7 @@ public class TipoPagController implements Initializable {
 	private void criarBotaoExcluir() {
 		tableColumnExcluir.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnExcluir.setCellFactory(param -> new TableCell<TipoPag, TipoPag>() {
-			private final Button button = new Button("x");
+			private final Button button = new Button("Remover");
 
 			@Override
 			protected void updateItem(TipoPag obj, boolean vazio) {

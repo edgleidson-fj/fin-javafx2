@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -65,7 +66,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	private Label lbUsuario;
 	@FXML
-	private TextField txtNome;
+	private TextField txtCPF;
 	@FXML
 	private PasswordField txtSenha;
 	@FXML
@@ -92,7 +93,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onMenuItemLancamentoQuitado() {
  List<Usuario> lista = usuarioService.buscarTodos();
-		 
+ String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -109,16 +110,19 @@ public class MainViewController implements Initializable {
 			controller.setUsuario(user);
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarObjetosAssociados();	
-			controller.carregarUsuarioLogado();
+			controller.carregarUsuarioLogado();			
 		});
+		logado = "S";
 			 }
-		 }
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}	
 		}
 	
 	@FXML
 	public void onMenuItemLancamentoAPagar() {
  List<Usuario> lista = usuarioService.buscarTodos();
-		 
+ String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -135,14 +139,18 @@ public class MainViewController implements Initializable {
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
 			});
-			 }
+		logado = "S";
+			 }			 
 		 }
+		 if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 	
 	@FXML
 	public void onMenuItemLancamentoAPagarParcelado() {
  List<Usuario> lista = usuarioService.buscarTodos();
-		 
+ String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -159,14 +167,18 @@ public class MainViewController implements Initializable {
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
 			});
-			 }
+		 logado = "S";
+			 }			
 		 }
+		 if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 	
 	@FXML
 	public void onMenuItemContasQuitadoMesAtual() {
  List<Usuario> lista = usuarioService.buscarTodos();
-		 
+ String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -177,14 +189,17 @@ public class MainViewController implements Initializable {
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
-			 }
-		 }
+	logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 	
 	@FXML
 	public void onMenuItemContasQuitadoPeriodo() {
 		List<Usuario> lista = usuarioService.buscarTodos();
-		 
+		String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -194,14 +209,17 @@ public class MainViewController implements Initializable {
 			controller.setLancamento(new Lancamento());
 			controller.rotinasAutomaticas();
 		});
-			 }
-		 }
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 	
 	@FXML
 	public void onMenuItemContasQuitadoTodos() {
 		List<Usuario> lista = usuarioService.buscarTodos();
-		 
+		String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -212,14 +230,17 @@ public class MainViewController implements Initializable {
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
-			 }
-		 }
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 	
 	@FXML
 	public void onMenuItemContasEmAbertoMesAtual() {
 		List<Usuario> lista = usuarioService.buscarTodos();
-		 
+		String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -230,14 +251,17 @@ public class MainViewController implements Initializable {
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
-			 }
-		 }
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 	
 	@FXML
 	public void onMenuItemContasEmAbertoPeriodo() {
 		List<Usuario> lista = usuarioService.buscarTodos();
-		 
+		String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -250,14 +274,17 @@ public class MainViewController implements Initializable {
 			user.setNome(u.getNome());
 			controller.rotinasAutomaticas();
 		});
-			 }
-		 }
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 		
 	@FXML
 	public void onMenuItemContasEmAbertoTodos() {
 		List<Usuario> lista = usuarioService.buscarTodos();
-		 
+		String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -268,14 +295,17 @@ public class MainViewController implements Initializable {
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 		});
-			 }
-		 }
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 	
 	@FXML
 	public void onMenuItemTodasContas() {
 		List<Usuario> lista = usuarioService.buscarTodos();
-		 
+		String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -286,14 +316,17 @@ public class MainViewController implements Initializable {
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
 			});
-			 }
-		 }
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 
 	@FXML
 	public void onMenuItemTipoPagamento() {
 		List<Usuario> lista = usuarioService.buscarTodos();
-		 
+		String logado = "N";
 		 for(Usuario u : lista) {
 			 u.getLogado();
 			 
@@ -302,8 +335,11 @@ public class MainViewController implements Initializable {
 			controller.setTipoPagService(new TipoPagService());
 			controller.carregarTableView();
 		});
-			 }
-		 }
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
 	}
 	
 	@FXML
@@ -318,13 +354,13 @@ public class MainViewController implements Initializable {
 	//--------------------------------------------------------
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		String nome = txtNome.getText();
+		String cpf = txtCPF.getText();
 		String senha = txtSenha.getText();		
-		usuarioEntidade.setNome(nome);
+		usuarioEntidade.setNome(cpf);
 		usuarioEntidade.setSenha(senha);
-		Usuario user = usuarioService.login(nome, senha);
+		Usuario user = usuarioService.login(cpf, senha);
 		if(user != null) {				
-				usuarioEntidade.setNome(nome);
+				usuarioEntidade.setCpf(cpf);
 				usuarioEntidade.setLogado("S");
 				usuarioService.logado(usuarioEntidade);
 		
@@ -393,6 +429,39 @@ public class MainViewController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
+	
+	
+	//Mascara 999.999.999-99
+		@FXML
+		private void mascaraCPF() {
+		   txtCPF.setOnKeyTyped((KeyEvent evento) -> {
+	            if (!"01234567891234".contains(evento.getCharacter())) {
+	                evento.consume();
+	            }
+	            if (evento.getCharacter().trim().length() == 0) {
+
+	            } else if (txtCPF.getText().length() == 16) {
+	                evento.consume();
+	            }
+	            switch (txtCPF.getText().length()) {
+	                case 3:
+	                	txtCPF.setText(txtCPF.getText() + ".");
+	                	txtCPF.positionCaret(txtCPF.getText().length());
+	                    break;
+	                case 7:
+	                	txtCPF.setText(txtCPF.getText() + ".");
+	                	txtCPF.positionCaret(txtCPF.getText().length());
+	                    break;
+	                case 11:
+	                	txtCPF.setText(txtCPF.getText() + "-");
+	                	txtCPF.positionCaret(txtCPF.getText().length());
+	                    break;
+	                case 14:
+	                	txtCPF.positionCaret(txtCPF.getText().length());
+	                    break;
+	            }
+	        });
+	    }
 	
 	
 		}

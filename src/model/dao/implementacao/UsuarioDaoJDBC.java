@@ -28,11 +28,13 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 			ps = connection.prepareStatement(
 					"INSERT INTO usuario "
-						+ "(usuarioNome, usuarioSenha) "
-							+ "VALUES  ( ?, ?) ",
+						+ "(usuarioNome, usuarioSenha, email, cpf) "
+							+ "VALUES  ( ?, ?, ?, ?) ",
 							Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, obj.getNome());
 			ps.setString(2, obj.getSenha());
+			ps.setString(3, obj.getEmail());
+			ps.setString(4, obj.getCpf());
 			int linhasAfetadas = ps.executeUpdate();
 			if (linhasAfetadas > 0) {
 				ResultSet rs = ps.getGeneratedKeys(); // ID gerado no Insert.
@@ -129,6 +131,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				obj.setNome(rs.getString("usuarioNome"));
 				obj.setSenha(rs.getString("usuarioSenha"));
 				obj.setLogado(rs.getString("logado"));
+				obj.setEmail(rs.getString("email"));
+				obj.setCpf(rs.getString("cpf"));
 				lista.add(obj);
 			}
 			return lista;
@@ -171,15 +175,17 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	
     
     @Override 
-	public Usuario login(String nome, String senha) {
+	public Usuario login(String cpf, String senha) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			ps = connection.prepareStatement(
 					"SELECT * FROM usuario " 
-					+ "WHERE usuarioNome = ? "
+					//+ "WHERE usuarioNome = ? "
+					+ "WHERE cpf = ? "
 					+ "AND usuarioSenha = ? ");
-			ps.setString(1, nome);
+			//ps.setString(1, nome);
+			ps.setString(1, cpf);
 			ps.setString(2, senha);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -187,6 +193,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				obj.setId(rs.getInt("usuarioId"));
 				obj.setNome(rs.getString("usuarioNome"));
 				obj.setSenha(rs.getString("usuarioSenha"));
+				obj.setCpf(rs.getString("cpf"));
 				return obj;
 			}
 			return null;
@@ -208,9 +215,11 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			ps = connection.prepareStatement(
 					"UPDATE usuario " 
 					+ "SET logado = ? "
-					+ "WHERE usuarioNome = ?");
+					//+ "WHERE usuarioNome = ?");
+					+ "WHERE cpf = ?");
 			ps.setString(1, obj.getLogado());
-			ps.setString(2, obj.getNome());
+			//ps.setString(2, obj.getNome());
+			ps.setString(2, obj.getCpf());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());

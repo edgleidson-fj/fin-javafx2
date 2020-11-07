@@ -9,16 +9,20 @@ public class Usuario implements Serializable{
 	private String nome;
 	private String senha;
 	private String logado;
+	private String cpf;
+	private String email;
 	
 	public Usuario() {
 		}
 
-	public Usuario(Integer id, String nome, String senha, String logado) {
+	public Usuario(Integer id, String nome, String senha, String logado, String cpf, String email) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.senha = senha;
 		this.logado = logado;
+		this.cpf = cpf;
+		this.email = email;
 	}
 
 	public Integer getId() {
@@ -51,6 +55,22 @@ public class Usuario implements Serializable{
 
 	public void setLogado(String logado) {
 		this.logado = logado;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	

@@ -24,7 +24,7 @@
                 <TableColumn fx:id="colunaLanId" prefWidth="70.0" text="ID" />
                   <TableColumn fx:id="colunaLanRef" prefWidth="300.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanValor" text="VALOR" />
-                  <TableColumn fx:id="colunaStatus" prefWidth="75.0" text="status" />
+                  <TableColumn fx:id="colunaStatus" prefWidth="75.0" />
               </columns>
             </TableView>
             <Label fx:id="lbTotal" layoutX="613.0" layoutY="14.0" textFill="#3008f8">

@@ -24,26 +24,23 @@ import javafx.scene.layout.VBox;
 import model.entidade.Usuario;
 import model.servico.UsuarioService;
 
-public class UsuarioController implements Initializable/*, DataChangerListener*/ {
+public class EsqueciASenhaController implements Initializable/*, DataChangerListener*/ {
 
 	private UsuarioService service;
 	private Usuario entidade;
 	
 	@FXML
-	private TextField txtId;
-	@FXML
 	private TextField txtNome;	
-	@FXML
-	private TextField txtSenha;
 	@FXML
 	private TextField txtEmail;
 	@FXML
 	private TextField txtCPF;
 	@FXML
-	private Button btCancelar;
+	private Button btVoltar;
 	@FXML
-	private Button btSalvar;
+	private Button btRecuperar;
 	@FXML
+	private Button btLimpar;
 	
 	// Injeção da dependência.
 	public void setUsuarioService(UsuarioService service) {
@@ -56,28 +53,21 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 	
 
 	int x;
-	public void onBtSalvar() {
+	public void onBtRecuperarSenha() {
 		try {
-					 if(txtId.getText().equals("")) {
-						x=1;
-						entidade = dadosDoCampoDeTexto();
-							service.salvar(entidade);
-							atualizarPropriaView(entidade, "/gui/LoginView.fxml");						
-				 }
-				 else{
-						x=2;
-						 entidade = dadosDoCampoDeTexto();
-							service.atualizar(entidade);
-							atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
-				 }
+				// Recuperar Senha.	 
 			} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
 		}		
 	}
 
-	public void onBtCancelar() {
+	public void onBtVoltar() {	
 		x=1;
 		atualizarPropriaView(null, "/gui/LoginView.fxml");
+	}
+	
+	public void onBtLimpar() {
+		//Limpar
 	}
 
 		
@@ -87,14 +77,14 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 		}
 
 	private void inicializarComportamento() {
-		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
-		Restricoes.setTextFieldTamanhoMaximo(txtSenha, 40);
+		//Restricoes.setTextFieldInteger(txtId);
+		//Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
+		//Restricoes.setTextFieldTamanhoMaximo(txtSenha, 40);
 	}
 
 	// ---------------------------------------------
 
-	public Usuario dadosDoCampoDeTexto() {
+	/*public Usuario dadosDoCampoDeTexto() {
 		Usuario obj = new Usuario();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		obj.setNome(txtNome.getText());
@@ -102,7 +92,7 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 		obj.setEmail(txtEmail.getText());
 		obj.setCpf(txtCPF.getText());
 		return obj;
-	}
+	}*/
 
 	public void carregarCamposDeCadastro() {
 		List<Usuario> lista = service.buscarTodos();
@@ -110,7 +100,7 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 			 u.getLogado();
 			
 			 if(u.getLogado().equals("S")) {
-				 txtId.setText(String.valueOf(u.getId()));
+				// txtId.setText(String.valueOf(u.getId()));
 					txtNome.setText(u.getNome());
 					txtEmail.setText(u.getEmail());
 					txtCPF.setText(u.getCpf());
@@ -129,7 +119,7 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 				controller.setUsuarioService(new UsuarioService());
 			}
 			else {
-			UsuarioController controller = loader.getController();
+			EsqueciASenhaController controller = loader.getController();
 			controller.setUsuario(obj);
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarCamposDeCadastro();
