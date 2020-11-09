@@ -21,7 +21,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import model.entidade.Lancamento;
 import model.entidade.Usuario;
+import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 
 public class EsqueciASenhaController implements Initializable/*, DataChangerListener*/ {
@@ -35,6 +37,8 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 	private TextField txtEmail;
 	@FXML
 	private TextField txtCPF;
+	@FXML
+	private TextField txtNovaSenha;
 	@FXML
 	private Button btVoltar;
 	@FXML
@@ -55,7 +59,32 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 	int x;
 	public void onBtRecuperarSenha() {
 		try {
-				// Recuperar Senha.	 
+				// Recuperar Senha.	
+			String nome = txtNome.getText();
+			String cpf = txtCPF.getText();
+			String email = txtEmail.getText();
+			String novaSenha = txtNovaSenha.getText();	
+			entidade.setNome(nome);
+			entidade.setCpf(cpf);
+			entidade.setEmail(email);
+			entidade.setSenha(novaSenha);
+			Usuario user = service.recuperarSenha(nome, cpf, email, novaSenha);
+			//if(user != null) {				
+					//usuarioEntidade.setNome(nome);
+					entidade.setCpf(cpf);
+					entidade.setLogado("S");
+					service.logado(entidade);
+			
+					//List<Usuario> lista = service.buscarTodos();
+				/*for(Usuario u : lista) {
+					 u.getLogado();		
+					 if(u.getLogado().equals("S")) {
+						 usuarioId = u.getId();			 
+					 }*/				
+				 //}
+					
+				
+			
 			} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
 		}		
@@ -167,9 +196,7 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 	                	txtCPF.positionCaret(txtCPF.getText().length());
 	                    break;
 	            }
-
 	        });
-
 	    }
 
 }

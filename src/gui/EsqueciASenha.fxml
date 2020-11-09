@@ -2,30 +2,35 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox prefHeight="471.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EsqueciASenhaController">
    <children>
       <AnchorPane prefHeight="300.0" prefWidth="780.0">
          <children>
-            <Label layoutX="314.0" layoutY="195.0" text="CPF" />
-            <Label layoutX="314.0" layoutY="231.0" text="Email" />
-            <TextField fx:id="txtCPF" layoutX="119.0" layoutY="137.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="___.___.____-__" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="362.0" />
-            <Button fx:id="btRecuperar" layoutX="132.0" layoutY="217.0" mnemonicParsing="false" onAction="#onBtRecuperarSenha" stylesheets="@zBotaoConfirmar.css" text="Recuperar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="266.0" />
-            <Button fx:id="btVoltar" layoutX="196.0" layoutY="217.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="430.0" />
-            <PasswordField fx:id="txtEmail" layoutX="362.0" layoutY="227.0" prefHeight="25.0" prefWidth="141.0" />
-            <Separator layoutX="290.0" layoutY="161.0" prefHeight="0.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="235.0" AnchorPane.topAnchor="150.0" />
-            <Separator layoutX="291.0" layoutY="310.0" prefHeight="3.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="235.0" />
-            <Separator layoutX="287.0" layoutY="152.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="176.0" AnchorPane.topAnchor="152.0" />
-            <Separator layoutX="545.0" layoutY="152.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="176.0" AnchorPane.topAnchor="152.0" />
-            <Button fx:id="btLimpar" layoutX="514.0" layoutY="215.0" mnemonicParsing="false" onAction="#onBtLimpar" text="x" />
-            <Label layoutX="259.0" layoutY="54.0" text="RECUPERAR SENHA" />
-            <Label layoutX="311.0" layoutY="341.0" text="Nome" />
-            <TextField fx:id="txtNome" layoutX="358.0" layoutY="337.0" />
+            <Label layoutX="314.0" layoutY="195.0" text="CPF" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="220.0" />
+            <Label layoutX="314.0" layoutY="231.0" text="Email" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="250.0" />
+            <TextField fx:id="txtCPF" layoutX="362.0" layoutY="227.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="999.999.999-99" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="220.0" />
+            <Button fx:id="btRecuperar" layoutX="310.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtRecuperarSenha" stylesheets="@zBotaoConfirmar.css" text="Recuperar" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="310.0" AnchorPane.topAnchor="317.0" />
+            <Button fx:id="btVoltar" layoutX="451.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="451.0" />
+            <Separator layoutX="290.0" layoutY="161.0" prefHeight="0.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="265.0" AnchorPane.topAnchor="150.0" />
+            <Separator layoutX="291.0" layoutY="310.0" prefHeight="3.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="265.0" AnchorPane.topAnchor="360.0" />
+            <Separator layoutX="287.0" layoutY="152.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="127.0" AnchorPane.topAnchor="152.0" />
+            <Separator layoutX="545.0" layoutY="152.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="516.0" AnchorPane.topAnchor="152.0" />
+            <Button fx:id="btLimpar" layoutX="391.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtLimpar" text="Limpar" AnchorPane.leftAnchor="391.0" />
+            <Label layoutX="312.0" layoutY="105.0" text="RECUPERAR SENHA">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label layoutX="312.0" layoutY="266.0" text="Nome" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="195.0" />
+            <TextField fx:id="txtNome" layoutX="354.0" layoutY="191.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="191.0" />
+            <Label layoutX="309.0" layoutY="293.0" text="Senha" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="280.0" />
+            <TextField fx:id="txtNovaSenha" layoutX="347.0" layoutY="289.0" promptText="Nova senha" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="280.0" />
+            <TextField fx:id="txtEmail" layoutX="124.0" layoutY="166.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="250.0" />
          </children>
       </AnchorPane>
    </children>

@@ -243,6 +243,29 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			BD.fecharStatement(ps);
 		}
 	}
+    
+    @Override 
+	public Usuario recuperarSenha(String nome, String cpf, String email, String novaSenha) {
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(
+					"UPDATE usuario "
+					+ "SET usuarioSenha = ? " 
+					+ "WHERE usuarioNome = ? "
+					+ "AND cpf = ? "
+					+ "AND email = ? ");
+			ps.setString(1, novaSenha);
+			ps.setString(2, nome);
+			ps.setString(3, cpf);
+			ps.setString(4, email);
+			ps.executeUpdate();
+			return null;
+		} catch (SQLException ex) {
+			throw new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+		}
+	}
 
 
 }

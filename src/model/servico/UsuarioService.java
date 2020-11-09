@@ -49,4 +49,9 @@ public class UsuarioService {
 	public void logadoN(Usuario obj) {
 		dao.logadoN(obj);		
 	}
+	
+	public Usuario recuperarSenha(String nome, String cpf, String email, String novaSenha){
+		return dao.recuperarSenha(nome, cpf, email, novaSenha);
+	}
+	
 }
