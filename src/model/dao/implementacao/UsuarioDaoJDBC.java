@@ -60,11 +60,13 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			ps = connection.prepareStatement(
 					 "UPDATE usuario "
 					+ "SET usuarioNome = ?,  "
-					+ "usuarioSenha = ? "
+					+ "usuarioSenha = ?, "
+					+ "email = ?  "
 					+ "WHERE usuarioId = ? ");
 			ps.setString(1, obj.getNome());
 			ps.setString(2, obj.getSenha());
-			ps.setInt(3, obj.getId());
+			ps.setString(3, obj.getEmail());
+			ps.setInt(4, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());

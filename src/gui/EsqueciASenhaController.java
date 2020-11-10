@@ -72,7 +72,7 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 					entidade.setLogado("S");
 					service.logado(entidade);			
 			} catch (BDException ex) {
-			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
+			Alertas.mostrarAlerta("Favor revisar campos", null, ex.getMessage(), AlertType.ERROR);
 		}		
 	}
 

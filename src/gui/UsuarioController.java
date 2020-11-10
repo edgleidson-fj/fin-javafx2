@@ -40,7 +40,7 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 	@FXML
 	private TextField txtCPF;
 	@FXML
-	private Button btCancelar;
+	private Button btCancelar;//Voltar
 	@FXML
 	private Button btSalvar;
 	@FXML
@@ -71,10 +71,11 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 							atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 				 }
 			} catch (BDException ex) {
-			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
+			Alertas.mostrarAlerta("Erro ao salvar", null, ex.getMessage(), AlertType.ERROR);
 		}		
 	}
 
+	//Voltar
 	public void onBtCancelar() {
 		x=1;
 		atualizarPropriaView(null, "/gui/LoginView.fxml");
@@ -178,9 +179,6 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 	                	txtCPF.positionCaret(txtCPF.getText().length());
 	                    break;
 	            }
-
 	        });
-
 	    }
-
 }
