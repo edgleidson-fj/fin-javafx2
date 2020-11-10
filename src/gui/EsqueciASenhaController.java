@@ -59,7 +59,6 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 	int x;
 	public void onBtRecuperarSenha() {
 		try {
-				// Recuperar Senha.	
 			String nome = txtNome.getText();
 			String cpf = txtCPF.getText();
 			String email = txtEmail.getText();
@@ -69,22 +68,9 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 			entidade.setEmail(email);
 			entidade.setSenha(novaSenha);
 			Usuario user = service.recuperarSenha(nome, cpf, email, novaSenha);
-			//if(user != null) {				
-					//usuarioEntidade.setNome(nome);
-					entidade.setCpf(cpf);
+				entidade.setCpf(cpf);
 					entidade.setLogado("S");
-					service.logado(entidade);
-			
-					//List<Usuario> lista = service.buscarTodos();
-				/*for(Usuario u : lista) {
-					 u.getLogado();		
-					 if(u.getLogado().equals("S")) {
-						 usuarioId = u.getId();			 
-					 }*/				
-				 //}
-					
-				
-			
+					service.logado(entidade);			
 			} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
 		}		
@@ -96,7 +82,10 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 	}
 	
 	public void onBtLimpar() {
-		//Limpar
+		txtNome.setText("");
+		txtCPF.setText("");
+		txtEmail.setText("");
+		txtNovaSenha.setText("");
 	}
 
 		
@@ -106,22 +95,11 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 		}
 
 	private void inicializarComportamento() {
-		//Restricoes.setTextFieldInteger(txtId);
-		//Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
-		//Restricoes.setTextFieldTamanhoMaximo(txtSenha, 40);
+		Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
+		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
 	}
 
 	// ---------------------------------------------
-
-	/*public Usuario dadosDoCampoDeTexto() {
-		Usuario obj = new Usuario();
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		obj.setNome(txtNome.getText());
-		obj.setSenha(txtSenha.getText());
-		obj.setEmail(txtEmail.getText());
-		obj.setCpf(txtCPF.getText());
-		return obj;
-	}*/
 
 	public void carregarCamposDeCadastro() {
 		List<Usuario> lista = service.buscarTodos();
@@ -129,7 +107,6 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 			 u.getLogado();
 			
 			 if(u.getLogado().equals("S")) {
-				// txtId.setText(String.valueOf(u.getId()));
 					txtNome.setText(u.getNome());
 					txtEmail.setText(u.getEmail());
 					txtCPF.setText(u.getCpf());

@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alertas;
+import gui.util.Restricoes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -122,6 +123,7 @@ public class LoginController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		setUsuario(new Usuario());
 		setUsuarioService(new UsuarioService());
+		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
 		}
 	// ------------------------------------------------------------------
 		

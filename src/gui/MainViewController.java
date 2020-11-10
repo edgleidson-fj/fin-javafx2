@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alertas;
+import gui.util.Restricoes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,6 +76,10 @@ public class MainViewController implements Initializable {
 	private Button btEntrar;
 	@FXML
 	private Button btCriarUsuario;
+	@FXML
+	private Button btLimpar;
+	@FXML
+	private Button btEsqueciSenha;
 	//-----------------------------------------------------
 	int usuarioId;
 	String userNome;
@@ -392,6 +397,20 @@ public class MainViewController implements Initializable {
 		});
 	}
 	
+	@FXML
+	public void onBtLimpar() {
+		txtCPF.setText("");
+		txtSenha.setText("");
+	}
+	
+	@FXML
+	public void onBtEsqueciASenha() {
+		carregarView("/gui/EsqueciASenha.fxml", (EsqueciASenhaController controller) -> {
+			controller.setUsuarioService(new UsuarioService());
+			controller.setUsuario(new Usuario());
+			controller.carregarCamposDeCadastro();
+		});
+	}
 	//-------------------------------------------------------
 	
 		public void setUsuarioService(UsuarioService usuarioService) {
@@ -406,6 +425,7 @@ public class MainViewController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		setUsuario(new Usuario());
 		setUsuarioService(new UsuarioService());
+		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
 		}
 	// ------------------------------------------------------------------
 		
