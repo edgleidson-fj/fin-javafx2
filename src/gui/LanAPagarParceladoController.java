@@ -113,10 +113,7 @@ public class LanAPagarParceladoController implements Initializable {
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
 		total += 0.0;
-		//Date hoje = new Date();
-		//Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
-		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
 		if(txtReferencia.getText().equals("")) {
 			Alertas.mostrarAlerta("Atenção", null, "Favor inserir registro do lançamento ", AlertType.WARNING);
@@ -127,7 +124,7 @@ public class LanAPagarParceladoController implements Initializable {
 		} else {
 			parcela = Utils.stringParaInteiro(txtParcela.getText());
 			LocalDate dtPicker = datePickerData.getValue();
-			for (int x = 0; x < parcela; x++) {
+			for (int x = 1; x <= parcela; x++) {
 				int mais30Dias = x * 30;
 				GregorianCalendar data = new GregorianCalendar(dtPicker.getYear(), dtPicker.getMonthValue(),
 						dtPicker.getDayOfMonth(), 0, 0, 0);
@@ -140,8 +137,11 @@ public class LanAPagarParceladoController implements Initializable {
 				//Usuário logado.
 				Usuario user = new Usuario();
 				user.setId(usuarioId);
-				obj.setUsuario(user);
-							
+				obj.setUsuario(user);							
+				
+				//Detalhe do parcelamento no Registro.
+				obj.setReferencia(txtReferencia.getText()+" ["+x+"/"+parcela+"]");
+				
 				lancamentoService.salvar(obj);
 				lancamentoIds = obj.getId();
 			}
