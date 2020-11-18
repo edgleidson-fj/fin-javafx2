@@ -30,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -94,6 +95,8 @@ public class LanAPagarParceladoController implements Initializable {
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValor;
+	@FXML
+	private CheckBox cbDetalheParcela;
 //--------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
@@ -139,8 +142,16 @@ public class LanAPagarParceladoController implements Initializable {
 				user.setId(usuarioId);
 				obj.setUsuario(user);							
 				
-				//Detalhe do parcelamento no Registro.
-				obj.setReferencia(txtReferencia.getText()+" ["+x+"/"+parcela+"]");
+				//Detalhe do parcelamento no Registro.				
+				if(cbDetalheParcela.isSelected()) {
+					System.out.println("Flag marcado");
+					obj.setReferencia(txtReferencia.getText()+" ["+x+"/"+parcela+"]");
+				}else {
+					System.out.println("Sem Flag marcado");
+					obj.setReferencia(txtReferencia.getText());
+				}
+				
+				
 				
 				lancamentoService.salvar(obj);
 				lancamentoIds = obj.getId();
