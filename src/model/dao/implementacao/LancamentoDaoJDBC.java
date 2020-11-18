@@ -741,7 +741,10 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "WHERE status_id = 1 "
 						+ "AND Month(data) =  '"+mesAtual+"' "
 						+ "AND Day(data) < '"+diaAtual+"' "
-						+ "AND Year(data) = Year(now()) ");
+						+ "AND Year(data) = Year(now())"
+						+ "OR (Month(data) < '"+mesAtual+"' "
+						+ "AND Year(data) = Year(now()) "
+						+ "AND status_id = 1)");
 				ps.executeUpdate();
 			} catch (SQLException ex) {
 				new BDException(ex.getMessage());

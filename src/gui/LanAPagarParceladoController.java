@@ -128,7 +128,7 @@ public class LanAPagarParceladoController implements Initializable {
 			parcela = Utils.stringParaInteiro(txtParcela.getText());
 			LocalDate dtPicker = datePickerData.getValue();
 			for (int x = 1; x <= parcela; x++) {
-				int mais30Dias = x * 30;
+				int mais30Dias = (x-1) * 30;
 				GregorianCalendar data = new GregorianCalendar(dtPicker.getYear(), dtPicker.getMonthValue(),
 						dtPicker.getDayOfMonth(), 0, 0, 0);
 				int numero = 0;
@@ -144,15 +144,11 @@ public class LanAPagarParceladoController implements Initializable {
 				
 				//Detalhe do parcelamento no Registro.				
 				if(cbDetalheParcela.isSelected()) {
-					System.out.println("Flag marcado");
 					obj.setReferencia(txtReferencia.getText()+" ["+x+"/"+parcela+"]");
 				}else {
-					System.out.println("Sem Flag marcado");
 					obj.setReferencia(txtReferencia.getText());
 				}
-				
-				
-				
+								
 				lancamentoService.salvar(obj);
 				lancamentoIds = obj.getId();
 			}
