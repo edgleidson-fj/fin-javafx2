@@ -146,6 +146,7 @@ public class TodasContasController implements Initializable {
 				controle.carregarTableView();
 			} else {
 				LanConfigController controle = loader.getController();
+				obj.setObs(obj.getObs());
 				controle.setLancamento(obj);
 				controle.setLancamentoService(new LancamentoService());
 				controle.setDespesaService(new DespesaService());

@@ -111,6 +111,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 			Pane painel = loader.load();
 
 			DetalheDialogFormController controle = loader.getController();
+			obj.setObs(obj.getObs());
 			controle.setLancamento(obj);
 			controle.setDespesaService(new DespesaService());
 			controle.atualizarDialogForm();

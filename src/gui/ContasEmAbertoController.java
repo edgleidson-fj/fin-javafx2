@@ -110,6 +110,7 @@ public class ContasEmAbertoController implements Initializable {
 
 			if(dialogForm == "detalhe") {
 				DetalheDialogFormController controle = loader.getController();
+				obj.setObs(obj.getObs());
 				controle.setLancamento(obj);
 				controle.setDespesaService(new DespesaService());
 				controle.atualizarDialogForm();

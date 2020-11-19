@@ -146,7 +146,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				obj.setDesconto(rs.getDouble("desconto"));
 				obj.setAcrescimo(rs.getDouble("acrescimo"));
 				obj.setTotal(rs.getDouble("total"));
-				obj.setTipoPagamento(pag);	
+				obj.setTipoPagamento(pag);
+				obj.setObs(rs.getString("obs"));
 				obj.setStatus(status);
 				lista.add(obj);
 			}
@@ -187,6 +188,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setTotal(rs.getDouble("total"));
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
+					obj.setObs(rs.getString("obs"));
 					obj.setTipoPagamento(pag);				
 					lista.add(obj);
 				}
@@ -227,6 +229,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setTotal(rs.getDouble("total"));
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
+					obj.setObs(rs.getString("obs"));
 					obj.setStatus(status);
 					lista.add(obj);
 				}
@@ -495,6 +498,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				l.setTotal(rs.getDouble("lancamento.total"));
 				l.setDesconto(rs.getDouble("lancamento.desconto"));
 				l.setAcrescimo(rs.getDouble("lancamento.acrescimo"));
+				l.setObs(rs.getString("lancamento.obs"));
 				l.setStatus(status);
 		        itens.add(l);
 			}			
@@ -614,7 +618,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				l.setData(new java.util.Date(rs.getTimestamp("lancamento.data").getTime()));				
 				l.setTotal(rs.getDouble("lancamento.total"));
 				l.setDesconto(rs.getDouble("lancamento.desconto"));
-				l.setAcrescimo(rs.getDouble("lancamento.acrescimo"));					
+				l.setAcrescimo(rs.getDouble("lancamento.acrescimo"));
+				l.setObs(rs.getString("lancamento.obs"));
 		        l.setTipoPagamento(tp);
 				itens.add(l);
 			}			
@@ -661,6 +666,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setTotal(rs.getDouble("total"));
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
+					obj.setObs(rs.getString("obs"));
 					obj.setStatus(status);
 					lista.add(obj);
 				}
@@ -700,6 +706,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setTotal(rs.getDouble("total"));
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
+					obj.setObs(rs.getString("obs"));
 					obj.setTipoPagamento(pag);
 					lista.add(obj);
 				}

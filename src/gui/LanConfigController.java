@@ -38,6 +38,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
@@ -115,6 +116,8 @@ public class LanConfigController implements Initializable {
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValor;
+	@FXML
+	private TextArea txtAreaObs;
 //--------------------------------------------------------
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<Despesa> obsListaDespesaTbView;
@@ -263,6 +266,7 @@ public class LanConfigController implements Initializable {
 		total = lancamentoEntidade.getTotal();
 		lbStatus.setText(lancamentoEntidade.getStatus().getNome());		
 		pag = lancamentoEntidade.getTipoPagamento();		
+		txtAreaObs.setText(lancamentoEntidade.getObs());
 	}	
 	// -----------------------------------------------------------------------------------------------------
 

@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,7 +17,7 @@
    <children>
       <AnchorPane maxHeight="-Infinity" prefHeight="464.0" prefWidth="737.0">
          <children>
-            <ToolBar layoutX="6.0" layoutY="131.0" prefHeight="2.0" prefWidth="725.0" />
+            <ToolBar layoutX="6.0" layoutY="142.0" prefHeight="2.0" prefWidth="725.0" AnchorPane.topAnchor="145.0" />
             <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtItemAction" prefHeight="42.0" prefWidth="106.0" text="Adicionar Item" />
             <TextField fx:id="txtItem" layoutX="67.0" layoutY="167.0" prefHeight="25.0" prefWidth="344.0" promptText="Informe um item para adicionar ao lancamento" />
             <TextField fx:id="txtPreco" layoutX="431.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" promptText="0,00" />
@@ -45,14 +46,15 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label layoutX="53.0" layoutY="103.0" text="Tipo de Pagamento" />
+            <Label layoutX="576.0" layoutY="91.0" text="Tipo de Pagamento" AnchorPane.topAnchor="95.0" />
             <Button fx:id="btVoltar" layoutX="394.0" layoutY="396.0" mnemonicParsing="false" onAction="#onBtVoltar" prefHeight="42.0" prefWidth="92.0" stylesheets="@zBotaoVoltar.css" text="Voltar" />
-            <ComboBox fx:id="cmbTipoPag" layoutX="165.0" layoutY="99.0" prefHeight="25.0" prefWidth="123.0" />
+            <ComboBox fx:id="cmbTipoPag" layoutX="573.0" layoutY="108.0" prefHeight="25.0" prefWidth="123.0" AnchorPane.topAnchor="113.0" />
             <Label fx:id="lbStatus" layoutX="579.0" layoutY="9.0" prefHeight="53.0" prefWidth="176.0" textFill="#05f829" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="540.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="9.0">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
+            <TextArea fx:id="txtAreaObs" layoutX="144.0" layoutY="100.0" prefHeight="42.0" prefWidth="413.0" promptText="Sem observações." AnchorPane.topAnchor="96.0" />
          </children>
       </AnchorPane>
    </children>
