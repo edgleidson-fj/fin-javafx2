@@ -315,9 +315,11 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				ps = connection.prepareStatement(
 			"UPDATE lancamento " 
 			+ "SET status_id = '"+status+"', "
-			+ "finalizado = 'S' "
+			+ "finalizado = 'S', "
+			+ "obs = ? "
 			+ "WHERE Id = ? ");
-				ps.setInt(1, obj.getId());
+				ps.setString(1, obj.getObs());
+				ps.setInt(2, obj.getId());
 				ps.executeUpdate();
 			} catch (SQLException ex) {
 				new BDException(ex.getMessage());

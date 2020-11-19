@@ -35,6 +35,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
@@ -94,6 +95,8 @@ public class LanAPagarController implements Initializable {
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValor;
+	@FXML 
+	private TextArea txtAreaObs;
 //--------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
@@ -189,6 +192,7 @@ public class LanAPagarController implements Initializable {
 			 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
 			}
 			else {
+			obj.setObs(txtAreaObs.getText());
 			lancamentoService.confirmarLanAPagar(obj);
 			 carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {			  
 			  controller.setLancamento(new Lancamento()); 

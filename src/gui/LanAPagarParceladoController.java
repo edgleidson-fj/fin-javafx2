@@ -37,6 +37,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -97,6 +98,8 @@ public class LanAPagarParceladoController implements Initializable {
 	private TableColumn<Despesa, Double> colunaDespValor;
 	@FXML
 	private CheckBox cbDetalheParcela;
+	@FXML
+	private TextArea txtAreaObs;
 //--------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
@@ -220,6 +223,7 @@ public class LanAPagarParceladoController implements Initializable {
 		else {
 		for (int x = 0; x < parcela; x++) {
 			obj.setId(lancamentoIds);
+			obj.setObs(txtAreaObs.getText());
 			lancamentoService.confirmarLanAPagar(obj);
 			lancamentoIds--;
 		}
