@@ -181,6 +181,7 @@ public class LanConfigController implements Initializable {
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			obj.setData(Date.from(instant));
 			obj.setTotal(total);
+			obj.setObs(txtAreaObs.getText());
 			obj.setTipoPagamento(cmbTipoPag.getValue());
 		lancamentoService.lanConfig(obj);
 			carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
@@ -272,9 +273,10 @@ public class LanConfigController implements Initializable {
 
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 50);
+		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPreco);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 30);
+		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));

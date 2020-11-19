@@ -111,8 +111,6 @@ public class LanAPagarController implements Initializable {
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
 		total += 0.0;
-		//Date hoje = new Date();
-		//Stage parentStage = Utils.stageAtual(evento);
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
@@ -127,9 +125,9 @@ public class LanAPagarController implements Initializable {
 			obj.setData(Date.from(instant));
 		}
 		//Usuário Logado.
-				Usuario user = new Usuario();
-				user.setId(usuarioId);
-				obj.setUsuario(user);
+		Usuario user = new Usuario();
+		user.setId(usuarioId);
+		obj.setUsuario(user);
 				
 		lancamentoService.salvar(obj);
 		txtId.setText(String.valueOf(obj.getId()));
@@ -263,9 +261,10 @@ public class LanAPagarController implements Initializable {
 	
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 50);
+		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPreco);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 30);
+		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));

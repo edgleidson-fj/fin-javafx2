@@ -294,7 +294,7 @@ public class LanQuitadoController implements Initializable {
 	
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 50);
+		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPreco);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 30);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");

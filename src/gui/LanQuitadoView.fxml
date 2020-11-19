@@ -16,10 +16,10 @@
    <children>
       <AnchorPane maxHeight="-Infinity" prefHeight="464.0" prefWidth="737.0">
          <children>
-            <ToolBar layoutX="6.0" layoutY="131.0" prefHeight="2.0" prefWidth="725.0" />
+            <ToolBar layoutX="6.0" layoutY="131.0" prefHeight="2.0" prefWidth="725.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
             <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtItemAction" prefHeight="42.0" prefWidth="106.0" text="Adicionar Item" />
             <TextField fx:id="txtItem" layoutX="67.0" layoutY="167.0" prefHeight="25.0" prefWidth="344.0" promptText="Informe um item para o lancamento" />
-            <TextField fx:id="txtPreco" layoutX="431.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" promptText="0,00" />
+            <TextField fx:id="txtPreco" layoutX="431.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" promptText="0,00" text="0" />
             <Button fx:id="btCriarRegistroDeLancamento" layoutX="266.0" layoutY="98.0" mnemonicParsing="false" onAction="#onBtCriarRegistroDeLancamento" text="Registrar Lançamento" />
             <TextField fx:id="txtReferencia" layoutX="140.0" layoutY="66.0" prefHeight="25.0" prefWidth="420.0" promptText=" Informe uma referência para o lancamento" />
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" />

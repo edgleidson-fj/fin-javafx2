@@ -17,10 +17,10 @@
    <children>
       <AnchorPane fx:id="txtParcelas" maxHeight="-Infinity" prefHeight="464.0" prefWidth="737.0">
          <children>
-            <ToolBar layoutX="6.0" layoutY="131.0" prefHeight="2.0" prefWidth="725.0" />
+            <ToolBar layoutX="6.0" layoutY="131.0" prefHeight="2.0" prefWidth="725.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
             <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtADDItem" prefHeight="42.0" prefWidth="106.0" text="Adicionar Item" />
             <TextField fx:id="txtItem" layoutX="67.0" layoutY="167.0" prefHeight="25.0" prefWidth="344.0" promptText="Informe um item para o lancamento" />
-            <TextField fx:id="txtPreco" layoutX="431.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" promptText="0,00" />
+            <TextField fx:id="txtPreco" layoutX="431.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" promptText="0,00" text="0" />
             <Button fx:id="btCriarRegistroDeLancamento" layoutX="266.0" layoutY="98.0" mnemonicParsing="false" onAction="#onBtCriarRegistroDeLancamento" text="Registrar Lançamento" />
             <TextField fx:id="txtReferencia" layoutX="140.0" layoutY="66.0" prefHeight="25.0" prefWidth="420.0" promptText=" Informe uma referência para o lancamento" />
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" />
@@ -51,8 +51,8 @@
             <TextField fx:id="txtParcela" layoutX="574.0" layoutY="98.0" prefHeight="25.0" prefWidth="45.0" />
             <Label fx:id="lbUsuario" layoutX="559.0" layoutY="419.0" text="Label" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="30.0" />
             <CheckBox fx:id="cbDetalheParcela" layoutX="635.0" layoutY="102.0" mnemonicParsing="false" text="Detalhar" />
-            <TextArea fx:id="txtAreaObs" layoutX="559.0" layoutY="295.0" prefHeight="90.0" prefWidth="169.0" AnchorPane.leftAnchor="559.0" />
-            <Label layoutX="511.0" layoutY="269.0" text="Observação" AnchorPane.leftAnchor="559.0" />
+            <TextArea fx:id="txtAreaObs" layoutX="559.0" layoutY="295.0" prefHeight="90.0" prefWidth="169.0" AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="5.0" />
+            <Label layoutX="511.0" layoutY="269.0" text="Observação *" AnchorPane.leftAnchor="559.0" />
          </children>
       </AnchorPane>
    </children>

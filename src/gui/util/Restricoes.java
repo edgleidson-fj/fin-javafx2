@@ -1,5 +1,6 @@
 package gui.util;
 
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 // Restrições = Constraints.
@@ -23,6 +24,15 @@ public class Restricoes {
 			}
 		});
 	}
+	
+	// Restrigir o campo TextArea com quantidade máxima de caracteres definido.
+		public static void setTextAreaTamanhoMaximo(TextArea txtArea, int max) {
+			txtArea.textProperty().addListener((obs, oldValue, newValue) -> {
+				if (newValue != null && newValue.length() > max) {
+					txtArea.setText(oldValue);
+				}
+			});
+		}
 
 	// Rstrigir o campo TextField apenas com números Double (0.00).
 	// Expressão regular ("\\d*([\\.]\\d*)?") = Para números Double.
