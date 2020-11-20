@@ -118,12 +118,18 @@ public class LanConfigController implements Initializable {
 	private TableColumn<Despesa, Double> colunaDespValor;
 	@FXML
 	private TextArea txtAreaObs;
+	@FXML
+	private TextField txtDesconto;
+	@FXML
+	private TextField txtAcrescimo;
+	@FXML
+	private Button btZerar;
 //--------------------------------------------------------
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	// ---------------------------------------------------------
 
-	double total;
+	double total, desconto, acrescimo;
 	int idLan, idDesp, idItem;
 	TipoPag pag = new TipoPag();
 	String ref;
@@ -167,6 +173,10 @@ public class LanConfigController implements Initializable {
 		for (Despesa tab : obsListaDespesaTbView) {
 			soma += tab.getPreco();
 		}
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+		soma -= desconto;
+		soma += acrescimo;
 		lbTotal.setText(String.format("R$ %.2f", soma));
 		obj.setTotal(soma);
 		lancamentoService.atualizar(obj);
@@ -180,9 +190,14 @@ public class LanConfigController implements Initializable {
 			obj.setReferencia(txtReferencia.getText());
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			obj.setData(Date.from(instant));
-			obj.setTotal(total);
 			obj.setObs(txtAreaObs.getText());
 			obj.setTipoPagamento(cmbTipoPag.getValue());
+			obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
+			obj.setAcrescimo(Utils.stringParaDouble(txtAcrescimo.getText()));
+			desconto = Utils.stringParaDouble(txtDesconto.getText());
+			acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());			
+			carregarTableView();			
+			obj.setTotal(total);
 		lancamentoService.lanConfig(obj);
 			carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
 				controller.setLancamentoService(new LancamentoService());
@@ -268,6 +283,8 @@ public class LanConfigController implements Initializable {
 		lbStatus.setText(lancamentoEntidade.getStatus().getNome());		
 		pag = lancamentoEntidade.getTipoPagamento();		
 		txtAreaObs.setText(lancamentoEntidade.getObs());
+		txtDesconto.setText(String.valueOf(lancamentoEntidade.getDesconto()));
+		txtAcrescimo.setText(String.valueOf(lancamentoEntidade.getAcrescimo()));
 	}	
 	// -----------------------------------------------------------------------------------------------------
 
@@ -410,6 +427,10 @@ public class LanConfigController implements Initializable {
 					for (Despesa tab : obsListaDespesaTbView) {
 						soma += tab.getPreco();
 					}
+					desconto = Utils.stringParaDouble(txtDesconto.getText());
+					acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+					soma -= desconto;
+					soma += acrescimo;
 					lbTotal.setText(String.format("R$ %.2f", soma));
 					lan.setTotal(soma);
 					lancamentoService.atualizar(lan);
@@ -427,14 +448,22 @@ public class LanConfigController implements Initializable {
 		iniciarBotaoRemover();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
-	//	datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
-	//	Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		// Valor Total
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
 			soma += tab.getPreco();
 		}
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+		soma -= desconto;
+		soma += acrescimo;
 		lbTotal.setText(String.format("R$ %.2f", soma));
 		total = soma;
+	}
+	
+	public void zerarDescontoAcrescimo() {
+		txtDesconto.setText("0.00");
+		txtAcrescimo.setText("0.00");
+		carregarTableView();
 	}
 }

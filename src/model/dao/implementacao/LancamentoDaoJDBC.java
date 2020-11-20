@@ -345,15 +345,19 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					+ "SET referencia = ?, "
 					+ "data = ?, "
 					+ "tipopag_id = ?, "
-					+ "total = ?,"
-					+ "obs = ? "
+					+ "total = ?, "
+					+ "obs = ?,"
+					+ "desconto = ?,"
+					+ "acrescimo = ? "
 					+ "WHERE Id = ? ");
 						ps.setString(1, obj.getReferencia());
 						ps.setDate(2, new java.sql.Date(obj.getData().getTime()));
 						ps.setInt(3, obj.getTipoPagamento().getId());
 						ps.setDouble(4, obj.getTotal());
 						ps.setString(5, obj.getObs());
-						ps.setInt(6, obj.getId());
+						ps.setDouble(6, obj.getDesconto());
+						ps.setDouble(7, obj.getAcrescimo());
+						ps.setInt(8, obj.getId());
 						ps.executeUpdate();
 					} catch (SQLException ex) {
 						new BDException(ex.getMessage());
