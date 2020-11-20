@@ -104,12 +104,14 @@ public class LanQuitadoController implements Initializable {
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValor;
+	@FXML
+	private TextField txtDesconto;
 //--------------------------------------------------------
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	// ---------------------------------------------------------
 
-	double total;
+	double total, desconto;
 	int idLan;
 	int idDesp;
 	int idItem;
@@ -209,6 +211,10 @@ public class LanQuitadoController implements Initializable {
 				Alertas.mostrarAlerta("Atenção", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
 			}
 			else {
+			obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
+		    desconto = Utils.stringParaDouble(txtDesconto.getText());
+		    total-= desconto;
+			obj.setTotal(total);
 			lancamentoService.confirmarLanQuitado(obj);
 			carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {				
 				controller.setLancamento(new Lancamento());
