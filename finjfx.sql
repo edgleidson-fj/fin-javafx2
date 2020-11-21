@@ -15,7 +15,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- Schema finjfx
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `finjfx` DEFAULT CHARACTER SET utf8 ;
-USE `finjfx` ;
+USE `ffinjfx` ;
 
 -- -----------------------------------------------------
 -- Table `finjfx`.`despesa`
@@ -23,7 +23,9 @@ USE `finjfx` ;
 CREATE TABLE IF NOT EXISTS `finjfx`.`despesa` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NULL DEFAULT NULL,
-  `preco` DECIMAL(10,2) NULL DEFAULT NULL,
+  `precoUnid` DECIMAL(10,2) NULL DEFAULT NULL,
+  `precoTotal` DECIMAL(10,2) NULL DEFAULT NULL,
+  `quantidade` INT(11) NULL DEFAULT '1',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 0
@@ -61,6 +63,8 @@ CREATE TABLE IF NOT EXISTS `finjfx`.`usuario` (
   `usuarioNome` VARCHAR(45) NOT NULL,
   `usuarioSenha` VARCHAR(45) NULL DEFAULT NULL,
   `logado` VARCHAR(45) NULL DEFAULT 'N',
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  `cpf` VARCHAR(14) NULL DEFAULT NULL,
   PRIMARY KEY (`usuarioId`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 0
@@ -72,7 +76,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `finjfx`.`lancamento` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `referencia` VARCHAR(45) NULL DEFAULT NULL,
+  `referencia` VARCHAR(100) NULL DEFAULT NULL,
   `tipopag_id` INT(11) NULL DEFAULT '0',
   `total` DECIMAL(10,2) NULL DEFAULT '0.00',
   `data` DATETIME NULL DEFAULT NULL,
@@ -81,23 +85,24 @@ CREATE TABLE IF NOT EXISTS `finjfx`.`lancamento` (
   `acrescimo` DECIMAL(10,2) NULL DEFAULT NULL,
   `finalizado` VARCHAR(45) NULL DEFAULT 'N',
   `usuario_Id` INT(11) NULL DEFAULT NULL,
+  `obs` VARCHAR(500) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Lancament_tipopag_idx` (`tipopag_id` ASC),
   INDEX `fk_lancamento_status1_idx` (`status_id` ASC),
   INDEX `fk_lancamento_usuario1_idx` (`usuario_Id` ASC),
   CONSTRAINT `fk_Lancament_tipopag`
     FOREIGN KEY (`tipopag_id`)
-    REFERENCES `finjfx`.`tipopag` (`id`)
+    REFERENCES `finjavafx6`.`tipopag` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_lancamento_status1`
     FOREIGN KEY (`status_id`)
-    REFERENCES `finjfx`.`status` (`id`)
+    REFERENCES `finjavafx6`.`status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_lancamento_usuario1`
     FOREIGN KEY (`usuario_Id`)
-    REFERENCES `finjfx`.`usuario` (`usuarioId`)
+    REFERENCES `finjavafx6`.`usuario` (`usuarioId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -116,12 +121,12 @@ CREATE TABLE IF NOT EXISTS `finjfx`.`item` (
   INDEX `fk_Lancamento_has_despesa_Lancamento1_idx` (`Lancamento_id` ASC),
   CONSTRAINT `fk_Lancamento_has_despesa_Lancamento1`
     FOREIGN KEY (`Lancamento_id`)
-    REFERENCES `finjfx`.`lancamento` (`id`)
+    REFERENCES `finjavafx6`.`lancamento` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Lancamento_has_despesa_despesa1`
     FOREIGN KEY (`despesa_id`)
-    REFERENCES `finjfx`.`despesa` (`id`)
+    REFERENCES `finjavafx6`.`despesa` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

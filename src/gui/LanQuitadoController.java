@@ -55,7 +55,7 @@ import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
 import model.servico.UsuarioService;
-//import javafx.scene.paint.Color;
+
 
 public class LanQuitadoController implements Initializable {
 
@@ -75,7 +75,11 @@ public class LanQuitadoController implements Initializable {
 	@FXML
 	private TextField txtItem;
 	@FXML
-	private TextField txtPreco;
+	private TextField txtQuantidade;
+	@FXML
+	private TextField txtPrecoUnid;
+	@FXML
+	private TextField txtPrecoTotal;	
 	@FXML
 	private Label lbTotal;
 	@FXML
@@ -103,7 +107,11 @@ public class LanQuitadoController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
-	private TableColumn<Despesa, Double> colunaDespValor;
+	private TableColumn<Despesa, Double> colunaDespQuantidade;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorUnid;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
 	private TextField txtDesconto;
 //--------------------------------------------------------
@@ -159,27 +167,30 @@ public class LanQuitadoController implements Initializable {
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal((total));
 		lancamentoService.atualizar(obj);
-		txtId.setText(String.valueOf(obj.getId()));
-		// Despesa
+		txtId.setText(String.valueOf(obj.getId()));		
+		//Despesa
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
-		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));		
-		if(txtItem.getText().equals("") || txtPreco.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir Item e Valor", AlertType.WARNING);
-		}else {
-		despesaService.salvar(desp);
+		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
+		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
+		double valorUnid, quantidade;
+		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
+		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
+		desp.setPrecoTotal(valorUnid * quantidade);
+		despesaService.salvar(desp);		
 		// Item
 		Item item = new Item();
 		item.setLancamento(obj);
 		item.setDespesa(desp);
 		itemService.salvar(item);
 		// Total
-		total += desp.getPreco();
+		total += desp.getPrecoTotal();
 		lbTotal.setText(String.format("R$ %.2f", total));
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		// Limpando os campos
 		txtItem.setText("");
-		txtPreco.setText(String.valueOf(0));
+		txtQuantidade.setText(String.valueOf(1));
+		txtPrecoUnid.setText(String.valueOf(0.00));
 		// Carregar TableView do Lançamento
 		List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
@@ -189,13 +200,12 @@ public class LanQuitadoController implements Initializable {
 		// Valor Total
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPreco();
+			soma += tab.getPrecoTotal();
 		}
-		lbTotal.setText(String.format("R$ %.2f", soma));
+		lbTotal.setText(String.format("%.2f", soma));
 		obj.setTotal(soma);
 		lancamentoService.atualizar(obj);
 		}
-	}
 		
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
@@ -203,7 +213,7 @@ public class LanQuitadoController implements Initializable {
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			obj.setTipoPagamento(cmbTipoPag.getValue());
-			if(txtId.getText().equals("") || txtPreco.getText().equals("")) {
+			if(txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
 				 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
 			}
 			else {
@@ -213,7 +223,10 @@ public class LanQuitadoController implements Initializable {
 			else {
 			obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
 		    desconto = Utils.stringParaDouble(txtDesconto.getText());
+		    total = Utils.stringParaDouble(lbTotal.getText());
+		    System.out.println(total);
 		    total-= desconto;
+		    System.out.println(total);
 			obj.setTotal(total);
 			lancamentoService.confirmarLanQuitado(obj);
 			carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {				
@@ -301,14 +314,17 @@ public class LanQuitadoController implements Initializable {
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
-		Restricoes.setTextFieldDouble(txtPreco);
+		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 30);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		colunaDespValor.setCellValueFactory(new PropertyValueFactory<>("preco"));
-		Utils.formatTableColumnValorDecimais(colunaDespValor, 2); // Formatar com(0,00)
+		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
 
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
@@ -443,9 +459,9 @@ public class LanQuitadoController implements Initializable {
 				// Valor Total
 					Double soma = 0.0;
 					for (Despesa tab : obsListaDespesaTbView) {
-						soma += tab.getPreco();
+						soma += tab.getPrecoTotal();
 					}
-					lbTotal.setText(String.format("R$ %.2f", soma));
+					lbTotal.setText(String.format("%.2f", soma));
 					lan.setTotal(soma);
 					lancamentoService.atualizar(lan);				
 				  } catch (BDIntegrityException ex) {
@@ -467,9 +483,9 @@ public class LanQuitadoController implements Initializable {
 		// Valor Total
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPreco();
+			soma += tab.getPrecoTotal();
 		}
-		lbTotal.setText(String.format("R$ %.2f", soma));
+		lbTotal.setText(String.format("%.2f", soma));
 	}
 	
 	
