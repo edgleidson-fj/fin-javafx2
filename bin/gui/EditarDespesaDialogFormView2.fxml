@@ -10,14 +10,16 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Label layoutX="14.0" layoutY="45.0" text="Nome" />
-            <Label layoutX="14.0" layoutY="77.0" text="Valor" />
+            <Label layoutX="14.0" layoutY="45.0" text="Item" />
+            <Label layoutX="14.0" layoutY="77.0" text="Valo Unid" />
             <TextField fx:id="txtNome" layoutX="51.0" layoutY="41.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="20.0" />
-            <TextField fx:id="txtPreco" layoutX="51.0" layoutY="73.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-            <Button fx:id="btConfirmar" layoutX="28.0" layoutY="131.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Confirma" />
-            <Button fx:id="btVoltar" layoutX="113.0" layoutY="131.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" />
+            <TextField fx:id="txtPrecoUnid" layoutX="104.0" layoutY="73.0" prefHeight="25.0" prefWidth="76.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="20.0" />
+            <Button fx:id="btConfirmar" layoutX="28.0" layoutY="156.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Confirma" />
+            <Button fx:id="btVoltar" layoutX="115.0" layoutY="156.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" />
             <TextField fx:id="txtId" layoutX="51.0" layoutY="8.0" prefHeight="25.0" prefWidth="33.0" />
             <Label layoutX="17.0" layoutY="12.0" text="ID" />
+            <TextField fx:id="txtQuantidade" layoutX="107.0" layoutY="109.0" prefHeight="25.0" prefWidth="76.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="20.0" />
+            <Label layoutX="15.0" layoutY="113.0" text="Quantidade" />
          </children>
       </AnchorPane>
    </children>
