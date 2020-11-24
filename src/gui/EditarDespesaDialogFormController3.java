@@ -41,7 +41,9 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 	@FXML
 	private TextField txtNome;
 	@FXML
-	private TextField txtPreco;
+	private TextField txtPrecoUnid;
+	@FXML
+	private TextField txtQuantidade;
 	@FXML
 	private Button btConfirmar;
 	@FXML
@@ -51,22 +53,18 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
-		Despesa obj = new Despesa();
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		obj.setNome(txtNome.getText());
-		obj.setPreco(Utils.stringParaDouble(txtPreco.getText()));
-		despesaService.atualizar(obj);
-		//Total
-		lancamentoEntidade.getId();
-		double subtrairDespesa = despesaEntidade.getPreco();
-		double total;
-		total = lancamentoEntidade.getTotal() + Utils.stringParaDouble(txtPreco.getText());
-		total -= subtrairDespesa;
-		lancamentoEntidade.setTotal(total);
-		lancamentoService.atualizar(lancamentoEntidade);
-		
-		parentStage.close();
-			
+		Despesa desp = new Despesa();
+		desp.setId(Utils.stringParaInteiro(txtId.getText()));
+		desp.setNome(txtNome.getText());
+		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
+		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
+		double valorUnid, quantidade;
+		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
+		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
+		desp.setPrecoTotal(valorUnid * quantidade);
+		despesaService.atualizar(desp);
+					
+		parentStage.close();			
 		carregarView("/gui/LanConfigView.fxml", (LanConfigController controller) -> {
 			Lancamento lan = new Lancamento();
 			lan.setId(lancamentoEntidade.getId());
@@ -78,7 +76,6 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			controller.setItemService(new ItemService());
 			controller.setItem(new Item());			
 			controller.carregarTableView();
-		//	controller.carregarCamposDeCadastro2();
 			});	
 		}
 	
@@ -111,13 +108,15 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 	public void carregarCamposDeCadastro() {
 		txtId.setText(String.valueOf(despesaEntidade.getId()));
 		txtNome.setText(despesaEntidade.getNome());
-		txtPreco.setText(String.valueOf(despesaEntidade.getPreco()));
+		txtPrecoUnid.setText(String.valueOf(despesaEntidade.getPrecoUnid()));
+		txtQuantidade.setText(String.valueOf(despesaEntidade.getQuantidade()));
 	}	
 	
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtNome, 50);
-		Restricoes.setTextFieldDouble(txtPreco);
+		Restricoes.setTextFieldDouble(txtPrecoUnid);
+		Restricoes.setTextFieldInteger(txtQuantidade);
 		}
 	// -----------------------------------------------------------------
 	

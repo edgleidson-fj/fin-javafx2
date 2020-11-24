@@ -41,6 +41,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
@@ -67,7 +68,9 @@ public class LanAPagarParceladoController implements Initializable {
 	@FXML
 	private TextField txtItem;
 	@FXML
-	private TextField txtPreco;
+	private TextField txtQuantidade;
+	@FXML
+	private TextField txtPrecoUnid;
 	@FXML
 	private TextField txtParcela;
 	@FXML
@@ -95,7 +98,11 @@ public class LanAPagarParceladoController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
-	private TableColumn<Despesa, Double> colunaDespValor;
+	private TableColumn<Despesa, Double> colunaDespQuantidade;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorUnid;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
 	private CheckBox cbDetalheParcela;
 	@FXML
@@ -170,10 +177,12 @@ public class LanAPagarParceladoController implements Initializable {
 		// Despesa
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
-		desp.setPreco(Utils.stringParaDouble(txtPreco.getText()));
-		if(txtItem.getText().equals("") || txtPreco.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir Item e Valor", AlertType.WARNING);
-		}else {
+		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
+		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
+		double valorUnid, quantidade;
+		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
+		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
+		desp.setPrecoTotal(valorUnid * quantidade);
 		despesaService.salvar(desp);
 		despesaId = desp.getId();
 
@@ -194,7 +203,8 @@ public class LanAPagarParceladoController implements Initializable {
 			// Carregar campos
 			txtId.setText(String.valueOf(obj.getId()));
 			txtItem.setText("");
-			txtPreco.setText(String.valueOf(0));
+			txtQuantidade.setText(String.valueOf(1));
+			txtPrecoUnid.setText(String.valueOf(0.00));
 			// Carregar TableView do Lançamento
 			List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
 			obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
@@ -203,21 +213,20 @@ public class LanAPagarParceladoController implements Initializable {
 			// Valor Total
 			Double soma = 0.0;
 			for (Despesa tab : obsListaDespesaTbView) {
-				soma += tab.getPreco();
+				soma += tab.getPrecoTotal();
 				total = soma;
 			}
-			lbTotal.setText(String.format("R$ %.2f", soma));
+			lbTotal.setText(String.format("%.2f", soma));
 			obj.setTotal(soma);
 			lancamentoService.atualizar(obj);
 		}
 		lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
 		}
-	}
-
+	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
-		if(txtId.getText().equals("") || txtPreco.getText().equals("")) {
+		if(txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
 			 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
 		}
 		else {
@@ -297,15 +306,22 @@ public class LanAPagarParceladoController implements Initializable {
 
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
-		Restricoes.setTextFieldDouble(txtPreco);
+		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);		
+		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 30);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+		
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		colunaDespValor.setCellValueFactory(new PropertyValueFactory<>("preco"));
-		Utils.formatTableColumnValorDecimais(colunaDespValor, 2); // Formatar com(0,00)
+		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
+
+		Stage stage = (Stage) Main.pegarMainScene().getWindow();
+		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
 	}
 	// -----------------------------------------------------------------
 
@@ -370,10 +386,10 @@ public class LanAPagarParceladoController implements Initializable {
 					// Valor Total
 					Double soma = 0.0;
 					for (Despesa tab : obsListaDespesaTbView) {
-						soma += tab.getPreco();
+						soma += tab.getPrecoTotal();
 					}
 					total = soma;
-					lbTotal.setText(String.format("R$ %.2f", soma));
+					lbTotal.setText(String.format("%.2f", soma));
 					lancamentoIds--;
 				}
 				lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
@@ -403,9 +419,9 @@ public class LanAPagarParceladoController implements Initializable {
 		// Valor Total
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPreco();
+			soma += tab.getPrecoTotal();
 		}
-		lbTotal.setText(String.format("R$ %.2f", soma));
+		lbTotal.setText(String.format("%.2f", soma));
 	}
 	
 	public void carregarUsuarioLogado() {
