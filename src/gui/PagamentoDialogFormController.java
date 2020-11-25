@@ -73,7 +73,11 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
-	private TableColumn<Despesa, Double> colunaDespValor;
+	private TableColumn<Despesa, Double> colunaDespQuantidade;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorUnid;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
 	private ComboBox<TipoPag> cmbTipoPag;
 	@FXML
@@ -99,7 +103,11 @@ public class PagamentoDialogFormController implements Initializable {
 		}
 		else {
 		// Desconto-Acréscimo
-		total = Utils.stringParaDouble(lbTotal.getText());
+		Double soma = 0.0;
+		for (Despesa tab : obsListaDespesaTbView) {
+				soma += tab.getPrecoTotal();
+		}
+		total = soma;
 		total -= Utils.stringParaDouble(txtDesconto.getText());
 		total += Utils.stringParaDouble(txtAcrescimo.getText());
 		if (Utils.stringParaDouble(txtDesconto.getText()) != 0) {
@@ -133,21 +141,39 @@ public class PagamentoDialogFormController implements Initializable {
 	}
 
 	public void onBtAtualizarTotal() {
-		lbDespesa.setText(String.format("R$ %.2f", lancamentoEntidade.getTotal()));
-		double total = lancamentoEntidade.getTotal();
-		if (Utils.stringParaDouble(txtDesconto.getText()) != 0) {
+		//lbDespesa.setText(String.format("R$ %.2f", lancamentoEntidade.getTotal()));
+		Double soma = 0.0;
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPrecoTotal();
+		}
+		double total = soma;
+		
+		if (Utils.stringParaDouble(txtDesconto.getText()) > 0 ) {
 			total -= Utils.stringParaDouble(txtDesconto.getText());
-			lbOutro.setText(String.format("-%.2f", Utils.stringParaDouble(txtDesconto.getText())));
+			lbOutro.setText(String.format("Desconto R$ %.2f", Utils.stringParaDouble(txtDesconto.getText())));
 			 desconto = Utils.stringParaDouble(txtDesconto.getText());
-		}
-		if (Utils.stringParaDouble(txtAcrescimo.getText()) != 0) {
+			 txtAcrescimo.setText(String.valueOf(0.00));
+			}
+		
+		if (Utils.stringParaDouble(txtAcrescimo.getText()) > 0) {
 			total += Utils.stringParaDouble(txtAcrescimo.getText());
-			lbOutro.setText(String.format("+%.2f", Utils.stringParaDouble(txtAcrescimo.getText())));
+			lbOutro.setText(String.format("Acréscimo R$ %.2f", Utils.stringParaDouble(txtAcrescimo.getText())));
 			 acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+			 txtDesconto.setText(String.valueOf(0.00));
 		}
+		
+		if (Utils.stringParaDouble(txtDesconto.getText()) < 1 && 
+				Utils.stringParaDouble(txtAcrescimo.getText()) < 1) {
+		soma = 0.0;
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPrecoTotal();
+		}
+		lbTotal.setText(String.format("%.2f", soma));
+		lbOutro.setText("");
+		}		
+		else {
 		lbTotal.setText(String.format("%.2f", total));
-		txtDesconto.setText(String.valueOf(0));
-		txtAcrescimo.setText(String.valueOf(0));
+	}
 	}
 	// -----------------------------------------------
 
@@ -180,8 +206,11 @@ public class PagamentoDialogFormController implements Initializable {
 		Restricoes.setTextFieldInteger(txtId);
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		colunaDespValor.setCellValueFactory(new PropertyValueFactory<>("preco"));
-		Utils.formatTableColumnValorDecimais(colunaDespValor, 2); // Formatar com(0,00)
+		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
 	}
 
 	public void atualizarDialogForm() {
@@ -189,9 +218,15 @@ public class PagamentoDialogFormController implements Initializable {
 		txtRef.setText(lancamentoEntidade.getReferencia());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
-		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		txtDesconto.setText(String.valueOf(0));
-		txtAcrescimo.setText(String.valueOf(0));
+		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");		
+		txtDesconto.setText(String.valueOf(lancamentoEntidade.getDesconto()));
+		txtAcrescimo.setText(String.valueOf(lancamentoEntidade.getAcrescimo()));
+		if(lancamentoEntidade.getDesconto()> 0) {
+		lbOutro.setText(String.format("Desconto R$ %.2f",lancamentoEntidade.getDesconto()));
+		}
+		if(lancamentoEntidade.getAcrescimo()> 0) {
+			lbOutro.setText(String.format("Acréscimo R$ %.2f",lancamentoEntidade.getAcrescimo()));
+			}
 	}
 
 	public void carregarTableView() {

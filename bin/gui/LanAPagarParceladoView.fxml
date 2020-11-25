@@ -37,8 +37,8 @@
                   <TableColumn fx:id="colunaRemover" prefWidth="70.0" />
                   <TableColumn fx:id="colunaDespId" prefWidth="50.0" text="Código" />
                   <TableColumn fx:id="colunaDespNome" prefWidth="185.0" resizable="false" text="Item" />
-                  <TableColumn fx:id="colunaDespQuantidade" prefWidth="35.0" text="Qtde" />
                   <TableColumn fx:id="colunaDespValorUnid" prefWidth="60.0" text="Unid" />
+                  <TableColumn fx:id="colunaDespQuantidade" prefWidth="35.0" text="Qtde" />
                 <TableColumn fx:id="colunaDespValorTotal" prefWidth="70.0" text="Total" />
               </columns>
             </TableView>

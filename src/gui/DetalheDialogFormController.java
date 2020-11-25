@@ -49,7 +49,11 @@ public class DetalheDialogFormController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
-	private TableColumn<Despesa, Double> colunaDespValor;
+	private TableColumn<Despesa, Double> colunaDespQuantidade;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorUnid;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
 	private Button btVoltar;
 	@FXML
@@ -88,8 +92,11 @@ public class DetalheDialogFormController implements Initializable {
 		Restricoes.setTextFieldInteger(txtId);
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		colunaDespValor.setCellValueFactory(new PropertyValueFactory<>("preco"));
-		Utils.formatTableColumnValorDecimais(colunaDespValor, 2); // Formatar com(0,00)
+		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
 	}
 
 	public void atualizarDialogForm() {
@@ -99,10 +106,10 @@ public class DetalheDialogFormController implements Initializable {
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		lbTotal.setText(String.format("R$ %.2f", lancamentoEntidade.getTotal()));
 		if (lancamentoEntidade.getDesconto() != 0) {
-			lbDescontoAcrescimo.setText(String.format("Desconto %.2f",lancamentoEntidade.getDesconto()));
+			lbDescontoAcrescimo.setText(String.format("Desconto R$ %.2f",lancamentoEntidade.getDesconto()));
 		}
 		if (lancamentoEntidade.getAcrescimo() != 0) {
-			lbDescontoAcrescimo.setText(String.format("Acréscimo %.2f",lancamentoEntidade.getAcrescimo()));
+			lbDescontoAcrescimo.setText(String.format("Acréscimo R$ %.2f",lancamentoEntidade.getAcrescimo()));
 		}
 		txtObs.setText(lancamentoEntidade.getObs());
 	}

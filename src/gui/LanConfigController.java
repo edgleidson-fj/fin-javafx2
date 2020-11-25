@@ -49,7 +49,6 @@ import javafx.util.Callback;
 import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.Lancamento;
-import model.entidade.Status;
 import model.entidade.TipoPag;
 import model.servico.DespesaService;
 import model.servico.ItemService;
@@ -64,7 +63,6 @@ public class LanConfigController implements Initializable {
 	private Item itemEntidade;
 	private DespesaService despesaService;
 	private Despesa despesaEntidade;
-	//private TipoPag tipoPagEntidade;
 	private TipoPagService tipoPagService;
 	// ----------------------------------------------------------------
 
@@ -78,14 +76,6 @@ public class LanConfigController implements Initializable {
 	private TextField txtQuantidade;
 	@FXML
 	private TextField txtPrecoUnid;
-	/*@FXML
-	private TextField txtTipoPagId;
-	@FXML
-	private TextField txtTipoPagNome;
-	@FXML
-	private TextField txtStatusId;
-	@FXML
-	private TextField txtStatusNome;*/
 	@FXML
 	private Label lbTotal;
 	@FXML
@@ -94,10 +84,6 @@ public class LanConfigController implements Initializable {
 	private DatePicker datePickerData;
 	@FXML
 	private ComboBox<TipoPag> cmbTipoPag;
-	/*@FXML
-	private ComboBox<Status> cmbStatus;*/
-	/*@FXML
-	private Button btCriarRegistroDeLancamento;*/
 	@FXML
 	private Button btItem;
 	@FXML
@@ -139,8 +125,6 @@ public class LanConfigController implements Initializable {
 	int idLan, idDesp, idItem;
 	TipoPag pag = new TipoPag();
 	String ref;
-
-	
 
 	@FXML
 	public void onBtItemAction(ActionEvent evento) {
