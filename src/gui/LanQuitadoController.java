@@ -78,8 +78,6 @@ public class LanQuitadoController implements Initializable {
 	private TextField txtQuantidade;
 	@FXML
 	private TextField txtPrecoUnid;
-	//@FXML
-	//private TextField txtPrecoTotal;	
 	@FXML
 	private Label lbTotal;
 	@FXML
