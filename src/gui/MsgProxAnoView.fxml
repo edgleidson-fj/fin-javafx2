@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="131.0" prefWidth="313.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MsgProxAnoController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="lbMsg" layoutX="7.0" layoutY="33.0" text="Favor cadastrar lançamentos mensais de" AnchorPane.bottomAnchor="78.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="btNaoMostrar" layoutX="7.0" layoutY="92.0" mnemonicParsing="false" onAction="#onBtNaoMostrar" text="Não mostrar novamente!" />
+            <Label fx:id="lbProxAno" layoutX="257.0" layoutY="33.0" text="2020" AnchorPane.bottomAnchor="78.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

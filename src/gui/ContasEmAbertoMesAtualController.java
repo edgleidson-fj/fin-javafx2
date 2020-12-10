@@ -208,5 +208,5 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				}
 			};
 		});
-	}
+	}	
 }
