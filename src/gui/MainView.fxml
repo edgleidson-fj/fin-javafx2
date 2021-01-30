@@ -64,19 +64,19 @@
             </MenuBar>
             <AnchorPane prefHeight="465.0" prefWidth="785.0">
                <children>
-                  <Button fx:id="btEntrar" layoutX="377.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtConfirmar" prefHeight="25.0" prefWidth="50.0" stylesheets="@zBotaoConfirmar.css" text="Entrar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="323.0" AnchorPane.topAnchor="266.0" />
-                  <Label layoutX="314.0" layoutY="205.0" text="Senha" AnchorPane.bottomAnchor="238.0" AnchorPane.leftAnchor="314.0" />
-                  <Label layoutX="314.0" layoutY="171.0" text="CPF" AnchorPane.bottomAnchor="274.0" AnchorPane.leftAnchor="314.0" />
-                  <TextField fx:id="txtCPF" layoutX="362.0" layoutY="167.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="999.999.999-99" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="347.0" />
-                  <Button fx:id="btCriarUsuario" layoutX="445.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" prefHeight="25.0" prefWidth="70.0" stylesheets="@zBotaoVoltar.css" text="Cadastrar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="438.0" />
-                  <PasswordField fx:id="txtSenha" layoutX="365.0" layoutY="201.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.bottomAnchor="234.0" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="227.0" />
-                  <Separator layoutX="293.0" layoutY="125.0" prefHeight="1.0" prefWidth="260.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="235.0" AnchorPane.topAnchor="150.0" />
+                  <Button fx:id="btEntrar" layoutX="377.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtConfirmar" prefHeight="25.0" prefWidth="50.0" stylesheets="@zBotaoConfirmar.css" text="Entrar" AnchorPane.leftAnchor="323.0" AnchorPane.topAnchor="266.0" />
+                  <Label layoutX="308.0" layoutY="231.0" text="Senha" AnchorPane.leftAnchor="308.0" />
+                  <Label layoutX="314.0" layoutY="195.0" text="CPF" AnchorPane.leftAnchor="314.0" />
+                  <TextField fx:id="txtCPF" layoutX="362.0" layoutY="167.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="999.999.999-99" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="190.0" />
+                  <Button fx:id="btCriarUsuario" layoutX="445.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" prefHeight="25.0" prefWidth="70.0" stylesheets="@zBotaoVoltar.css" text="Cadastrar" AnchorPane.leftAnchor="438.0" AnchorPane.topAnchor="266.0" />
+                  <PasswordField fx:id="txtSenha" layoutX="365.0" layoutY="201.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="227.0" />
+                  <Separator layoutX="293.0" layoutY="125.0" prefHeight="1.0" prefWidth="260.0" AnchorPane.leftAnchor="291.0" AnchorPane.rightAnchor="233.0" AnchorPane.topAnchor="150.0" />
                   <Separator layoutX="293.0" layoutY="284.0" prefHeight="1.0" prefWidth="267.0" AnchorPane.leftAnchor="293.0" AnchorPane.rightAnchor="232.0" AnchorPane.topAnchor="360.0" />
-                  <Separator layoutX="290.0" layoutY="126.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="128.0" AnchorPane.topAnchor="152.0" />
-                  <Separator layoutX="553.0" layoutY="126.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="128.0" AnchorPane.topAnchor="152.0" />
+                  <Separator layoutX="291.0" layoutY="126.0" orientation="VERTICAL" prefHeight="209.0" prefWidth="5.0" AnchorPane.topAnchor="152.0" />
+                  <Separator layoutX="553.0" layoutY="126.0" orientation="VERTICAL" prefHeight="209.0" prefWidth="4.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="152.0" />
                   <Button fx:id="btEsqueciSenha" layoutX="230.0" layoutY="383.0" mnemonicParsing="false" onAction="#onBtEsqueciASenha" text="Esqueci a senha" AnchorPane.leftAnchor="314.0" AnchorPane.topAnchor="324.0" />
-                  <Button fx:id="btLimpar" layoutX="527.0" layoutY="371.0" mnemonicParsing="false" onAction="#onBtLimpar" text="Limpar" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="378.0" AnchorPane.topAnchor="266.0" />
-                  <Label layoutX="391.0" layoutY="78.0" text="LOGIN" AnchorPane.bottomAnchor="351.0" AnchorPane.leftAnchor="404.0" AnchorPane.rightAnchor="323.0" AnchorPane.topAnchor="108.0">
+                  <Button fx:id="btLimpar" layoutX="527.0" layoutY="371.0" mnemonicParsing="false" onAction="#onBtLimpar" text="Limpar" AnchorPane.leftAnchor="378.0" AnchorPane.topAnchor="266.0" />
+                  <Label layoutX="391.0" layoutY="78.0" text="LOGIN" AnchorPane.leftAnchor="404.0" AnchorPane.rightAnchor="323.0" AnchorPane.topAnchor="108.0">
                      <font>
                         <Font size="18.0" />
                      </font>
