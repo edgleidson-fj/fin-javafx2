@@ -56,6 +56,16 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
 	private Label lbTotal;
+	@FXML
+	private Label lbTotalTipoPagamento1;
+	@FXML
+	private Label lbTotalTipoPagamento2;
+	@FXML
+	private Label lbTotalTipoPagamento3;
+	@FXML
+	private Label lbTotalTipoPagamento4;
+	@FXML
+	private Label lbTotalTipoPagamento5;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -97,12 +107,58 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();
+		
 		// Valor Total
 		Double soma = 0.0;
+		Double somaTipoPag1 = 0.0;
+		Double somaTipoPag2 = 0.0;
+		Double somaTipoPag3 = 0.0;
+		Double somaTipoPag4 = 0.0;
+		Double somaTipoPag5 = 0.0;
+		String nomeTipoPag1=null;
+		String nomeTipoPag2=null;
+		String nomeTipoPag3=null;
+		String nomeTipoPag4=null;
+		String nomeTipoPag5=null;
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			soma += tab.getTotal();
+			if(tab.getTipoPagamento().getId() == 2) {
+				somaTipoPag1 += tab.getTotal();
+				nomeTipoPag1 = tab.getTipoPagamento().getNome();
+			}
+			if(tab.getTipoPagamento().getId() == 3) {
+				somaTipoPag2 += tab.getTotal();
+				nomeTipoPag2 = tab.getTipoPagamento().getNome();
+				}
+			if(tab.getTipoPagamento().getId() == 4) {
+				somaTipoPag3 += tab.getTotal();
+				nomeTipoPag3 = tab.getTipoPagamento().getNome();
+				}
+			if(tab.getTipoPagamento().getId() == 5) {
+				somaTipoPag4 += tab.getTotal();
+				nomeTipoPag4 = tab.getTipoPagamento().getNome();
+				}
+			if(tab.getTipoPagamento().getId() == 6) {
+				somaTipoPag5 += tab.getTotal();
+				nomeTipoPag5 = tab.getTipoPagamento().getNome();
+				}
 		}
 		lbTotal.setText(String.format("R$ %.2f", soma));
+		if(nomeTipoPag1 != null) {
+		lbTotalTipoPagamento1.setText(String.format(nomeTipoPag1+" "+"R$ %.2f", somaTipoPag1));
+		}
+		if(nomeTipoPag2 != null) {
+			lbTotalTipoPagamento2.setText(String.format(nomeTipoPag2+" "+"R$ %.2f", somaTipoPag2));		
+		}
+		if(nomeTipoPag3 != null) {
+			lbTotalTipoPagamento3.setText(String.format(nomeTipoPag3+" "+"R$ %.2f", somaTipoPag3));
+			}
+		if(nomeTipoPag4 != null) {
+			lbTotalTipoPagamento4.setText(String.format(nomeTipoPag4+" "+"R$ %.2f", somaTipoPag4));
+			}
+		if(nomeTipoPag5 != null) {
+			lbTotalTipoPagamento5.setText(String.format(nomeTipoPag5+" "+"R$ %.2f", somaTipoPag5));
+			}
 	}
 
 	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai) {

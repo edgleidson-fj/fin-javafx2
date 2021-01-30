@@ -16,7 +16,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="440.0" prefWidth="733.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
+            <TableView fx:id="tbLancamento" layoutX="4.0" layoutY="41.0" prefHeight="376.0" prefWidth="733.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="41.0">
               <columns>
                   <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="39.0" />
                 <TableColumn fx:id="colunaLanData" prefWidth="88.0" text="DATA" />
@@ -31,6 +31,31 @@
             <Label fx:id="lbTotal" layoutX="639.0" layoutY="14.0" textFill="#3008f8">
                <font>
                   <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalTipoPagamento1" layoutX="14.0" layoutY="430.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="632.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalTipoPagamento2" layoutX="191.0" layoutY="430.0" AnchorPane.leftAnchor="191.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalTipoPagamento3" layoutX="369.0" layoutY="430.0" AnchorPane.leftAnchor="369.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalTipoPagamento4" layoutX="543.0" layoutY="430.0" AnchorPane.leftAnchor="543.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalTipoPagamento5" layoutX="717.0" layoutY="430.0" AnchorPane.leftAnchor="717.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
                </font>
             </Label>
          </children>

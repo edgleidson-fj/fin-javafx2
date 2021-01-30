@@ -126,7 +126,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				+ "INNER JOIN Usuario u "
 				+ "ON l.usuario_id = u.usuarioid "
 				+ "WHERE u.logado = 'S' "
-	/*------------------------------*/			+ "AND Year(data) >= Year(now())-2 "
+				+ "AND Year(data) >= Year(now())-2 "
 					+ "ORDER BY l.id DESC"); 			
 		rs = ps.executeQuery();
 			List<Lancamento> lista = new ArrayList<>();			
@@ -170,7 +170,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "ON u.usuarioId = l.usuario_Id "
 						+ "WHERE status_id = 2 "
 						+ "AND u.logado = 'S' "
-						/*------------------------------*/			+ "AND Year(data) >= Year(now())-2 "
+						+ "AND Year(data) >= Year(now())-2 "
 						+ "ORDER BY data DESC");			
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
@@ -832,5 +832,5 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharResultSet(rs);
 			}
 		}
-		
+				
 }
