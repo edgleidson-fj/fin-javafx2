@@ -705,6 +705,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				List<Lancamento> lista = new ArrayList<>();				
 				while (rs.next()) {
 				TipoPag pag = new TipoPag();
+					pag.setId(rs.getInt("tipopag.id"));
 					pag.setNome(rs.getString("tipopag.nome"));
 					Lancamento obj = new Lancamento();
 					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
