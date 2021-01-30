@@ -11,14 +11,14 @@
 
 <VBox maxHeight="-Infinity" prefHeight="526.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ContasEmAbertoPeriodoController">
    <children>
-      <AnchorPane prefHeight="450.0" prefWidth="743.0">
+      <AnchorPane prefHeight="450.0" prefWidth="743.0" VBox.vgrow="SOMETIMES">
          <children>
             <Label layoutX="254.0" layoutY="14.0" text="CONTAS A PAGAR POR PERÍODO" AnchorPane.leftAnchor="215.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" prefHeight="326.0" prefWidth="737.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="113.0">
+            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" prefHeight="348.0" prefWidth="737.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="113.0">
               <columns>
                   <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="30.0" />
                   <TableColumn fx:id="colunaPagar" prefWidth="40.0" />
@@ -32,7 +32,7 @@
             <DatePicker fx:id="datePickerDataInicial" layoutX="235.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Inicial" AnchorPane.leftAnchor="218.0" />
             <DatePicker fx:id="datePickerDataFinal" layoutX="354.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Final" AnchorPane.leftAnchor="338.0" />
             <Button fx:id="btConsultar" layoutX="477.0" layoutY="55.0" mnemonicParsing="false" onAction="#onConsulta" text="Consultar" AnchorPane.leftAnchor="457.0" />
-            <Label fx:id="lbTotal" layoutX="613.0" layoutY="33.0" maxHeight="-Infinity" prefHeight="35.0" prefWidth="128.0" textFill="#3008f8" AnchorPane.bottomAnchor="487.0" AnchorPane.leftAnchor="604.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="33.0">
+            <Label fx:id="lbTotal" layoutX="613.0" layoutY="33.0" maxHeight="-Infinity" prefHeight="35.0" prefWidth="128.0" textFill="#3008f8" AnchorPane.leftAnchor="604.0" AnchorPane.rightAnchor="11.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
