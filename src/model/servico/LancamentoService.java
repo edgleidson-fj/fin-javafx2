@@ -65,4 +65,7 @@ public class LancamentoService {
 	public void exclusaoAutomatico(Lancamento obj) {
 		dao.exclusaoAutomatico(obj);
 	}
+	public List<Lancamento>buscarLanPorId (Integer id) {
+		return dao.buscarLanPorId(id);
+	}	
 }

@@ -25,4 +25,5 @@ public interface LancamentoDao {
 	void cancelamentoAutomatico(Lancamento obj);
 	void vencimentoAutomatico(Lancamento obj);
 	void exclusaoAutomatico(Lancamento obj);
+	List<Lancamento> buscarLanPorId(Integer id);
 }

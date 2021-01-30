@@ -10,10 +10,12 @@ import java.util.function.Consumer;
 //import javafx.scene.paint.Color;
 import application.Main;
 import gui.util.Alertas;
+import gui.util.Restricoes;
 import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,6 +27,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -68,10 +71,24 @@ public class TodasContasController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaConfig;
+	@FXML 
+	private TextField txtConsultaID;
+	@FXML 
+	private Button btConsultaID;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	// -----------------------------------------------------
+	
+	public void onBtConsultaID(ActionEvent evento) {
+		Integer id = Utils.stringParaInteiro(txtConsultaID.getText());
+		carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) ->{
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.carregarTableViewID(id);
+			});		
+	}
+	//------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -84,11 +101,12 @@ public class TodasContasController implements Initializable {
 	// ----------------------------------------------------------
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		inicializarNodes();
+	public void initialize(URL url, ResourceBundle rb) {
+		inicializarNodes();				
 	}
 
 	private void inicializarNodes() {
+		Restricoes.setTextFieldInteger(txtConsultaID);
 		colunaLanData.setCellValueFactory(new PropertyValueFactory<>("data"));
 		Utils.formatTableColumnData(colunaLanData, "dd/MM/yyyy");
 		colunaLanId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -103,14 +121,26 @@ public class TodasContasController implements Initializable {
 		colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 		renderizarColunas();
 	}
-
-	public void carregarTableView() {
+	
+	public void carregarTableView() {		
 		List<Lancamento> lista = lancamentoService.buscarTodos();
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
-		criarBotaoConfig();
+		criarBotaoConfig();	
 	}
 
+	//Buscando Lançamento por ID.
+	public void carregarTableViewID(Integer id) {			
+		if(id != null) {
+		List<Lancamento> unicoResultado = lancamentoService.buscarLanPorId(id);		
+		obsListaLancamentoTbView = FXCollections.observableArrayList(unicoResultado);
+		tbLancamento.setItems(obsListaLancamentoTbView);
+		criarBotaoConfig();
+		}else {
+			carregarTableView();
+		}
+	}
+	
 //---------------------------------------------------------------------------
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {

@@ -24,15 +24,11 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	public LancamentoDaoJDBC(Connection connection) {
 		this.connection = connection;
 	}
-	//Registrar Lancamento. ok
+
 	@Override
 	public void inserir(Lancamento obj) {
 		PreparedStatement ps = null;
-		/*if(obj.getData() == null) {
-			Date hoje = new Date();
-			System.out.println(hoje);
-		}*/
-		try {
+			try {
 			ps = connection.prepareStatement(
 					"INSERT INTO lancamento "
 						+ "(referencia, total, data, usuario_id) "
@@ -130,6 +126,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				+ "INNER JOIN Usuario u "
 				+ "ON l.usuario_id = u.usuarioid "
 				+ "WHERE u.logado = 'S' "
+	/*------------------------------*/			+ "AND Year(data) >= Year(now())-2 "
 					+ "ORDER BY l.id DESC"); 			
 		rs = ps.executeQuery();
 			List<Lancamento> lista = new ArrayList<>();			
@@ -160,7 +157,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		}
 	}
 	
-	//Listar todos Lancamento (Quitados) ok.....
 		@Override
 		public List<Lancamento> buscarTudoQuitado() {
 			PreparedStatement ps = null;
@@ -174,7 +170,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "ON u.usuarioId = l.usuario_Id "
 						+ "WHERE status_id = 2 "
 						+ "AND u.logado = 'S' "
-						+ "ORDER BY data ASC");			
+						/*------------------------------*/			+ "AND Year(data) >= Year(now())-2 "
+						+ "ORDER BY data DESC");			
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
 				while (rs.next()) {
@@ -788,5 +785,52 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			} finally {
 				BD.fecharStatement(ps);
 			}
-		}		
+		}				
+		
+		//Tela (Todas Contas)
+		@Override
+		public List<Lancamento> buscarLanPorId(Integer id) {
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				ps = connection.prepareStatement(
+						"SELECT * FROM Lancamento l "
+						+ "INNER JOIN Status s "
+						+ "ON l.status_id = s.id "
+						+ "INNER JOIN TipoPag t "
+						+ "ON l.tipoPag_id = t.id "
+					+ "INNER JOIN Usuario u "
+					+ "ON l.usuario_id = u.usuarioid "
+					+ "WHERE u.logado = 'S' "
+					+ "AND l.id = ? "); 		
+				ps.setDouble(1, id);
+			rs = ps.executeQuery();
+				List<Lancamento> lista = new ArrayList<>();			
+				while (rs.next()) {
+					TipoPag pag = new TipoPag();
+					pag.setId(rs.getInt("t.id"));
+					pag.setNome(rs.getString("t.nome"));	
+					Status status = new Status();
+					status.setNome(rs.getString("s.nome"));	
+					Lancamento obj = new Lancamento();
+					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+					obj.setId(rs.getInt("id"));
+					obj.setReferencia(rs.getString("referencia"));
+					obj.setDesconto(rs.getDouble("desconto"));
+					obj.setAcrescimo(rs.getDouble("acrescimo"));
+					obj.setTotal(rs.getDouble("total"));
+					obj.setTipoPagamento(pag);
+					obj.setObs(rs.getString("obs"));
+					obj.setStatus(status);
+					lista.add(obj);
+				}
+				return lista;
+			} catch (SQLException ex) {
+				throw new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+				BD.fecharResultSet(rs);
+			}
+		}
+		
 }
