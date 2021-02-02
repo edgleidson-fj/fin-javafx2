@@ -77,9 +77,9 @@ public class ContasQuitadasMesAtualController implements Initializable {
 
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
-	}	
+	}
 	// ----------------------------------------------------------
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		inicializarNodes();
@@ -106,59 +106,337 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		List<Lancamento> lista = lancamentoService.buscarContasQuitadoMesAtual();
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
-		criarBotaoDetalhe();
-		
-		// Valor Total
-		Double soma = 0.0;
-		Double somaTipoPag1 = 0.0;
-		Double somaTipoPag2 = 0.0;
-		Double somaTipoPag3 = 0.0;
-		Double somaTipoPag4 = 0.0;
-		Double somaTipoPag5 = 0.0;
-		String nomeTipoPag1=null;
-		String nomeTipoPag2=null;
-		String nomeTipoPag3=null;
-		String nomeTipoPag4=null;
-		String nomeTipoPag5=null;
-		for (Lancamento tab : obsListaLancamentoTbView) {
-			soma += tab.getTotal();
-			if(tab.getTipoPagamento().getId() == 2) {
-				somaTipoPag1 += tab.getTotal();
-				nomeTipoPag1 = tab.getTipoPagamento().getNome();
-			}
-			if(tab.getTipoPagamento().getId() == 3) {
-				somaTipoPag2 += tab.getTotal();
-				nomeTipoPag2 = tab.getTipoPagamento().getNome();
+		criarBotaoDetalhe();		
+		carregarSomaTotal();
+	}
+	
+	public void carregarSomaTotal() {
+				Double somaTotal = 0.0;
+				Double somaTipoPag1 = 0.0;
+				Double somaTipoPag2 = 0.0;
+				Double somaTipoPag3 = 0.0;
+				Double somaTipoPag4 = 0.0;
+				Double somaTipoPag5 = 0.0;
+				String nomeTipoPag1 = null;
+				String nomeTipoPag2 = null;
+				String nomeTipoPag3 = null;
+				String nomeTipoPag4 = null;
+				String nomeTipoPag5 = null;	
+				int quantidade = 0;
+				for (Lancamento tab : obsListaLancamentoTbView) {
+					somaTotal += tab.getTotal();
+					if(tab.getTipoPagamento().getId() == 2) {
+						somaTipoPag1 += tab.getTotal();
+						nomeTipoPag1 = tab.getTipoPagamento().getNome();
+						quantidade+=1;
+						}
+					if(tab.getTipoPagamento().getId() == 3) {
+						somaTipoPag2 += tab.getTotal();
+						nomeTipoPag2 = tab.getTipoPagamento().getNome();
+						quantidade+=1;
+						}
+					if(tab.getTipoPagamento().getId() == 4) {
+						somaTipoPag3 += tab.getTotal();
+						nomeTipoPag3 = tab.getTipoPagamento().getNome();
+						quantidade+=1;
+						}
+					if(tab.getTipoPagamento().getId() == 5) {
+						somaTipoPag4 += tab.getTotal();
+						nomeTipoPag4 = tab.getTipoPagamento().getNome();
+						quantidade+=1;
+						}
+					if(tab.getTipoPagamento().getId() == 6) {
+						somaTipoPag5 += tab.getTotal();
+						nomeTipoPag5 = tab.getTipoPagamento().getNome();
+						quantidade+=1;
+						}		
 				}
-			if(tab.getTipoPagamento().getId() == 4) {
-				somaTipoPag3 += tab.getTotal();
-				nomeTipoPag3 = tab.getTipoPagamento().getNome();
+				
+				//Classificar os Tipo de Pagamento de acordo com o valor.
+				Double valorPrimeiro= 0.0;
+				Double valorSegundo= 0.0;
+				Double valorTerceiro= 0.0;
+				Double valorQuarto= 0.0;
+				Double valorQuinto= 0.0;
+				String A = null;
+				String B = null;
+				String C = null;
+				String D = null;
+				String E = null;					
+				int contador = 1;					
+					while(contador <= quantidade) {
+						if(valorPrimeiro<=somaTipoPag1) {
+							valorPrimeiro=somaTipoPag1;
+							A=nomeTipoPag1;
+						}						
+						else
+							if(valorSegundo<=somaTipoPag1) {
+								valorSegundo=somaTipoPag1;
+								B=nomeTipoPag1;
+							}	
+							else
+								if(valorTerceiro<=somaTipoPag1) {
+									valorTerceiro=somaTipoPag1;
+									C=nomeTipoPag1;
+								}	
+								else
+									if(valorQuarto<=somaTipoPag1) {
+										valorQuarto=somaTipoPag1;
+										D=nomeTipoPag1;
+									}
+									else
+										if(valorQuinto<=somaTipoPag1) {
+											valorQuinto=somaTipoPag1;
+											E=nomeTipoPag1;
+										}	
+						
+						if(valorPrimeiro<=somaTipoPag2) {
+							valorPrimeiro=somaTipoPag2;
+							A=nomeTipoPag2;
+						}
+						else
+							if(valorSegundo<=somaTipoPag2) {
+								valorSegundo=somaTipoPag2;
+								B=nomeTipoPag2;
+							}	
+							else
+								if(valorTerceiro<=somaTipoPag2) {
+									valorTerceiro=somaTipoPag2;
+									C=nomeTipoPag2;
+								}	
+								else
+									if(valorQuarto<=somaTipoPag2) {
+										valorQuarto=somaTipoPag2;
+										D=nomeTipoPag2;
+									}
+									else
+										if(valorQuinto<=somaTipoPag2) {
+										valorQuinto=somaTipoPag2;
+											E=nomeTipoPag2;
+										}	
+						
+						if(valorPrimeiro<=somaTipoPag3) {
+							valorPrimeiro=somaTipoPag3;
+							A=nomeTipoPag3;
+						}
+						else
+							if(valorSegundo<=somaTipoPag3) {
+								valorSegundo=somaTipoPag3;
+								B=nomeTipoPag3;
+							}	
+							else
+								if(valorTerceiro<=somaTipoPag3) {
+									valorTerceiro=somaTipoPag3;
+									C=nomeTipoPag3;
+								}	
+								else
+									if(valorQuarto<=somaTipoPag3) {
+										valorQuarto=somaTipoPag3;
+										D=nomeTipoPag3;
+									}
+									else
+										if(valorQuinto<=somaTipoPag3) {
+											valorQuinto=somaTipoPag3;
+											E=nomeTipoPag3;
+										}	
+						
+						if(valorPrimeiro<=somaTipoPag4) {
+							valorPrimeiro=somaTipoPag4;
+							A=nomeTipoPag4;
+						}
+						else
+							if(valorSegundo<=somaTipoPag4) {
+								valorSegundo=somaTipoPag4;
+								B=nomeTipoPag4;
+							}	
+							else
+								if(valorTerceiro<=somaTipoPag4) {
+									valorTerceiro=somaTipoPag4;
+									C=nomeTipoPag4;
+								}	
+								else
+									if(valorQuarto<=somaTipoPag4) {
+										valorQuarto=somaTipoPag4;
+										D=nomeTipoPag4;
+									}
+									else
+										if(valorQuinto<=somaTipoPag4) {
+											valorQuinto=somaTipoPag4;
+											E=nomeTipoPag4;
+										}	
+						
+						if(valorPrimeiro<=somaTipoPag5) {
+							valorPrimeiro=somaTipoPag5;
+							A=nomeTipoPag5;
+						}
+						else
+							if(valorSegundo<=somaTipoPag5) {
+								valorSegundo=somaTipoPag5;
+								B=nomeTipoPag5;
+							}	
+							else
+								if(valorTerceiro<=somaTipoPag5) {
+									valorTerceiro=somaTipoPag5;
+									C=nomeTipoPag5;
+								}	
+								else
+									if(valorQuarto<=somaTipoPag5) {
+										valorQuarto=somaTipoPag5;
+										D=nomeTipoPag5;
+									}
+									else
+										if(valorQuinto<=somaTipoPag5) {
+										valorQuinto=somaTipoPag5;
+											E=nomeTipoPag5;
+										}											
+						contador ++;
+						}
+						
+					//Exibir os valores na Tela.
+				lbTotal.setText(String.format("R$ %.2f", somaTotal));
+				if(A != null) {
+				lbTotalTipoPagamento1.setText(String.format(A+" "+"R$ %.2f", valorPrimeiro));
+				System.out.println("A:"+A);
 				}
-			if(tab.getTipoPagamento().getId() == 5) {
-				somaTipoPag4 += tab.getTotal();
-				nomeTipoPag4 = tab.getTipoPagamento().getNome();
+				
+				if(B != null && B!=A) {
+					lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", valorSegundo));	
+					System.out.println("B:"+B);
 				}
-			if(tab.getTipoPagamento().getId() == 6) {
-				somaTipoPag5 += tab.getTotal();
-				nomeTipoPag5 = tab.getTipoPagamento().getNome();
+				else
+					if(B==null && !nomeTipoPag1.equals(A)) {
+						B=nomeTipoPag1;
+						lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag1));
+						System.out.println("B*:"+B);
+					}	
+					else
+						if(B==null && !nomeTipoPag2.equals(A)) {
+							B=nomeTipoPag2;
+							lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag2));
+							System.out.println("B*:"+B);
+						}	
+						else
+							if(B==null && !nomeTipoPag3.equals(A)) {
+								B=nomeTipoPag3;
+								lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag3));
+								System.out.println("B*:"+B);
+							}	
+							else
+								if(B==null && !nomeTipoPag4.equals(A)) {
+									B=nomeTipoPag4;
+									lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag4));
+									System.out.println("B*:"+B);
+								}	
+								else
+									if(B==null && !nomeTipoPag5.equals(A)) {
+										B=nomeTipoPag5;
+										lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag5));
+										System.out.println("B*:"+B);
+									}	
+				
+				if(C != null && C!=A && C!=B) {
+					lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", valorTerceiro));
+					System.out.println("C:"+C);
+					}
+				else
+					if(C==null && !nomeTipoPag1.equals(A) && !nomeTipoPag1.equals(B)) {
+						C=nomeTipoPag1;
+						lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag1));
+						System.out.println("C*:"+C);
+					}	
+					else
+						if(C==null && !nomeTipoPag2.equals(A) && !nomeTipoPag2.equals(B)) {
+							C=nomeTipoPag2;
+							lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag2));
+							System.out.println("C*:"+C);
+						}	
+						else
+							if(C==null && !nomeTipoPag3.equals(A) && !nomeTipoPag3.equals(B)) {
+								C=nomeTipoPag3;
+								lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag3));
+								System.out.println("C*:"+C);
+							}	
+							else
+								if(C==null && !nomeTipoPag4.equals(A) && !nomeTipoPag4.equals(B)) {
+									C=nomeTipoPag4;
+									lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag4));
+									System.out.println("C*:"+C);
+								}	
+								else
+									if(C==null && !nomeTipoPag5.equals(A) && !nomeTipoPag5.equals(B)) {
+										C=nomeTipoPag5;
+										lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag5));
+										System.out.println("C*:"+C);
+									}	
+				
+				if(D != null && D!=A && D!=B && D!=C) {					
+					lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", valorQuarto));
+					System.out.println("D:"+D);
+				}else
+					if(D==null && !nomeTipoPag1.equals(A) && !nomeTipoPag1.equals(B) && !nomeTipoPag1.equals(C)) {
+						D=nomeTipoPag1;
+						lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag1));
+						System.out.println("D*:"+D);
+					}	
+					else
+						if(D==null && !nomeTipoPag2.equals(A) && !nomeTipoPag2.equals(B) && !nomeTipoPag2.equals(C)) {
+							D=nomeTipoPag2;
+							lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag2));
+							System.out.println("D*:"+D);
+						}	
+						else
+							if(D==null && !nomeTipoPag3.equals(A) && !nomeTipoPag3.equals(B) && !nomeTipoPag3.equals(C)) {
+								D=nomeTipoPag3;
+								lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag3));
+								System.out.println("D*:"+D);
+							}	
+							else
+								if(D==null && !nomeTipoPag4.equals(A) && !nomeTipoPag4.equals(B) && !nomeTipoPag4.equals(C)) {
+									D=nomeTipoPag4;
+									lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag4));
+									System.out.println("D*:"+D);
+								}	
+								else
+									if(D==null && !nomeTipoPag5.equals(A) && !nomeTipoPag5.equals(B) && !nomeTipoPag5.equals(C)) {
+										D=nomeTipoPag5;
+										lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag5));
+										System.out.println("D*:"+D);
+									}	
+				
+				if(E != null && E!=A && E!=B && E!=C && E!=D) {
+					lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", valorQuinto));
+					System.out.println("E:"+E);
 				}
-		}
-		lbTotal.setText(String.format("R$ %.2f", soma));
-		if(nomeTipoPag1 != null) {
-		lbTotalTipoPagamento1.setText(String.format(nomeTipoPag1+" "+"R$ %.2f", somaTipoPag1));
-		}
-		if(nomeTipoPag2 != null) {
-			lbTotalTipoPagamento2.setText(String.format(nomeTipoPag2+" "+"R$ %.2f", somaTipoPag2));		
-		}
-		if(nomeTipoPag3 != null) {
-			lbTotalTipoPagamento3.setText(String.format(nomeTipoPag3+" "+"R$ %.2f", somaTipoPag3));
-			}
-		if(nomeTipoPag4 != null) {
-			lbTotalTipoPagamento4.setText(String.format(nomeTipoPag4+" "+"R$ %.2f", somaTipoPag4));
-			}
-		if(nomeTipoPag5 != null) {
-			lbTotalTipoPagamento5.setText(String.format(nomeTipoPag5+" "+"R$ %.2f", somaTipoPag5));
-			}
+				else
+					if(E==null && !nomeTipoPag1.equals(A) && !nomeTipoPag1.equals(B) && !nomeTipoPag1.equals(C) && !nomeTipoPag1.equals(D)) {
+						E=nomeTipoPag1;
+						lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag1));
+						System.out.println("E*:"+E);
+					}	
+					else
+						if(E==null && !nomeTipoPag2.equals(A) && !nomeTipoPag2.equals(B) && !nomeTipoPag2.equals(C) && !nomeTipoPag2.equals(D)) {
+							E=nomeTipoPag2;
+							lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag2));
+							System.out.println("E*:"+E);
+						}	
+						else
+							if(E==null && !nomeTipoPag3.equals(A) && !nomeTipoPag3.equals(B) && !nomeTipoPag3.equals(C) && !nomeTipoPag3.equals(D)) {
+								E=nomeTipoPag3;
+								lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag3));
+								System.out.println("E*:"+E);
+							}	
+							else
+								if(E==null && !nomeTipoPag4.equals(A) && !nomeTipoPag4.equals(B) && !nomeTipoPag4.equals(C) && !nomeTipoPag4.equals(D)) {
+									E=nomeTipoPag4;
+									lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag4));
+									System.out.println("E*:"+E);
+								}	
+								else
+									if(E==null && !nomeTipoPag5.equals(A) && !nomeTipoPag5.equals(B) && !nomeTipoPag5.equals(C) && !nomeTipoPag5.equals(D)) {
+										E=nomeTipoPag5;
+										lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag5));
+										System.out.println("E*:"+E);
+									}	
 	}
 
 	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai) {
@@ -205,11 +483,11 @@ public class ContasQuitadasMesAtualController implements Initializable {
 			}
 		});
 	}
-	
+
 	public void rotinasAutomaticas() {
 		lancamentoEntidade.setTotal(0.00);
 		lancamentoService.exclusaoAutomatico(lancamentoEntidade);
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
-	}	
+	}
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -33,27 +34,30 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lbTotalTipoPagamento1" layoutX="14.0" layoutY="430.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="632.0">
+            <Label fx:id="lbTotalTipoPagamento1" layoutX="14.0" layoutY="430.0" AnchorPane.leftAnchor="14.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lbTotalTipoPagamento2" layoutX="191.0" layoutY="430.0" AnchorPane.leftAnchor="191.0">
+            <Label fx:id="lbTotalTipoPagamento2" layoutX="191.0" layoutY="430.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lbTotalTipoPagamento3" layoutX="369.0" layoutY="430.0" AnchorPane.leftAnchor="369.0">
+            <Label fx:id="lbTotalTipoPagamento3" layoutX="369.0" layoutY="430.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lbTotalTipoPagamento4" layoutX="543.0" layoutY="430.0" AnchorPane.leftAnchor="543.0">
+            <Label fx:id="lbTotalTipoPagamento4" layoutX="543.0" layoutY="430.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
             </Label>
-            <Label fx:id="lbTotalTipoPagamento5" layoutX="717.0" layoutY="430.0" AnchorPane.leftAnchor="717.0">
+            <Label fx:id="lbTotalTipoPagamento5" layoutX="738.0" layoutY="430.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
