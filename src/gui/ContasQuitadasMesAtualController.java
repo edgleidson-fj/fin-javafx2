@@ -296,146 +296,121 @@ public class ContasQuitadasMesAtualController implements Initializable {
 				lbTotal.setText(String.format("R$ %.2f", somaTotal));
 				if(A != null) {
 				lbTotalTipoPagamento1.setText(String.format(A+" "+"R$ %.2f", valorPrimeiro));
-				System.out.println("A:"+A);
 				}
 				
 				if(B != null && B!=A) {
 					lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", valorSegundo));	
-					System.out.println("B:"+B);
 				}
 				else
 					if(B==null && !nomeTipoPag1.equals(A)) {
 						B=nomeTipoPag1;
 						lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag1));
-						System.out.println("B*:"+B);
 					}	
 					else
 						if(B==null && !nomeTipoPag2.equals(A)) {
 							B=nomeTipoPag2;
 							lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag2));
-							System.out.println("B*:"+B);
 						}	
 						else
 							if(B==null && !nomeTipoPag3.equals(A)) {
 								B=nomeTipoPag3;
 								lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag3));
-								System.out.println("B*:"+B);
 							}	
 							else
 								if(B==null && !nomeTipoPag4.equals(A)) {
 									B=nomeTipoPag4;
 									lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag4));
-									System.out.println("B*:"+B);
 								}	
 								else
 									if(B==null && !nomeTipoPag5.equals(A)) {
 										B=nomeTipoPag5;
 										lbTotalTipoPagamento2.setText(String.format(B+" "+"R$ %.2f", somaTipoPag5));
-										System.out.println("B*:"+B);
 									}	
 				
 				if(C != null && C!=A && C!=B) {
 					lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", valorTerceiro));
-					System.out.println("C:"+C);
 					}
 				else
 					if(C==null && !nomeTipoPag1.equals(A) && !nomeTipoPag1.equals(B)) {
 						C=nomeTipoPag1;
 						lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag1));
-						System.out.println("C*:"+C);
 					}	
 					else
 						if(C==null && !nomeTipoPag2.equals(A) && !nomeTipoPag2.equals(B)) {
 							C=nomeTipoPag2;
 							lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag2));
-							System.out.println("C*:"+C);
 						}	
 						else
 							if(C==null && !nomeTipoPag3.equals(A) && !nomeTipoPag3.equals(B)) {
 								C=nomeTipoPag3;
 								lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag3));
-								System.out.println("C*:"+C);
 							}	
 							else
 								if(C==null && !nomeTipoPag4.equals(A) && !nomeTipoPag4.equals(B)) {
 									C=nomeTipoPag4;
 									lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag4));
-									System.out.println("C*:"+C);
 								}	
 								else
 									if(C==null && !nomeTipoPag5.equals(A) && !nomeTipoPag5.equals(B)) {
 										C=nomeTipoPag5;
 										lbTotalTipoPagamento3.setText(String.format(C+" "+"R$ %.2f", somaTipoPag5));
-										System.out.println("C*:"+C);
 									}	
 				
 				if(D != null && D!=A && D!=B && D!=C) {					
 					lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", valorQuarto));
-					System.out.println("D:"+D);
 				}else
 					if(D==null && !nomeTipoPag1.equals(A) && !nomeTipoPag1.equals(B) && !nomeTipoPag1.equals(C)) {
 						D=nomeTipoPag1;
 						lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag1));
-						System.out.println("D*:"+D);
 					}	
 					else
 						if(D==null && !nomeTipoPag2.equals(A) && !nomeTipoPag2.equals(B) && !nomeTipoPag2.equals(C)) {
 							D=nomeTipoPag2;
 							lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag2));
-							System.out.println("D*:"+D);
 						}	
 						else
 							if(D==null && !nomeTipoPag3.equals(A) && !nomeTipoPag3.equals(B) && !nomeTipoPag3.equals(C)) {
 								D=nomeTipoPag3;
 								lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag3));
-								System.out.println("D*:"+D);
 							}	
 							else
 								if(D==null && !nomeTipoPag4.equals(A) && !nomeTipoPag4.equals(B) && !nomeTipoPag4.equals(C)) {
 									D=nomeTipoPag4;
 									lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag4));
-									System.out.println("D*:"+D);
 								}	
 								else
 									if(D==null && !nomeTipoPag5.equals(A) && !nomeTipoPag5.equals(B) && !nomeTipoPag5.equals(C)) {
 										D=nomeTipoPag5;
 										lbTotalTipoPagamento4.setText(String.format(D+" "+"R$ %.2f", somaTipoPag5));
-										System.out.println("D*:"+D);
 									}	
 				
 				if(E != null && E!=A && E!=B && E!=C && E!=D) {
 					lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", valorQuinto));
-					System.out.println("E:"+E);
 				}
 				else
 					if(E==null && !nomeTipoPag1.equals(A) && !nomeTipoPag1.equals(B) && !nomeTipoPag1.equals(C) && !nomeTipoPag1.equals(D)) {
 						E=nomeTipoPag1;
 						lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag1));
-						System.out.println("E*:"+E);
 					}	
 					else
 						if(E==null && !nomeTipoPag2.equals(A) && !nomeTipoPag2.equals(B) && !nomeTipoPag2.equals(C) && !nomeTipoPag2.equals(D)) {
 							E=nomeTipoPag2;
 							lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag2));
-							System.out.println("E*:"+E);
 						}	
 						else
 							if(E==null && !nomeTipoPag3.equals(A) && !nomeTipoPag3.equals(B) && !nomeTipoPag3.equals(C) && !nomeTipoPag3.equals(D)) {
 								E=nomeTipoPag3;
 								lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag3));
-								System.out.println("E*:"+E);
 							}	
 							else
 								if(E==null && !nomeTipoPag4.equals(A) && !nomeTipoPag4.equals(B) && !nomeTipoPag4.equals(C) && !nomeTipoPag4.equals(D)) {
 									E=nomeTipoPag4;
 									lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag4));
-									System.out.println("E*:"+E);
 								}	
 								else
 									if(E==null && !nomeTipoPag5.equals(A) && !nomeTipoPag5.equals(B) && !nomeTipoPag5.equals(C) && !nomeTipoPag5.equals(D)) {
 										E=nomeTipoPag5;
 										lbTotalTipoPagamento5.setText(String.format(E+" "+"R$ %.2f", somaTipoPag5));
-										System.out.println("E*:"+E);
 									}	
 	}
 
