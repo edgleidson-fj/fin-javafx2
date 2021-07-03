@@ -154,7 +154,7 @@ public class LanAPagarParceladoController implements Initializable {
 				
 				//Detalhe do parcelamento no Registro.				
 				if(cbDetalheParcela.isSelected()) {
-					obj.setReferencia(txtReferencia.getText()+" ["+x+"/"+parcela+"]");
+					obj.setReferencia(txtReferencia.getText()+" "+x+"/"+parcela+" ");
 				}else {
 					obj.setReferencia(txtReferencia.getText());
 				}
