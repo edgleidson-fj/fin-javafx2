@@ -313,7 +313,7 @@ public class LanQuitadoController implements Initializable {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
-		Restricoes.setTextFieldTamanhoMaximo(txtItem, 30);
+		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));

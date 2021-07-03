@@ -285,7 +285,7 @@ public class LanConfigController implements Initializable {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
-		Restricoes.setTextFieldTamanhoMaximo(txtItem, 30);
+		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
