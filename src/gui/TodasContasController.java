@@ -72,9 +72,13 @@ public class TodasContasController implements Initializable {
 	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaConfig;
 	@FXML 
-	private TextField txtConsultaID;
+	private TextField txtConsultaID;	
 	@FXML 
 	private Button btConsultaID;
+	@FXML
+	private TextField txtConsultaReferenciaOuDespesa;
+	@FXML 
+	private Button btConsultaIDReferenciaOuDespesa;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -88,6 +92,16 @@ public class TodasContasController implements Initializable {
 			controller.carregarTableViewID(id);
 			});		
 	}
+	
+	@FXML
+	public void onBtConsultaReferenciaOuDespesa(ActionEvent evento) {
+		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();
+		
+		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesa(refOuDespesa);
+		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
+		tbLancamento.setItems(obsListaLancamentoTbView);				
+	}
+
 	//------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {

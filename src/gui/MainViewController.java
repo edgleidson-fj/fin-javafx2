@@ -67,6 +67,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemContasEmAbertoTodos;
 	@FXML
+	private MenuItem menuItemBuscarPorReferenciaOuDespesa;
+	@FXML
 	private MenuItem menuItemTodasContas;
 	@FXML
 	private MenuItem menuItemTipoPagamento;
@@ -537,6 +539,27 @@ public class MainViewController implements Initializable {
 				Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
 			}
 		}	
+		
+		//Teste Buscar por Referencia.
+		@FXML
+		public void onMenuItemBuscarPorReferenciaOuDespesa() {
+			List<Usuario> lista = usuarioService.buscarTodos();
+			String logado = "N";
+			 for(Usuario u : lista) {
+				 u.getLogado();
+				 
+				 if(u.getLogado().equals("S")) {
+			carregarView("/gui/BuscarPorReferenciaOuDespesaView.fxml", (BuscarPorReferenciaOuDespesaController controller) ->{
+				controller.setLancamentoService(new LancamentoService());
+				controller.setLancamento(new Lancamento());
+				controller.rotinasAutomaticas();
+			});
+			logado = "S";
+				 }			 
+			 }if(logado.equals("N")) {
+					Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				}
+		}
 	
 		}
 

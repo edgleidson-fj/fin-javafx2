@@ -51,7 +51,8 @@
                             <MenuItem fx:id="menuItemContasEmAbertoTodos" mnemonicParsing="false" onAction="#onMenuItemContasEmAbertoTodos" text="Todos" />
                           </items>
                         </Menu>
-                      <MenuItem fx:id="menuItemTodasContas" mnemonicParsing="false" onAction="#onMenuItemTodasContas" text="Todas Contas" />
+                      <MenuItem fx:id="menuItemBuscarPorReferenciaOuDespesa" mnemonicParsing="false" onAction="#onMenuItemBuscarPorReferenciaOuDespesa" text="Buscar por Referência ou Despesa" />
+                        <MenuItem fx:id="menuItemTodasContas1" mnemonicParsing="false" onAction="#onMenuItemTodasContas" text="Todas Contas" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Cadastros">

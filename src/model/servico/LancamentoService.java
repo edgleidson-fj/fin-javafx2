@@ -67,5 +67,9 @@ public class LancamentoService {
 	}
 	public List<Lancamento>buscarLanPorId (Integer id) {
 		return dao.buscarLanPorId(id);
-	}	
+	}		
+	public List<Lancamento> buscarPorReferenciaOuDespesa(String refOuDespesa){
+		System.out.println("Service - teste BuscarPorReferenciaOuDespesa: "+refOuDespesa);
+		return dao.buscarPorReferenciaOuDespesa(refOuDespesa);
+	}
 }

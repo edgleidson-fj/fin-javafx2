@@ -786,7 +786,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			} finally {
 				BD.fecharStatement(ps);
 			}
-		}				
+		}
+		//-------------------------------
 		
 		//Tela (Todas Contas)
 		@Override
@@ -832,6 +833,56 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharStatement(ps);
 				BD.fecharResultSet(rs);
 			}
+		}		
+		
+		@Override
+		public List<Lancamento> buscarPorReferenciaOuDespesa(String refOuDespesa) {
+			System.out.println("DAO JDBC - teste BuscarPorReferenciaOuDespesa: "+refOuDespesa);
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				ps = connection.prepareStatement(
+						"SELECT * FROM Lancamento l "								
+						+"INNER JOIN TipoPag t "
+						+"ON l.tipoPag_id = t.id " 
+						+"INNER JOIN Usuario u "
+						+"ON u.usuarioId = l.usuario_Id " 
+						+"INNER JOIN Item i "
+						+"ON i.Lancamento_id = l.id "
+						+"INNER JOIN Despesa d "
+						+"on d.id = i.despesa_id "						
+						+ "INNER JOIN Status s "
+						+ "ON l.status_id = s.id "						
+						+"WHERE u.logado = 'S' "
+						+"AND Year(data) >= Year(now())-2 "
+						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
+						+"ORDER BY data DESC" );				
+				rs = ps.executeQuery();
+				List<Lancamento> lista = new ArrayList<>();			
+				while (rs.next()) {
+					TipoPag pag = new TipoPag();
+					pag.setId(rs.getInt("t.id"));
+					pag.setNome(rs.getString("t.nome"));	
+					Status status = new Status();
+					status.setNome(rs.getString("s.nome"));	
+					Lancamento obj = new Lancamento();
+					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+					obj.setId(rs.getInt("id"));
+					obj.setReferencia(rs.getString("referencia"));
+					obj.setDesconto(rs.getDouble("desconto"));
+					obj.setAcrescimo(rs.getDouble("acrescimo"));
+					obj.setTotal(rs.getDouble("total"));
+					obj.setTipoPagamento(pag);
+					obj.setObs(rs.getString("obs"));
+					obj.setStatus(status);
+					lista.add(obj);
+				}
+				return lista;
+			} catch (SQLException ex) {
+				throw new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+				BD.fecharResultSet(rs);
+			}
 		}
-				
 }
