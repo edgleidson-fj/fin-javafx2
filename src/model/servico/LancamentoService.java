@@ -69,7 +69,12 @@ public class LancamentoService {
 		return dao.buscarLanPorId(id);
 	}		
 	public List<Lancamento> buscarPorReferenciaOuDespesa(String refOuDespesa){
-		System.out.println("Service - teste BuscarPorReferenciaOuDespesa: "+refOuDespesa);
 		return dao.buscarPorReferenciaOuDespesa(refOuDespesa);
+	}
+	public List<Lancamento> buscarPorReferenciaOuDespesaQuitado(String refOuDespesa){
+		return dao.buscarPorReferenciaOuDespesaQuitado(refOuDespesa);
+	}
+	public List<Lancamento> buscarPorReferenciaOuDespesaQuitadoMesAtual(String refOuDespesa){
+		return dao.buscarPorReferenciaOuDespesaQuitadoMesAtual(refOuDespesa);
 	}
 }

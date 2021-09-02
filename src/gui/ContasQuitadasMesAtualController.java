@@ -11,6 +11,7 @@ import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -66,9 +68,39 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	private Label lbTotalTipoPagamento4;
 	@FXML
 	private Label lbTotalTipoPagamento5;
+	@FXML
+	private TextField txtConsultaReferenciaOuDespesa;
+	@FXML 
+	private Button btConsultaIDReferenciaOuDespesa;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
+	
+	@FXML
+	public void onBtConsultaReferenciaOuDespesa(ActionEvent evento) {
+		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();		
+		if(!refOuDespesa.equals("")) {	
+		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaQuitadoMesAtual(refOuDespesa);
+		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
+		tbLancamento.setItems(obsListaLancamentoTbView);
+		Double soma = 0.0;
+		for (Lancamento tab : obsListaLancamentoTbView) {
+			soma += tab.getTotal();
+		
+		lbTotal.setText(String.format("R$ %.2f", soma));
+		lbTotalTipoPagamento1.setText("");
+		lbTotalTipoPagamento2.setText("");
+		lbTotalTipoPagamento3.setText("");
+		lbTotalTipoPagamento4.setText("");
+		lbTotalTipoPagamento5.setText("");
+		}
+		}
+		else {
+			carregarTableView();
+			carregarSomaTotal();
+		}
+		
+	}
 	// -----------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {

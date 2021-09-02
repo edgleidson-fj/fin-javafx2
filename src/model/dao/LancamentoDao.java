@@ -27,4 +27,6 @@ public interface LancamentoDao {
 	void exclusaoAutomatico(Lancamento obj);
 	List<Lancamento> buscarLanPorId(Integer id);
 	List<Lancamento> buscarPorReferenciaOuDespesa(String refOuDespesa);
+	List<Lancamento> buscarPorReferenciaOuDespesaQuitado(String refOuDespesa);
+	List<Lancamento> buscarPorReferenciaOuDespesaQuitadoMesAtual(String refOuDespesa);
 }
