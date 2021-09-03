@@ -77,4 +77,7 @@ public class LancamentoService {
 	public List<Lancamento> buscarPorReferenciaOuDespesaQuitadoMesAtual(String refOuDespesa){
 		return dao.buscarPorReferenciaOuDespesaQuitadoMesAtual(refOuDespesa);
 	}
+	public List<Lancamento> buscarPorReferenciaOuDespesaEmAberto(String refOuDespesa){
+		return dao.buscarPorReferenciaOuDespesaEmAberto(refOuDespesa);
+	}
 }

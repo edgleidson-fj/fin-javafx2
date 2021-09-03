@@ -29,4 +29,5 @@ public interface LancamentoDao {
 	List<Lancamento> buscarPorReferenciaOuDespesa(String refOuDespesa);
 	List<Lancamento> buscarPorReferenciaOuDespesaQuitado(String refOuDespesa);
 	List<Lancamento> buscarPorReferenciaOuDespesaQuitadoMesAtual(String refOuDespesa);
+	List<Lancamento> buscarPorReferenciaOuDespesaEmAberto(String refOuDespesa);
 }

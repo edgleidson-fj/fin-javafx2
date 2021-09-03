@@ -1174,4 +1174,50 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						BD.fecharResultSet(rs);
 					}
 				}
+				
+				// Tela Contas Em Aberto
+				@Override
+				public List<Lancamento> buscarPorReferenciaOuDespesaEmAberto(String refOuDespesa) {
+					PreparedStatement ps = null;
+					ResultSet rs = null;
+					try {
+						ps = connection.prepareStatement(
+								"SELECT * FROM Lancamento "
+										+ "INNER JOIN Status s "
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"on d.id = i.despesa_id "
+								+ "WHERE u.logado = 'S' "
+								+ "AND (status_id = 1 OR status_id = 3) "
+								+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+								+ "ORDER BY data ASC");					
+						rs = ps.executeQuery();
+						List<Lancamento> lista = new ArrayList<>();				
+						while (rs.next()) {
+							Status status = new Status();
+							status.setId(rs.getInt("s.id"));
+							status.setNome(rs.getString("s.nome"));
+							Lancamento obj = new Lancamento();
+							obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+							obj.setId(rs.getInt("id"));
+							obj.setReferencia(rs.getString("referencia"));
+							obj.setTotal(rs.getDouble("total"));
+							obj.setDesconto(rs.getDouble("desconto"));
+							obj.setAcrescimo(rs.getDouble("acrescimo"));
+							obj.setObs(rs.getString("obs"));
+							obj.setStatus(status);
+							lista.add(obj);
+						}
+						return lista;
+					} catch (SQLException ex) {
+						throw new BDException(ex.getMessage());
+					} finally {
+						BD.fecharStatement(ps);
+						BD.fecharResultSet(rs);
+					}
+				}
 }
