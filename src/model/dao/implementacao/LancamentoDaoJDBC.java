@@ -532,84 +532,84 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			+"WHERE usuario.logado = 'S' AND  Month(data) =  '01' and Status_id = 2 and Year(data) = Year(now()) "
 			+ "AND tipopag.id = tipopag_id "
 			+ "AND usuario.usuarioId = usuario_id "
-			+ "ORDER BY data ASC ");
+			+ "ORDER BY data DESC ");
 			break;
 			case 1:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '02' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 2:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '03' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 3:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario " 
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '04' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 4:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '05' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 5:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '06' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 6:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '07' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 7:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '08' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 8:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '09' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 9:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 					+"WHERE usuario.logado = 'S' AND Month(data) =  '10' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "		
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			case 10:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '11' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			default:
 				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '12' and Status_id = 2 and Year(data) = Year(now()) "
 				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
-				+ "ORDER BY data ASC ");
+				+ "ORDER BY data DESC ");
 				break;
 			}	
 			rs = ps.executeQuery();
@@ -855,7 +855,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+"WHERE u.logado = 'S' "
 						+"AND Year(data) >= Year(now())-2 "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+"ORDER BY data DESC" );				
+						+"ORDER BY l.id DESC "
+						+"LIMIT 2000");				
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();			
 				while (rs.next()) {
@@ -906,7 +907,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"WHERE u.logado = 'S' "
 								+"AND s.id = 2 "
 								+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-								+"ORDER BY data DESC" );				
+								+"ORDER BY data DESC "
+								+"LIMIT 2000" );				
 						rs = ps.executeQuery();
 						List<Lancamento> lista = new ArrayList<>();				
 						while (rs.next()) {
@@ -957,7 +959,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					+ "AND tipopag.id = tipopag_id "		
 					+ "AND usuario.usuarioId = usuario_id "
 					+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-					+ "ORDER BY data ASC ");
+					+ "ORDER BY data DESC ");
 					break;
 					case 1:
 						ps = connection.prepareStatement(
@@ -974,7 +976,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 2:
 						ps = connection.prepareStatement(
@@ -991,7 +993,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 3:
 						ps = connection.prepareStatement(
@@ -1008,7 +1010,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 4:
 						ps = connection.prepareStatement(
@@ -1025,7 +1027,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 5:
 						ps = connection.prepareStatement(
@@ -1042,7 +1044,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 6:
 						ps = connection.prepareStatement(
@@ -1059,7 +1061,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 7:
 						ps = connection.prepareStatement(
@@ -1076,7 +1078,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 8:
 						ps = connection.prepareStatement(
@@ -1093,7 +1095,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 9:
 						ps = connection.prepareStatement(
@@ -1110,7 +1112,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					case 10:
 						ps = connection.prepareStatement(
@@ -1127,7 +1129,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					default:
 						ps = connection.prepareStatement(
@@ -1144,7 +1146,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
-						+ "ORDER BY data ASC ");
+						+ "ORDER BY data DESC ");
 						break;
 					}
 						rs = ps.executeQuery();

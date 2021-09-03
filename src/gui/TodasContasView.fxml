@@ -21,8 +21,8 @@
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="80.0" prefHeight="452.0" prefWidth="735.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="80.0">
               <columns>
                   <TableColumn fx:id="colunaConfig" minWidth="5.0" prefWidth="42.0" />
-                <TableColumn fx:id="colunaLanData" prefWidth="82.0" text="DATA" />
                 <TableColumn fx:id="colunaLanId" prefWidth="54.0" text="ID" />
+                <TableColumn fx:id="colunaLanData" prefWidth="82.0" text="DATA" />
                   <TableColumn fx:id="colunaLanRef" prefWidth="152.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanDesconto" prefWidth="74.0" text="DESCONTO" />
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="73.0" text="ACRÉSCIMO" />
@@ -33,7 +33,7 @@
             </TableView>
             <TextField fx:id="txtConsultaID" layoutX="21.0" layoutY="41.0" prefHeight="25.0" prefWidth="61.0" promptText="ID" />
             <Button fx:id="btConsultaID" layoutX="89.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaID" text="Consultar" />
-            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="267.0" layoutY="41.0" prefHeight="25.0" prefWidth="205.0" promptText="Referência ou despesa" />
+            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="267.0" layoutY="41.0" prefHeight="25.0" prefWidth="205.0" promptText="Referência ou item" />
             <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="479.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" text="Consultar" />
          </children>
       </AnchorPane>

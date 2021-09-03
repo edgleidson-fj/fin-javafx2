@@ -22,8 +22,8 @@
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" maxHeight="305.0" prefHeight="305.0" prefWidth="892.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0">
               <columns>
                   <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="50.0" />
-                <TableColumn fx:id="colunaLanData" text="DATA" />
                 <TableColumn fx:id="colunaLanId" prefWidth="60.0" text="ID" />
+                <TableColumn fx:id="colunaLanData" text="DATA" />
                   <TableColumn fx:id="colunaLanRef" minWidth="0.0" prefWidth="220.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanDesconto" prefWidth="70.0" text="DESCONTO" />
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="78.0" text="ACRÉSCIMO" />

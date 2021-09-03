@@ -22,8 +22,8 @@
             <TableView fx:id="tbLancamento" layoutX="4.0" layoutY="41.0" prefHeight="339.0" prefWidth="733.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="70.0">
               <columns>
                   <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="39.0" />
-                <TableColumn fx:id="colunaLanData" prefWidth="88.0" text="DATA" />
                 <TableColumn fx:id="colunaLanId" prefWidth="50.0" text="ID" />
+                <TableColumn fx:id="colunaLanData" prefWidth="88.0" text="DATA" />
                   <TableColumn fx:id="colunaLanRef" prefWidth="210.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanDesconto" prefWidth="72.0" text="DESCONTO" />
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="77.0" text="ACRÉSCIMO" />
@@ -64,7 +64,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="4.0" layoutY="41.0" promptText="Referencia ou despesa" />
+            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="4.0" layoutY="41.0" promptText="Referencia ou item" />
             <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="158.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" text="Consultar" />
          </children>
       </AnchorPane>
