@@ -11,6 +11,7 @@ import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -55,9 +57,23 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaPagar;
 	@FXML
 	private Label lbTotal;
+	@FXML
+	private TextField txtConsultaReferenciaOuDespesa;
+	@FXML 
+	private Button btConsultaIDReferenciaOuDespesa;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
+	
+	@FXML
+	public void onBtConsultaReferenciaOuDespesa(ActionEvent evento) {
+		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();
+		
+		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaEmAbertoMesAtual(refOuDespesa);
+		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
+		tbLancamento.setItems(obsListaLancamentoTbView);	
+		carregarSomaTotal();
+	}
 	// -----------------------------------------------------
 	int usuarioId;
 
@@ -91,7 +107,10 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();
 		criarBotaoPagar();
-		// Valor Total
+		carregarSomaTotal();
+		}
+	
+	public void carregarSomaTotal() {
 		Double soma = 0.0;
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			soma += tab.getTotal();

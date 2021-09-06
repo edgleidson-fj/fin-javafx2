@@ -73,7 +73,8 @@ public class ContasEmAbertoController implements Initializable {
 		
 		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaEmAberto(refOuDespesa);
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
-		tbLancamento.setItems(obsListaLancamentoTbView);				
+		tbLancamento.setItems(obsListaLancamentoTbView);	
+		carregarSomaTotal();
 	}
 	// -----------------------------------------------------
 
@@ -110,7 +111,10 @@ public class ContasEmAbertoController implements Initializable {
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();
 		criarBotaoPagar();
-		// Valor Total
+		carregarSomaTotal();
+		}
+	
+	public void carregarSomaTotal() {
 		Double soma = 0.0;
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			soma += tab.getTotal();

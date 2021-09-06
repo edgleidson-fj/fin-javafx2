@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -16,7 +18,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="447.0" prefWidth="735.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="44.0">
+            <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="44.0" prefHeight="447.0" prefWidth="735.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="70.0">
               <columns>
                   <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="30.0" />
                   <TableColumn fx:id="colunaPagar" prefWidth="38.0" />
@@ -32,6 +34,8 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
+            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="14.0" layoutY="41.0" promptText="Referência ou item" AnchorPane.leftAnchor="4.0" />
+            <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="160.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" text="Consultar" AnchorPane.leftAnchor="160.0" />
          </children>
       </AnchorPane>
    </children>

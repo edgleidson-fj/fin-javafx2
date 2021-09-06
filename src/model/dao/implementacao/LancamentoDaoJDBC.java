@@ -656,8 +656,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						+ "AND data <= '"+dataFinal+"' "
 						+ "AND (status_id = 1 "
 						+ "OR status_id = 3) "
-						/*+ "OR (status_id = 3 "
-						+ "AND u.logado = 'S') "*/
 						+ "ORDER BY data ASC");  
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
@@ -1182,19 +1180,19 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					ResultSet rs = null;
 					try {
 						ps = connection.prepareStatement(
-								"SELECT * FROM Lancamento "
-										+ "INNER JOIN Status s "
-										+ "ON lancamento.status_id = s.id "
-										+ "INNER JOIN Usuario u "
-										+ "ON u.usuarioId = lancamento.usuario_Id "
-										+"INNER JOIN Item i "
-										+"ON i.Lancamento_id = lancamento.id "
-										+"INNER JOIN Despesa d "
-										+"on d.id = i.despesa_id "
-								+ "WHERE u.logado = 'S' "
-								+ "AND (status_id = 1 OR status_id = 3) "
-								+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
-								+ "ORDER BY data ASC");					
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, s.id, s.nome FROM Lancamento l "
+								+ "INNER JOIN Status s "
+								+ "ON l.status_id = s.id "
+								+ "INNER JOIN Usuario u "
+								+ "ON u.usuarioId = l.usuario_Id "
+								+"INNER JOIN Item i "
+								+"ON i.Lancamento_id = l.id "
+								+"INNER JOIN Despesa d "
+								+"ON d.id = i.despesa_id "
+								+"WHERE u.logado = 'S' "
+								+"AND (status_id = 1 OR status_id = 3) "
+								+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
+								+"ORDER BY data ASC");					
 						rs = ps.executeQuery();
 						List<Lancamento> lista = new ArrayList<>();				
 						while (rs.next()) {
@@ -1220,4 +1218,270 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						BD.fecharResultSet(rs);
 					}
 				}
+				
+				//Tela Contas Em Aberto do Mês.
+				public ArrayList<Lancamento> buscarPorReferenciaOuDespesaEmAbertoMesAtual(String refOuDespesa) {	
+					PreparedStatement ps = null;
+					ResultSet rs = null;
+					try {
+					Calendar datahoje = Calendar.getInstance();
+					int mesAtual = datahoje.get(Calendar.MONTH);			
+					switch (mesAtual) {
+					case 0:
+					ps = connection.prepareStatement(
+							"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+									+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+									+ "s.id, s.nome FROM lancamento  " 
+									+ "INNER JOIN Status s "						
+									+ "ON lancamento.status_id = s.id "
+									+ "INNER JOIN Usuario u "
+									+ "ON u.usuarioId = lancamento.usuario_Id "
+									+"INNER JOIN Item i "
+									+"ON i.Lancamento_id = lancamento.id "
+									+"INNER JOIN Despesa d "
+									+"ON d.id = i.despesa_id "
+									+"WHERE u.logado = 'S' "
+									+"AND (Month(data) =  '01' AND Status_id = 1 AND Year(data) = Year(now()) " 
+									+" OR Status_id = 3) "
+									+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+									+ "ORDER BY data ASC ");
+					break;
+					case 1:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ "s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '02' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					case 2:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ "s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '03' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					case 3:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ "s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '04' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					case 4:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ "s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '05' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					case 5:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ "s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '06' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					case 6:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ "s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '07' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					case 7:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ "s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '08' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					case 8:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+								+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+								+ "s.id, s.nome FROM lancamento  " 
+								+ "INNER JOIN Status s "						
+								+ "ON lancamento.status_id = s.id "
+								+ "INNER JOIN Usuario u "
+								+ "ON u.usuarioId = lancamento.usuario_Id "
+								+"INNER JOIN Item i "
+								+"ON i.Lancamento_id = lancamento.id "
+								+"INNER JOIN Despesa d "
+								+"ON d.id = i.despesa_id "
+								+"WHERE u.logado = 'S' "
+								+"AND (Month(data) =  '09' AND Status_id = 1 AND Year(data) = Year(now()) " 
+								+" OR Status_id = 3) "
+								+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+								+ "ORDER BY data ASC ");
+						break;
+					case 9:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ "s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '10' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					case 10:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ " s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '11' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					default:
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+										+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+										+ " s.id, s.nome FROM lancamento  " 
+										+ "INNER JOIN Status s "						
+										+ "ON lancamento.status_id = s.id "
+										+ "INNER JOIN Usuario u "
+										+ "ON u.usuarioId = lancamento.usuario_Id "
+										+"INNER JOIN Item i "
+										+"ON i.Lancamento_id = lancamento.id "
+										+"INNER JOIN Despesa d "
+										+"ON d.id = i.despesa_id "
+										+"WHERE u.logado = 'S' "
+										+"AND (Month(data) =  '12' AND Status_id = 1 AND Year(data) = Year(now()) " 
+										+" OR Status_id = 3) "
+										+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+										+ "ORDER BY data ASC ");
+						break;
+					}
+					rs = ps.executeQuery();
+					ArrayList<Lancamento> itens = new ArrayList<Lancamento>();
+					while (rs.next()) {
+						Status status = new Status();	
+						status.setId(rs.getInt("s.id"));
+						status.setNome(rs.getString("s.nome"));
+						Lancamento l = new Lancamento(); 
+						l.setId(rs.getInt("lancamento.id"));
+						l.setReferencia(rs.getString("lancamento.referencia"));
+						l.setData(new java.util.Date(rs.getTimestamp("lancamento.data").getTime()));
+						l.setTotal(rs.getDouble("lancamento.total"));
+						l.setDesconto(rs.getDouble("lancamento.desconto"));
+						l.setAcrescimo(rs.getDouble("lancamento.acrescimo"));
+						l.setObs(rs.getString("lancamento.obs"));
+						l.setStatus(status);
+				        itens.add(l);
+					}			
+					return itens;
+				}
+					catch(SQLException ex) {
+						return null;
+						}
+					finally {
+						BD.fecharStatement(ps);
+						BD.fecharResultSet(rs);
+					}
+					}
+				
 }
