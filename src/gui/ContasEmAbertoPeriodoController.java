@@ -101,7 +101,6 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 		String dataInicial = fmt.format(d1);
 		String dataFinal = fmt.format(d2);
 
-		//List<Lancamento> lista = lancamentoService.buscarContasEmAbertoPeriodo(dataInicial, dataFinal);
 		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaEmAbertoPeriodo(dataInicial, dataFinal, refOuDespesa);
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);

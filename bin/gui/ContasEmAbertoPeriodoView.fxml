@@ -38,7 +38,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="218.0" layoutY="45.0" prefHeight="25.0" prefWidth="217.0" promptText="Referência ou item" AnchorPane.topAnchor="50.0" />
+            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="218.0" layoutY="45.0" prefHeight="25.0" prefWidth="213.0" promptText="Referência ou item" AnchorPane.topAnchor="50.0" />
          </children>
       </AnchorPane>
    </children>

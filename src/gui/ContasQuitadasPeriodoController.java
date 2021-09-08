@@ -27,6 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -78,6 +79,8 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	private Label lbTotalTipoPagamento4;
 	@FXML
 	private Label lbTotalTipoPagamento5;
+	@FXML
+	private TextField txtConsultaReferenciaOuDespesa;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -94,6 +97,8 @@ public class ContasQuitadasPeriodoController implements Initializable {
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
+		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();
+		
 		Instant instant1 = Instant.from(datePickerDataInicial.getValue().atStartOfDay(ZoneId.systemDefault()));		
 		Date d1 = (Date.from(instant1));		
 		Instant instant2 = Instant.from(datePickerDataFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
@@ -105,11 +110,22 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		String dataInicial = fmt.format(d1);
 		String dataFinal = fmt.format(d2);
 
-		List<Lancamento> lista = lancamentoService.buscarContasQuitadoPeriodo(dataInicial, dataFinal);
+		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaQuitadoPeriodo(dataInicial, dataFinal, refOuDespesa);
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();
+		zerarValores();
 		carregarSomaTotal();		
+	}
+	
+	public void zerarValores() {
+		System.out.println("Zerando valores");
+		lbTotal.setText("");
+		lbTotalTipoPagamento1.setText("");
+		lbTotalTipoPagamento2.setText("");
+		lbTotalTipoPagamento3.setText("");
+		lbTotalTipoPagamento4.setText("");
+		lbTotalTipoPagamento5.setText("");
 	}
 	
 	public void carregarSomaTotal() {

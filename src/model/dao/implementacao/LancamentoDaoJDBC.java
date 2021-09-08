@@ -879,7 +879,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		//Tela (Todas Contas Quitadas)
+		//Consultas por Referencia ou Despesa.
 				@Override
 				public List<Lancamento> buscarPorReferenciaOuDespesaQuitado(String refOuDespesa) {
 					PreparedStatement ps = null;
@@ -928,7 +928,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					}
 				}
 				
-				//Tela (Contas Quitadas Mês Atual)
 				@Override
 				public List<Lancamento> buscarPorReferenciaOuDespesaQuitadoMesAtual(String refOuDespesa) {
 					PreparedStatement ps = null;
@@ -1168,7 +1167,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					}
 				}
 				
-				// Tela Contas Em Aberto
 				@Override
 				public List<Lancamento> buscarPorReferenciaOuDespesaEmAberto(String refOuDespesa) {
 					PreparedStatement ps = null;
@@ -1214,7 +1212,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					}
 				}
 				
-				//Tela Contas Em Aberto do Mês.
 				public ArrayList<Lancamento> buscarPorReferenciaOuDespesaEmAbertoMesAtual(String refOuDespesa) {	
 					PreparedStatement ps = null;
 					ResultSet rs = null;
@@ -1479,10 +1476,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					}
 					}
 				
-				//Tela Contas Em Abeto(Período).
 				@Override
 				public List<Lancamento> buscarPorReferenciaOuDespesaEmAbertoPeriodo(String dataInicial, String dataFinal, String refOuDespesa) {
-					System.out.println("dataInicial: "+dataInicial+"- dataFinal: "+dataFinal+"- ReferenciaOUDespesa: "+refOuDespesa);
 					PreparedStatement ps = null;
 					ResultSet rs = null;
 					try {
@@ -1530,4 +1525,53 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						BD.fecharResultSet(rs);
 					}
 				}
+				
+				@Override 
+				public List<Lancamento> buscarPorReferenciaOuDespesaQuitadoPeriodo(String dataInicial, String dataFinal, String refOuDespesa) {
+					PreparedStatement ps = null;
+					ResultSet rs = null;
+					try {
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+								+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+								+ "tipopag.id, tipopag.nome FROM lancamento  "
+								+ "INNER JOIN tipopag "
+								+ "ON lancamento.tipopag_id = tipopag.id "+ "INNER JOIN Usuario u "
+								+ "ON u.usuarioId = lancamento.usuario_Id "
+								+"INNER JOIN Item i "
+								+"ON i.Lancamento_id = lancamento.id "
+								+"INNER JOIN Despesa d "
+								+"ON d.id = i.despesa_id "
+								+ "WHERE u.logado = 'S' "
+								+ "AND data >=  '"+dataInicial+"' "
+								+ "AND data <= '"+dataFinal+"' "
+								+ "AND status_id = 2 "
+								+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+								+ "ORDER BY data");  
+						rs = ps.executeQuery();
+						List<Lancamento> lista = new ArrayList<>();				
+						while (rs.next()) {
+						TipoPag pag = new TipoPag();
+							pag.setId(rs.getInt("tipopag.id"));
+							pag.setNome(rs.getString("tipopag.nome"));
+							Lancamento obj = new Lancamento();
+							obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+							obj.setId(rs.getInt("id"));
+							obj.setReferencia(rs.getString("referencia"));
+							obj.setTotal(rs.getDouble("total"));
+							obj.setDesconto(rs.getDouble("desconto"));
+							obj.setAcrescimo(rs.getDouble("acrescimo"));
+							obj.setObs(rs.getString("obs"));
+							obj.setTipoPagamento(pag);
+							lista.add(obj);
+						}
+						return lista;
+					} catch (SQLException ex) {
+						throw new BDException(ex.getMessage());
+					} finally {
+						BD.fecharStatement(ps);
+						BD.fecharResultSet(rs);
+					}
+				}
+				
 }
