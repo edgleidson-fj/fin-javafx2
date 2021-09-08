@@ -13,7 +13,7 @@
    <children>
       <AnchorPane prefHeight="555.0" prefWidth="674.0">
          <children>
-            <Label layoutX="254.0" layoutY="14.0" text="TODAS LANÇAMENTOS (Últimos 2 anos)">
+            <Label layoutX="254.0" layoutY="14.0" text="TODAS LANÇAMENTOS">
                <font>
                   <Font size="18.0" />
                </font>

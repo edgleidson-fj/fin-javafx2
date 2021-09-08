@@ -119,7 +119,6 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	}
 	
 	public void zerarValores() {
-		System.out.println("Zerando valores");
 		lbTotal.setText("");
 		lbTotalTipoPagamento1.setText("");
 		lbTotalTipoPagamento2.setText("");

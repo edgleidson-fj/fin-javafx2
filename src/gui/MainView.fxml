@@ -37,21 +37,21 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Financeiro">
                     <items>
-                        <Menu mnemonicParsing="false" text="Contas Quitadas">
+                        <Menu mnemonicParsing="false" text="Quitado">
                           <items>
                             <MenuItem fx:id="menuItemContasQuitadoMesAtual" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoMesAtual" text="Mês Atual" />
                               <MenuItem fx:id="menuItemContasQuitadoPeriodo" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoPeriodo" text="Período" />
-                              <MenuItem fx:id="menuItemContasQuitadoTodos" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoTodos" text="Últimos 2 anos" />
+                              <MenuItem fx:id="menuItemContasQuitadoTodos" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoTodos" text="Tudo" />
                           </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Contas A Pagar">
+                        <Menu mnemonicParsing="false" text="A Pagar">
                           <items>
                             <MenuItem fx:id="menuItemContasEmAbertoMesAtual" mnemonicParsing="false" onAction="#onMenuItemContasEmAbertoMesAtual" text="Mês Atual" />
                               <MenuItem fx:id="menuItemContasEmAbertoPeriodo" mnemonicParsing="false" onAction="#onMenuItemContasEmAbertoPeriodo" text="Período" />
-                            <MenuItem fx:id="menuItemContasEmAbertoTodos" mnemonicParsing="false" onAction="#onMenuItemContasEmAbertoTodos" text="Todos" />
+                            <MenuItem fx:id="menuItemContasEmAbertoTodos" mnemonicParsing="false" onAction="#onMenuItemContasEmAbertoTodos" text="Tudo" />
                           </items>
                         </Menu>
-                        <MenuItem fx:id="menuItemTodasContas1" mnemonicParsing="false" onAction="#onMenuItemTodasContas" text="Todas Contas" />
+                        <MenuItem fx:id="menuItemTodasContas1" mnemonicParsing="false" onAction="#onMenuItemTodasContas" text="Tudo (Quitado/A Pagar)" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Cadastros">
