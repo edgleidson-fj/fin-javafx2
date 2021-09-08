@@ -198,7 +198,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}  		
 			
-		//Listar todos Lancamento (Em Aberto) ok.
 		@Override
 		public List<Lancamento> buscarTudoEmAberto() {
 			PreparedStatement ps = null;
@@ -239,7 +238,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 	
-	// Cancelar LAncamento ok
+	// Cancelar Lancamento.
 	@Override
 	public void cancelar(Lancamento obj) {
 		PreparedStatement ps = null;
@@ -257,7 +256,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		}
 	}
 	
-	// Confirmar Lancamento (Quitado) ok
 	@Override
 	public void confirmarLanQuitado(Lancamento obj) {
 		PreparedStatement ps = null;
@@ -309,8 +307,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		}
 	}
 
-
-	// Confirmar Lancamento (A Pagar) ok
 		@Override
 		public void confirmarLanAPagar(Lancamento obj) {
 			PreparedStatement ps = null;
@@ -332,7 +328,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		// Confirmar Lancamento (A Pagar) ok
+		// Reconfiguracao de Lancamento.
 				@Override
 				public void lanConfig(Lancamento obj) {
 					PreparedStatement ps = null;
@@ -363,7 +359,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					}
 				}
 	
-		//Listar todos Lançamentos (Em Aberto do mês) ok
 		public ArrayList<Lancamento> buscarContasAPagarMesAtual() {	
 			PreparedStatement ps = null;
 			ResultSet rs = null;
@@ -767,7 +762,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		//Não está excluindo por causa do vinculo do Usuário no Lançamento.
+		//Obs: Não está excluindo por causa do vinculo do Usuário no Lançamento.
 		@Override
 		public void exclusaoAutomatico(Lancamento obj) {
 			PreparedStatement ps = null;
@@ -1484,4 +1479,55 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					}
 					}
 				
+				//Tela Contas Em Abeto(Período).
+				@Override
+				public List<Lancamento> buscarPorReferenciaOuDespesaEmAbertoPeriodo(String dataInicial, String dataFinal, String refOuDespesa) {
+					System.out.println("dataInicial: "+dataInicial+"- dataFinal: "+dataFinal+"- ReferenciaOUDespesa: "+refOuDespesa);
+					PreparedStatement ps = null;
+					ResultSet rs = null;
+					try {
+						ps = connection.prepareStatement(
+								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
+								+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+								+ " s.id, s.nome FROM lancamento  "
+								+ "INNER JOIN status s "
+								+ "ON lancamento.status_id = s.id "
+								+ "INNER JOIN Usuario u "			
+								+ "ON u.usuarioId = lancamento.usuario_Id "
+								+"INNER JOIN Item i "
+								+"ON i.Lancamento_id = lancamento.id "
+								+"INNER JOIN Despesa d "
+								+"ON d.id = i.despesa_id "
+								+ "WHERE u.logado = 'S' "
+								+ "AND data >=  '"+dataInicial+"' "
+								+ "AND data <= '"+dataFinal+"' "
+								+ "AND (status_id = 1 "
+								+ "OR status_id = 3) "
+								+"AND (d.nome like '%"+refOuDespesa+"%' OR lancamento.referencia like '%"+refOuDespesa+"%') "
+								+ "ORDER BY data ASC");  
+						rs = ps.executeQuery();
+						List<Lancamento> lista = new ArrayList<>();				
+						while (rs.next()) {
+							Status status = new Status();
+							status.setId(rs.getInt("s.id"));
+							status.setNome(rs.getString("s.nome"));
+							Lancamento obj = new Lancamento();
+							obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+							obj.setId(rs.getInt("id"));
+							obj.setReferencia(rs.getString("referencia"));
+							obj.setTotal(rs.getDouble("total"));
+							obj.setDesconto(rs.getDouble("desconto"));
+							obj.setAcrescimo(rs.getDouble("acrescimo"));
+							obj.setObs(rs.getString("obs"));
+							obj.setStatus(status);
+							lista.add(obj);
+						}
+						return lista;
+					} catch (SQLException ex) {
+						throw new BDException(ex.getMessage());
+					} finally {
+						BD.fecharStatement(ps);
+						BD.fecharResultSet(rs);
+					}
+				}
 }

@@ -83,4 +83,7 @@ public class LancamentoService {
 	public List<Lancamento> buscarPorReferenciaOuDespesaEmAbertoMesAtual(String refOuDespesa){
 		return dao.buscarPorReferenciaOuDespesaEmAbertoMesAtual(refOuDespesa);
 	}
+	public List<Lancamento> buscarPorReferenciaOuDespesaEmAbertoPeriodo(String dataInicial, String dataFinal, String refOuDespesa){
+		return dao.buscarPorReferenciaOuDespesaEmAbertoPeriodo(dataInicial, dataFinal, refOuDespesa);
+	}
 }

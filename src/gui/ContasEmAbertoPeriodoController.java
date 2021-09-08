@@ -27,6 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -69,6 +70,8 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaPagar;
+	@FXML
+	private TextField txtConsultaReferenciaOuDespesa;
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
@@ -85,6 +88,8 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
+		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();
+		
 		Instant instant1 = Instant.from(datePickerDataInicial.getValue().atStartOfDay(ZoneId.systemDefault()));
 		Date d1 = (Date.from(instant1));
 		Instant instant2 = Instant.from(datePickerDataFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
@@ -96,18 +101,21 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 		String dataInicial = fmt.format(d1);
 		String dataFinal = fmt.format(d2);
 
-		List<Lancamento> lista = lancamentoService.buscarContasEmAbertoPeriodo(dataInicial, dataFinal);
+		//List<Lancamento> lista = lancamentoService.buscarContasEmAbertoPeriodo(dataInicial, dataFinal);
+		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaEmAbertoPeriodo(dataInicial, dataFinal, refOuDespesa);
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();
 		criarBotaoPagar();
-		// Valor Total
+		carregarSomaTotal();
+	}
+	
+	public void carregarSomaTotal() {
 		Double soma = 0.0;
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			soma += tab.getTotal();
 		}
 		lbTotal.setText(String.format("R$ %.2f", soma));
-
 	}
 
 	@Override
