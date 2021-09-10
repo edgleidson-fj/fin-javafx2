@@ -22,9 +22,16 @@ public class TipoPagService {
 			dao.atualizar(obj);
 		}
 	}
-	
-	
+		
 	public void excluir (TipoPag obj) {
 		dao.excluirPorId(obj.getId());
+	}
+	
+	public List<TipoPag> listarPorId(Integer id){
+		return dao.listarPorId(id);
+	}
+	
+	public TipoPag buscarPorId(Integer id){
+		return dao.buscarPorId(id);
 	}
 }

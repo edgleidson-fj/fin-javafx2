@@ -8,7 +8,6 @@ public class Lancamento implements Serializable{
 
 	private Integer id;
 	private String referencia;
-	private TipoPag tipoPagamento;
 	private Double total;
 	private Status status;
 	private Date data;
@@ -18,17 +17,17 @@ public class Lancamento implements Serializable{
 	private Usuario usuario;
 	private String obs;
 	
-	//Composto "Teste"
+	//Chave composta.
 	private Item itemLan;
+	private ItemPagamento itemPagamento;
 	
 	public Lancamento() {
 		}
 	
-	public Lancamento(Integer id, String referencia, TipoPag tipoPagamento, Double total, Status status, Item itemLan, Date data, Double desconto, Double acrescimo, String finalizado, Usuario usuario, String obs) {
+	public Lancamento(Integer id, String referencia, Double total, Status status, Item itemLan, Date data, Double desconto, Double acrescimo, String finalizado, Usuario usuario, String obs) {
 		super();
 		this.id = id;
 		this.referencia = referencia;
-		this.tipoPagamento = tipoPagamento;
 		this.total = total;
 		this.status = status;
 		this.itemLan = itemLan;
@@ -54,14 +53,6 @@ public class Lancamento implements Serializable{
 
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
-	}
-
-	public TipoPag getTipoPagamento() {
-		return tipoPagamento;
-	}
-
-	public void setTipoPagamento(TipoPag tipoPagamento) {
-		this.tipoPagamento = tipoPagamento;
 	}
 
 	public Double getTotal() {
@@ -128,13 +119,20 @@ public class Lancamento implements Serializable{
 		this.obs = obs;
 	}
 	
-	//------- "TESTE"
+	//------- "Chave composta"
 	public Item getItemLan() {
 		return itemLan;
 	}
 
 	public void setItemLan(Item itemLan) {
 		this.itemLan = itemLan;
+	}
+	public ItemPagamento getItemPagamento() {
+		return itemPagamento;
+	}
+
+	public void setItemPagamento(ItemPagamento itemPagamento) {
+		this.itemPagamento = itemPagamento;
 	}
 	//-------
 

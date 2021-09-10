@@ -143,7 +143,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				obj.setDesconto(rs.getDouble("desconto"));
 				obj.setAcrescimo(rs.getDouble("acrescimo"));
 				obj.setTotal(rs.getDouble("total"));
-				obj.setTipoPagamento(pag);
+				//obj.setTipoPagamento(pag);
 				obj.setObs(rs.getString("obs"));
 				obj.setStatus(status);
 				lista.add(obj);
@@ -186,7 +186,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setObs(rs.getString("obs"));
-					obj.setTipoPagamento(pag);				
+					//obj.setTipoPagamento(pag);				
 					lista.add(obj);
 				}
 				return lista;
@@ -261,17 +261,16 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		PreparedStatement ps = null;
 		int status = 2; //Pago.
 		try {
-			ps = connection.prepareStatement("UPDATE lancamento " 
-		+ "SET tipopag_id = ?, "
-		+"status_id = '"+status+"', "
+			ps = connection.prepareStatement(
+		"UPDATE lancamento " 
+		+"SET status_id = '"+status+"', "
 		+ "finalizado = 'S', "
 		+ "desconto = ?,"
 		+ "total = ? "			
 		+ "WHERE Id = ? ");
-			ps.setInt(1, obj.getTipoPagamento().getId());
-			ps.setDouble(2, obj.getDesconto());
-			ps.setDouble(3, obj.getTotal());
-			ps.setInt(4, obj.getId());
+			ps.setDouble(1, obj.getDesconto());
+			ps.setDouble(2, obj.getTotal());
+			ps.setInt(3, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());
@@ -293,7 +292,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		+"acrescimo = ?, "
 		+ "data = ? "
 		+ "WHERE Id = ? ");
-			ps.setInt(1, obj.getTipoPagamento().getId());
+			//ps.setInt(1, obj.getTipoPagamento().getId());
 			ps.setDouble(2, obj.getTotal());
 			ps.setDouble(3, obj.getDesconto());
 			ps.setDouble(4, obj.getAcrescimo());
@@ -345,7 +344,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					+ "WHERE Id = ? ");
 						ps.setString(1, obj.getReferencia());
 						ps.setDate(2, new java.sql.Date(obj.getData().getTime()));
-						ps.setInt(3, obj.getTipoPagamento().getId());
+						//ps.setInt(3, obj.getTipoPagamento().getId());
 						ps.setDouble(4, obj.getTotal());
 						ps.setString(5, obj.getObs());
 						ps.setDouble(6, obj.getDesconto());
@@ -621,7 +620,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				l.setDesconto(rs.getDouble("lancamento.desconto"));
 				l.setAcrescimo(rs.getDouble("lancamento.acrescimo"));
 				l.setObs(rs.getString("lancamento.obs"));
-		        l.setTipoPagamento(tp);
+		        //l.setTipoPagamento(tp);
 				itens.add(l);
 			}			
 			return itens;
@@ -707,7 +706,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setObs(rs.getString("obs"));
-					obj.setTipoPagamento(pag);
+					//obj.setTipoPagamento(pag);
 					lista.add(obj);
 				}
 				return lista;
@@ -813,7 +812,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setTotal(rs.getDouble("total"));
-					obj.setTipoPagamento(pag);
+					//obj.setTipoPagamento(pag);
 					obj.setObs(rs.getString("obs"));
 					obj.setStatus(status);
 					lista.add(obj);
@@ -865,7 +864,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setTotal(rs.getDouble("total"));
-					obj.setTipoPagamento(pag);
+					//obj.setTipoPagamento(pag);
 					obj.setObs(rs.getString("obs"));
 					obj.setStatus(status);
 					lista.add(obj);
@@ -916,7 +915,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 							obj.setDesconto(rs.getDouble("desconto"));
 							obj.setAcrescimo(rs.getDouble("acrescimo"));
 							obj.setObs(rs.getString("obs"));
-							obj.setTipoPagamento(pag);				
+							//obj.setTipoPagamento(pag);				
 							lista.add(obj);
 						}
 						return lista;
@@ -1155,7 +1154,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 							obj.setDesconto(rs.getDouble("desconto"));
 							obj.setAcrescimo(rs.getDouble("acrescimo"));
 							obj.setObs(rs.getString("obs"));
-							obj.setTipoPagamento(pag);				
+							//obj.setTipoPagamento(pag);				
 							lista.add(obj);
 						}
 						return lista;
@@ -1562,7 +1561,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 							obj.setDesconto(rs.getDouble("desconto"));
 							obj.setAcrescimo(rs.getDouble("acrescimo"));
 							obj.setObs(rs.getString("obs"));
-							obj.setTipoPagamento(pag);
+							//obj.setTipoPagamento(pag);
 							lista.add(obj);
 						}
 						return lista;

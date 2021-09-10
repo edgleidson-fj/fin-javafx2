@@ -12,6 +12,8 @@ import bd.BD;
 import bd.BDException;
 import bd.BDIntegrityException;
 import model.dao.TipoPagDao;
+import model.entidade.ItemPagamento;
+import model.entidade.TipoPag;
 import model.entidade.TipoPag;
 
 public class TipoPagDaoJDBC implements TipoPagDao {
@@ -143,5 +145,38 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 			BD.fecharResultSet(rs);
 		}
 	}
-		
+	
+	//Teste
+	public List<TipoPag> listarPorId(Integer id) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = connection.prepareStatement(
+					"SELECT * from item_pagamento as ip, lancamento as l , tipopag as tp "
+					+ "where l.id = ip.lancamento_id " 
+					+ "and ip.tipopag_id = tp.id " 
+					+ "and l.id = ?");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			List<TipoPag> lista = new ArrayList<TipoPag>();
+			while (rs.next()) {
+				TipoPag tp = new TipoPag();
+				tp.setNome(rs.getString("tp.nome"));
+				tp.setId(rs.getInt("tp.id"));				
+				lista.add(tp);
+				
+				ItemPagamento ip = new ItemPagamento();
+				ip.setTipoPag(tp);
+				ip.setValor(rs.getDouble("ip.valor"));
+			}
+			rs.close();
+			ps.close();
+			return lista;
+		} catch (SQLException ex) {
+			throw new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+			BD.fecharResultSet(rs);
+		}
+	}
 }

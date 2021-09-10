@@ -3,6 +3,7 @@ package model.dao;
 import bd.BD;
 import model.dao.implementacao.DespesaDaoJDBC;
 import model.dao.implementacao.ItemDaoJDBC;
+import model.dao.implementacao.ItemPagamentoDaoJDBC;
 import model.dao.implementacao.LancamentoDaoJDBC;
 import model.dao.implementacao.MensagemDaoJDBC;
 import model.dao.implementacao.StatusDaoJDBC;
@@ -37,5 +38,9 @@ public class DaoFactory {
 	
 	public static MensagemDao criarMensagemDao() {
 		return new MensagemDaoJDBC(BD.abrirConexao());
+	}
+	
+	public static ItemPagamentoDao criarItemPagamentoDao() {
+		return new ItemPagamentoDaoJDBC(BD.abrirConexao());
 	}
 }

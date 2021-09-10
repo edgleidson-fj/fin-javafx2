@@ -47,15 +47,16 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.entidade.Despesa;
 import model.entidade.Item;
+import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.entidade.TipoPag;
 import model.entidade.Usuario;
 import model.servico.DespesaService;
+import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
 import model.servico.UsuarioService;
-
 
 public class LanQuitadoController implements Initializable {
 
@@ -66,6 +67,8 @@ public class LanQuitadoController implements Initializable {
 	private TipoPagService tipoPagService;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;
+	private ItemPagamentoService itemPagamentoService;
+	private ItemPagamento itemPagamentoEntidade;
 	// ----------------------------------------------------------------
 
 	@FXML
@@ -79,9 +82,19 @@ public class LanQuitadoController implements Initializable {
 	@FXML
 	private TextField txtPrecoUnid;
 	@FXML
+	private TextField txtTipoPagValor;
+	@FXML
+	private TextField txtDesconto;
+	@FXML
 	private Label lbTotal;
 	@FXML
 	private Label lbUsuario;
+	@FXML
+	private Label lbPago;
+	@FXML
+	private Label lbDiferenca;
+	@FXML
+	private Label lbDesconto;
 	@FXML
 	private DatePicker datePickerData;
 	@FXML
@@ -94,6 +107,10 @@ public class LanQuitadoController implements Initializable {
 	private Button btConfirmar;
 	@FXML
 	private Button btCancelar;
+	@FXML
+	private Button btDesconto;
+	@FXML
+	private Button btItemPagamento;
 	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
@@ -111,10 +128,17 @@ public class LanQuitadoController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
-	private TextField txtDesconto;
-//--------------------------------------------------------
+	private TableView<ItemPagamento> tbTipoPag;
+	@FXML
+	private TableColumn<ItemPagamento, ItemPagamento> colunaRemoverTipoPag;
+	@FXML
+	private TableColumn<ItemPagamento, String> colunaTipoPagNome;
+	@FXML
+	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;
+	// --------------------------------------------------------
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<Despesa> obsListaDespesaTbView;
+	private ObservableList<ItemPagamento> obsListaItemTipoPag;
 	// ---------------------------------------------------------
 
 	double total, desconto;
@@ -132,27 +156,26 @@ public class LanQuitadoController implements Initializable {
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
-		if(txtReferencia.getText().equals("")) {
+		if (txtReferencia.getText().equals("")) {
 			Alertas.mostrarAlerta("Atenção", null, "Favor inserir registro do lançamento ", AlertType.WARNING);
-		}
-		else {
-		if (datePickerData.getValue() == null) {
-			obj.setData(hoje);
 		} else {
-			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
-			obj.setData(Date.from(instant));
-		}
-		//Usuário logado.
-		Usuario user = new Usuario();
-		user.setId(usuarioId);
-		obj.setUsuario(user);
-		
-		lancamentoService.salvar(obj);
-		txtId.setText(String.valueOf(obj.getId()));
-		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
-		int id = obj.getId();
-		idLan = id;
-		ref = txtReferencia.getText();
+			if (datePickerData.getValue() == null) {
+				obj.setData(hoje);
+			} else {
+				Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
+				obj.setData(Date.from(instant));
+			}
+			// Usuário logado.
+			Usuario user = new Usuario();
+			user.setId(usuarioId);
+			obj.setUsuario(user);
+
+			lancamentoService.salvar(obj);
+			txtId.setText(String.valueOf(obj.getId()));
+			datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
+			int id = obj.getId();
+			idLan = id;
+			ref = txtReferencia.getText();
 		}
 	}
 
@@ -165,8 +188,8 @@ public class LanQuitadoController implements Initializable {
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal((total));
 		lancamentoService.atualizar(obj);
-		txtId.setText(String.valueOf(obj.getId()));		
-		//Despesa
+		txtId.setText(String.valueOf(obj.getId()));
+		// Despesa
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
@@ -175,7 +198,7 @@ public class LanQuitadoController implements Initializable {
 		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
 		desp.setPrecoTotal(valorUnid * quantidade);
-		despesaService.salvar(desp);		
+		despesaService.salvar(desp);
 		// Item
 		Item item = new Item();
 		item.setLancamento(obj);
@@ -201,44 +224,113 @@ public class LanQuitadoController implements Initializable {
 			soma += tab.getPrecoTotal();
 		}
 		lbTotal.setText(String.format("%.2f", soma));
+		lbDiferenca.setText(String.format("%.2f", soma));
 		obj.setTotal(soma);
 		lancamentoService.atualizar(obj);
+	}
+
+	@FXML
+	public void onBtItemPagamento(ActionEvent evento) {
+		Locale.setDefault(Locale.US);
+
+		double valorInformado, valorDiferenca;
+		valorInformado = Utils.stringParaDouble(txtTipoPagValor.getText());
+		valorDiferenca = Utils.stringParaDouble(lbDiferenca.getText());
+
+		if (valorInformado <= valorDiferenca) {
+			Lancamento obj = new Lancamento();
+			obj.setId(Utils.stringParaInteiro(txtId.getText()));
+			obj.setReferencia(txtReferencia.getText());
+			obj.setTotal((total));
+			lancamentoService.atualizar(obj);
+			txtId.setText(String.valueOf(obj.getId()));
+
+			TipoPag pag = new TipoPag();
+			pag = cmbTipoPag.getValue();
+
+			itemPagamentoEntidade.setLancamento(obj);
+			itemPagamentoEntidade.setTipoPag(pag);
+			itemPagamentoEntidade.setValor(Utils.stringParaDouble(txtTipoPagValor.getText()));
+			itemPagamentoEntidade.setNomePag(pag.getNome());
+			itemPagamentoService.salvar(itemPagamentoEntidade);
+
+			List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(obj.getId());
+			obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+			tbTipoPag.setItems(obsListaItemTipoPag);
+			carregarValorPago();
+			txtTipoPagValor.setText(lbDiferenca.getText());
+
+			iniciarBotaoRemoverItemPagamento();
+		} else {
+			Alertas.mostrarAlerta("Valor inválido!", null, "Favor verificar o valor.", AlertType.WARNING);
 		}
-		
+	}
+
+	public void onBtDesconto() {
+		Double soma = 0.0;
+		Double desconto = 0.0;
+
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPrecoTotal();
+		}
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		double total = soma - desconto;
+		lbTotal.setText(String.format("%.2f", total));
+		lbDiferenca.setText(String.format("%.2f", total));
+		lbDesconto.setText(String.format("%.2f", desconto));
+		txtDesconto.setText("");
+	}
+
+	public void carregarValorPago() {
+		Double valorDiferenca = 0.0;
+		Double valorTotal = 0.0;
+		Double soma = 0.0;
+		for (ItemPagamento tab : obsListaItemTipoPag) {
+			soma += tab.getValor();
+		}
+		lbPago.setText(String.format("%.2f", soma));
+		valorTotal += Utils.stringParaDouble(lbTotal.getText());
+		valorDiferenca = valorTotal - soma;
+		lbDiferenca.setText(String.format("%.2f", valorDiferenca));
+	}
+
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
-			obj.setTipoPagamento(cmbTipoPag.getValue());
-			if(txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
-				 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
-			}
-			else {
-			if(cmbTipoPag.getValue()== null) {
-				Alertas.mostrarAlerta("Atenção", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
-			}
-			else {
-			obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
-		    desconto = Utils.stringParaDouble(txtDesconto.getText());
-		    total = Utils.stringParaDouble(lbTotal.getText());
-		    System.out.println(total);
-		    total-= desconto;
-		    System.out.println(total);
-			obj.setTotal(total);
-			lancamentoService.confirmarLanQuitado(obj);
-			carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {				
-				controller.setLancamento(new Lancamento());
-				controller.setLancamentoService(new LancamentoService());
-				controller.setDespesaService(new DespesaService());
-				controller.setItemService(new ItemService());
-				controller.setTipoPagService(new TipoPagService());
-				controller.setUsuario(new Usuario());
-				controller.setUsuarioService(new UsuarioService());
-				controller.carregarObjetosAssociados();
-				controller.carregarUsuarioLogado();
-			});
-			}
+			if (txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
+				Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+			} else {
+				double valorDiferenca;
+				valorDiferenca = Utils.stringParaDouble(lbDiferenca.getText());
+
+				if (valorDiferenca == 0) {
+					// obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
+					// desconto = Utils.stringParaDouble(txtDesconto.getText());
+					obj.setDesconto(Utils.stringParaDouble(lbDesconto.getText()));
+					desconto = Utils.stringParaDouble(lbDesconto.getText());
+					total = Utils.stringParaDouble(lbTotal.getText());
+					// total-= desconto;
+					obj.setTotal(total);
+					lancamentoService.confirmarLanQuitado(obj);
+					carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {
+						controller.setLancamento(new Lancamento());
+						controller.setLancamentoService(new LancamentoService());
+						controller.setDespesaService(new DespesaService());
+						controller.setItemService(new ItemService());
+						controller.setItemPagamentoService(new ItemPagamentoService());
+						controller.setItemPagamento(new ItemPagamento());
+						controller.setTipoPagService(new TipoPagService());
+						controller.setUsuario(new Usuario());
+						controller.setUsuarioService(new UsuarioService());
+						controller.carregarObjetosAssociados();
+						controller.carregarUsuarioLogado();
+					});
+				} else {
+					Alertas.mostrarAlerta("Pagamento inválido!", null, "Favor revisar formas de pagamento.",
+							AlertType.WARNING);
+				}
 			}
 		} catch (RuntimeException ex) {
 			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos.", AlertType.WARNING);
@@ -249,7 +341,7 @@ public class LanQuitadoController implements Initializable {
 	public void onBtCancelar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		if(!txtId.getText().equals("")) {
+		if (!txtId.getText().equals("")) {
 			lancamentoService.cancelar(obj);
 			Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
 		}
@@ -259,11 +351,13 @@ public class LanQuitadoController implements Initializable {
 			controller.setDespesaService(new DespesaService());
 			controller.setItemService(new ItemService());
 			controller.setTipoPagService(new TipoPagService());
+			controller.setItemPagamentoService(new ItemPagamentoService());
+			controller.setItemPagamento(new ItemPagamento());
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarObjetosAssociados();
 			controller.carregarUsuarioLogado();
-		});		
+		});
 	}
 	// ------------------------------------------------------------------
 
@@ -279,17 +373,14 @@ public class LanQuitadoController implements Initializable {
 		this.itemService = itemService;
 	}
 
-	
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
 
-	
 	public void setTipoPagService(TipoPagService tipoPagService) {
 		this.tipoPagService = tipoPagService;
 	}
 
-	
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
@@ -297,8 +388,16 @@ public class LanQuitadoController implements Initializable {
 	public void setUsuario(Usuario usuarioEntidade) {
 		this.usuarioEntidade = usuarioEntidade;
 	}
+
+	public void setItemPagamentoService(ItemPagamentoService itemPagamentoService) {
+		this.itemPagamentoService = itemPagamentoService;
+	}
+
+	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
+		this.itemPagamentoEntidade = itemPagamentoEntidade;
+	}
 	// -----------------------------------------------------------------
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarComboBoxTipoPag();
@@ -308,12 +407,15 @@ public class LanQuitadoController implements Initializable {
 		}
 	}
 	// ------------------------------------------------------------------
-	
+
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
+		Restricoes.setTextFieldInteger(txtQuantidade);
+		Restricoes.setTextFieldDouble(txtDesconto);
+		Restricoes.setTextFieldDouble(txtTipoPagValor);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -322,7 +424,11 @@ public class LanQuitadoController implements Initializable {
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
+		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
+
+		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
+		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
@@ -385,6 +491,14 @@ public class LanQuitadoController implements Initializable {
 			controle.setDespesa(obj);
 			controle.carregarCamposDeCadastro();
 
+			// Limpando Item de Pagamento
+			itemPagamentoService.limparItemPagamentoPorIdLan(lan);
+			List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
+			obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+			tbTipoPag.setItems(obsListaItemTipoPag);
+			carregarValorPago();
+			lbDiferenca.setText(lbTotal.getText());
+
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
@@ -410,9 +524,9 @@ public class LanQuitadoController implements Initializable {
 				if (obj == null) {
 					setGraphic(null);
 					return;
-				}				
-				setGraphic(button);				
-				setStyle("-fx-color: #FFD700");				
+				}
+				setGraphic(button);
+				setStyle("-fx-color: #FFD700");
 				button.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView.fxml",
 						Utils.stageAtual(evento)));
 			}
@@ -433,8 +547,8 @@ public class LanQuitadoController implements Initializable {
 				}
 				setGraphic(button);
 				button.setOnAction(event -> removerDespesa(obj));
-				setStyle("-fx-color: #FF6347");	
-				}
+				setStyle("-fx-color: #FF6347");
+			}
 		});
 	}
 
@@ -447,22 +561,33 @@ public class LanQuitadoController implements Initializable {
 			try {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				itemService.excluir(lan,desp);
+
+				// Limpando Item de Pagamento
+				itemPagamentoService.limparItemPagamentoPorIdLan(lan);
+				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
+				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+				tbTipoPag.setItems(obsListaItemTipoPag);
+				carregarValorPago();
+				lbDiferenca.setText("0.00");
+
+				itemService.excluir(lan, desp);
 				despesaService.excluir(desp);
-				//Carregar TableView do Lançamento 				
-				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText())); 
+				// Carregar TableView do Lançamento
+				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText()));
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
-				  tbDespesa.setItems(obsListaDespesaTbView);			
-				  iniciarBotaoRemover();				  
+				tbDespesa.setItems(obsListaDespesaTbView);
+				iniciarBotaoRemover();
 				// Valor Total
-					Double soma = 0.0;
-					for (Despesa tab : obsListaDespesaTbView) {
-						soma += tab.getPrecoTotal();
-					}
-					lbTotal.setText(String.format("%.2f", soma));
-					lan.setTotal(soma);
-					lancamentoService.atualizar(lan);				
-				  } catch (BDIntegrityException ex) {
+				Double soma = 0.0;
+				for (Despesa tab : obsListaDespesaTbView) {
+					soma += tab.getPrecoTotal();
+				}
+				lbTotal.setText(String.format("%.2f", soma));
+				lbDiferenca.setText(String.format("%.2f", soma));
+				lbDesconto.setText("0.00");
+				lan.setTotal(soma);
+				lancamentoService.atualizar(lan);
+			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
@@ -476,33 +601,81 @@ public class LanQuitadoController implements Initializable {
 		iniciarBotaoEditar();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
-	//	datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
-	//	Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+
 		// Valor Total
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
 			soma += tab.getPrecoTotal();
 		}
 		lbTotal.setText(String.format("%.2f", soma));
+		lbDiferenca.setText(String.format("%.2f", soma));
 	}
-	
-	
-	
+
+	public void carregarTableViewItemPagamento() {
+		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lancamentoEntidade.getId());
+		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+		tbTipoPag.setItems(obsListaItemTipoPag);
+		carregarValorPago();
+		txtTipoPagValor.setText(lbDiferenca.getText());
+	}
+
 	public void carregarUsuarioLogado() {
-		if(usuarioEntidade == null) {
+		if (usuarioEntidade == null) {
 			System.out.println("entidade nulo");
 		}
-		if(usuarioService == null) {
+		if (usuarioService == null) {
 			System.out.println("service nulo");
 		}
 		List<Usuario> lista = usuarioService.buscarTodos();
-		for(Usuario u : lista) {
-			 u.getLogado();
-			
-			 if(u.getLogado().equals("S")) {
-				 usuarioId = u.getId();
-				 lbUsuario.setText(String.valueOf(u.getNome()));				 
-			 }
-		 }
+		for (Usuario u : lista) {
+			u.getLogado();
+
+			if (u.getLogado().equals("S")) {
+				usuarioId = u.getId();
+				lbUsuario.setText(String.valueOf(u.getNome()));
+			}
+		}
 	}
+
+	private void iniciarBotaoRemoverItemPagamento() {
+		colunaRemoverTipoPag.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		colunaRemoverTipoPag.setCellFactory(param -> new TableCell<ItemPagamento, ItemPagamento>() {
+			private final Button button = new Button("X");
+
+			@Override
+			protected void updateItem(ItemPagamento obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removerItemPagamento(obj));
+				setStyle("-fx-color: #FF6347");
+			}
+		});
+	}
+
+	private void removerItemPagamento(ItemPagamento desp) {
+		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação", "Tem certeza que deseja remover?");
+		if (result.get() == ButtonType.OK) {
+			if (itemPagamentoService == null) {
+				throw new IllegalStateException("Service nulo");
+			}
+			try {
+				Lancamento lan = new Lancamento();
+				lan.setId(Utils.stringParaInteiro(txtId.getText()));
+
+				// Limpando Item de Pagamento
+				itemPagamentoService.excluir(lan.getId(), desp.getTipoPag().getId());
+				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
+				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+				tbTipoPag.setItems(obsListaItemTipoPag);
+				carregarValorPago();
+			} catch (BDIntegrityException ex) {
+				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
+			}
+		}
+	}
+
 }

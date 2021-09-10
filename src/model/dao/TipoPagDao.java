@@ -11,4 +11,5 @@ public interface TipoPagDao {
 	void excluirPorId(Integer id);
 	TipoPag buscarPorId(Integer id);
 	List<TipoPag> buscarTudo();
+	List<TipoPag> listarPorId(Integer id);
 }
