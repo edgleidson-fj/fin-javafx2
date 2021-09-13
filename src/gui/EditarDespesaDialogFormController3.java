@@ -23,8 +23,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
+import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.servico.DespesaService;
+import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 
@@ -74,7 +76,9 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			controller.setDespesaService(new DespesaService());
 			controller.setDespesa(new Despesa());
 			controller.setItemService(new ItemService());
-			controller.setItem(new Item());			
+			controller.setItem(new Item());
+			controller.setItemPagamentoService(new ItemPagamentoService());	
+			controller.setItemPagamento(new ItemPagamento());
 			controller.carregarTableView();
 			});	
 		}
