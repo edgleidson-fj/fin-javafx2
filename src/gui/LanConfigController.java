@@ -48,9 +48,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.entidade.Despesa;
 import model.entidade.Item;
+import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.entidade.TipoPag;
 import model.servico.DespesaService;
+import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
@@ -64,6 +66,8 @@ public class LanConfigController implements Initializable {
 	private DespesaService despesaService;
 	private Despesa despesaEntidade;
 	private TipoPagService tipoPagService;
+	private ItemPagamentoService itemPagamentoService;
+	private ItemPagamento itemPagamentoEntidade;
 	// ----------------------------------------------------------------
 
 	@FXML
@@ -252,7 +256,14 @@ public class LanConfigController implements Initializable {
 
 	public void setTipoPagService(TipoPagService tipoPagService) {
 		this.tipoPagService = tipoPagService;
-	}	
+	}
+	public void setItemPagamentoService(ItemPagamentoService itemPagamentoService) {
+		this.itemPagamentoService = itemPagamentoService;
+	}
+	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
+		this.itemPagamentoEntidade = itemPagamentoEntidade;
+	}
+
 	// -----------------------------------------------------------------
 	
 	@Override

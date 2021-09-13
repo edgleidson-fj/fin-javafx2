@@ -35,10 +35,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
+import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.entidade.Status;
-import model.entidade.TipoPag;
 import model.servico.DespesaService;
+import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
@@ -63,8 +64,6 @@ public class TodasContasController implements Initializable {
 	private TableColumn<Lancamento, Double> colunaLanDesconto;
 	@FXML
 	private TableColumn<Lancamento, Double> colunaLanAcrescimo;
-	@FXML
-	private TableColumn<Lancamento, TipoPag> colunaTipoPag;
 	@FXML
 	private TableColumn<Lancamento, Status> colunaStatus;
 	@FXML
@@ -131,7 +130,6 @@ public class TodasContasController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaLanDesconto, 2);
 		colunaLanAcrescimo.setCellValueFactory(new PropertyValueFactory<>("acrescimo"));
 		Utils.formatTableColumnValorDecimais(colunaLanAcrescimo, 2);
-		colunaTipoPag.setCellValueFactory(new PropertyValueFactory<>("tipoPagamento"));
 		colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 		renderizarColunas();
 	}
@@ -198,6 +196,8 @@ public class TodasContasController implements Initializable {
 				controle.setItemService(new ItemService());
 				controle.setItem(new Item());
 				controle.setTipoPagService(new TipoPagService());
+				controle.setItemPagamentoService(new ItemPagamentoService());
+				controle.setItemPagamento(new ItemPagamento());				
 				controle.carregarCamposDeCadastro();
 				controle.carregarObjetosAssociados();
 				controle.carregarTableView();
@@ -244,6 +244,8 @@ public class TodasContasController implements Initializable {
 							controle.setItemService(new ItemService());
 							controle.setItem(new Item());
 							controle.setTipoPagService(new TipoPagService());
+							controle.setItemPagamentoService(new ItemPagamentoService());
+							controle.setItemPagamento(new ItemPagamento());
 							controle.carregarCamposDeCadastro();
 							controle.carregarObjetosAssociados();
 							controle.carregarTableView();

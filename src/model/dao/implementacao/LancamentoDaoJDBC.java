@@ -25,6 +25,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		this.connection = connection;
 	}
 
+	//Registrar Lancamento.
 	@Override
 	public void inserir(Lancamento obj) {
 		PreparedStatement ps = null;
@@ -56,7 +57,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		}
 	}
 
-	//Atualizar valor Total ao adicionar Itens no Lançamento. ok
+	//Atualizar valor Total ao adicionar Itens no Lançamento.
 	@Override
 	public void atualizar(Lancamento obj) {
 		PreparedStatement ps = null;
@@ -121,9 +122,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					"SELECT * FROM Lancamento l "
 					+ "INNER JOIN Status s "
 					+ "ON l.status_id = s.id "
-					+ "INNER JOIN TipoPag t "
-					+ "ON l.tipoPag_id = t.id "
-				+ "INNER JOIN Usuario u "
+					+ "INNER JOIN Usuario u "
 				+ "ON l.usuario_id = u.usuarioid "
 				+ "WHERE u.logado = 'S' "
 				+ "AND Year(data) >= Year(now())-2 "
@@ -131,9 +130,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		rs = ps.executeQuery();
 			List<Lancamento> lista = new ArrayList<>();			
 			while (rs.next()) {
-				TipoPag pag = new TipoPag();
-				pag.setId(rs.getInt("t.id"));
-				pag.setNome(rs.getString("t.nome"));	
 				Status status = new Status();
 				status.setNome(rs.getString("s.nome"));	
 				Lancamento obj = new Lancamento();
@@ -143,7 +139,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				obj.setDesconto(rs.getDouble("desconto"));
 				obj.setAcrescimo(rs.getDouble("acrescimo"));
 				obj.setTotal(rs.getDouble("total"));
-				//obj.setTipoPagamento(pag);
 				obj.setObs(rs.getString("obs"));
 				obj.setStatus(status);
 				lista.add(obj);
@@ -242,7 +237,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	@Override
 	public void cancelar(Lancamento obj) {
 		PreparedStatement ps = null;
-		int status = 4; //Cancelado.
+		int status = 4; //4=Cancelado.
 		try {
 			ps = connection.prepareStatement("UPDATE lancamento " 
 		+ "SET status_id = '"+status+"' "
@@ -259,7 +254,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	@Override
 	public void confirmarLanQuitado(Lancamento obj) {
 		PreparedStatement ps = null;
-		int status = 2; //Pago.
+		int status = 2; //2=Pago.
 		try {
 			ps = connection.prepareStatement(
 		"UPDATE lancamento " 
@@ -282,7 +277,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	@Override
 	public void confirmarPagamento(Lancamento obj) {
 		PreparedStatement ps = null;
-		int status = 2; //Pago.
+		int status = 2; //2=Pago.
 		try {
 			ps = connection.prepareStatement("UPDATE lancamento " 
 		+ "SET tipopag_id = ?, "
@@ -309,7 +304,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		@Override
 		public void confirmarLanAPagar(Lancamento obj) {
 			PreparedStatement ps = null;
-			int status = 1; //Em Aberto.
+			int status = 1; //1=Em Aberto.
 			try {
 				ps = connection.prepareStatement(
 			"UPDATE lancamento " 
@@ -790,9 +785,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						"SELECT * FROM Lancamento l "
 						+ "INNER JOIN Status s "
 						+ "ON l.status_id = s.id "
-						+ "INNER JOIN TipoPag t "
-						+ "ON l.tipoPag_id = t.id "
-					+ "INNER JOIN Usuario u "
+						+ "INNER JOIN Usuario u "
 					+ "ON l.usuario_id = u.usuarioid "
 					+ "WHERE u.logado = 'S' "
 					+ "AND l.id = ? "); 		
@@ -800,9 +793,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();			
 				while (rs.next()) {
-					TipoPag pag = new TipoPag();
-					pag.setId(rs.getInt("t.id"));
-					pag.setNome(rs.getString("t.nome"));	
 					Status status = new Status();
 					status.setNome(rs.getString("s.nome"));	
 					Lancamento obj = new Lancamento();
@@ -812,7 +802,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setTotal(rs.getDouble("total"));
-					//obj.setTipoPagamento(pag);
 					obj.setObs(rs.getString("obs"));
 					obj.setStatus(status);
 					lista.add(obj);
@@ -826,16 +815,15 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}		
 		
-		//Tela (Todas Contas)
+		//Consultas por Referencia ou Despesa.
 		@Override
 		public List<Lancamento> buscarPorReferenciaOuDespesa(String refOuDespesa) {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			try {
 				ps = connection.prepareStatement(
-						"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, t.nome, t.id, s.nome FROM Lancamento l "								
-						+"INNER JOIN TipoPag t "
-						+"ON l.tipoPag_id = t.id " 
+						"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, "
+						+ "s.nome FROM Lancamento l "								
 						+"INNER JOIN Usuario u "
 						+"ON u.usuarioId = l.usuario_Id " 
 						+"INNER JOIN Item i "
@@ -852,9 +840,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();			
 				while (rs.next()) {
-					TipoPag pag = new TipoPag();
-					pag.setId(rs.getInt("t.id"));
-					pag.setNome(rs.getString("t.nome"));	
 					Status status = new Status();
 					status.setNome(rs.getString("s.nome"));	
 					Lancamento obj = new Lancamento();
@@ -864,7 +849,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setTotal(rs.getDouble("total"));
-					//obj.setTipoPagamento(pag);
 					obj.setObs(rs.getString("obs"));
 					obj.setStatus(status);
 					lista.add(obj);
@@ -877,8 +861,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharResultSet(rs);
 			}
 		}
-		
-		//Consultas por Referencia ou Despesa.
+				
 				@Override
 				public List<Lancamento> buscarPorReferenciaOuDespesaQuitado(String refOuDespesa) {
 					PreparedStatement ps = null;

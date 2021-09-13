@@ -23,11 +23,10 @@
                   <TableColumn fx:id="colunaConfig" minWidth="5.0" prefWidth="42.0" />
                 <TableColumn fx:id="colunaLanId" prefWidth="54.0" text="ID" />
                 <TableColumn fx:id="colunaLanData" prefWidth="82.0" text="DATA" />
-                  <TableColumn fx:id="colunaLanRef" prefWidth="152.0" text="REFERÊNCIA" />
+                  <TableColumn fx:id="colunaLanRef" prefWidth="280.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanDesconto" prefWidth="74.0" text="DESCONTO" />
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="73.0" text="ACRÉSCIMO" />
                   <TableColumn fx:id="colunaLanValor" minWidth="0.0" prefWidth="62.0" text="TOTAL" />
-                  <TableColumn fx:id="colunaTipoPag" maxWidth="2000.0" prefWidth="149.0" text="FORMA DE PAGAMENTO" />
                   <TableColumn fx:id="colunaStatus" minWidth="82.0" prefWidth="42.0" text="STATUS" />
               </columns>
             </TableView>
