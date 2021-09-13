@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,13 +19,13 @@
       <AnchorPane maxHeight="-Infinity" prefHeight="464.0" prefWidth="737.0">
          <children>
             <ToolBar layoutX="6.0" layoutY="149.0" prefHeight="0.0" prefWidth="727.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="142.0" />
-            <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtItemAction" prefHeight="42.0" prefWidth="106.0" text="Adicionar Item" />
+            <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtItemAction" prefHeight="42.0" prefWidth="104.0" text="Adicionar Item" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="155.0" />
             <TextField fx:id="txtItem" layoutX="67.0" layoutY="167.0" prefHeight="25.0" prefWidth="288.0" promptText="Informe um item para adicionar ao lancamento" AnchorPane.topAnchor="170.0" />
             <TextField fx:id="txtPrecoUnid" layoutX="431.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" promptText="0,00" AnchorPane.topAnchor="170.0" />
             <TextField fx:id="txtReferencia" layoutX="140.0" layoutY="66.0" prefHeight="25.0" prefWidth="420.0" promptText=" Informe uma referência para o lancamento" />
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" />
-            <Label layoutX="53.0" layoutY="70.0" text="Referência" />
-            <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="106.0" promptText="ID" />
+            <Label layoutX="53.0" layoutY="70.0" text="Referência" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="49.0" />
+            <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="75.0" promptText="ID" />
             <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTOS (Config.)">
                <font>
                   <Font size="24.0" />
@@ -43,32 +44,58 @@
             </TableView>
             <Button fx:id="btAtualizar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtAtualizar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoConfirmar.css" text="Atualizar" />
             <Button fx:id="btCancelar" layoutX="240.0" layoutY="397.0" mnemonicParsing="false" onAction="#onBtCancelar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoCancelar.css" text="Cancelar" />
-            <Label fx:id="lbTotal" layoutX="601.0" layoutY="312.0" prefHeight="53.0" prefWidth="131.0" text="0,00" textFill="#3008f8" AnchorPane.leftAnchor="601.0" AnchorPane.rightAnchor="5.0">
+            <Label fx:id="lbTotal" layoutX="569.0" layoutY="96.0" prefHeight="35.0" prefWidth="178.0" text="0,00" textFill="#3008f8" AnchorPane.leftAnchor="569.0" AnchorPane.rightAnchor="37.0">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label layoutX="576.0" layoutY="91.0" text="Tipo de Pagamento" AnchorPane.topAnchor="95.0" />
             <Button fx:id="btVoltar" layoutX="394.0" layoutY="396.0" mnemonicParsing="false" onAction="#onBtVoltar" prefHeight="42.0" prefWidth="92.0" stylesheets="@zBotaoVoltar.css" text="Voltar" />
-            <ComboBox fx:id="cmbTipoPag" layoutX="573.0" layoutY="108.0" prefHeight="25.0" prefWidth="123.0" AnchorPane.topAnchor="113.0" />
             <Label fx:id="lbStatus" layoutX="579.0" layoutY="9.0" prefHeight="53.0" prefWidth="176.0" text="Status" textFill="#3008f8" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="540.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="9.0">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtAreaObs" layoutX="144.0" layoutY="100.0" prefHeight="42.0" prefWidth="413.0" promptText="Sem observações." AnchorPane.topAnchor="96.0" />
-            <Label layoutX="543.0" layoutY="241.0" text="Desconto" />
-            <Label layoutX="546.0" layoutY="277.0" text="Acréscimo" />
-            <TextField fx:id="txtDesconto" layoutX="609.0" layoutY="237.0" prefHeight="25.0" prefWidth="51.0" text="0.00" />
-            <TextField fx:id="txtAcrescimo" layoutX="609.0" layoutY="273.0" prefHeight="25.0" prefWidth="51.0" text="0.00" />
-            <Button fx:id="btZerar" layoutX="666.0" layoutY="250.0" mnemonicParsing="false" onAction="#zerarDescontoAcrescimo" text="Zerar" />
+            <TextArea fx:id="txtAreaObs" layoutX="144.0" layoutY="100.0" prefHeight="42.0" prefWidth="413.0" promptText="Observação." AnchorPane.topAnchor="96.0" />
+            <Label layoutX="543.0" layoutY="241.0" text="Desconto" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="160.0" />
+            <Label layoutX="546.0" layoutY="277.0" text="Acréscimo" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="185.0" />
+            <TextField fx:id="txtDesconto" layoutX="609.0" layoutY="237.0" prefHeight="25.0" prefWidth="51.0" text="0.00" AnchorPane.leftAnchor="685.0" AnchorPane.topAnchor="159.0" />
+            <TextField fx:id="txtAcrescimo" layoutX="609.0" layoutY="273.0" prefHeight="25.0" prefWidth="51.0" text="0.00" AnchorPane.leftAnchor="685.0" AnchorPane.topAnchor="185.0" />
+            <Button fx:id="btAplicarDescontoOuAcrescimo" layoutX="666.0" layoutY="250.0" mnemonicParsing="false" onAction="#AplicarDescontoOuAcrescimo" text="Aplicar" AnchorPane.leftAnchor="740.0" AnchorPane.topAnchor="170.0" />
             <TextField fx:id="txtQuantidade" layoutX="372.0" layoutY="167.0" prefHeight="25.0" prefWidth="44.0" AnchorPane.topAnchor="170.0" />
             <Label layoutX="67.0" layoutY="151.0" text="Produto/Despesa" AnchorPane.topAnchor="154.0" />
             <Label layoutX="372.0" layoutY="151.0" text="Qtde" AnchorPane.topAnchor="154.0" />
             <Label layoutX="431.0" layoutY="151.0" text="Preço" AnchorPane.topAnchor="154.0" />
-            <Label layoutX="546.0" layoutY="312.0" text="R$" textFill="#3008f8" AnchorPane.leftAnchor="546.0">
+            <Pane layoutX="514.0" layoutY="257.0" prefHeight="168.0" prefWidth="200.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="570.0">
+               <children>
+                  <TableView fx:id="tbTipoPag" layoutX="-1.0" layoutY="52.0" prefHeight="116.0" prefWidth="215.0">
+                    <columns>
+                      <TableColumn fx:id="colunaRemoverTipoPag" prefWidth="30.0" />
+                      <TableColumn fx:id="colunaTipoPagNome" prefWidth="100.0" />
+                        <TableColumn fx:id="colunaTipoPagValor" prefWidth="65.0" />
+                    </columns>
+                  </TableView>
+                  <TextField fx:id="txtTipoPagValor" layoutY="23.0" prefHeight="25.0" prefWidth="51.0" />
+                  <ComboBox fx:id="cmbTipoPag" layoutX="54.0" layoutY="23.0" prefHeight="25.0" prefWidth="92.0" />
+                  <Label layoutX="-3.0" layoutY="6.0" text=" Forma de Pagamento" />
+                  <Button fx:id="btItemPagamento" layoutX="153.0" layoutY="23.0" mnemonicParsing="false" onAction="#onBtItemPagamento" text="Pagar" />
+               </children>
+            </Pane>
+            <Label layoutX="540.0" layoutY="398.0" text="Desconto" AnchorPane.leftAnchor="543.0" AnchorPane.topAnchor="400.0" />
+            <Label layoutX="711.0" layoutY="398.0" text="Pago" AnchorPane.leftAnchor="711.0" AnchorPane.topAnchor="400.0" />
+            <Label layoutX="638.0" layoutY="398.0" text="Acréscimo" AnchorPane.leftAnchor="620.0" AnchorPane.topAnchor="400.0" />
+            <Label fx:id="lbDesconto" layoutX="543.0" layoutY="419.0" text="0.00" AnchorPane.leftAnchor="543.0" AnchorPane.topAnchor="420.0">
                <font>
-                  <Font name="System Bold" size="36.0" />
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbAcrescimo" layoutX="638.0" layoutY="419.0" text="0.00" AnchorPane.leftAnchor="620.0" AnchorPane.topAnchor="420.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbPago" layoutX="697.0" layoutY="419.0" text="0.00" AnchorPane.leftAnchor="711.0" AnchorPane.topAnchor="420.0">
+               <font>
+                  <Font size="18.0" />
                </font>
             </Label>
          </children>

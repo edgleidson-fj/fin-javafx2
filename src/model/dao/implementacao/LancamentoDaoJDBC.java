@@ -331,7 +331,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					"UPDATE lancamento " 
 					+ "SET referencia = ?, "
 					+ "data = ?, "
-					+ "tipopag_id = ?, "
 					+ "total = ?, "
 					+ "obs = ?,"
 					+ "desconto = ?,"
@@ -339,12 +338,11 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					+ "WHERE Id = ? ");
 						ps.setString(1, obj.getReferencia());
 						ps.setDate(2, new java.sql.Date(obj.getData().getTime()));
-						//ps.setInt(3, obj.getTipoPagamento().getId());
-						ps.setDouble(4, obj.getTotal());
-						ps.setString(5, obj.getObs());
-						ps.setDouble(6, obj.getDesconto());
-						ps.setDouble(7, obj.getAcrescimo());
-						ps.setInt(8, obj.getId());
+						ps.setDouble(3, obj.getTotal());
+						ps.setString(4, obj.getObs());
+						ps.setDouble(5, obj.getDesconto());
+						ps.setDouble(6, obj.getAcrescimo());
+						ps.setInt(7, obj.getId());
 						ps.executeUpdate();
 					} catch (SQLException ex) {
 						new BDException(ex.getMessage());

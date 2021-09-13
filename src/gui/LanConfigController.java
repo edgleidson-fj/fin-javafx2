@@ -81,9 +81,23 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TextField txtPrecoUnid;
 	@FXML
+	private TextArea txtAreaObs;
+	@FXML
+	private TextField txtDesconto;
+	@FXML
+	private TextField txtAcrescimo;
+	@FXML
+	private TextField txtTipoPagValor;
+	@FXML
 	private Label lbTotal;
 	@FXML
 	private Label lbStatus;
+	@FXML
+	private Label lbPago;
+	@FXML
+	private Label lbAcrescimo;
+	@FXML
+	private Label lbDesconto;
 	@FXML
 	private DatePicker datePickerData;
 	@FXML
@@ -96,6 +110,10 @@ public class LanConfigController implements Initializable {
 	private Button btCancelar;
 	@FXML
 	private Button btVoltar;
+	@FXML
+	private Button btAplicarDescontoOuAcrescimo;	
+	@FXML
+	private Button btItemPagamento;
 	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
@@ -111,18 +129,19 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorUnid;
 	@FXML
-	private TableColumn<Despesa, Double> colunaDespValorTotal;
+	private TableColumn<Despesa, Double> colunaDespValorTotal;	
 	@FXML
-	private TextArea txtAreaObs;
+	private TableView<ItemPagamento> tbTipoPag;
 	@FXML
-	private TextField txtDesconto;
+	private TableColumn<ItemPagamento, ItemPagamento> colunaRemoverTipoPag;
 	@FXML
-	private TextField txtAcrescimo;
+	private TableColumn<ItemPagamento, String> colunaTipoPagNome;
 	@FXML
-	private Button btZerar;
-//--------------------------------------------------------
+	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;	
+	//--------------------------------------------------------
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<Despesa> obsListaDespesaTbView;
+	private ObservableList<ItemPagamento> obsListaItemTipoPag;
 	// ---------------------------------------------------------
 
 	double total, desconto, acrescimo;
@@ -181,21 +200,60 @@ public class LanConfigController implements Initializable {
 		obj.setTotal(soma);
 		lancamentoService.atualizar(obj);
 		total = soma;
+		
+		carregarTableView();
 	}
+		
+	@FXML
+	public void onBtItemPagamento(ActionEvent evento) {
+		Locale.setDefault(Locale.US);
 
+		double valorInformado, valorDiferenca;
+		valorInformado = Utils.stringParaDouble(txtTipoPagValor.getText());
+		valorDiferenca = Utils.stringParaDouble(lbTotal.getText()) - Utils.stringParaDouble(lbPago.getText());
+
+		if (valorInformado <= valorDiferenca) {
+			Lancamento obj = new Lancamento();
+			obj.setId(Utils.stringParaInteiro(txtId.getText()));
+			obj.setReferencia(txtReferencia.getText());
+			obj.setTotal((total));
+			lancamentoService.atualizar(obj);
+			txtId.setText(String.valueOf(obj.getId()));
+
+			TipoPag pag = new TipoPag();
+			pag = cmbTipoPag.getValue();
+
+			itemPagamentoEntidade.setLancamento(obj);
+			itemPagamentoEntidade.setTipoPag(pag);
+			itemPagamentoEntidade.setValor(Utils.stringParaDouble(txtTipoPagValor.getText()));
+			itemPagamentoEntidade.setNomePag(pag.getNome());
+			itemPagamentoService.salvar(itemPagamentoEntidade);
+
+			List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(obj.getId());
+			obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+			tbTipoPag.setItems(obsListaItemTipoPag);
+			carregarValorPago();
+	
+			valorDiferenca = Utils.stringParaDouble(lbTotal.getText()) - Utils.stringParaDouble(lbPago.getText());
+			txtTipoPagValor.setText(String.valueOf(valorDiferenca));
+			
+			iniciarBotaoRemoverItemPagamento();
+		} else {
+			Alertas.mostrarAlerta("Valor inválido!", null, "Favor verificar o valor ou forma de pagamento.", AlertType.INFORMATION);
+		}
+	}
+	
 	@FXML
 	public void onBtAtualizar(ActionEvent evento) {
+		if(lbPago.getText().equals(lbTotal.getText())) {
 		Lancamento obj = new Lancamento();
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			obj.setReferencia(txtReferencia.getText());
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			obj.setData(Date.from(instant));
 			obj.setObs(txtAreaObs.getText());
-			obj.setTipoPagamento(cmbTipoPag.getValue());
-			obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
-			obj.setAcrescimo(Utils.stringParaDouble(txtAcrescimo.getText()));
-			desconto = Utils.stringParaDouble(txtDesconto.getText());
-			acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());			
+			obj.setDesconto(Utils.stringParaDouble(lbDesconto.getText()));
+			obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
 			carregarTableView();			
 			obj.setTotal(total);
 		lancamentoService.lanConfig(obj);
@@ -205,6 +263,10 @@ public class LanConfigController implements Initializable {
 				controller.carregarTableView();
 			});
 			 Alertas.mostrarAlerta(null, null, "Lançamento editado com sucesso", AlertType.INFORMATION);
+	}
+		else {
+			Alertas.mostrarAlerta("Erro ao atualizar", null, "Favor verificar valores e formas de pagamento", AlertType.INFORMATION);
+		}
 	}
 
 	@FXML
@@ -272,6 +334,7 @@ public class LanConfigController implements Initializable {
 		inicializarNodes();
 		if (lancamentoEntidade != null) {
 			carregarTableView();
+			carregarTableViewItemPagamento();
 		}
 	}
 
@@ -281,18 +344,17 @@ public class LanConfigController implements Initializable {
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		cmbTipoPag.setValue(lancamentoEntidade.getTipoPagamento());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		total = lancamentoEntidade.getTotal();
 		lbStatus.setText(lancamentoEntidade.getStatus().getNome());		
-		pag = lancamentoEntidade.getTipoPagamento();		
 		txtAreaObs.setText(lancamentoEntidade.getObs());
-		txtDesconto.setText(String.valueOf(lancamentoEntidade.getDesconto()));
-		txtAcrescimo.setText(String.valueOf(lancamentoEntidade.getAcrescimo()));
+		lbDesconto.setText(String.format("%.2f", lancamentoEntidade.getDesconto()));
+		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
 	}	
 	// -----------------------------------------------------------------------------------------------------
 
 	private void inicializarNodes() {
+		Restricoes.setTextFieldDouble(txtTipoPagValor);
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
@@ -307,6 +369,10 @@ public class LanConfigController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
+		
+		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
+		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbDespesa.prefHeightProperty().bind(stage.heightProperty());		
@@ -442,6 +508,8 @@ public class LanConfigController implements Initializable {
 					lan.setTotal(soma);
 					lancamentoService.atualizar(lan);
 					total = soma;
+					
+					carregarTableView();
 				  } catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
@@ -460,17 +528,78 @@ public class LanConfigController implements Initializable {
 		for (Despesa tab : obsListaDespesaTbView) {
 			soma += tab.getPrecoTotal();
 		}
-		desconto = Utils.stringParaDouble(txtDesconto.getText());
-		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
-		soma -= desconto;
-		soma += acrescimo;
+		soma -= Utils.stringParaDouble(lbDesconto.getText());
+		soma += Utils.stringParaDouble(lbAcrescimo.getText());	
 		lbTotal.setText(String.format("%.2f", soma));
 		total = soma;
 	}
 	
-	public void zerarDescontoAcrescimo() {
+	public void carregarTableViewItemPagamento() {
+		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lancamentoEntidade.getId());
+		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+		tbTipoPag.setItems(obsListaItemTipoPag);
+		iniciarBotaoRemoverItemPagamento();
+		carregarValorPago();
+	}
+	
+	public void AplicarDescontoOuAcrescimo() {
+		Double desconto, acrescimo;
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+		lbDesconto.setText(String.format("%.2f", desconto));
+		lbAcrescimo.setText(String.format("%.2f", acrescimo));		
+		carregarTableView();		
+		carregarValorPago();
 		txtDesconto.setText("0.00");
 		txtAcrescimo.setText("0.00");
-		carregarTableView();
 	}
+	
+	public void carregarValorPago() {
+		Double soma = 0.0;
+		for (ItemPagamento tab : obsListaItemTipoPag) {
+			soma += tab.getValor();
+		}
+		lbPago.setText(String.format("%.2f", soma));
+	}
+	
+	private void iniciarBotaoRemoverItemPagamento() {
+		colunaRemoverTipoPag.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		colunaRemoverTipoPag.setCellFactory(param -> new TableCell<ItemPagamento, ItemPagamento>() {
+			private final Button button = new Button("X");
+
+			@Override
+			protected void updateItem(ItemPagamento obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removerItemPagamento(obj));
+				setStyle("-fx-color: #FF6347");
+			}
+		});
+	}
+
+	private void removerItemPagamento(ItemPagamento desp) {
+		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação", "Tem certeza que deseja remover?");
+		if (result.get() == ButtonType.OK) {
+			if (itemPagamentoService == null) {
+				throw new IllegalStateException("Service nulo");
+			}
+			try {
+				Lancamento lan = new Lancamento();
+				lan.setId(Utils.stringParaInteiro(txtId.getText()));
+				// Limpando Item de Pagamento
+				itemPagamentoService.excluir(lan.getId(), desp.getTipoPag().getId());
+				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
+				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+				tbTipoPag.setItems(obsListaItemTipoPag);
+				carregarValorPago();
+			} catch (BDIntegrityException ex) {
+				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
+			}
+		}
+	}
+
 }

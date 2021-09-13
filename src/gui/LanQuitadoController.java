@@ -306,8 +306,6 @@ public class LanQuitadoController implements Initializable {
 				valorDiferenca = Utils.stringParaDouble(lbDiferenca.getText());
 
 				if (valorDiferenca == 0) {
-					// obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
-					// desconto = Utils.stringParaDouble(txtDesconto.getText());
 					obj.setDesconto(Utils.stringParaDouble(lbDesconto.getText()));
 					desconto = Utils.stringParaDouble(lbDesconto.getText());
 					total = Utils.stringParaDouble(lbTotal.getText());

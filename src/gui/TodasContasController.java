@@ -249,6 +249,7 @@ public class TodasContasController implements Initializable {
 							controle.carregarCamposDeCadastro();
 							controle.carregarObjetosAssociados();
 							controle.carregarTableView();
+							controle.carregarTableViewItemPagamento();
 						}));
 			}
 		});
