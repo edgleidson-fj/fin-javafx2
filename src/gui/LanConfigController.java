@@ -245,7 +245,7 @@ public class LanConfigController implements Initializable {
 	
 	@FXML
 	public void onBtAtualizar(ActionEvent evento) {
-		if(lbPago.getText().equals(lbTotal.getText())) {
+		if(lbPago.getText().equals(lbTotal.getText()) || lbStatus.getText().equals("EM ABERTO")) {
 		Lancamento obj = new Lancamento();
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			obj.setReferencia(txtReferencia.getText());

@@ -32,9 +32,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.entidade.Status;
 import model.servico.DespesaService;
+import model.servico.ItemPagamentoService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
 
@@ -154,6 +156,8 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 				controle.setLancamentoService(new LancamentoService());
 				controle.setDespesaService(new DespesaService());
 				controle.setTipoPagService(new TipoPagService());
+				controle.setItemPagamentoService(new ItemPagamentoService());	
+				controle.setItemPagamento(new ItemPagamento());				
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();

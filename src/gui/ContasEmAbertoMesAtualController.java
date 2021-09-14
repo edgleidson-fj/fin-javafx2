@@ -29,9 +29,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
 import model.entidade.Status;
+import model.entidade.ItemPagamento;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
+import model.servico.ItemPagamentoService;
 
 public class ContasEmAbertoMesAtualController implements Initializable {
 
@@ -138,9 +140,12 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				controle.setLancamentoService(new LancamentoService());
 				controle.setDespesaService(new DespesaService());
 				controle.setTipoPagService(new TipoPagService());
+				controle.setItemPagamentoService(new ItemPagamentoService());	
+				controle.setItemPagamento(new ItemPagamento());
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();
+				controle.carregarValorInicial();
 			}
 
 			Stage stageDialog = new Stage();

@@ -279,20 +279,19 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		PreparedStatement ps = null;
 		int status = 2; //2=Pago.
 		try {
-			ps = connection.prepareStatement("UPDATE lancamento " 
-		+ "SET tipopag_id = ?, "
-		+"status_id = '"+status+"', "
+			ps = connection.prepareStatement(
+		"UPDATE lancamento " 
+		+ "SET status_id = '"+status+"', "
 		+"total = ?, "
 		+"desconto = ?, "
 		+"acrescimo = ?, "
 		+ "data = ? "
 		+ "WHERE Id = ? ");
-			//ps.setInt(1, obj.getTipoPagamento().getId());
-			ps.setDouble(2, obj.getTotal());
-			ps.setDouble(3, obj.getDesconto());
-			ps.setDouble(4, obj.getAcrescimo());
-			ps.setDate(5, new java.sql.Date(obj.getData().getTime()));
-			ps.setInt(6, obj.getId());
+			ps.setDouble(1, obj.getTotal());
+			ps.setDouble(2, obj.getDesconto());
+			ps.setDouble(3, obj.getAcrescimo());
+			ps.setDate(4, new java.sql.Date(obj.getData().getTime()));
+			ps.setInt(5, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());

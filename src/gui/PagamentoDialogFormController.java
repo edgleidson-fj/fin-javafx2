@@ -6,13 +6,17 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 import application.Main;
+import bd.BDIntegrityException;
 import gui.util.Alertas;
 import gui.util.Restricoes;
 import gui.util.Utils;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,12 +27,14 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -36,9 +42,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import model.entidade.Despesa;
+import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.entidade.TipoPag;
 import model.servico.DespesaService;
+import model.servico.ItemPagamentoService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
 
@@ -48,6 +56,8 @@ public class PagamentoDialogFormController implements Initializable {
 	private Lancamento lancamentoEntidade;
 	private LancamentoService lancamentoService;
 	private TipoPagService tipoPagService;
+	private ItemPagamentoService itemPagamentoService;
+	private ItemPagamento itemPagamentoEntidade;
 	// ---------------------------------------------
 
 	@FXML
@@ -59,13 +69,21 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private TextField txtAcrescimo;
 	@FXML
+	private TextField txtTipoPagValor;
+	@FXML
 	private DatePicker datePickerData;
+	@FXML
+	private ComboBox<TipoPag> cmbTipoPag;
 	@FXML
 	private Label lbTotal;
 	@FXML
-	private Label lbDespesa;
+	private Label lbDesconto;
 	@FXML
-	private Label lbOutro;
+	private Label lbPago;
+	@FXML
+	private Label lbDiferenca;
+	@FXML
+	private Label lbAcrescimo;
 	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
@@ -79,105 +97,148 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
-	private ComboBox<TipoPag> cmbTipoPag;
+	private TableView<ItemPagamento> tbTipoPag;
+	@FXML
+	private TableColumn<ItemPagamento, ItemPagamento> colunaRemoverTipoPag;
+	@FXML
+	private TableColumn<ItemPagamento, String> colunaTipoPagNome;
+	@FXML
+	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;
 	@FXML
 	private Button btConfirmar;
 	@FXML
 	private Button btVoltar;
 	@FXML
-	private Button btAtualizarTotal;
+	private Button btDescontoOuAcrescimo;
+	@FXML
+	private Button btItemPagamento;
 	// ----------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	private ObservableList<TipoPag> obsListaTipoPag;
+	private ObservableList<ItemPagamento> obsListaItemTipoPag;
 	// ---------------------------------------------------------
 	double desconto, acrescimo, total;
-	
+
+	@FXML
+	public void onBtItemPagamento(ActionEvent evento) {
+		Locale.setDefault(Locale.US);
+
+		double valorInformado, valorDiferenca;
+		valorInformado = Utils.stringParaDouble(txtTipoPagValor.getText());
+		valorDiferenca = Utils.stringParaDouble(lbDiferenca.getText());
+
+		if (valorInformado <= valorDiferenca) {
+			Lancamento obj = new Lancamento();
+			obj.setId(Utils.stringParaInteiro(txtId.getText()));
+
+			TipoPag pag = new TipoPag();
+			pag = cmbTipoPag.getValue();
+
+			itemPagamentoEntidade.setLancamento(obj);
+			itemPagamentoEntidade.setTipoPag(pag);
+			itemPagamentoEntidade.setValor(Utils.stringParaDouble(txtTipoPagValor.getText()));
+			itemPagamentoEntidade.setNomePag(pag.getNome());
+			itemPagamentoService.salvar(itemPagamentoEntidade);
+
+			carregarTableViewItemPagamento();
+			txtTipoPagValor.setText(lbDiferenca.getText());
+			zerarDiferecaDePagamento();
+		} else {
+			Alertas.mostrarAlerta("Valor inválido!", null, "Favor verificar o valor.", AlertType.WARNING);
+		}
+	}
+
+	public void zerarDiferecaDePagamento() {
+		if (lbPago.getText().equals(lbTotal.getText())) {
+			txtTipoPagValor.setText("0.00");
+			lbDiferenca.setText("0.00");
+		}
+	}
+
+	public void limparItemPagamento() {
+		itemPagamentoService.limparItemPagamentoPorIdLan(lancamentoEntidade);
+		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lancamentoEntidade.getId());
+		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+		tbTipoPag.setItems(obsListaItemTipoPag);
+		carregarValorPago();
+	}
+
+	public void carregarValorPago() {
+		Double valorDiferenca = 0.0;
+		Double valorTotal = 0.0;
+		Double soma = 0.0;
+		for (ItemPagamento tab : obsListaItemTipoPag) {
+			soma += tab.getValor();
+		}
+		lbPago.setText(String.format("%.2f", soma));
+		valorTotal += Utils.stringParaDouble(lbTotal.getText());
+		valorDiferenca = valorTotal - soma;
+		lbDiferenca.setText(String.format("%.2f", valorDiferenca));
+		txtTipoPagValor.setText(String.format("%.2f", valorDiferenca));
+	}
+
+	public void carregarValorInicial() {
+		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
+		lbDiferenca.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
+	}
+
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		Lancamento obj = new Lancamento();
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		obj.setTipoPagamento(cmbTipoPag.getValue());
-		if(cmbTipoPag.getValue()== null) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor informar o tipo de pagamento", AlertType.WARNING);
-		}
-		else {
-		// Desconto-Acréscimo
-		Double soma = 0.0;
-		for (Despesa tab : obsListaDespesaTbView) {
-				soma += tab.getPrecoTotal();
-		}
-		total = soma;
-		total -= Utils.stringParaDouble(txtDesconto.getText());
-		total += Utils.stringParaDouble(txtAcrescimo.getText());
-		if (Utils.stringParaDouble(txtDesconto.getText()) != 0) {
-			obj.setDesconto(Utils.stringParaDouble(txtDesconto.getText()));
-		}else {
-			obj.setDesconto(desconto);
-		}
-		if (Utils.stringParaDouble(txtAcrescimo.getText()) != 0) {
-			obj.setAcrescimo(Utils.stringParaDouble(txtAcrescimo.getText()));
-		}
-		else {
-			obj.setAcrescimo(acrescimo);
-		}
-		obj.setTotal(total);
-		Date hoje = new Date();
-		obj.setData(hoje);
-		lancamentoService.confirmarPagamento(obj);
-		Utils.stageAtual(evento).close();
-		carregarPropriaView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) -> {
-			controller.setLancamentoService(new LancamentoService());
-			controller.setLancamento(new Lancamento());
-			controller.carregarTableView();
-		});
-		 Alertas.mostrarAlerta(null, null, "Pagamento realizado com sucesso", AlertType.INFORMATION);
+		if (lbPago.getText().equals(lbTotal.getText())) {
+			Lancamento obj = new Lancamento();
+			obj.setId(Utils.stringParaInteiro(txtId.getText()));
+			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
+			Date hoje = new Date();
+			obj.setData(hoje);
+			obj.setDesconto(Utils.stringParaDouble(lbDesconto.getText()));
+			obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
+			lancamentoService.confirmarPagamento(obj);
+			Utils.stageAtual(evento).close();
+			carregarPropriaView("/gui/ContasEmAbertoMesAtualView.fxml",
+					(ContasEmAbertoMesAtualController controller) -> {
+						controller.setLancamentoService(new LancamentoService());
+						controller.setLancamento(new Lancamento());
+						controller.carregarTableView();
+					});
+			Alertas.mostrarAlerta(null, null, "Pagamento realizado com sucesso", AlertType.INFORMATION);
+		} else {
+			Alertas.mostrarAlerta("Erro ao finalizar pagamento", null, "Favor verificar forma de pagamento",
+					AlertType.INFORMATION);
 		}
 	}
 
 	@FXML
 	public void onBtVoltar(ActionEvent evento) {
+		limparItemPagamento();
 		Utils.stageAtual(evento).close();
 	}
 
-	public void onBtAtualizarTotal() {
-		//lbDespesa.setText(String.format("R$ %.2f", lancamentoEntidade.getTotal()));
+	public void onBtDescontoOuAcrescimo() {
 		Double soma = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
 			soma += tab.getPrecoTotal();
 		}
 		double total = soma;
-		
-		if (Utils.stringParaDouble(txtDesconto.getText()) > 0 ) {
-			total -= Utils.stringParaDouble(txtDesconto.getText());
-			lbOutro.setText(String.format("Desconto R$ %.2f", Utils.stringParaDouble(txtDesconto.getText())));
-			 desconto = Utils.stringParaDouble(txtDesconto.getText());
-			 txtAcrescimo.setText(String.valueOf(0.00));
-			}
-		
-		if (Utils.stringParaDouble(txtAcrescimo.getText()) > 0) {
-			total += Utils.stringParaDouble(txtAcrescimo.getText());
-			lbOutro.setText(String.format("Acréscimo R$ %.2f", Utils.stringParaDouble(txtAcrescimo.getText())));
-			 acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
-			 txtDesconto.setText(String.valueOf(0.00));
-		}
-		
-		if (Utils.stringParaDouble(txtDesconto.getText()) < 1 && 
-				Utils.stringParaDouble(txtAcrescimo.getText()) < 1) {
-		soma = 0.0;
-		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPrecoTotal();
-		}
-		lbTotal.setText(String.format("%.2f", soma));
-		lbOutro.setText("");
-		}		
-		else {
+
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		lbDesconto.setText(String.format("%.2f", desconto));
+		total -= desconto;
+
+		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+		lbAcrescimo.setText(String.format("%.2f", acrescimo));
+		total += acrescimo;
+
 		lbTotal.setText(String.format("%.2f", total));
-	}
+		lbDiferenca.setText(String.format("%.2f", total));
+
+		txtDesconto.setText("0.00");
+		txtAcrescimo.setText("0.00");
+		txtTipoPagValor.setText(lbDiferenca.getText());
+		limparItemPagamento();
 	}
 	// -----------------------------------------------
 
-	
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
@@ -194,6 +255,13 @@ public class PagamentoDialogFormController implements Initializable {
 		this.tipoPagService = tipoPagService;
 	}
 
+	public void setItemPagamentoService(ItemPagamentoService itemPagamentoService) {
+		this.itemPagamentoService = itemPagamentoService;
+	}
+
+	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
+		this.itemPagamentoEntidade = itemPagamentoEntidade;
+	}
 	// ----------------------------------------------------------------
 
 	@Override
@@ -204,13 +272,21 @@ public class PagamentoDialogFormController implements Initializable {
 
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
+		Restricoes.setTextFieldDouble(txtTipoPagValor);
+		Restricoes.setTextFieldDouble(txtDesconto);
+		Restricoes.setTextFieldDouble(txtAcrescimo);
+
 		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
+		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
+
+		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
+		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 	}
 
 	public void atualizarDialogForm() {
@@ -218,15 +294,10 @@ public class PagamentoDialogFormController implements Initializable {
 		txtRef.setText(lancamentoEntidade.getReferencia());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
-		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");		
-		txtDesconto.setText(String.valueOf(lancamentoEntidade.getDesconto()));
-		txtAcrescimo.setText(String.valueOf(lancamentoEntidade.getAcrescimo()));
-		if(lancamentoEntidade.getDesconto()> 0) {
-		lbOutro.setText(String.format("Desconto R$ %.2f",lancamentoEntidade.getDesconto()));
-		}
-		if(lancamentoEntidade.getAcrescimo()> 0) {
-			lbOutro.setText(String.format("Acréscimo R$ %.2f",lancamentoEntidade.getAcrescimo()));
-			}
+		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+		lbDesconto.setText(String.format("%.2f", lancamentoEntidade.getDesconto()));
+		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
+		lbDiferenca.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 	}
 
 	public void carregarTableView() {
@@ -270,6 +341,54 @@ public class PagamentoDialogFormController implements Initializable {
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
+		}
+	}
+
+	public void carregarTableViewItemPagamento() {
+		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lancamentoEntidade.getId());
+		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+		tbTipoPag.setItems(obsListaItemTipoPag);
+		carregarValorPago();
+		iniciarBotaoRemoverItemPagamento();
+	}
+
+	private void iniciarBotaoRemoverItemPagamento() {
+		colunaRemoverTipoPag.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		colunaRemoverTipoPag.setCellFactory(param -> new TableCell<ItemPagamento, ItemPagamento>() {
+			private final Button button = new Button("X");
+
+			@Override
+			protected void updateItem(ItemPagamento obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removerItemPagamento(obj));
+				setStyle("-fx-color: #FF6347");
+			}
+		});
+	}
+
+	private void removerItemPagamento(ItemPagamento desp) {
+		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação", "Tem certeza que deseja remover?");
+		if (result.get() == ButtonType.OK) {
+			if (itemPagamentoService == null) {
+				throw new IllegalStateException("Service nulo");
+			}
+			try {
+				Lancamento lan = new Lancamento();
+				lan.setId(Utils.stringParaInteiro(txtId.getText()));
+				// Limpando Item de Pagamento
+				itemPagamentoService.excluir(lan.getId(), desp.getTipoPag().getId());
+				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
+				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+				tbTipoPag.setItems(obsListaItemTipoPag);
+				carregarValorPago();
+			} catch (BDIntegrityException ex) {
+				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
+			}
 		}
 	}
 }
