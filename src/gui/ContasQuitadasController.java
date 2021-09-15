@@ -53,8 +53,6 @@ public class ContasQuitadasController implements Initializable {
 	@FXML
 	private TableColumn<Lancamento, Double> colunaLanAcrescimo;
 	@FXML
-	private TableColumn<Lancamento, TipoPag> colunaTipoPag;
-	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
 	private Label lbUsuario;
@@ -100,7 +98,6 @@ public class ContasQuitadasController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaLanDesconto, 2);
 		colunaLanAcrescimo.setCellValueFactory(new PropertyValueFactory<>("acrescimo"));
 		Utils.formatTableColumnValorDecimais(colunaLanAcrescimo, 2);
-		colunaTipoPag.setCellValueFactory(new PropertyValueFactory<>("tipoPagamento"));
 	}
 
 	public void carregarTableView() {

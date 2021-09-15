@@ -159,8 +159,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			try {
 				ps = connection.prepareStatement(
 						"SELECT * FROM Lancamento l "								
-						+ "INNER JOIN TipoPag t "
-						+ "ON l.tipoPag_id = t.id "
 						+ "INNER JOIN Usuario u "
 						+ "ON u.usuarioId = l.usuario_Id "
 						+ "WHERE status_id = 2 "
@@ -170,9 +168,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
 				while (rs.next()) {
-				TipoPag pag = new TipoPag();
-					pag.setId(rs.getInt("id"));
-					pag.setNome(rs.getString("t.nome"));					
 					Lancamento obj = new Lancamento();
 					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
 					obj.setId(rs.getInt("id"));
@@ -181,7 +176,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setDesconto(rs.getDouble("desconto"));
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setObs(rs.getString("obs"));
-					//obj.setTipoPagamento(pag);				
 					lista.add(obj);
 				}
 				return lista;
@@ -669,15 +663,17 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		@Override 
+		
+		/*@Override   - DESABILITADO 
 		public List<Lancamento> buscarContasQuitadoPeriodo(String dataInicial, String dataFinal) {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			try {
 				ps = connection.prepareStatement(
 						"SELECT * FROM lancamento "
-						+ "INNER JOIN tipopag "
-						+ "ON lancamento.tipopag_id = tipopag.id "+ "INNER JOIN Usuario u "
+						//+"INNER JOIN itemPagamento "
+						//+"ON lancamento.tipopag_id = itempagamento.tipopag.id "
+						+ "INNER JOIN Usuario u "
 						+ "ON u.usuarioId = lancamento.usuario_Id "
 						+ "WHERE u.logado = 'S' "
 						+ "AND data >=  '"+dataInicial+"' "
@@ -687,9 +683,9 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				rs = ps.executeQuery();
 				List<Lancamento> lista = new ArrayList<>();				
 				while (rs.next()) {
-				TipoPag pag = new TipoPag();
-					pag.setId(rs.getInt("tipopag.id"));
-					pag.setNome(rs.getString("tipopag.nome"));
+				//TipoPag pag = new TipoPag();
+					//pag.setId(rs.getInt("tipopag.id"));
+					//pag.setNome(rs.getString("tipopag.nome"));
 					Lancamento obj = new Lancamento();
 					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
 					obj.setId(rs.getInt("id"));
@@ -708,8 +704,10 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharStatement(ps);
 				BD.fecharResultSet(rs);
 			}
-		}
-				
+		}*/
+		
+			
+		
 		//Rotinas Automáticas
 		@Override
 		public void cancelamentoAutomatico(Lancamento obj) {
@@ -865,9 +863,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					ResultSet rs = null;
 					try {
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, t.nome FROM Lancamento l "								
-								+"INNER JOIN TipoPag t "
-								+"ON l.tipoPag_id = t.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "								
 								+"INNER JOIN Usuario u "
 								+"ON u.usuarioId = l.usuario_Id " 
 								+"INNER JOIN Item i "
@@ -884,10 +880,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						rs = ps.executeQuery();
 						List<Lancamento> lista = new ArrayList<>();				
 						while (rs.next()) {
-						TipoPag pag = new TipoPag();
-							pag.setId(rs.getInt("id"));
-							pag.setNome(rs.getString("t.nome"));					
-							Lancamento obj = new Lancamento();
+						Lancamento obj = new Lancamento();
 							obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
 							obj.setId(rs.getInt("id"));
 							obj.setReferencia(rs.getString("referencia"));
@@ -895,7 +888,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 							obj.setDesconto(rs.getDouble("desconto"));
 							obj.setAcrescimo(rs.getDouble("acrescimo"));
 							obj.setObs(rs.getString("obs"));
-							//obj.setTipoPagamento(pag);				
 							lista.add(obj);
 						}
 						return lista;
@@ -1512,10 +1504,9 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					try {
 						ps = connection.prepareStatement(
 								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
-								+ "lancamento.desconto, lancamento.total, lancamento.obs, "
-								+ "tipopag.id, tipopag.nome FROM lancamento  "
-								+ "INNER JOIN tipopag "
-								+ "ON lancamento.tipopag_id = tipopag.id "+ "INNER JOIN Usuario u "
+								+ "lancamento.desconto, lancamento.total, lancamento.obs "
+								+ "FROM lancamento  "
+								+ "INNER JOIN Usuario u "
 								+ "ON u.usuarioId = lancamento.usuario_Id "
 								+"INNER JOIN Item i "
 								+"ON i.Lancamento_id = lancamento.id "
@@ -1530,10 +1521,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						rs = ps.executeQuery();
 						List<Lancamento> lista = new ArrayList<>();				
 						while (rs.next()) {
-						TipoPag pag = new TipoPag();
-							pag.setId(rs.getInt("tipopag.id"));
-							pag.setNome(rs.getString("tipopag.nome"));
-							Lancamento obj = new Lancamento();
+						Lancamento obj = new Lancamento();
 							obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
 							obj.setId(rs.getInt("id"));
 							obj.setReferencia(rs.getString("referencia"));
@@ -1541,7 +1529,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 							obj.setDesconto(rs.getDouble("desconto"));
 							obj.setAcrescimo(rs.getDouble("acrescimo"));
 							obj.setObs(rs.getString("obs"));
-							//obj.setTipoPagamento(pag);
 							lista.add(obj);
 						}
 						return lista;

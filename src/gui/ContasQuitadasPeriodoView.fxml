@@ -25,11 +25,10 @@
                   <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="50.0" />
                 <TableColumn fx:id="colunaLanId" prefWidth="60.0" text="ID" />
                 <TableColumn fx:id="colunaLanData" text="DATA" />
-                  <TableColumn fx:id="colunaLanRef" minWidth="0.0" prefWidth="220.0" text="REFERÊNCIA" />
+                  <TableColumn fx:id="colunaLanRef" minWidth="0.0" prefWidth="280.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanDesconto" prefWidth="70.0" text="DESCONTO" />
                   <TableColumn fx:id="colunaLanAcrescimo" prefWidth="78.0" text="ACRÉSCIMO" />
-                  <TableColumn fx:id="colunaLanValor" prefWidth="60.0" text="TOTAL" />
-                  <TableColumn fx:id="colunaTipoPag" maxWidth="500.0" prefWidth="130.0" text="TIPO DE PAGAMENTO" />
+                  <TableColumn fx:id="colunaLanValor" prefWidth="70.0" text="TOTAL" />
               </columns>
             </TableView>
             <DatePicker fx:id="datePickerDataInicial" layoutX="235.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Inicial" AnchorPane.leftAnchor="218.0" AnchorPane.topAnchor="80.0" />
@@ -38,31 +37,6 @@
             <Label fx:id="lbTotal" layoutX="604.0" layoutY="33.0" prefHeight="35.0" prefWidth="116.0" textFill="#3008f8" AnchorPane.leftAnchor="604.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="70.0">
                <font>
                   <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbTotalTipoPagamento1" layoutX="25.0" layoutY="455.0" AnchorPane.topAnchor="430.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbTotalTipoPagamento2" layoutX="215.0" layoutY="430.0" prefHeight="17.0" prefWidth="180.0" AnchorPane.topAnchor="430.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbTotalTipoPagamento3" layoutX="401.0" layoutY="430.0" prefHeight="17.0" prefWidth="186.0" AnchorPane.topAnchor="430.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbTotalTipoPagamento4" layoutX="587.0" layoutY="430.0" AnchorPane.topAnchor="430.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbTotalTipoPagamento5" layoutX="767.0" layoutY="430.0" AnchorPane.topAnchor="430.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="218.0" layoutY="55.0" prefHeight="25.0" prefWidth="215.0" promptText="Referência ou item" AnchorPane.topAnchor="50.0" />
