@@ -508,86 +508,74 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			int mesAtual = datahoje.get(Calendar.MONTH);			
 			switch (mesAtual) {
 			case 0:
-			ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+			ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 			+"WHERE usuario.logado = 'S' AND  Month(data) =  '01' and Status_id = 2 and Year(data) = Year(now()) "
-			+ "AND tipopag.id = tipopag_id "
 			+ "AND usuario.usuarioId = usuario_id "
 			+ "ORDER BY data DESC ");
 			break;
 			case 1:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento,  usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '02' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			case 2:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento,  usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '03' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			case 3:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario " 
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario " 
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '04' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			case 4:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '05' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			case 5:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '06' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			case 6:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '07' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			case 7:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '08' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			case 8:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '09' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "		
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			case 9:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 					+"WHERE usuario.logado = 'S' AND Month(data) =  '10' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "		
 				+ "ORDER BY data DESC ");
 				break;
 			case 10:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '11' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
 			default:
-				ps = connection.prepareStatement("SELECT * FROM lancamento, tipopag, usuario "
+				ps = connection.prepareStatement("SELECT * FROM lancamento, usuario "
 				+"WHERE usuario.logado = 'S' AND  Month(data) =  '12' and Status_id = 2 and Year(data) = Year(now()) "
-				+ "AND tipopag.id = tipopag_id "
 				+ "AND usuario.usuarioId = usuario_id "
 				+ "ORDER BY data DESC ");
 				break;
@@ -595,9 +583,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			rs = ps.executeQuery();
 			ArrayList<Lancamento> itens = new ArrayList<Lancamento>();
 			while (rs.next()) {
-				TipoPag tp = new TipoPag();
-				tp.setId(rs.getInt("tipopag.id"));
-				tp.setNome(rs.getString("tipopag.nome"));
 				Lancamento l = new Lancamento(); 
 				l.setId(rs.getInt("lancamento.id"));
 				l.setReferencia(rs.getString("lancamento.referencia"));
@@ -606,7 +591,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				l.setDesconto(rs.getDouble("lancamento.desconto"));
 				l.setAcrescimo(rs.getDouble("lancamento.acrescimo"));
 				l.setObs(rs.getString("lancamento.obs"));
-		        //l.setTipoPagamento(tp);
 				itens.add(l);
 			}			
 			return itens;
@@ -909,9 +893,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					switch (mesAtual) {
 					case 0:
 					ps = connection.prepareStatement(
-							"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-							+"INNER JOIN TipoPag "
-							+"ON l.tipoPag_id = tipopag.id " 
+							"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 							+"INNER JOIN Usuario "
 							+"ON usuario.usuarioId = l.usuario_Id " 								
 							+"INNER JOIN Item i "
@@ -919,16 +901,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 							+"INNER JOIN Despesa d "
 							+"on d.id = i.despesa_id "
 					+"WHERE usuario.logado = 'S' AND  Month(data) =  '01' and Status_id = 2 and Year(data) = Year(now()) "
-					+ "AND tipopag.id = tipopag_id "		
 					+ "AND usuario.usuarioId = usuario_id "
 					+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 					+ "ORDER BY data DESC ");
 					break;
 					case 1:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -936,16 +915,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '02' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 2:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -953,16 +929,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '03' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 3:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -970,16 +943,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '04' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 4:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -987,33 +957,27 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '05' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 5:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
-								+"INNER JOIN Usuario "
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
+							+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
 								+"ON i.Lancamento_id = l.id "
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '06' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 6:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -1021,16 +985,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '07' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 7:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -1038,16 +999,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '08' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 8:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -1055,16 +1013,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '09' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 9:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -1072,16 +1027,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '10' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					case 10:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -1089,16 +1041,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '11' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
 						break;
 					default:
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, tipopag.nome FROM Lancamento l "
-								+"INNER JOIN TipoPag "
-								+"ON l.tipoPag_id = tipopag.id " 
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs FROM Lancamento l "
 								+"INNER JOIN Usuario "
 								+"ON usuario.usuarioId = l.usuario_Id " 								
 								+"INNER JOIN Item i "
@@ -1106,7 +1055,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 								+"INNER JOIN Despesa d "
 								+"on d.id = i.despesa_id "
 						+"WHERE usuario.logado = 'S' AND  Month(data) =  '12' and Status_id = 2 and Year(data) = Year(now()) "
-						+ "AND tipopag.id = tipopag_id "		
 						+ "AND usuario.usuarioId = usuario_id "
 						+"AND (d.nome like '%"+refOuDespesa+"%' OR l.referencia like '%"+refOuDespesa+"%') "
 						+ "ORDER BY data DESC ");
@@ -1115,10 +1063,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						rs = ps.executeQuery();
 						List<Lancamento> lista = new ArrayList<>();				
 						while (rs.next()) {
-						TipoPag pag = new TipoPag();
-							pag.setId(rs.getInt("id"));
-							pag.setNome(rs.getString("tipopag.nome"));					
-							Lancamento obj = new Lancamento();
+					Lancamento obj = new Lancamento();
 							obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
 							obj.setId(rs.getInt("id"));
 							obj.setReferencia(rs.getString("referencia"));
@@ -1126,7 +1071,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 							obj.setDesconto(rs.getDouble("desconto"));
 							obj.setAcrescimo(rs.getDouble("acrescimo"));
 							obj.setObs(rs.getString("obs"));
-							//obj.setTipoPagamento(pag);				
 							lista.add(obj);
 						}
 						return lista;
