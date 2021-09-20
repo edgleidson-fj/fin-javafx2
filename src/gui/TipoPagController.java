@@ -154,7 +154,7 @@ public class TipoPagController implements Initializable {
 		}
 
 	private void inicializarComportamento() {
-		tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
+		//tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 
 		// Tamanho da tabela.

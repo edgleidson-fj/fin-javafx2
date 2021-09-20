@@ -11,6 +11,8 @@ import java.util.List;
 import bd.BD;
 import bd.BDException;
 import bd.BDIntegrityException;
+import gui.util.Alertas;
+import javafx.scene.control.Alert.AlertType;
 import model.dao.TipoPagDao;
 import model.entidade.ItemPagamento;
 import model.entidade.TipoPag;
@@ -84,6 +86,7 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDIntegrityException(ex.getMessage());
+			Alertas.mostrarAlerta("Erro ao deletar", null, "Não é possível remover TIPO DE PAGAMENTO, que já foi vinculado à lançamento.", AlertType.ERROR);
 		} finally {
 			BD.fecharStatement(ps);
 		}
