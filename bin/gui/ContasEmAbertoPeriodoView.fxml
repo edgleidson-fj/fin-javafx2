@@ -23,8 +23,8 @@
               <columns>
                   <TableColumn fx:id="colunaDetalhe" minWidth="5.0" prefWidth="30.0" />
                   <TableColumn fx:id="colunaPagar" prefWidth="40.0" />
-                <TableColumn fx:id="colunaLanData" prefWidth="99.0" text="VENCIMENTO" />
                 <TableColumn fx:id="colunaLanId" prefWidth="72.0" text="ID" />
+                <TableColumn fx:id="colunaLanData" prefWidth="99.0" text="VENCIMENTO" />
                   <TableColumn fx:id="colunaLanRef" minWidth="0.0" prefWidth="300.0" text="REFERÊNCIA" />
                   <TableColumn fx:id="colunaLanValor" text="TOTAL" />
                   <TableColumn fx:id="colunaStatus" maxWidth="500.0" prefWidth="66.0" />

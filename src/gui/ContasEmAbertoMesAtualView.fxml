@@ -22,10 +22,10 @@
               <columns>
                   <TableColumn fx:id="colunaDetalhe" minWidth="7.0" prefWidth="30.0" />
                   <TableColumn fx:id="colunaPagar" prefWidth="38.0" />
-                <TableColumn fx:id="colunaLanData" prefWidth="104.0" text="VENCIMENTO" />
                 <TableColumn fx:id="colunaLanId" prefWidth="70.0" text="ID" />
+                <TableColumn fx:id="colunaLanData" prefWidth="104.0" text="VENCIMENTO" />
                   <TableColumn fx:id="colunaLanRef" prefWidth="300.0" text="REFERÊNCIA" />
-                  <TableColumn fx:id="colunaLanValor" text="VALOR" />
+                  <TableColumn fx:id="colunaLanValor" text="TOTAL" />
                   <TableColumn fx:id="colunaStatus" prefWidth="75.0" />
               </columns>
             </TableView>

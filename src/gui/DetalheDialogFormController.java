@@ -31,7 +31,6 @@ public class DetalheDialogFormController implements Initializable {
 	private Lancamento lancamentoEntidade;
 	private ItemPagamentoService itemPagamentoService;
 	private ItemPagamento itemPagamentoEntidade;
-
 	// ---------------------------------------------
 
 	@FXML
