@@ -148,6 +148,8 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 				obj.setObs(obj.getObs());
 				controle.setLancamento(obj);
 				controle.setDespesaService(new DespesaService());
+				controle.setItemPagamentoService(new ItemPagamentoService());	
+				controle.setItemPagamento(new ItemPagamento());
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
 			} else {

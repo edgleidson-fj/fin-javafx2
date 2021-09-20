@@ -27,8 +27,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.servico.DespesaService;
+import model.servico.ItemPagamentoService;
 import model.servico.LancamentoService;
 
 public class ContasQuitadasMesAtualController implements Initializable {
@@ -136,6 +138,8 @@ public class ContasQuitadasMesAtualController implements Initializable {
 			obj.setObs(obj.getObs());
 			controle.setLancamento(obj);
 			controle.setDespesaService(new DespesaService());
+			controle.setItemPagamentoService(new ItemPagamentoService());	
+			controle.setItemPagamento(new ItemPagamento());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
 

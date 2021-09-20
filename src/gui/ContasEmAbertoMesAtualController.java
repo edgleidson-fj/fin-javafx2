@@ -130,6 +130,8 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 			obj.setObs(obj.getObs());
 			controle.setLancamento(obj);
 			//controle.setLancamentoService(new LancamentoService());
+			controle.setItemPagamentoService(new ItemPagamentoService());	
+			controle.setItemPagamento(new ItemPagamento());
 			controle.setDespesaService(new DespesaService());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();

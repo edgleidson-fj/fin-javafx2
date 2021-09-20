@@ -10,10 +10,8 @@ import gui.util.Restricoes;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -22,14 +20,18 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.entidade.Despesa;
+import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.servico.DespesaService;
+import model.servico.ItemPagamentoService;
 
 public class DetalheDialogFormController implements Initializable {
 
 	private DespesaService despesaService;
 	private Lancamento lancamentoEntidade;
-	//private LancamentoService lancamentoService;
+	private ItemPagamentoService itemPagamentoService;
+	private ItemPagamento itemPagamentoEntidade;
+
 	// ---------------------------------------------
 
 	@FXML
@@ -40,6 +42,12 @@ public class DetalheDialogFormController implements Initializable {
 	private DatePicker datePickerData;
 	@FXML
 	private Label lbTotal;
+	@FXML
+	private Label lbPago;
+	@FXML
+	private Label lbAcrescimo;
+	@FXML
+	private Label lbDesconto;
 	@FXML
 	private Label lbDescontoAcrescimo;
 	@FXML
@@ -55,12 +63,17 @@ public class DetalheDialogFormController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
-	private Button btVoltar;
+	private TableView<ItemPagamento> tbTipoPag;
+	@FXML
+	private TableColumn<ItemPagamento, String> colunaTipoPagNome;
+	@FXML
+	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;
 	@FXML
 	private TextArea txtObs;
 	// -----------------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
+	private ObservableList<ItemPagamento> obsListaItemTipoPag;
 	// ---------------------------------------------------------
 
 
@@ -71,17 +84,14 @@ public class DetalheDialogFormController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-
-	/*public void setLancamentoService(LancamentoService lancamentoService) {
-		this.lancamentoService = lancamentoService;
-	}*/
-	// ----------------------------------------------------------------
-
-	@FXML
-	public void onBtVoltar(ActionEvent evento) {
-		Utils.stageAtual(evento).close();
+	public void setItemPagamentoService(ItemPagamentoService itemPagamentoService) {
+		this.itemPagamentoService = itemPagamentoService;
 	}
-	// -----------------------------------------------
+
+	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
+		this.itemPagamentoEntidade = itemPagamentoEntidade;
+	}
+// ----------------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -97,26 +107,50 @@ public class DetalheDialogFormController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
+		
+		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
+		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 	}
 
 	public void atualizarDialogForm() {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtRef.setText(lancamentoEntidade.getReferencia());
+		txtObs.setText(lancamentoEntidade.getObs());		
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		lbTotal.setText(String.format("R$ %.2f", lancamentoEntidade.getTotal()));
-		if (lancamentoEntidade.getDesconto() != 0) {
-			lbDescontoAcrescimo.setText(String.format("Desconto R$ %.2f",lancamentoEntidade.getDesconto()));
+		lbDesconto.setText(String.format("%.2f", lancamentoEntidade.getDesconto()));
+		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
 		}
-		if (lancamentoEntidade.getAcrescimo() != 0) {
-			lbDescontoAcrescimo.setText(String.format("Acréscimo R$ %.2f",lancamentoEntidade.getAcrescimo()));
-		}
-		txtObs.setText(lancamentoEntidade.getObs());
-	}
 
 	public void carregarTableView() {
 		List<Despesa> listaDespesa = despesaService.listarPorId(lancamentoEntidade.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
+		carregarValorTotal();
+		carregarTableViewItemPagamento();
+	}
+	
+	public void carregarTableViewItemPagamento() {
+		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lancamentoEntidade.getId());
+		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+		tbTipoPag.setItems(obsListaItemTipoPag);
+		carregarValorPago();
+	}
+	
+	public void carregarValorTotal() {
+		Double soma = 0.0;
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPrecoTotal();
+		}
+		lbTotal.setText(String.format("%.2f", soma));
+	}
+	
+	public void carregarValorPago() {
+		Double soma = 0.0;
+		for (ItemPagamento tab : obsListaItemTipoPag) {
+			soma += tab.getValor();
+		}
+		lbPago.setText(String.format("%.2f", soma));
 	}
 }
