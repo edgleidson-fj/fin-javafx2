@@ -56,9 +56,6 @@ public class TipoPagController implements Initializable {
 	private TableView<TipoPag> tableViewTipoPagamento;
 
 	@FXML
-	private TableColumn<TipoPag, Integer> tableColumnID;
-
-	@FXML
 	private TableColumn<TipoPag, String> tableColumnNome;
 	
 	@FXML
@@ -154,7 +151,6 @@ public class TipoPagController implements Initializable {
 		}
 
 	private void inicializarComportamento() {
-		//tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 
 		// Tamanho da tabela.
