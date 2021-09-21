@@ -11,4 +11,5 @@ public interface StatusDao {
 //	void excluirPorId(Integer id);
 	Status buscarPorId(Integer id);
 	List<Status> buscarTudo();
+	List<Status> buscarEmAbertoECancelado();
 }

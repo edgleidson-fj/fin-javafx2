@@ -145,6 +145,23 @@ public class ItemDaoJDBC implements ItemDao {
 		}
 	}
 
+	@Override
+	public void limparItemPorIdLan(Integer lanId) {
+		System.out.println("LanID: "+lanId);
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(
+					"DELETE FROM item "
+			+ "WHERE lancamento_id = ? ");
+			ps.setInt(1, lanId);
+			ps.executeUpdate();
+		} catch (SQLException ex) {
+			new BDIntegrityException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+		}
+	}
+	
 	private Item instantiateItem(ResultSet rs, Despesa dep, Lancamento lan) throws SQLException {
 		Item obj = new Item();
 		obj.setLancamento(lan);

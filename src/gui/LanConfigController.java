@@ -50,11 +50,13 @@ import model.entidade.Despesa;
 import model.entidade.Item;
 import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
+import model.entidade.Status;
 import model.entidade.TipoPag;
 import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
+import model.servico.StatusService;
 import model.servico.TipoPagService;
 
 public class LanConfigController implements Initializable {
@@ -68,6 +70,9 @@ public class LanConfigController implements Initializable {
 	private TipoPagService tipoPagService;
 	private ItemPagamentoService itemPagamentoService;
 	private ItemPagamento itemPagamentoEntidade;
+	private StatusService statusService;
+	private Status statusEntidade;
+
 	// ----------------------------------------------------------------
 
 	@FXML
@@ -87,8 +92,6 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TextField txtAcrescimo;
 	@FXML
-	private TextField txtTipoPagValor;
-	@FXML
 	private Label lbTotal;
 	@FXML
 	private Label lbStatus;
@@ -101,19 +104,13 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private DatePicker datePickerData;
 	@FXML
-	private ComboBox<TipoPag> cmbTipoPag;
-	@FXML
 	private Button btItem;
 	@FXML
 	private Button btAtualizar;
 	@FXML
-	private Button btCancelar;
-	@FXML
 	private Button btVoltar;
 	@FXML
-	private Button btAplicarDescontoOuAcrescimo;	
-	@FXML
-	private Button btItemPagamento;
+	private Button btAplicarDescontoOuAcrescimo;
 	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
@@ -129,7 +126,7 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorUnid;
 	@FXML
-	private TableColumn<Despesa, Double> colunaDespValorTotal;	
+	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
 	private TableView<ItemPagamento> tbTipoPag;
 	@FXML
@@ -137,11 +134,13 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TableColumn<ItemPagamento, String> colunaTipoPagNome;
 	@FXML
-	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;	
-	//--------------------------------------------------------
-	private ObservableList<TipoPag> obsListaTipoPag;
+	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;
+	@FXML
+	private ComboBox<Status> cmbStatus;
+	// --------------------------------------------------------
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	private ObservableList<ItemPagamento> obsListaItemTipoPag;
+	private ObservableList<Status> obsListaStatus;
 	// ---------------------------------------------------------
 
 	double total, desconto, acrescimo;
@@ -200,95 +199,47 @@ public class LanConfigController implements Initializable {
 		obj.setTotal(soma);
 		lancamentoService.atualizar(obj);
 		total = soma;
-		
 		carregarTableView();
 	}
-		
-	@FXML
-	public void onBtItemPagamento(ActionEvent evento) {
-		Locale.setDefault(Locale.US);
 
-		double valorInformado, valorDiferenca;
-		valorInformado = Utils.stringParaDouble(txtTipoPagValor.getText());
-		valorDiferenca = Utils.stringParaDouble(lbTotal.getText()) - Utils.stringParaDouble(lbPago.getText());
-
-		if (valorInformado <= valorDiferenca) {
-			Lancamento obj = new Lancamento();
-			obj.setId(Utils.stringParaInteiro(txtId.getText()));
-			obj.setReferencia(txtReferencia.getText());
-			obj.setTotal((total));
-			lancamentoService.atualizar(obj);
-			txtId.setText(String.valueOf(obj.getId()));
-
-			TipoPag pag = new TipoPag();
-			pag = cmbTipoPag.getValue();
-
-			itemPagamentoEntidade.setLancamento(obj);
-			itemPagamentoEntidade.setTipoPag(pag);
-			itemPagamentoEntidade.setValor(Utils.stringParaDouble(txtTipoPagValor.getText()));
-			itemPagamentoEntidade.setNomePag(pag.getNome());
-			itemPagamentoService.salvar(itemPagamentoEntidade);
-
-			List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(obj.getId());
-			obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
-			tbTipoPag.setItems(obsListaItemTipoPag);
-			carregarValorPago();
-	
-			valorDiferenca = Utils.stringParaDouble(lbTotal.getText()) - Utils.stringParaDouble(lbPago.getText());
-			txtTipoPagValor.setText(String.valueOf(valorDiferenca));
-			
-			iniciarBotaoRemoverItemPagamento();
-		} else {
-			Alertas.mostrarAlerta("Valor inválido!", null, "Favor verificar o valor ou forma de pagamento.", AlertType.INFORMATION);
-		}
-	}
-	
 	@FXML
 	public void onBtAtualizar(ActionEvent evento) {
-		if(lbPago.getText().equals(lbTotal.getText()) || lbStatus.getText().equals("EM ABERTO")) {
-		Lancamento obj = new Lancamento();
-			obj.setId(Utils.stringParaInteiro(txtId.getText()));
-			obj.setReferencia(txtReferencia.getText());
-			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
-			obj.setData(Date.from(instant));
-			obj.setObs(txtAreaObs.getText());
-			obj.setDesconto(Utils.stringParaDouble(lbDesconto.getText()));
-			obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
-			carregarTableView();			
-			obj.setTotal(total);
-		lancamentoService.lanConfig(obj);
-			carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
-				controller.setLancamentoService(new LancamentoService());
-				controller.setLancamento(new Lancamento());
-				controller.carregarTableView();
-			});
-			 Alertas.mostrarAlerta(null, null, "Lançamento editado com sucesso", AlertType.INFORMATION);
-	}
-		else {
-			Alertas.mostrarAlerta("Erro ao atualizar", null, "Favor verificar valores e formas de pagamento", AlertType.INFORMATION);
-		}
-	}
-
-	@FXML
-	public void onBtCancelar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		lancamentoService.cancelar(obj);
+		obj.setReferencia(txtReferencia.getText());
+		Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
+		obj.setData(Date.from(instant));
+		obj.setObs(txtAreaObs.getText());
+		obj.setDesconto(Utils.stringParaDouble(lbDesconto.getText()));
+		obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
+		Status status = new Status();
+		status = cmbStatus.getValue();
+		if (!lbPago.getText().equals(lbTotal.getText())) {
+			Status status1 = new Status(1, null);
+			obj.setStatus(status1);
+			itemPagamentoService.limparItemPagamentoPorIdLan(obj);
+		} else {
+			obj.setStatus(status);
+		}
+		obj.setTotal(total);
+		lancamentoService.lanConfig(obj);
+		if (status != null) {
+			itemPagamentoService.limparItemPagamentoPorIdLan(obj);
+		}
 		carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.carregarTableView();
 		});
-		 Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
 	}
-	
-		@FXML
-		public void onBtVoltar(ActionEvent evento) {
-			carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
-				controller.setLancamentoService(new LancamentoService());
-				controller.setLancamento(new Lancamento());
-				controller.carregarTableView();
-			});
+
+	@FXML
+	public void onBtVoltar(ActionEvent evento) {
+		carregarPropriaView("/gui/TodasContasView.fxml", (TodasContasController controller) -> {
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.carregarTableView();
+		});
 	}
 	// ------------------------------------------------------------------
 
@@ -319,18 +270,27 @@ public class LanConfigController implements Initializable {
 	public void setTipoPagService(TipoPagService tipoPagService) {
 		this.tipoPagService = tipoPagService;
 	}
+
 	public void setItemPagamentoService(ItemPagamentoService itemPagamentoService) {
 		this.itemPagamentoService = itemPagamentoService;
 	}
+
 	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
 		this.itemPagamentoEntidade = itemPagamentoEntidade;
 	}
 
+	public void setStatusService(StatusService statusService) {
+		this.statusService = statusService;
+	}
+
+	public void setStatus(Status statusEntidade) {
+		this.statusEntidade = statusEntidade;
+	}
 	// -----------------------------------------------------------------
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		inicializarComboBoxTipoPag();
+		inicializarComboBoxStatus();
 		inicializarNodes();
 		if (lancamentoEntidade != null) {
 			carregarTableView();
@@ -346,15 +306,14 @@ public class LanConfigController implements Initializable {
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		total = lancamentoEntidade.getTotal();
-		lbStatus.setText(lancamentoEntidade.getStatus().getNome());		
+		lbStatus.setText(lancamentoEntidade.getStatus().getNome());
 		txtAreaObs.setText(lancamentoEntidade.getObs());
 		lbDesconto.setText(String.format("%.2f", lancamentoEntidade.getDesconto()));
 		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
-	}	
+	}
 	// -----------------------------------------------------------------------------------------------------
 
 	private void inicializarNodes() {
-		Restricoes.setTextFieldDouble(txtTipoPagValor);
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
@@ -369,34 +328,33 @@ public class LanConfigController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
-		
+
 		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
 		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
 		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
-		tbDespesa.prefHeightProperty().bind(stage.heightProperty());		
+		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
 	}
 	// -----------------------------------------------------------------
 
 	public void carregarObjetosAssociados() {
-		List<TipoPag> listaTipoPag = tipoPagService.buscarTodos();
-		obsListaTipoPag = FXCollections.observableArrayList(listaTipoPag);
-		cmbTipoPag.setItems(obsListaTipoPag);
-		}
+		List<Status> listaStatus = statusService.buscarEmAbertoECancelado();
+		obsListaStatus = FXCollections.observableArrayList(listaStatus);
+		cmbStatus.setItems(obsListaStatus);
+	}
 
-	private void inicializarComboBoxTipoPag() {
-		Callback<ListView<TipoPag>, ListCell<TipoPag>> factory = lv -> new ListCell<TipoPag>() {
+	private void inicializarComboBoxStatus() {
+		Callback<ListView<Status>, ListCell<Status>> factory = lv -> new ListCell<Status>() {
 			@Override
-			protected void updateItem(TipoPag item, boolean empty) {
+			protected void updateItem(Status item, boolean empty) {
 				super.updateItem(item, empty);
 				setText(empty ? "" : item.getNome());
 			}
 		};
-		cmbTipoPag.setCellFactory(factory);
-		cmbTipoPag.setButtonCell(factory.call(null));
+		cmbStatus.setCellFactory(factory);
+		cmbStatus.setButtonCell(factory.call(null));
 	}
-	
 	// --------------------------------------------------
 
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
@@ -488,29 +446,29 @@ public class LanConfigController implements Initializable {
 			try {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				itemService.excluir(lan,desp);
+				itemService.excluir(lan, desp);
 				despesaService.excluir(desp);
-				//Carregar TableView do Lançamento 				
-				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText())); 
+				// Carregar TableView do Lançamento
+				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText()));
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
-				  tbDespesa.setItems(obsListaDespesaTbView);			
-				  iniciarBotaoRemover();				  
+				tbDespesa.setItems(obsListaDespesaTbView);
+				iniciarBotaoRemover();
 				// Valor Total
-					Double soma = 0.0;
-					for (Despesa tab : obsListaDespesaTbView) {
-						soma += tab.getPrecoTotal();
-					}
-					desconto = Utils.stringParaDouble(txtDesconto.getText());
-					acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
-					soma -= desconto;
-					soma += acrescimo;
-					lbTotal.setText(String.format("%.2f", soma));
-					lan.setTotal(soma);
-					lancamentoService.atualizar(lan);
-					total = soma;
-					
-					carregarTableView();
-				  } catch (BDIntegrityException ex) {
+				Double soma = 0.0;
+				for (Despesa tab : obsListaDespesaTbView) {
+					soma += tab.getPrecoTotal();
+				}
+				desconto = Utils.stringParaDouble(txtDesconto.getText());
+				acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+				soma -= desconto;
+				soma += acrescimo;
+				lbTotal.setText(String.format("%.2f", soma));
+				lan.setTotal(soma);
+				lancamentoService.atualizar(lan);
+				total = soma;
+
+				carregarTableView();
+			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
@@ -529,11 +487,11 @@ public class LanConfigController implements Initializable {
 			soma += tab.getPrecoTotal();
 		}
 		soma -= Utils.stringParaDouble(lbDesconto.getText());
-		soma += Utils.stringParaDouble(lbAcrescimo.getText());	
+		soma += Utils.stringParaDouble(lbAcrescimo.getText());
 		lbTotal.setText(String.format("%.2f", soma));
 		total = soma;
 	}
-	
+
 	public void carregarTableViewItemPagamento() {
 		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lancamentoEntidade.getId());
 		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
@@ -541,19 +499,19 @@ public class LanConfigController implements Initializable {
 		iniciarBotaoRemoverItemPagamento();
 		carregarValorPago();
 	}
-	
+
 	public void AplicarDescontoOuAcrescimo() {
 		Double desconto, acrescimo;
 		desconto = Utils.stringParaDouble(txtDesconto.getText());
 		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
 		lbDesconto.setText(String.format("%.2f", desconto));
-		lbAcrescimo.setText(String.format("%.2f", acrescimo));		
-		carregarTableView();		
+		lbAcrescimo.setText(String.format("%.2f", acrescimo));
+		carregarTableView();
 		carregarValorPago();
 		txtDesconto.setText("0.00");
 		txtAcrescimo.setText("0.00");
 	}
-	
+
 	public void carregarValorPago() {
 		Double soma = 0.0;
 		for (ItemPagamento tab : obsListaItemTipoPag) {
@@ -561,7 +519,7 @@ public class LanConfigController implements Initializable {
 		}
 		lbPago.setText(String.format("%.2f", soma));
 	}
-	
+
 	private void iniciarBotaoRemoverItemPagamento() {
 		colunaRemoverTipoPag.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemoverTipoPag.setCellFactory(param -> new TableCell<ItemPagamento, ItemPagamento>() {

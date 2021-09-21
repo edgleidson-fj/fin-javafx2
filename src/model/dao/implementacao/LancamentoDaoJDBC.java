@@ -15,7 +15,6 @@ import bd.BDIntegrityException;
 import model.dao.LancamentoDao;
 import model.entidade.Lancamento;
 import model.entidade.Status;
-import model.entidade.TipoPag;
 
 public class LancamentoDaoJDBC implements LancamentoDao {
 
@@ -317,7 +316,8 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		
 		// Reconfiguracao de Lancamento.
 				@Override
-				public void lanConfig(Lancamento obj) {
+				public void lanConfig(Lancamento obj) {					
+					if(obj.getStatus() != null) {
 					PreparedStatement ps = null;
 					try {
 						ps = connection.prepareStatement(
@@ -326,8 +326,9 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					+ "data = ?, "
 					+ "total = ?, "
 					+ "obs = ?,"
-					+ "desconto = ?,"
-					+ "acrescimo = ? "
+					+ "desconto = ?,"					
+					+ "acrescimo = ?, "						
+					+ "status_id = ? "
 					+ "WHERE Id = ? ");
 						ps.setString(1, obj.getReferencia());
 						ps.setDate(2, new java.sql.Date(obj.getData().getTime()));
@@ -335,12 +336,40 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						ps.setString(4, obj.getObs());
 						ps.setDouble(5, obj.getDesconto());
 						ps.setDouble(6, obj.getAcrescimo());
-						ps.setInt(7, obj.getId());
+						ps.setInt(7, obj.getStatus().getId());
+						ps.setInt(8, obj.getId());
 						ps.executeUpdate();
 					} catch (SQLException ex) {
 						new BDException(ex.getMessage());
 					} finally {
 						BD.fecharStatement(ps);
+					}					
+					}
+					else {
+						PreparedStatement ps = null;
+						try {
+							ps = connection.prepareStatement(
+						"UPDATE lancamento " 
+						+ "SET referencia = ?, "
+						+ "data = ?, "
+						+ "total = ?, "
+						+ "obs = ?,"
+						+ "desconto = ?,"					
+						+ "acrescimo = ? "
+						+ "WHERE Id = ? ");
+							ps.setString(1, obj.getReferencia());
+							ps.setDate(2, new java.sql.Date(obj.getData().getTime()));
+							ps.setDouble(3, obj.getTotal());
+							ps.setString(4, obj.getObs());
+							ps.setDouble(5, obj.getDesconto());
+							ps.setDouble(6, obj.getAcrescimo());
+							ps.setInt(7, obj.getId());
+							ps.executeUpdate();
+						} catch (SQLException ex) {
+							new BDException(ex.getMessage());
+						} finally {
+							BD.fecharStatement(ps);
+						}
 					}
 				}
 	

@@ -37,4 +37,8 @@ public class ItemService {
 	public Item buscarPorId(Integer id){
 		return dao.buscarPorId(id);
 	}
+	
+	public void limparItemPorIdLan (Integer lanId) {
+		dao.limparItemPorIdLan(lanId);
+		}
 }

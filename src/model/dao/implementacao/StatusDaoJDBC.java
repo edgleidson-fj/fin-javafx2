@@ -107,5 +107,33 @@ public class StatusDaoJDBC implements StatusDao {
 			BD.fecharResultSet(rs);
 		}
 	}
+	
+	@Override
+	public List<Status> buscarEmAbertoECancelado() {
+		PreparedStatement ps = null;
+		ResultSet rs = null; 
+		try {
+			ps = connection.prepareStatement(
+					"SELECT * FROM status " 
+							+ " WHERE id = 1 OR id = 4");
+			rs = ps.executeQuery();
+			List<Status> lista = new ArrayList<>();
+
+			while (rs.next()) {
+				Status obj = new Status();
+				obj.setId(rs.getInt("Id"));
+				obj.setNome(rs.getString("nome"));
+				lista.add(obj);
+			}
+			return lista;
+		} 
+		catch (SQLException ex) {
+			throw new BDException(ex.getMessage());
+		} 
+		finally {
+			BD.fecharStatement(ps);
+			BD.fecharResultSet(rs);
+		}
+	}
 
 }

@@ -18,5 +18,8 @@ public class StatusService {
 			dao.inserir(obj);
 			}
 	
-	
+	public List<Status> buscarEmAbertoECancelado(){
+		return dao.buscarEmAbertoECancelado();
+	}
+
 }

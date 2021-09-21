@@ -42,6 +42,7 @@ import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
+import model.servico.StatusService;
 import model.servico.TipoPagService;
 
 public class TodasContasController implements Initializable {
@@ -197,7 +198,9 @@ public class TodasContasController implements Initializable {
 				controle.setItem(new Item());
 				controle.setTipoPagService(new TipoPagService());
 				controle.setItemPagamentoService(new ItemPagamentoService());
-				controle.setItemPagamento(new ItemPagamento());				
+				controle.setItemPagamento(new ItemPagamento());		
+				controle.setStatus(obj.getStatus());
+				controle.setStatusService(new StatusService());	
 				controle.carregarCamposDeCadastro();
 				controle.carregarObjetosAssociados();
 				controle.carregarTableView();
@@ -246,6 +249,8 @@ public class TodasContasController implements Initializable {
 							controle.setTipoPagService(new TipoPagService());
 							controle.setItemPagamentoService(new ItemPagamentoService());
 							controle.setItemPagamento(new ItemPagamento());
+							controle.setStatus(obj.getStatus());
+							controle.setStatusService(new StatusService());
 							controle.carregarCamposDeCadastro();
 							controle.carregarObjetosAssociados();
 							controle.carregarTableView();

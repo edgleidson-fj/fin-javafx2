@@ -12,4 +12,5 @@ public interface ItemDao {
 	Item buscarPorId(Integer id);
 	List<Item> buscarTudo();
 	List<Item> listarPorId(Integer id);
+	void limparItemPorIdLan(Integer lanId);
 }
