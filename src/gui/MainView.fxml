@@ -37,6 +37,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Financeiro">
                     <items>
+                        <MenuItem fx:id="menuItemConsultaPorPagamento" mnemonicParsing="false" onAction="#onMenuItemConsultaPorPagamento" text="Por Pagamentos" />
                         <Menu mnemonicParsing="false" text="Quitado">
                           <items>
                             <MenuItem fx:id="menuItemContasQuitadoMesAtual" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoMesAtual" text="Mês Atual" />

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import bd.BD;
@@ -119,15 +120,11 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 		}
 	}
 
-	// Teste
 	public List<ItemPagamento> listarPorId(Integer id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			ps = connection.prepareStatement(
-					// "SELECT lancamento.id, item_pagamento.lancamento_id,
-					// item_pagamento.tipopag_id, item_pagamento.valor, "
-					// + "tipopag.id, tipopag.nome from item_pagamento, lancamento, tipopag "
 					"SELECT *  FROM item_pagamento " + "INNER JOIN tipopag "
 							+ "ON item_pagamento.tipopag_id = tipopag.id " + "INNER JOIN lancamento "
 							+ "ON lancamento.id = item_pagamento.lancamento_id "
@@ -145,8 +142,6 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 				ip.setTipoPag(tp);
 				ip.setValor(rs.getDouble("valor"));
 				ip.setNomePag(rs.getString("nomePag"));
-				// ip.setNomePag(tp.getNome());
-
 				lista.add(ip);
 			}
 			rs.close();
@@ -180,6 +175,77 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 			BD.fecharResultSet(rs);
 		}
 	}
+	
+	public List<ItemPagamento> consultaPorPagamentoMesAtual(Integer id) {
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				Calendar datahoje = Calendar.getInstance();
+				int mesAtual = datahoje.get(Calendar.MONTH)+1;
+				
+				ps = connection.prepareStatement(					
+						"select i.nomePag, sum(i.valor) from item_pagamento i "
+						+"inner join lancamento l "
+						+"on l.id = i.lancamento_id "						
+						+"where month(data) = "+mesAtual+" "
+						+ "and year(data) = year(now()) "
+						+ "and l.usuario_id = ? "
+						+"group by i.tipopag_id "
+						+"order by valor desc");						
+						ps.setInt(1, id);
+				rs = ps.executeQuery();
+				List<ItemPagamento> lista = new ArrayList<ItemPagamento>();
+				while (rs.next()) {
+					ItemPagamento ip = new ItemPagamento();
+					ip.setValor(rs.getDouble("sum(i.valor)"));
+					ip.setNomePag(rs.getString("nomePag"));
+					lista.add(ip);
+				}
+				rs.close();
+				ps.close();
+				return lista;
+			} catch (SQLException ex) {
+				throw new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+				BD.fecharResultSet(rs);
+			}
+		}
+	
+		public List<ItemPagamento> consultaPorPagamentoAnoAtual(Integer id) {
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				Calendar datahoje = Calendar.getInstance();
+				int anoAtual = datahoje.get(Calendar.YEAR);
+				
+				ps = connection.prepareStatement(					
+						"select i.nomePag, sum(i.valor) from item_pagamento i "
+						+"inner join lancamento l "
+						+"on l.id = i.lancamento_id "
+						+"where year(data) = "+anoAtual+" "
+						+ "and l.usuario_id = ? "
+						+"group by i.tipopag_id "
+						+"order by valor desc");						
+						ps.setInt(1, id);
+				rs = ps.executeQuery();
+				List<ItemPagamento> lista = new ArrayList<ItemPagamento>();
+				while (rs.next()) {
+					ItemPagamento ip = new ItemPagamento();
+					ip.setValor(rs.getDouble("sum(i.valor)"));
+					ip.setNomePag(rs.getString("nomePag"));
+					lista.add(ip);
+				}
+				rs.close();
+				ps.close();
+				return lista;
+			} catch (SQLException ex) {
+				throw new BDException(ex.getMessage());
+			} finally {
+				BD.fecharStatement(ps);
+				BD.fecharResultSet(rs);
+			}
+		}
 
 	private ItemPagamento instantiateItemPagamento(ResultSet rs, TipoPag pag, Lancamento lan) throws SQLException {
 		ItemPagamento obj = new ItemPagamento();

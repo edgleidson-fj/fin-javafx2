@@ -57,6 +57,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemLancamentoAPagarParcelado;
 	@FXML
+	private MenuItem menuItemConsultaPorPagamento;
+	@FXML
 	private MenuItem menuItemContasQuitadoMesAtual;
 	@FXML
 	private MenuItem menuItemContasQuitadoPeriodo;
@@ -89,7 +91,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	private Button btLimpar;
 	@FXML
-	private Button btEsqueciSenha;
+	private Button btEsqueciSenha;	
 	//-----------------------------------------------------
 	int usuarioId;
 	String userNome;
@@ -188,6 +190,32 @@ public class MainViewController implements Initializable {
 			 }			
 		 }
 		 if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
+	}
+	
+	@FXML
+	public void onMenuItemConsultaPorPagamento() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		String logado = "N";
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 
+			 if(u.getLogado().equals("S")) {	
+		carregarView("/gui/ConsultaPorPagamentoView.fxml", (ConsultaPorPagamentoController controller) -> {
+			controller.setItemPagamentoService(new ItemPagamentoService());
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			Usuario user = new Usuario();
+			user.setId(usuarioId);
+			//user.setNome(userNome);
+			controller.setUsuario(user);
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarTableView();
+		});
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
 				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
 			}
 	}
@@ -366,8 +394,7 @@ public class MainViewController implements Initializable {
 			controller.setUsuario(new Usuario());
 			controller.carregarCamposDeCadastro();
 		});			
-	}
-	
+	}	
 	//--------------------------------------------------------
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
@@ -543,4 +570,3 @@ public class MainViewController implements Initializable {
 		}	
 		
 			}
-

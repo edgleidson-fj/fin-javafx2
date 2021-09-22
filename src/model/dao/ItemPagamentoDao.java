@@ -13,4 +13,6 @@ public interface ItemPagamentoDao {
 	ItemPagamento buscarPorId(Integer id);
 	List<ItemPagamento> buscarTudo();
 	List<ItemPagamento> listarPorId(Integer id);
+	List<ItemPagamento> consultaPorPagamentoMesAtual(Integer id);
+	List<ItemPagamento> consultaPorPagamentoAnoAtual(Integer id);
 }
