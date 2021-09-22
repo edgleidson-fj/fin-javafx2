@@ -24,7 +24,7 @@
             <TextField fx:id="txtReferencia" layoutX="140.0" layoutY="66.0" prefHeight="25.0" prefWidth="420.0" promptText=" Informe uma referência para o lancamento" />
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" />
             <Label layoutX="53.0" layoutY="70.0" text="Referência" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="49.0" />
-            <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="106.0" promptText="ID" />
+            <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="75.0" promptText="ID" />
             <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTOS (A Pagar)">
                <font>
                   <Font size="24.0" />
@@ -49,8 +49,8 @@
                </font>
             </Label>
             <Label fx:id="lbUsuario" layoutX="607.0" layoutY="411.0" text="Usuário" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="9.0" />
-            <Label layoutX="560.0" layoutY="268.0" text="Observação *" AnchorPane.leftAnchor="560.0" />
-            <TextArea fx:id="txtAreaObs" layoutX="550.0" layoutY="294.0" prefHeight="90.0" prefWidth="169.0" AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="5.0" />
+            <Label layoutX="560.0" layoutY="268.0" text="Observação *" AnchorPane.leftAnchor="560.0" AnchorPane.topAnchor="278.0" />
+            <TextArea fx:id="txtAreaObs" layoutX="550.0" layoutY="294.0" prefHeight="90.0" prefWidth="169.0" AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="294.0" />
             <TextField fx:id="txtQuantidade" layoutX="369.0" layoutY="167.0" prefHeight="25.0" prefWidth="41.0" text="1" AnchorPane.topAnchor="167.0" />
             <Label layoutX="81.0" layoutY="141.0" text="Produto/Despesa" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="151.0" />
             <Label layoutX="367.0" layoutY="141.0" text="Qtde" AnchorPane.topAnchor="151.0" />

@@ -29,12 +29,15 @@
               <columns>
                 <TableColumn fx:id="tableColumnExcluir" prefWidth="70.0" />
                   <TableColumn fx:id="tableColumnEditar" prefWidth="55.0" />
-                  <TableColumn prefWidth="45.0" />
-                  <TableColumn fx:id="tableColumnNome" maxWidth="1.7976931348623157E308" prefWidth="270.0" />
+                  <TableColumn prefWidth="20.0" />
+                  <TableColumn fx:id="tableColumnNome" maxWidth="1.7976931348623157E308" prefWidth="200.0" />
               </columns>
                <padding>
                   <Insets bottom="1.0" />
                </padding>
+               <HBox.margin>
+                  <Insets bottom="50.0" left="50.0" />
+               </HBox.margin>
             </TableView>
             <Pane prefHeight="100.0" prefWidth="426.0">
                <children>
@@ -76,6 +79,9 @@
                      </padding>
                   </GridPane>
                </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </Pane>
          </children>
       </HBox>
