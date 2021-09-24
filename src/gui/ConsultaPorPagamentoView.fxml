@@ -23,7 +23,7 @@
          <children>
             <AnchorPane prefHeight="359.0" prefWidth="692.0">
                <children>
-                  <TableView fx:id="tableViewItemPagamento" layoutX="100.0" layoutY="14.0" prefHeight="309.0" prefWidth="246.0" AnchorPane.bottomAnchor="100.0" AnchorPane.topAnchor="50.0">
+                  <TableView fx:id="tableViewItemPagamento" layoutX="100.0" layoutY="14.0" prefHeight="200.0" prefWidth="208.0" AnchorPane.bottomAnchor="100.0" AnchorPane.topAnchor="50.0">
                     <columns>
                         <TableColumn fx:id="tableColumnNome" maxWidth="1.7976931348623157E308" prefWidth="135.0" />
                       <TableColumn fx:id="tableColumnValorTotal" prefWidth="70.0" text="Total" />
@@ -32,7 +32,7 @@
                         <Insets bottom="1.0" />
                      </padding>
                   </TableView>
-                  <TableView fx:id="tableViewItemPagamentoAnoAtual" layoutX="427.0" layoutY="44.0" prefHeight="200.0" prefWidth="218.0" AnchorPane.bottomAnchor="100.0" AnchorPane.topAnchor="50.0">
+                  <TableView fx:id="tableViewItemPagamentoAnoAtual" layoutX="427.0" layoutY="44.0" prefHeight="200.0" prefWidth="208.0" AnchorPane.bottomAnchor="100.0" AnchorPane.topAnchor="50.0">
                     <columns>
                       <TableColumn fx:id="tableColumnNomeAnoAtual" prefWidth="135.0" />
                       <TableColumn fx:id="tableColumnValorTotalAnoAtual" prefWidth="70.0" text="Total" />
@@ -48,6 +48,8 @@
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
+                  <Label fx:id="lbTotalMes" layoutX="268.0" layoutY="267.0" text="R$ 1000.00" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="260.0" />
+                  <Label fx:id="lbTotalAno" layoutX="435.0" layoutY="266.0" text="R$ 10000.00" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="260.0" />
                </children>
             </AnchorPane>
          </children>

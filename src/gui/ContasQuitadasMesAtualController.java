@@ -64,6 +64,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
+	private ObservableList<Lancamento> obsListaLancamentoTbViewAux;
 	
 	@FXML
 	public void onBtConsultaReferenciaOuDespesa(ActionEvent evento) {
@@ -72,20 +73,38 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaQuitadoMesAtual(refOuDespesa);
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
-		carregarValorTotal();
+		carregarValorTotalFiltrado();
 		}
 		else {
 			carregarTableView();
-		}
-		
+		}		
 	}
 	
-	public void carregarValorTotal(){
-		Double soma = 0.0;
+	public void carregarValorTotal() {		
+		List<Lancamento> listaAux = lancamentoService.AuxNaoContabilizarValorOutros();
+		obsListaLancamentoTbViewAux = FXCollections.observableArrayList(listaAux);		
+		Double total = 0.0;
 		for (Lancamento tab : obsListaLancamentoTbView) {
-			soma += tab.getTotal();
+			total += tab.getTotal();
+		}	
+		//Subtrair valor do Tipo de Pagamento(Outros).
+		String itemPagOutros = "";
+		Double itemPagOutrosValor = 0.00;
+		for (Lancamento tabAux : obsListaLancamentoTbViewAux) {
+			itemPagOutros = tabAux.getItemPagamento().getNomePag();
+			if(itemPagOutros.equals("Outros")) {
+			itemPagOutrosValor += tabAux.getItemPagamento().getValor();
+			}
 		}
-		lbTotal.setText(String.format("R$ %.2f", soma));
+		lbTotal.setText(String.format("R$ %.2f", total-itemPagOutrosValor));
+	}
+
+	public void carregarValorTotalFiltrado() {		
+		Double total = 0.0;
+		for (Lancamento tab : obsListaLancamentoTbView) {
+			total += tab.getTotal();
+		}
+		lbTotal.setText(String.format("R$ %.2f", total));
 	}
 	// -----------------------------------------------------
 

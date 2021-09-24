@@ -112,7 +112,7 @@ public class ContasQuitadasPeriodoController implements Initializable {
 			total += tab.getTotal();
 		lbTotal.setText(String.format("%.2f", total));
 		}
-	}
+	}		
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

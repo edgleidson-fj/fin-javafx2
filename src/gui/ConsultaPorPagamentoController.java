@@ -51,7 +51,12 @@ public class ConsultaPorPagamentoController implements Initializable {
 	private Label lbMesAtual;
 	@FXML
 	private Label lbAnoAtual;
+	@FXML
+	private Label lbTotalMes;
+	@FXML
+	private Label lbTotalAno;
 
+	
 	// Injeção da dependência.
 	public void setItemPagamentoService(ItemPagamentoService service) {
 		this.service = service;
@@ -103,6 +108,7 @@ public class ConsultaPorPagamentoController implements Initializable {
 		obsListaAnoAtual = FXCollections.observableArrayList(listaAnoAtual);
 		tableViewItemPagamentoAnoAtual.setItems(obsListaAnoAtual);
 		pegarMesEAnoAtual();
+		carregarValorTotal();
 	}
 	// ---------------------------------------------
 
@@ -151,6 +157,21 @@ public class ConsultaPorPagamentoController implements Initializable {
 			break;
 		}
 	}
+	
+	public void carregarValorTotal() {		
+		Double totalMes = 0.0;
+		for (ItemPagamento tab : obsLista) {
+			totalMes += tab.getValor();
+		}
+		lbTotalMes.setText(String.format("R$ %.2f", totalMes));
+		
+		Double totalAno = 0.0;
+		for (ItemPagamento tab2 : obsListaAnoAtual) {
+			totalAno += tab2.getValor();
+		}
+		lbTotalAno.setText(String.format("R$ %.2f", totalAno));
+	}
+	
 
 	public void carregarUsuarioLogado() {
 		if (usuarioEntidade == null) {

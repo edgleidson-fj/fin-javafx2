@@ -89,4 +89,7 @@ public class LancamentoService {
 	public List<Lancamento> buscarPorReferenciaOuDespesaEmAbertoPeriodo(String dataInicial, String dataFinal, String refOuDespesa){
 		return dao.buscarPorReferenciaOuDespesaEmAbertoPeriodo(dataInicial, dataFinal, refOuDespesa);
 	}
+	public List<Lancamento> AuxNaoContabilizarValorOutros(){
+		return dao.AuxNaoContabilizarValorOutros();
+	}	
 }
