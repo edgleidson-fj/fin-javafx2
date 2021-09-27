@@ -21,7 +21,7 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Login">
                   <items>
-                        <MenuItem fx:id="menuItemSair" mnemonicParsing="false" onAction="#onMenuItemSair" text="Trocar Usuário" />
+                        <MenuItem fx:id="menuItemSair" mnemonicParsing="false" onAction="#onMenuItemSair" text="Sair" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Lançamentos">
@@ -37,7 +37,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Financeiro">
                     <items>
-                        <MenuItem fx:id="menuItemConsultaPorPagamento" mnemonicParsing="false" onAction="#onMenuItemConsultaPorPagamento" text="Por Pagamentos" />
+                        <MenuItem fx:id="menuItemConsultaPorPagamento" mnemonicParsing="false" onAction="#onMenuItemConsultaPorPagamento" text="Tipos de Pagamento" />
                         <Menu mnemonicParsing="false" text="Quitado">
                           <items>
                             <MenuItem fx:id="menuItemContasQuitadoMesAtual" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoMesAtual" text="Mês Atual" />

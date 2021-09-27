@@ -29,7 +29,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
-import model.entidade.TipoPag;
 import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
 import model.servico.LancamentoService;
@@ -165,4 +164,5 @@ public class ContasQuitadasController implements Initializable {
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
+	
 }

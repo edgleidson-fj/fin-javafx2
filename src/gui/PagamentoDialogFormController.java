@@ -211,7 +211,7 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	public void onBtVoltar(ActionEvent evento) {
 		limparItemPagamento();
-		Utils.stageAtual(evento).close();
+		Utils.stageAtual(evento).close();		
 	}
 
 	public void onBtDescontoOuAcrescimo() {

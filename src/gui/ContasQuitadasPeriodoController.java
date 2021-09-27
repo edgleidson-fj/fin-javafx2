@@ -110,7 +110,7 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		double total = 0.0;
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			total += tab.getTotal();
-		lbTotal.setText(String.format("%.2f", total));
+		lbTotal.setText(String.format("R$ %.2f", total));
 		}
 	}		
 	

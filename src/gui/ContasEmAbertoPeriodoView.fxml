@@ -14,7 +14,7 @@
    <children>
       <AnchorPane prefHeight="450.0" prefWidth="743.0" VBox.vgrow="SOMETIMES">
          <children>
-            <Label layoutX="254.0" layoutY="14.0" text="CONTAS A PAGAR POR PERÍODO" AnchorPane.leftAnchor="215.0">
+            <Label layoutX="254.0" layoutY="14.0" text="LANÇAMENTOS A PAGAR POR PERÍODO" AnchorPane.leftAnchor="215.0">
                <font>
                   <Font size="18.0" />
                </font>

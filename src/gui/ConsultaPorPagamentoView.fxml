@@ -11,12 +11,12 @@
 
 <VBox prefHeight="414.0" prefWidth="696.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ConsultaPorPagamentoController">
    <children>
-      <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="343.0" text="CONSULTA POR PAGAMENTO" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="440.0" text="CONSULTA POR TIPOS DE PAGAMENTO" textAlignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="200.0" top="5.0" />
+            <Insets bottom="15.0" left="150.0" top="5.0" />
          </VBox.margin>
       </Label>
       <HBox prefHeight="404.0" prefWidth="740.0">

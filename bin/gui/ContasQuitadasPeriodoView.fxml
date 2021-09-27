@@ -15,7 +15,7 @@
    <children>
       <AnchorPane prefWidth="901.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label layoutX="254.0" layoutY="14.0" text="CONTAS QUITADAS POR PERÍODO" AnchorPane.leftAnchor="215.0">
+            <Label layoutX="254.0" layoutY="14.0" text="LANÇAMENTOS QUITADOS POR PERÍODO" AnchorPane.leftAnchor="215.0">
                <font>
                   <Font size="18.0" />
                </font>

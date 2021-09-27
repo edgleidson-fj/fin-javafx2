@@ -30,7 +30,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lbTotal" layoutX="420.0" layoutY="14.0" text="0.00" textFill="#3008f8" AnchorPane.leftAnchor="343.0" AnchorPane.topAnchor="270.0">
+            <Label fx:id="lbTotal" layoutX="420.0" layoutY="14.0" text="0.00" textFill="#3008f8" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="270.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

@@ -13,7 +13,7 @@
    <children>
       <AnchorPane prefHeight="563.0" prefWidth="804.0">
          <children>
-            <Label layoutX="254.0" layoutY="14.0" text="CONTAS QUITADAS DO MÊS">
+            <Label layoutX="254.0" layoutY="14.0" text="LANÇAMENTOS QUITADOS" AnchorPane.topAnchor="14.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -36,6 +36,11 @@
             </Label>
             <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="4.0" layoutY="41.0" promptText="Referencia ou item" />
             <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="158.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" text="Consultar" />
+            <Label fx:id="lbMes" layoutX="500.0" layoutY="19.0" text="(JANEIRO)" AnchorPane.leftAnchor="480.0" AnchorPane.topAnchor="14.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

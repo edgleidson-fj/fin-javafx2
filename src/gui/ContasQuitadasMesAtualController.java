@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -57,6 +58,8 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
 	private Label lbTotal;
+	@FXML
+	private Label lbMes;	
 	@FXML
 	private TextField txtConsultaReferenciaOuDespesa;
 	@FXML 
@@ -144,10 +147,9 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();		
 		carregarValorTotal();
+		pegarMesAtual();
 	}
 	
-	
-
 	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
@@ -201,4 +203,49 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
+	
+	public void pegarMesAtual() {
+		Calendar datahoje = Calendar.getInstance();
+		int mesAtual = datahoje.get(Calendar.MONTH) + 1;
+		
+		switch (mesAtual) {
+		case 1:
+			lbMes.setText("(JANEIRO)");
+			break;
+		case 2:
+			lbMes.setText("(FEVEREIRO)");
+			break;
+		case 3:
+			lbMes.setText("(MARÇO)");
+			break;
+		case 4:
+			lbMes.setText("(ABRIL)");
+			break;
+		case 5:
+			lbMes.setText("(MAIO)");
+			break;
+		case 6:
+			lbMes.setText("(JUNHO)");
+			break;
+		case 7:
+			lbMes.setText("(JULHO)");
+			break;
+		case 8:
+			lbMes.setText("(AGOSTO)");
+			break;
+		case 9:
+			lbMes.setText("(SETEMBRO)");
+			break;
+		case 10:
+			lbMes.setText("(OUTUBRO)");
+			break;
+		case 11:
+			lbMes.setText("(NOVEMBRO)");
+			break;
+		case 12:
+			lbMes.setText("(DEZEMBRO)");
+			break;
+		}
+	}
+
 }
