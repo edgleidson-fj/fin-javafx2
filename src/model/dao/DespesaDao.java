@@ -12,4 +12,6 @@ public interface DespesaDao {
 	Despesa buscarPorId(Integer id);
 	List<Despesa> buscarTudo();
 	List<Despesa> listarPorId(Integer id);
+	List<Despesa> consultaPorRankDespesaMesAtual(Integer id);
+	List<Despesa> consultaPorRankDespesaAnoAtual(Integer id);
 }

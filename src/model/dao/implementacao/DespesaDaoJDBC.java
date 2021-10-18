@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import bd.BD;
@@ -159,6 +160,85 @@ public class DespesaDaoJDBC implements DespesaDao {
 				d.setQuantidade(rs.getInt("d.quantidade"));
 				d.setPrecoUnid(rs.getDouble("precoUnid"));
 				d.setPrecoTotal(rs.getDouble("precoTotal"));
+				lista.add(d);
+			}
+			rs.close();
+			ps.close();
+			return lista;
+		} catch (SQLException ex) {
+			throw new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+			BD.fecharResultSet(rs);
+		}
+	}
+	
+	public List<Despesa> consultaPorRankDespesaMesAtual(Integer id) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			Calendar datahoje = Calendar.getInstance();
+			int mesAtual = datahoje.get(Calendar.MONTH)+1;
+			
+			ps = connection.prepareStatement(					
+					"select d.nome,  sum(d.precoTotal) from item i "
+					+"inner join lancamento l "
+					+"on l.id = i.lancamento_id "
+					+"inner join despesa d "
+					+"on d.id = i.despesa_id "	
+					+"where month(data) = "+mesAtual+" "
+					+ "and year(data) = year(now()) "
+					+ "and l.status_id = 2 "					
+					+ "and l.usuario_id = ? "
+					+"group by d.nome "
+					+"order by sum(d.precoTotal) desc "
+					+ "limit 10 ");						
+					ps.setInt(1, id);
+			rs = ps.executeQuery();
+			List<Despesa> lista = new ArrayList<Despesa>();
+			while (rs.next()) {
+				Despesa d = new Despesa();
+				d.setPrecoTotal(rs.getDouble("sum(d.precoTotal)"));
+				d.setNome(rs.getString("nome"));
+				lista.add(d);
+			}
+			rs.close();
+			ps.close();
+			return lista;
+		} catch (SQLException ex) {
+			throw new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+			BD.fecharResultSet(rs);
+		}
+	}
+
+	public List<Despesa> consultaPorRankDespesaAnoAtual(Integer id) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			Calendar datahoje = Calendar.getInstance();
+			int anoAtual = datahoje.get(Calendar.YEAR);
+			
+			ps = connection.prepareStatement(					
+					"select d.nome,  sum(d.precoTotal) from item i "
+							+"inner join lancamento l "
+							+"on l.id = i.lancamento_id "
+							+"inner join despesa d "
+							+"on d.id = i.despesa_id "	
+					+"where year(data) = "+anoAtual+" "
+					+ "and l.status_id = 2 "					
+					+ "and l.usuario_id = ? "
+					+"group by d.nome "
+					+"order by sum(d.precoTotal) desc "
+					+ "limit 10 ");									
+					ps.setInt(1, id);
+			rs = ps.executeQuery();
+			List<Despesa> lista = new ArrayList<Despesa>();
+			while (rs.next()) {
+				Despesa d = new Despesa();
+				d.setPrecoTotal(rs.getDouble("sum(d.precoTotal)"));
+				d.setNome(rs.getString("nome"));
 				lista.add(d);
 			}
 			rs.close();

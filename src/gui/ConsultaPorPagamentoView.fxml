@@ -11,7 +11,7 @@
 
 <VBox prefHeight="414.0" prefWidth="696.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ConsultaPorPagamentoController">
    <children>
-      <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="440.0" text="CONSULTA POR TIPOS DE PAGAMENTO" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="440.0" text="RANKING POR TIPOS DE PAGAMENTO" textAlignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
@@ -25,7 +25,7 @@
                <children>
                   <TableView fx:id="tableViewItemPagamento" layoutX="100.0" layoutY="14.0" prefHeight="200.0" prefWidth="208.0" AnchorPane.bottomAnchor="100.0" AnchorPane.topAnchor="50.0">
                     <columns>
-                        <TableColumn fx:id="tableColumnNome" maxWidth="1.7976931348623157E308" prefWidth="135.0" />
+                        <TableColumn fx:id="tableColumnNome" editable="false" maxWidth="1.7976931348623157E308" prefWidth="135.0" sortable="false" />
                       <TableColumn fx:id="tableColumnValorTotal" prefWidth="70.0" text="Total" />
                     </columns>
                      <padding>
@@ -34,7 +34,7 @@
                   </TableView>
                   <TableView fx:id="tableViewItemPagamentoAnoAtual" layoutX="427.0" layoutY="44.0" prefHeight="200.0" prefWidth="208.0" AnchorPane.bottomAnchor="100.0" AnchorPane.topAnchor="50.0">
                     <columns>
-                      <TableColumn fx:id="tableColumnNomeAnoAtual" prefWidth="135.0" />
+                      <TableColumn fx:id="tableColumnNomeAnoAtual" editable="false" prefWidth="135.0" sortable="false" />
                       <TableColumn fx:id="tableColumnValorTotalAnoAtual" prefWidth="70.0" text="Total" />
                     </columns>
                   </TableView>
@@ -48,8 +48,14 @@
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
-                  <Label fx:id="lbTotalMes" layoutX="268.0" layoutY="267.0" text="R$ 1000.00" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="260.0" />
-                  <Label fx:id="lbTotalAno" layoutX="435.0" layoutY="266.0" text="R$ 10000.00" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="260.0" />
+                  <Label fx:id="lbTotalMes" layoutX="268.0" layoutY="267.0" text="R$ 1000.00" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="260.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="lbTotalAno" layoutX="435.0" layoutY="266.0" text="R$ 10000.00" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="260.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
                </children>
             </AnchorPane>
          </children>

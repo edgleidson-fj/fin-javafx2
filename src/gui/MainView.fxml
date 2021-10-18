@@ -35,9 +35,10 @@
                         </Menu>
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Financeiro">
+                  <Menu mnemonicParsing="false" text="Relatórios/Financeiro">
                     <items>
-                        <MenuItem fx:id="menuItemConsultaPorPagamento" mnemonicParsing="false" onAction="#onMenuItemConsultaPorPagamento" text="Tipos de Pagamento" />
+                        <MenuItem fx:id="menuItemConsultaPorPagamento" mnemonicParsing="false" onAction="#onMenuItemConsultaPorPagamento" text="Ranking (Tipos de Pagamento)" />
+                        <MenuItem fx:id="menuItemConsultaPorRank" mnemonicParsing="false" onAction="#onMenuItemConsultaPorRank" text="Ranking (Despesas)" />
                         <Menu mnemonicParsing="false" text="Quitado">
                           <items>
                             <MenuItem fx:id="menuItemContasQuitadoMesAtual" mnemonicParsing="false" onAction="#onMenuItemContasQuitadoMesAtual" text="Mês Atual" />

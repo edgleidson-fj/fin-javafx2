@@ -59,6 +59,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemConsultaPorPagamento;
 	@FXML
+	private MenuItem menuItemConsultaPorRank;	
+	@FXML
 	private MenuItem menuItemContasQuitadoMesAtual;
 	@FXML
 	private MenuItem menuItemContasQuitadoPeriodo;
@@ -218,7 +220,33 @@ public class MainViewController implements Initializable {
 		 }if(logado.equals("N")) {
 				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
 			}
-	}
+	}	
+	
+	@FXML
+	public void onMenuItemConsultaPorRank() {
+		List<Usuario> lista = usuarioService.buscarTodos();
+		String logado = "N";
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 
+			 if(u.getLogado().equals("S")) {	
+		carregarView("/gui/ConsultaPorRankView.fxml", (ConsultaPorRankController controller) -> {
+			controller.setDespesaService(new DespesaService());
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			Usuario user = new Usuario();
+			user.setId(usuarioId);
+			//user.setNome(userNome);
+			controller.setUsuario(user);
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarTableView();
+		});
+		logado = "S";
+			 }			 
+		 }if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
+	}	
 	
 	@FXML
 	public void onMenuItemContasQuitadoMesAtual() {

@@ -33,4 +33,12 @@ public class DespesaService {
 	public Despesa buscarPorId(Integer id){
 		return dao.buscarPorId(id);
 	}	
+	
+	public List<Despesa> consultaPorRankDespesaMesAtual(Integer id) {
+		return dao.consultaPorRankDespesaMesAtual(id);
+	}
+
+	public List<Despesa> consultaPorRankDespesaAnoAtual(Integer id) {
+		return dao.consultaPorRankDespesaAnoAtual(id);
+	}
 }
