@@ -191,7 +191,7 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 						+ "and year(data) = year(now()) "
 						+ "and l.usuario_id = ? "
 						+"group by i.tipopag_id "
-						+"order by valor desc");						
+						+"order by sum(i.valor) desc");						
 						ps.setInt(1, id);
 				rs = ps.executeQuery();
 				List<ItemPagamento> lista = new ArrayList<ItemPagamento>();
@@ -226,7 +226,7 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 						+"where year(data) = "+anoAtual+" "
 						+ "and l.usuario_id = ? "
 						+"group by i.tipopag_id "
-						+"order by valor desc");						
+						+"order by sum(i.valor) desc");						
 						ps.setInt(1, id);
 				rs = ps.executeQuery();
 				List<ItemPagamento> lista = new ArrayList<ItemPagamento>();

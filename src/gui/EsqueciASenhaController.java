@@ -9,22 +9,20 @@ import application.Main;
 import bd.BDException;
 import gui.util.Alertas;
 import gui.util.Restricoes;
-import gui.util.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import model.entidade.Lancamento;
 import model.entidade.Usuario;
-import model.servico.LancamentoService;
 import model.servico.UsuarioService;
+import seguranca.Criptografia;
 
 public class EsqueciASenhaController implements Initializable/*, DataChangerListener*/ {
 
@@ -55,14 +53,14 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 		this.entidade = entidade;
 	}
 	
-
 	int x;
 	public void onBtRecuperarSenha() {
 		try {
+			Criptografia c = new Criptografia();			
 			String nome = txtNome.getText();
 			String cpf = txtCPF.getText();
 			String email = txtEmail.getText();
-			String novaSenha = txtNovaSenha.getText();	
+			String novaSenha = c.criptografia(txtNovaSenha.getText());				
 			entidade.setNome(nome);
 			entidade.setCpf(cpf);
 			entidade.setEmail(email);

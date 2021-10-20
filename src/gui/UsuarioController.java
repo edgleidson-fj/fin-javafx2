@@ -16,13 +16,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import model.entidade.Usuario;
 import model.servico.UsuarioService;
+import seguranca.Criptografia;
 
 public class UsuarioController implements Initializable/*, DataChangerListener*/ {
 
@@ -97,12 +98,13 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 	// ---------------------------------------------
 
 	public Usuario dadosDoCampoDeTexto() {
+		Criptografia c = new Criptografia();
 		Usuario obj = new Usuario();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		obj.setNome(txtNome.getText());
-		obj.setSenha(txtSenha.getText());
+		obj.setSenha(c.criptografia(txtSenha.getText()));
 		obj.setEmail(txtEmail.getText());
-		obj.setCpf(txtCPF.getText());
+		obj.setCpf(txtCPF.getText());	
 		return obj;
 	}
 

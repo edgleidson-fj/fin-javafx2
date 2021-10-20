@@ -33,6 +33,7 @@ import model.entidade.Usuario;
 import model.servico.LancamentoService;
 import model.servico.MensagemService;
 import model.servico.UsuarioService;
+import seguranca.Criptografia;
 
 public class LoginController implements Initializable {
 
@@ -64,8 +65,9 @@ public class LoginController implements Initializable {
 	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
+		Criptografia c = new Criptografia();		
 		String cpf = txtCPF.getText();
-		String senha = txtSenha.getText();		
+		String senha = c.criptografia(txtSenha.getText());			
 		usuarioEntidade.setCpf(cpf);
 		usuarioEntidade.setSenha(senha);
 		Usuario user = usuarioService.login(cpf, senha);
