@@ -160,7 +160,7 @@ public class ItemDaoJDBC implements ItemDao {
 		} finally {
 			BD.fecharStatement(ps);
 		}
-	}
+	}	
 	
 	private Item instantiateItem(ResultSet rs, Despesa dep, Lancamento lan) throws SQLException {
 		Item obj = new Item();

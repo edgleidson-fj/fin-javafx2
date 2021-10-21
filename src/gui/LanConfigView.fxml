@@ -33,10 +33,10 @@
             </Label>
             <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" stylesheets="@zBotaoCancelar.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
               <columns>
-                  <TableColumn fx:id="colunaEditar" prefWidth="55.0" />
+                  <TableColumn fx:id="colunaReajustar" prefWidth="73.0" />
                   <TableColumn fx:id="colunaRemover" prefWidth="70.0" />
                   <TableColumn fx:id="colunaDespId" prefWidth="50.0" text="Código" />
-                  <TableColumn fx:id="colunaDespNome" prefWidth="185.0" resizable="false" text="Item" />
+                  <TableColumn fx:id="colunaDespNome" prefWidth="170.0" resizable="false" text="Item" />
                   <TableColumn fx:id="colunaDespValorUnid" prefWidth="60.0" text="Unid" />
                   <TableColumn fx:id="colunaDespQuantidade" prefWidth="35.0" text="Qtde" />
                 <TableColumn fx:id="colunaDespValorTotal" prefWidth="70.0" text="Total" />
@@ -61,7 +61,7 @@
             <TextField fx:id="txtAcrescimo" layoutX="609.0" layoutY="273.0" prefHeight="25.0" prefWidth="51.0" text="0.00" AnchorPane.leftAnchor="685.0" AnchorPane.topAnchor="185.0" />
             <Button fx:id="btAplicarDescontoOuAcrescimo" layoutX="666.0" layoutY="250.0" mnemonicParsing="false" onAction="#AplicarDescontoOuAcrescimo" text="Aplicar" AnchorPane.leftAnchor="740.0" AnchorPane.topAnchor="170.0" />
             <TextField fx:id="txtQuantidade" layoutX="372.0" layoutY="167.0" prefHeight="25.0" prefWidth="44.0" AnchorPane.topAnchor="170.0" />
-            <Label layoutX="67.0" layoutY="151.0" text="Produto/Despesa" AnchorPane.topAnchor="154.0" />
+            <Label layoutX="67.0" layoutY="151.0" text="Produto/Serviço" AnchorPane.topAnchor="154.0" />
             <Label layoutX="372.0" layoutY="151.0" text="Qtde" AnchorPane.topAnchor="154.0" />
             <Label layoutX="431.0" layoutY="151.0" text="Preço" AnchorPane.topAnchor="154.0" />
             <Pane layoutX="514.0" layoutY="257.0" prefHeight="168.0" prefWidth="200.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="570.0">

@@ -34,4 +34,6 @@ public interface LancamentoDao {
 	List<Lancamento> buscarPorReferenciaOuDespesaEmAbertoMesAtual(String refOuDespesa);
 	List<Lancamento> buscarPorReferenciaOuDespesaEmAbertoPeriodo(String dataInicial, String dataFinal, String refOuDespesa);
 	List<Lancamento> AuxNaoContabilizarValorOutros();
+	List<Lancamento> auxReajuste(String ref);
+	void reajustarValorTotal(Lancamento obj);
 }

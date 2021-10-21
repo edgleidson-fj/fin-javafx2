@@ -92,4 +92,10 @@ public class LancamentoService {
 	public List<Lancamento> AuxNaoContabilizarValorOutros(){
 		return dao.AuxNaoContabilizarValorOutros();
 	}	
+	public List<Lancamento> auxReajuste(String ref){
+		return dao.auxReajuste(ref);
+	}
+	public void reajustarValorTotal(Lancamento obj) {
+		dao.reajustarValorTotal(obj);
+	}	
 }

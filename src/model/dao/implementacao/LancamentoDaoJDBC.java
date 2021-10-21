@@ -955,5 +955,60 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 						BD.fecharResultSet(rs);
 					}
 					}		
+				
+				//Auxiliar - Para reajustar valor de fatura mensal.
+				@Override
+				public List<Lancamento> auxReajuste(String ref) {
+					PreparedStatement ps = null;
+					ResultSet rs = null;
+					try {
+						ps = connection.prepareStatement(
+								"SELECT * FROM Lancamento l "
+								+ "INNER JOIN Status s "
+								+ "ON l.status_id = s.id "
+								+ "INNER JOIN Usuario u "
+							+ "ON l.usuario_id = u.usuarioid "
+							+ "WHERE u.logado = 'S' "
+							+ "AND (s.id = 1 OR s.id = 3) "
+							+ "AND l.referencia LIKE '%"+ref+"%' "); 			
+					rs = ps.executeQuery();
+						List<Lancamento> lista = new ArrayList<>();			
+						while (rs.next()) {
+							Status status = new Status();
+							status.setNome(rs.getString("s.nome"));	
+							Lancamento obj = new Lancamento();
+							obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
+							obj.setId(rs.getInt("id"));
+							obj.setReferencia(rs.getString("referencia"));
+							obj.setTotal(rs.getDouble("total"));
+							obj.setStatus(status);
+							lista.add(obj);
+						}
+						return lista;
+					} catch (SQLException ex) {
+						throw new BDException(ex.getMessage());
+					} finally {
+						BD.fecharStatement(ps);
+						BD.fecharResultSet(rs);
+					}
+				}
+								
+				@Override
+				public void reajustarValorTotal(Lancamento obj) {
+					PreparedStatement ps = null;
+					try {
+						ps = connection.prepareStatement(
+					"UPDATE lancamento " 
+					+"SET total = ? "			
+					+ "WHERE id = ? ");
+					ps.setDouble(1, obj.getTotal());
+					ps.setInt(2, obj.getId());	
+						ps.executeUpdate();
+					} catch (SQLException ex) {
+						new BDException(ex.getMessage());
+					} finally {
+						BD.fecharStatement(ps);
+					}
+				}
 							
 			}
