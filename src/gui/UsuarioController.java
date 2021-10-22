@@ -25,15 +25,15 @@ import model.entidade.Usuario;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
 
-public class UsuarioController implements Initializable/*, DataChangerListener*/ {
+public class UsuarioController implements Initializable/* , DataChangerListener */ {
 
 	private UsuarioService service;
 	private Usuario entidade;
-	
+
 	@FXML
 	private TextField txtId;
 	@FXML
-	private TextField txtNome;	
+	private TextField txtNome;
 	@FXML
 	private TextField txtSenha;
 	@FXML
@@ -41,11 +41,12 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 	@FXML
 	private TextField txtCPF;
 	@FXML
-	private Button btCancelar;//Voltar
+	private Button btVoltar;
 	@FXML
 	private Button btSalvar;
+
 	@FXML
-	
+
 	// Injeção da dependência.
 	public void setUsuarioService(UsuarioService service) {
 		this.service = service;
@@ -54,39 +55,38 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 	public void setUsuario(Usuario entidade) {
 		this.entidade = entidade;
 	}
-	
 
 	int x;
+
 	public void onBtSalvar() {
 		try {
-					 if(txtId.getText().equals("")) {
-						x=1;
-						entidade = dadosDoCampoDeTexto();
-							service.salvar(entidade);
-							atualizarPropriaView(entidade, "/gui/LoginView.fxml");						
-				 }
-				 else{
-						x=2;
-						 entidade = dadosDoCampoDeTexto();
-							service.atualizar(entidade);
-							atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
-				 }
-			} catch (BDException ex) {
+			if (txtId.getText().equals("")) {
+				x = 1;
+				entidade = dadosDoCampoDeTexto();
+				service.salvar(entidade);
+				atualizarPropriaView(entidade, "/gui/LoginView.fxml");
+				Alertas.mostrarAlerta(null, "Cadastro realizado com sucesso!", null, AlertType.INFORMATION);
+			} else {
+				x = 2;
+				entidade = dadosDoCampoDeTexto();
+				service.atualizar(entidade);
+				atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
+				Alertas.mostrarAlerta(null, "Atualização realizado com sucesso!", null, AlertType.INFORMATION);
+			}
+		} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar", null, ex.getMessage(), AlertType.ERROR);
-		}		
+		}
 	}
 
-	//Voltar
-	public void onBtCancelar() {
-		x=1;
-		atualizarPropriaView(null, "/gui/LoginView.fxml");
+	public void onBtVoltar() {
+		x = 1;
+		atualizarPropriaView(null, "/gui/LoginView.fxml");		
 	}
 
-		
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarComportamento();
-		}
+	}
 
 	private void inicializarComportamento() {
 		Restricoes.setTextFieldInteger(txtId);
@@ -104,41 +104,41 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 		obj.setNome(txtNome.getText());
 		obj.setSenha(c.criptografia(txtSenha.getText()));
 		obj.setEmail(txtEmail.getText());
-		obj.setCpf(txtCPF.getText());	
+		obj.setCpf(txtCPF.getText());
 		return obj;
 	}
 
 	public void carregarCamposDeCadastro() {
 		List<Usuario> lista = service.buscarTodos();
-		for(Usuario u : lista) {
-			 u.getLogado();
-			
-			 if(u.getLogado().equals("S")) {
-				 txtId.setText(String.valueOf(u.getId()));
-					txtNome.setText(u.getNome());
-					txtEmail.setText(u.getEmail());
-					txtCPF.setText(u.getCpf());
-			 }
-		 }		
+		for (Usuario u : lista) {
+			u.getLogado();
+
+			if (u.getLogado().equals("S")) {
+				txtId.setText(String.valueOf(u.getId()));
+				txtNome.setText(u.getNome());
+				txtEmail.setText(u.getEmail());
+				txtCPF.setText(u.getCpf());
+			}
+		}
 	}
-	
-	private  void atualizarPropriaView(Usuario obj, String caminhoDaView) {
+
+	private void atualizarPropriaView(Usuario obj, String caminhoDaView) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
-			VBox novoVBox = loader.load();			
-			
-			if(x == 1) {
+			VBox novoVBox = loader.load();
+
+			if (x == 1) {
 				LoginController controller = loader.getController();
-				controller.setUsuario(new Usuario());
+			    controller.setUsuario(new Usuario());
 				controller.setUsuarioService(new UsuarioService());
 			}
-			else {
-			UsuarioController controller = loader.getController();
-			controller.setUsuario(obj);
-			controller.setUsuarioService(new UsuarioService());
-			controller.carregarCamposDeCadastro();
+			else{
+				UsuarioController controller = loader.getController();
+				controller.setUsuario(obj);
+				controller.setUsuarioService(new UsuarioService());
+				controller.carregarCamposDeCadastro();
 			}
-			
+
 			Scene mainScene = Main.pegarMainScene();
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 
@@ -150,37 +150,36 @@ public class UsuarioController implements Initializable/*, DataChangerListener*/
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-	
-	
-	//Mascara 999.999.999-99
-		@FXML
-		private void mascaraCPF() {
-		   txtCPF.setOnKeyTyped((KeyEvent evento) -> {
-	            if (!"01234567891234".contains(evento.getCharacter())) {
-	                evento.consume();
-	            }
-	            if (evento.getCharacter().trim().length() == 0) {
 
-	            } else if (txtCPF.getText().length() == 16) {
-	                evento.consume();
-	            }
-	            switch (txtCPF.getText().length()) {
-	                case 3:
-	                	txtCPF.setText(txtCPF.getText() + ".");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 7:
-	                	txtCPF.setText(txtCPF.getText() + ".");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 11:
-	                	txtCPF.setText(txtCPF.getText() + "-");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 14:
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	            }
-	        });
-	    }
+	// Mascara 999.999.999-99
+	@FXML
+	private void mascaraCPF() {
+		txtCPF.setOnKeyTyped((KeyEvent evento) -> {
+			if (!"01234567891234".contains(evento.getCharacter())) {
+				evento.consume();
+			}
+			if (evento.getCharacter().trim().length() == 0) {
+
+			} else if (txtCPF.getText().length() == 16) {
+				evento.consume();
+			}
+			switch (txtCPF.getText().length()) {
+			case 3:
+				txtCPF.setText(txtCPF.getText() + ".");
+				txtCPF.positionCaret(txtCPF.getText().length());
+				break;
+			case 7:
+				txtCPF.setText(txtCPF.getText() + ".");
+				txtCPF.positionCaret(txtCPF.getText().length());
+				break;
+			case 11:
+				txtCPF.setText(txtCPF.getText() + "-");
+				txtCPF.positionCaret(txtCPF.getText().length());
+				break;
+			case 14:
+				txtCPF.positionCaret(txtCPF.getText().length());
+				break;
+			}
+		});
+	}
 }

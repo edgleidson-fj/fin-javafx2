@@ -55,6 +55,7 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 	
 	int x;
 	public void onBtRecuperarSenha() {
+		if(!txtNome.getText().equals("") || !txtCPF.getText().equals("") || !txtEmail.getText().equals("")) {
 		try {
 			Criptografia c = new Criptografia();			
 			String nome = txtNome.getText();
@@ -68,14 +69,24 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 			Usuario user = service.recuperarSenha(nome, cpf, email, novaSenha);
 				entidade.setCpf(cpf);
 					entidade.setLogado("S");
-					service.logado(entidade);			
+					service.logado(entidade);	
+					atualizarPropriaView(null, "/gui/LoginView.fxml");					
+					if(user == null || txtNovaSenha.getText().equals("")) {
+						Alertas.mostrarAlerta("Atenção!","Informação divergente entre: NOME, CPF e/ou EMAIL.", null, AlertType.WARNING);
+					}else {
+						Alertas.mostrarAlerta( null,"Recuperação de senha realizada com sucesso.", null, AlertType.INFORMATION);
+						atualizarPropriaView(null, "/gui/LoginView.fxml");
+					}
 			} catch (BDException ex) {
-			Alertas.mostrarAlerta("Favor revisar campos", null, ex.getMessage(), AlertType.ERROR);
-		}		
+			Alertas.mostrarAlerta("Erro!","Erro ao tentar recuperar senha.", ex.getMessage(), AlertType.ERROR);
+		}
+		}
+		else {
+			Alertas.mostrarAlerta("Atenção!", "Favor revisar campos", null, AlertType.WARNING);
+		}
 	}
 
 	public void onBtVoltar() {	
-		x=1;
 		atualizarPropriaView(null, "/gui/LoginView.fxml");
 	}
 	
@@ -117,18 +128,10 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
 			VBox novoVBox = loader.load();			
 			
-			if(x == 1) {
 				LoginController controller = loader.getController();
 				controller.setUsuario(new Usuario());
 				controller.setUsuarioService(new UsuarioService());
-			}
-			else {
-			EsqueciASenhaController controller = loader.getController();
-			controller.setUsuario(obj);
-			controller.setUsuarioService(new UsuarioService());
-			controller.carregarCamposDeCadastro();
-			}
-			
+		
 			Scene mainScene = Main.pegarMainScene();
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 
