@@ -35,7 +35,10 @@
                </font>
             </Label>
             <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="4.0" layoutY="41.0" promptText="Referencia ou item" />
-            <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="158.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" text="Consultar" />
+            <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="158.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" stylesheets="@zBotaoConsultar.css" text="Consultar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <Label fx:id="lbMes" layoutX="500.0" layoutY="19.0" text="(JANEIRO)" AnchorPane.leftAnchor="480.0" AnchorPane.topAnchor="14.0">
                <font>
                   <Font name="System Bold" size="18.0" />

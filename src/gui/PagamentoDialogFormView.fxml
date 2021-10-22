@@ -32,8 +32,14 @@
                </font>
             </Label>
             <ComboBox fx:id="cmbTipoPag" layoutX="307.0" layoutY="270.0" prefHeight="25.0" prefWidth="92.0" AnchorPane.leftAnchor="345.0" AnchorPane.topAnchor="255.0" />
-            <Button fx:id="btConfirmar" layoutX="51.0" layoutY="384.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Confirma" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="418.0" AnchorPane.topAnchor="384.0" />
-            <Button fx:id="btVoltar" layoutX="146.0" layoutY="384.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" AnchorPane.topAnchor="384.0" />
+            <Button fx:id="btConfirmar" layoutX="51.0" layoutY="384.0" mnemonicParsing="false" onAction="#onBtConfirmar" prefHeight="25.0" prefWidth="92.0" stylesheets="@zBotaoConfirmar.css" text="Confirmar" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="384.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btVoltar" layoutX="146.0" layoutY="384.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" AnchorPane.topAnchor="384.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
             <Label layoutX="161.0" layoutY="14.0" text="ÁREA DE PAGAMENTO" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="14.0">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -43,7 +49,10 @@
             <Label layoutX="80.0" layoutY="331.0" text="Acréscimo" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="275.0" />
             <TextField fx:id="txtDesconto" layoutX="170.0" layoutY="295.0" prefHeight="25.0" prefWidth="73.0" promptText="0.00" text="0.00" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="245.0" />
             <TextField fx:id="txtAcrescimo" layoutX="170.0" layoutY="327.0" prefHeight="25.0" prefWidth="73.0" text="0.00" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="275.0" />
-            <Button fx:id="btDescontoOuAcrescimo" layoutX="57.0" layoutY="320.0" mnemonicParsing="false" onAction="#onBtDescontoOuAcrescimo" text="Aplicar" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="260.0" />
+            <Button fx:id="btDescontoOuAcrescimo" layoutX="57.0" layoutY="320.0" mnemonicParsing="false" onAction="#onBtDescontoOuAcrescimo" stylesheets="@zBotaoAdicionar.css" text="Aplicar" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="260.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <Label fx:id="lbPago" layoutX="387.0" layoutY="347.0" text="0.00" AnchorPane.leftAnchor="405.0" AnchorPane.topAnchor="420.0">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -63,7 +72,10 @@
               </columns>
             </TableView>
             <TextField fx:id="txtTipoPagValor" layoutX="253.0" layoutY="270.0" prefHeight="25.0" prefWidth="51.0" AnchorPane.leftAnchor="290.0" AnchorPane.topAnchor="255.0" />
-            <Button fx:id="btItemPagamento" layoutX="405.0" layoutY="270.0" mnemonicParsing="false" onAction="#onBtItemPagamento" prefHeight="25.0" prefWidth="48.0" text="Pagar" AnchorPane.leftAnchor="440.0" AnchorPane.topAnchor="255.0" />
+            <Button fx:id="btItemPagamento" layoutX="405.0" layoutY="270.0" mnemonicParsing="false" onAction="#onBtItemPagamento" prefHeight="25.0" prefWidth="48.0" stylesheets="@zBotaoAdicionar.css" text="Pagar" AnchorPane.leftAnchor="440.0" AnchorPane.topAnchor="255.0">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font></Button>
             <Label fx:id="lbDiferenca" layoutX="460.0" layoutY="355.0" text="0.00" textFill="#f80909" AnchorPane.leftAnchor="460.0" AnchorPane.topAnchor="420.0">
                <font>
                   <Font name="System Bold" size="12.0" />

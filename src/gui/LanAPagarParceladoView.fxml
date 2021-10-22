@@ -18,10 +18,16 @@
       <AnchorPane fx:id="txtParcelas" maxHeight="-Infinity" prefHeight="464.0" prefWidth="737.0">
          <children>
             <ToolBar layoutX="6.0" layoutY="131.0" prefHeight="2.0" prefWidth="725.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-            <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtADDItem" prefHeight="42.0" prefWidth="106.0" text="Adicionar Item" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="155.0" />
+            <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtADDItem" prefHeight="42.0" prefWidth="106.0" stylesheets="@zBotaoAdicionar.css" text="Adicionar" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="155.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
             <TextField fx:id="txtItem" layoutX="67.0" layoutY="167.0" prefHeight="25.0" prefWidth="288.0" promptText="Informe um item para o lancamento" />
             <TextField fx:id="txtPrecoUnid" layoutX="431.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" promptText="0,00" text="0.00" />
-            <Button fx:id="btCriarRegistroDeLancamento" layoutX="266.0" layoutY="98.0" mnemonicParsing="false" onAction="#onBtCriarRegistroDeLancamento" text="Registrar Lançamento" />
+            <Button fx:id="btCriarRegistroDeLancamento" layoutX="266.0" layoutY="98.0" mnemonicParsing="false" onAction="#onBtCriarRegistroDeLancamento" stylesheets="@zBotaoAdicionar.css" text="Registrar Lançamento">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
             <TextField fx:id="txtReferencia" layoutX="140.0" layoutY="66.0" prefHeight="25.0" prefWidth="420.0" promptText=" Informe uma referência para o lancamento" />
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" />
             <Label layoutX="53.0" layoutY="70.0" text="Referência" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="49.0" />
@@ -42,8 +48,14 @@
                 <TableColumn fx:id="colunaDespValorTotal" prefWidth="70.0" text="Total" />
               </columns>
             </TableView>
-            <Button fx:id="btConfirmar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtConfirmar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoConfirmar.css" text="Confirmar" />
-            <Button fx:id="btCancelar" layoutX="240.0" layoutY="397.0" mnemonicParsing="false" onAction="#onBtCancelar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoCancelar.css" text="Cancelar" />
+            <Button fx:id="btConfirmar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtConfirmar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoConfirmar.css" text="Confirmar">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button fx:id="btCancelar" defaultButton="true" layoutX="240.0" layoutY="397.0" mnemonicParsing="false" onAction="#onBtCancelar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoCancelar-.css" text="Cancelar">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
             <Label fx:id="lbTotal" layoutX="621.0" layoutY="23.0" text="0.00" textFill="#3008f8" AnchorPane.leftAnchor="685.0">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -56,7 +68,7 @@
             <TextArea fx:id="txtAreaObs" layoutX="559.0" layoutY="295.0" prefHeight="90.0" prefWidth="169.0" text="Compra feito no dia 00/00/00 - Total: R$ 0,00 - Parcelado em 0x -&#10;NFe: (00000000000000000000000000000000000000000000)." AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="295.0" />
             <Label layoutX="511.0" layoutY="269.0" text="Observação *" AnchorPane.leftAnchor="559.0" AnchorPane.topAnchor="278.0" />
             <TextField fx:id="txtQuantidade" layoutX="376.0" layoutY="167.0" prefHeight="25.0" prefWidth="38.0" text="1" />
-            <Label layoutX="65.0" layoutY="151.0" text="Produto/Despesa" />
+            <Label layoutX="65.0" layoutY="151.0" text="Produto/Serviço" />
             <Label layoutX="376.0" layoutY="151.0" text="Qtde" />
             <Label layoutX="431.0" layoutY="151.0" text="Preço" />
             <Label layoutX="657.0" layoutY="23.0" text="R$" textFill="#3008f8">

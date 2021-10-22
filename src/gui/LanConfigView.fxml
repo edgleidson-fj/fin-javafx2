@@ -19,7 +19,10 @@
       <AnchorPane maxHeight="-Infinity" prefHeight="464.0" prefWidth="737.0">
          <children>
             <ToolBar layoutX="6.0" layoutY="149.0" prefHeight="0.0" prefWidth="727.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="142.0" />
-            <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtItemAction" prefHeight="42.0" prefWidth="104.0" text="Adicionar Item" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="155.0" />
+            <Button fx:id="btItem" layoutX="547.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBtItemAction" prefHeight="42.0" prefWidth="104.0" stylesheets="@zBotaoAdicionar.css" text="Adicionar" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="155.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
             <TextField fx:id="txtItem" layoutX="67.0" layoutY="167.0" prefHeight="25.0" prefWidth="288.0" promptText="Informe um item para adicionar ao lancamento" AnchorPane.topAnchor="170.0" />
             <TextField fx:id="txtPrecoUnid" layoutX="431.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" promptText="0,00" AnchorPane.topAnchor="170.0" />
             <TextField fx:id="txtReferencia" layoutX="140.0" layoutY="66.0" prefHeight="25.0" prefWidth="420.0" promptText=" Informe uma referência para o lancamento" />
@@ -31,7 +34,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" stylesheets="@zBotaoCancelar.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
+            <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
               <columns>
                   <TableColumn fx:id="colunaReajustar" prefWidth="73.0" />
                   <TableColumn fx:id="colunaRemover" prefWidth="70.0" />
@@ -42,13 +45,19 @@
                 <TableColumn fx:id="colunaDespValorTotal" prefWidth="70.0" text="Total" />
               </columns>
             </TableView>
-            <Button fx:id="btAtualizar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtAtualizar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoConfirmar.css" text="Atualizar" />
+            <Button fx:id="btAtualizar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtAtualizar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoConfirmar.css" text="Atualizar">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
             <Label fx:id="lbTotal" layoutX="569.0" layoutY="96.0" prefHeight="35.0" prefWidth="178.0" text="0,00" textFill="#3008f8" AnchorPane.leftAnchor="610.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Button fx:id="btVoltar" layoutX="394.0" layoutY="396.0" mnemonicParsing="false" onAction="#onBtVoltar" prefHeight="42.0" prefWidth="92.0" stylesheets="@zBotaoVoltar.css" text="Voltar" AnchorPane.leftAnchor="240.0" />
+            <Button fx:id="btVoltar" layoutX="394.0" layoutY="396.0" mnemonicParsing="false" onAction="#onBtVoltar" prefHeight="42.0" prefWidth="92.0" stylesheets="@zBotaoVoltar.css" text="Voltar" AnchorPane.leftAnchor="240.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
             <Label fx:id="lbStatus" layoutX="579.0" layoutY="9.0" prefHeight="53.0" prefWidth="131.0" text="EM ABERTO" textFill="#f20303" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0">
                <font>
                   <Font size="24.0" />
@@ -59,7 +68,10 @@
             <Label layoutX="546.0" layoutY="277.0" text="Acréscimo" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="185.0" />
             <TextField fx:id="txtDesconto" layoutX="609.0" layoutY="237.0" prefHeight="25.0" prefWidth="51.0" text="0.00" AnchorPane.leftAnchor="685.0" AnchorPane.topAnchor="159.0" />
             <TextField fx:id="txtAcrescimo" layoutX="609.0" layoutY="273.0" prefHeight="25.0" prefWidth="51.0" text="0.00" AnchorPane.leftAnchor="685.0" AnchorPane.topAnchor="185.0" />
-            <Button fx:id="btAplicarDescontoOuAcrescimo" layoutX="666.0" layoutY="250.0" mnemonicParsing="false" onAction="#AplicarDescontoOuAcrescimo" text="Aplicar" AnchorPane.leftAnchor="740.0" AnchorPane.topAnchor="170.0" />
+            <Button fx:id="btAplicarDescontoOuAcrescimo" layoutX="666.0" layoutY="250.0" mnemonicParsing="false" onAction="#AplicarDescontoOuAcrescimo" stylesheets="@zBotaoAdicionar.css" text="Aplicar" AnchorPane.leftAnchor="740.0" AnchorPane.topAnchor="170.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <TextField fx:id="txtQuantidade" layoutX="372.0" layoutY="167.0" prefHeight="25.0" prefWidth="44.0" AnchorPane.topAnchor="170.0" />
             <Label layoutX="67.0" layoutY="151.0" text="Produto/Serviço" AnchorPane.topAnchor="154.0" />
             <Label layoutX="372.0" layoutY="151.0" text="Qtde" AnchorPane.topAnchor="154.0" />

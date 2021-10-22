@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <HBox styleClass="background" stylesheets="@zTema.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EditarDespesaDialogFormController">
    <children>
@@ -14,8 +15,14 @@
             <Label layoutX="14.0" layoutY="77.0" text="Valor Unid" />
             <TextField fx:id="txtNome" layoutX="51.0" layoutY="41.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="20.0" />
             <TextField fx:id="txtPrecoUnid" layoutX="108.0" layoutY="73.0" prefHeight="25.0" prefWidth="72.0" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.0" />
-            <Button fx:id="btConfirmar" layoutX="29.0" layoutY="144.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Confirma" />
-            <Button fx:id="btVoltar" layoutX="115.0" layoutY="144.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" />
+            <Button fx:id="btConfirmar" layoutX="29.0" layoutY="144.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Confirmar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="btVoltar" layoutX="115.0" layoutY="144.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <TextField fx:id="txtId" layoutX="51.0" layoutY="8.0" prefHeight="25.0" prefWidth="33.0" />
             <Label layoutX="17.0" layoutY="12.0" text="ID" />
             <Label layoutX="11.0" layoutY="112.0" text="Quantidade" />

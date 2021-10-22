@@ -25,8 +25,14 @@
                <children>
                   <TextField fx:id="txtId" editable="false" layoutX="227.0" layoutY="47.0" prefHeight="27.0" prefWidth="40.0" promptText="ID" />
                   <TextField fx:id="txtNome" layoutX="277.0" layoutY="36.0" prefHeight="25.0" prefWidth="149.0" promptText="Nome" />
-                  <Button fx:id="btSalvar" layoutX="267.0" layoutY="160.0" mnemonicParsing="false" onAction="#onBtSalvar" prefHeight="25.0" prefWidth="56.0" stylesheets="@zBotaoConfirmar.css" text="Salvar" />
-                  <Button fx:id="btVoltar" layoutX="352.0" layoutY="160.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" />
+                  <Button fx:id="btSalvar" layoutX="267.0" layoutY="160.0" mnemonicParsing="false" onAction="#onBtSalvar" prefHeight="25.0" prefWidth="56.0" stylesheets="@zBotaoConfirmar.css" text="Salvar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <Button fx:id="btVoltar" layoutX="352.0" layoutY="160.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
                   <TextField fx:id="txtSenha" layoutX="277.0" layoutY="128.0" promptText="Nova Senha" />
                   <Separator layoutX="201.0" layoutY="33.0" prefHeight="2.0" prefWidth="248.0" />
                   <Separator layoutX="201.0" layoutY="183.0" prefHeight="3.0" prefWidth="248.0" />

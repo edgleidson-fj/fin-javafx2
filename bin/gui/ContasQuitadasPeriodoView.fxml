@@ -33,13 +33,16 @@
             </TableView>
             <DatePicker fx:id="datePickerDataInicial" layoutX="235.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Inicial" AnchorPane.leftAnchor="218.0" AnchorPane.topAnchor="80.0" />
             <DatePicker fx:id="datePickerDataFinal" layoutX="354.0" layoutY="55.0" prefHeight="25.0" prefWidth="116.0" promptText="Data Final" AnchorPane.leftAnchor="338.0" AnchorPane.topAnchor="80.0" />
-            <Button fx:id="btConsultar" layoutX="477.0" layoutY="55.0" mnemonicParsing="false" onAction="#onConsulta" text="Consultar" AnchorPane.leftAnchor="457.0" AnchorPane.topAnchor="80.0" />
+            <Button fx:id="btConsultar" layoutX="477.0" layoutY="55.0" mnemonicParsing="false" onAction="#onConsulta" stylesheets="@zBotaoConsultar.css" text="Consultar" AnchorPane.leftAnchor="457.0" AnchorPane.topAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <Label fx:id="lbTotal" layoutX="604.0" layoutY="33.0" prefHeight="35.0" prefWidth="116.0" textFill="#3008f8" AnchorPane.leftAnchor="604.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="70.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="218.0" layoutY="55.0" prefHeight="25.0" prefWidth="215.0" promptText="Referência ou item" AnchorPane.topAnchor="50.0" />
+            <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="218.0" layoutY="55.0" prefHeight="25.0" prefWidth="236.0" promptText="Referência ou item" AnchorPane.topAnchor="50.0" />
          </children>
          <VBox.margin>
             <Insets />

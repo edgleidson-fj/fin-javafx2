@@ -429,12 +429,13 @@ public class LanConfigController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
-				setStyle("-fx-color: #FFFFFF");	
+				setStyle("-fx-color: #F0E68C");
 				botao.setOnAction(evento -> criarDialogForm(obj, "/gui/ReajustarFaturaDialogFormView.fxml",
 						Utils.stageAtual(evento)));
 				}
 		});
 	}
+		
 	
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -450,7 +451,8 @@ public class LanConfigController implements Initializable {
 				}
 				setGraphic(button);
 				button.setOnAction(event -> removerDespesa(obj));
-				setStyle("-fx-color: #FF6347");
+				setStyle("-fx-color: #FA8072");
+				//setStyle("-fx-color: #FA8072; -fx-font-weight: bold");
 		}
 		});
 	}

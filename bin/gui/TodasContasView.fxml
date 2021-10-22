@@ -31,9 +31,15 @@
               </columns>
             </TableView>
             <TextField fx:id="txtConsultaID" layoutX="21.0" layoutY="41.0" prefHeight="25.0" prefWidth="61.0" promptText="ID" />
-            <Button fx:id="btConsultaID" layoutX="89.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaID" text="Consultar" />
+            <Button fx:id="btConsultaID" layoutX="89.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaID" stylesheets="@zBotaoAdicionar.css" text="Consultar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="267.0" layoutY="41.0" prefHeight="25.0" prefWidth="205.0" promptText="Referência ou item" />
-            <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="479.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" text="Consultar" />
+            <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="479.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" stylesheets="@zBotaoAdicionar.css" text="Consultar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </children>

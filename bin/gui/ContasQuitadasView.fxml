@@ -30,7 +30,10 @@
               </columns>
             </TableView>
             <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="4.0" layoutY="41.0" promptText="Referência ou item" AnchorPane.leftAnchor="4.0" />
-            <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="160.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" text="Consultar" AnchorPane.leftAnchor="160.0" />
+            <Button fx:id="btConsultaIDReferenciaOuDespesa" layoutX="160.0" layoutY="41.0" mnemonicParsing="false" onAction="#onBtConsultaReferenciaOuDespesa" stylesheets="@zBotaoConsultar.css" text="Consultar" AnchorPane.leftAnchor="160.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </children>

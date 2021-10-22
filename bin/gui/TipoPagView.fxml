@@ -63,8 +63,14 @@
                               <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#onBtSalvar" stylesheets="@zBotaoConfirmar.css" text="Salvar">
                                  <HBox.margin>
                                     <Insets right="5.0" />
-                                 </HBox.margin></Button>
-                              <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#onBtCancelar" stylesheets="@zBotaoVoltar.css" text="Limpar" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Button>
+                              <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#onBtCancelar" text="Limpar">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Button>
                            </children>
                            <padding>
                               <Insets bottom="10.0" />
