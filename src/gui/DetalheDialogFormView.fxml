@@ -37,7 +37,7 @@
             </Label>
             <Label layoutX="208.0" layoutY="14.0" prefHeight="27.0" prefWidth="255.0" text="DETALHES DO LANÇAMENTO" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="133.0" AnchorPane.topAnchor="14.0">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
             <Label fx:id="lbDescontoAcrescimo" layoutX="348.0" layoutY="337.0" AnchorPane.leftAnchor="348.0">

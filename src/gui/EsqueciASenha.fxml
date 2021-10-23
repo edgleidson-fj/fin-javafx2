@@ -31,9 +31,9 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Label layoutX="312.0" layoutY="105.0" text="RECUPERAR SENHA">
+            <Label layoutX="312.0" layoutY="105.0" text="ATUALIZAR SENHA">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font></Label>
             <Label layoutX="312.0" layoutY="266.0" text="Nome" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="195.0" />
             <TextField fx:id="txtNome" layoutX="354.0" layoutY="191.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="191.0" />

@@ -17,7 +17,7 @@
          <children>
             <Label layoutX="254.0" layoutY="14.0" text="LANÇAMENTOS QUITADOS POR PERÍODO" AnchorPane.leftAnchor="215.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" maxHeight="305.0" prefHeight="305.0" prefWidth="892.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0">

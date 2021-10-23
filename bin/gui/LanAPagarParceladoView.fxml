@@ -34,13 +34,13 @@
             <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="75.0" promptText="ID" />
             <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTOS (A Pagar Parcelado)">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold Italic" size="22.0" />
                </font>
             </Label>
             <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
               <columns>
-                  <TableColumn fx:id="colunaEditar" prefWidth="55.0" />
-                  <TableColumn fx:id="colunaRemover" prefWidth="70.0" />
+                  <TableColumn prefWidth="55.0" resizable="false" />
+                  <TableColumn fx:id="colunaRemover" prefWidth="70.0" resizable="false" />
                   <TableColumn fx:id="colunaDespId" prefWidth="50.0" text="Código" />
                   <TableColumn fx:id="colunaDespNome" prefWidth="185.0" resizable="false" text="Item" />
                   <TableColumn fx:id="colunaDespValorUnid" prefWidth="60.0" text="Unid" />
@@ -68,7 +68,7 @@
             <TextArea fx:id="txtAreaObs" layoutX="559.0" layoutY="295.0" prefHeight="90.0" prefWidth="169.0" text="Compra feito no dia 00/00/00 - Total: R$ 0,00 - Parcelado em 0x -&#10;NFe: (00000000000000000000000000000000000000000000)." AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="295.0" />
             <Label layoutX="511.0" layoutY="269.0" text="Observação *" AnchorPane.leftAnchor="559.0" AnchorPane.topAnchor="278.0" />
             <TextField fx:id="txtQuantidade" layoutX="376.0" layoutY="167.0" prefHeight="25.0" prefWidth="38.0" text="1" />
-            <Label layoutX="65.0" layoutY="151.0" text="Produto/Despesa" />
+            <Label layoutX="65.0" layoutY="151.0" text="Produto/Serviço" />
             <Label layoutX="376.0" layoutY="151.0" text="Qtde" />
             <Label layoutX="431.0" layoutY="151.0" text="Preço" />
             <Label layoutX="657.0" layoutY="23.0" text="R$" textFill="#3008f8">

@@ -13,7 +13,7 @@
    <children>
       <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="440.0" text="RANKING POR TIPOS DE PAGAMENTO" textAlignment="CENTER">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
          <VBox.margin>
             <Insets bottom="15.0" left="150.0" top="5.0" />

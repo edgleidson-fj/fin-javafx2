@@ -16,7 +16,7 @@
          <children>
             <Label layoutX="254.0" layoutY="14.0" text="LANÇAMENTOS A PAGAR POR PERÍODO" AnchorPane.leftAnchor="215.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="113.0" prefHeight="348.0" prefWidth="737.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="113.0">

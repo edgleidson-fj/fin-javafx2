@@ -12,31 +12,31 @@
 
 <VBox prefHeight="414.0" prefWidth="696.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UsuarioController">
    <children>
-      <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="114.0" text="USUÁRIO" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="114.0" text="USUÁRIO" textAlignment="CENTER">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="250.0" top="20.0" />
+            <Insets bottom="15.0" left="300.0" top="30.0" />
          </VBox.margin></Label>
       <HBox prefHeight="404.0" prefWidth="740.0">
          <children>
             <Pane prefHeight="367.0" prefWidth="695.0">
                <children>
-                  <TextField fx:id="txtId" editable="false" layoutX="227.0" layoutY="47.0" prefHeight="27.0" prefWidth="40.0" promptText="ID" />
+                  <TextField fx:id="txtId" editable="false" layoutX="246.0" layoutY="36.0" prefHeight="27.0" prefWidth="29.0" promptText="ID" />
                   <TextField fx:id="txtNome" layoutX="277.0" layoutY="36.0" prefHeight="25.0" prefWidth="149.0" promptText="Nome" />
-                  <Button fx:id="btSalvar" layoutX="267.0" layoutY="160.0" mnemonicParsing="false" onAction="#onBtSalvar" prefHeight="25.0" prefWidth="56.0" stylesheets="@zBotaoConfirmar.css" text="Salvar">
+                  <Button fx:id="btSalvar" layoutX="290.0" layoutY="155.0" mnemonicParsing="false" onAction="#onBtSalvar" prefHeight="25.0" prefWidth="56.0" stylesheets="@zBotaoConfirmar.css" text="Salvar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Button fx:id="btVoltar" layoutX="352.0" layoutY="160.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar">
+                  <Button fx:id="btVoltar" layoutX="352.0" layoutY="155.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
                   <TextField fx:id="txtSenha" layoutX="277.0" layoutY="128.0" promptText="Nova Senha" />
-                  <Separator layoutX="201.0" layoutY="33.0" prefHeight="2.0" prefWidth="248.0" />
-                  <Separator layoutX="201.0" layoutY="183.0" prefHeight="3.0" prefWidth="248.0" />
-                  <Separator layoutX="198.0" layoutY="33.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="6.0" />
+                  <Separator layoutX="240.0" layoutY="33.0" prefHeight="2.0" prefWidth="205.0" />
+                  <Separator layoutX="240.0" layoutY="183.0" prefHeight="3.0" prefWidth="205.0" />
+                  <Separator layoutX="240.0" layoutY="33.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="6.0" />
                   <Separator layoutX="446.0" layoutY="33.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="6.0" />
                   <TextField fx:id="txtEmail" layoutX="277.0" layoutY="96.0" promptText="Email" />
                   <TextField fx:id="txtCPF" layoutX="277.0" layoutY="68.0" onKeyTyped="#mascaraCPF" promptText="CPF" />

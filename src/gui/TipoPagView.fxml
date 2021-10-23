@@ -16,9 +16,9 @@
 
 <VBox prefHeight="414.0" prefWidth="696.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TipoPagController">
    <children>
-      <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="267.0" text="TIPOS DE PAGAMENTOS" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="267.0" text="TIPOS DE PAGAMENTO" textAlignment="CENTER">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold Italic" size="22.0" />
          </font>
          <VBox.margin>
             <Insets bottom="15.0" left="200.0" top="5.0" />

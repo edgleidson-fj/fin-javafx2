@@ -34,13 +34,13 @@
             <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="75.0" promptText="ID" />
             <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTOS (Quitado)">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold Italic" size="22.0" />
                </font>
             </Label>
             <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
               <columns>
-                  <TableColumn fx:id="colunaEditar" prefWidth="55.0" />
-                  <TableColumn fx:id="colunaRemover" prefWidth="70.0" />
+                  <TableColumn fx:id="colunaRemover" prefWidth="70.0" resizable="false" />
+                  <TableColumn fx:id="colunaEditar" prefWidth="55.0" resizable="false" />
                   <TableColumn fx:id="colunaDespId" prefWidth="50.0" text="Código" />
                   <TableColumn fx:id="colunaDespNome" prefWidth="185.0" resizable="false" text="Item" />
                   <TableColumn fx:id="colunaDespValorUnid" maxWidth="60.0" prefWidth="60.0" text="Unid" />
@@ -64,7 +64,7 @@
             <Label fx:id="lbUsuario" layoutX="14.0" layoutY="440.0" text="Label" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="729.0" />
             <Label layoutX="639.0" layoutY="159.0" text="Desconto" AnchorPane.leftAnchor="653.0" AnchorPane.topAnchor="160.0" />
             <TextField fx:id="txtQuantidade" layoutX="377.0" layoutY="167.0" prefHeight="25.0" prefWidth="41.0" text="1" AnchorPane.topAnchor="167.0" />
-            <Label layoutX="67.0" layoutY="151.0" text="Produto/Despesa" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="152.0" />
+            <Label layoutX="67.0" layoutY="151.0" text="Produto/Serviço" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="152.0" />
             <Label layoutX="369.0" layoutY="151.0" text="Qtde" AnchorPane.bottomAnchor="294.0" AnchorPane.leftAnchor="369.0" AnchorPane.topAnchor="152.0" />
             <Label layoutX="431.0" layoutY="151.0" text="Preço" AnchorPane.leftAnchor="431.0" AnchorPane.topAnchor="152.0" />
             <Label layoutX="589.0" layoutY="23.0" text="R$" textFill="#3008f8">

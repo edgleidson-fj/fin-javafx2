@@ -40,7 +40,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
@@ -91,8 +93,6 @@ public class LanAPagarParceladoController implements Initializable {
 	private TableView<Despesa> tbDespesa;
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaRemover;
-	@FXML
-	private TableColumn<Despesa, Despesa> colunaEditar;
 	@FXML
 	private TableColumn<Despesa, Integer> colunaDespId;
 	@FXML
@@ -345,8 +345,7 @@ public class LanAPagarParceladoController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-
-	
+		
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {

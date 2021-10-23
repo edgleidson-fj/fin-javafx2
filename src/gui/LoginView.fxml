@@ -14,34 +14,29 @@
       <AnchorPane prefHeight="300.0" prefWidth="780.0">
          <children>
             <Label layoutX="314.0" layoutY="195.0" text="CPF" AnchorPane.leftAnchor="314.0" />
-            <Label layoutX="307.0" layoutY="231.0" text="Senha" AnchorPane.leftAnchor="307.0" />
-            <TextField fx:id="txtCPF" layoutX="119.0" layoutY="137.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="999.999.999-99" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="190.0" />
-            <Button fx:id="btEntrar" layoutX="347.0" layoutY="266.0" mnemonicParsing="false" onAction="#onBtConfirmar" stylesheets="@zBotaoConfirmar.css" text="Entrar" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="266.0">
+            <Label layoutX="307.0" layoutY="231.0" text="Senha" AnchorPane.leftAnchor="307.0" AnchorPane.topAnchor="225.0" />
+            <TextField fx:id="txtCPF" layoutX="119.0" layoutY="137.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="116.0" promptText="999.999.999-99" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="190.0" />
+            <Button fx:id="btEntrar" layoutX="347.0" layoutY="266.0" mnemonicParsing="false" onAction="#onBtConfirmar" prefHeight="25.0" prefWidth="141.0" stylesheets="@zBotaoConfirmar.css" text="Entrar" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="250.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="btCriarUsuario" layoutX="438.0" layoutY="266.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" prefHeight="25.0" prefWidth="73.0" text="Cadastrar" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="330.0">
+            <Button fx:id="btCriarUsuario" alignment="CENTER" contentDisplay="CENTER" layoutX="347.0" layoutY="304.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" prefHeight="25.0" prefWidth="141.0" text="Cadastrar" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="280.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <PasswordField fx:id="txtSenha" layoutX="362.0" layoutY="227.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="227.0" />
+            <PasswordField fx:id="txtSenha" layoutX="362.0" layoutY="227.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="220.0" />
             <Separator layoutX="290.0" layoutY="161.0" prefHeight="0.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="235.0" AnchorPane.topAnchor="150.0" />
             <Separator layoutX="291.0" layoutY="310.0" prefHeight="3.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="235.0" AnchorPane.topAnchor="360.0" />
             <Separator layoutX="287.0" layoutY="152.0" orientation="VERTICAL" prefHeight="207.0" prefWidth="24.0" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="152.0" />
             <Separator layoutX="547.0" layoutY="152.0" orientation="VERTICAL" prefHeight="207.0" prefWidth="4.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="152.0" />
-            <Button fx:id="btEsqueciSenha" layoutX="304.0" layoutY="324.0" mnemonicParsing="false" onAction="#onBtEsqueciASenha" text="Esqueci a senha" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="410.0">
+            <Button fx:id="btEsqueciSenha" layoutX="296.0" layoutY="330.0" mnemonicParsing="false" onAction="#onBtEsqueciASenha" text="Esqueci a senha" AnchorPane.leftAnchor="296.0" AnchorPane.topAnchor="335.0">
+               <font>
+                  <Font name="System Bold" size="9.0" />
+               </font></Button>
+            <Button fx:id="btLimpar" layoutX="465.0" layoutY="191.0" mnemonicParsing="false" onAction="#onBtLimpar" text="x" AnchorPane.topAnchor="190.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="btLimpar" layoutX="418.0" layoutY="266.0" mnemonicParsing="false" onAction="#onBtLimpar" text="Limpar" AnchorPane.leftAnchor="418.0" AnchorPane.rightAnchor="309.0" AnchorPane.topAnchor="266.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Button>
-            <Label layoutX="404.0" layoutY="108.0" text="LOGIN" AnchorPane.leftAnchor="404.0" AnchorPane.rightAnchor="323.0" AnchorPane.topAnchor="108.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
    </children>
