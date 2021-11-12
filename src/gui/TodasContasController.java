@@ -222,7 +222,7 @@ public class TodasContasController implements Initializable {
 	private void criarBotaoConfig() {
 		colunaConfig.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaConfig.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
-			private final Button botao = new Button("@");
+			private final Button botao = new Button("Config.");
 
 			@Override
 			protected void updateItem(Lancamento obj, boolean vazio) {

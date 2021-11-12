@@ -151,13 +151,14 @@ public class LanQuitadoController implements Initializable {
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
+		if(txtId.getText().equals("")) {
 		total += 0.0;
 		Date hoje = new Date();
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
 		if (txtReferencia.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir registro do lançamento ", AlertType.WARNING);
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir referência do lançamento ", AlertType.WARNING);
 		} else {
 			if (datePickerData.getValue() == null) {
 				obj.setData(hoje);
@@ -177,11 +178,16 @@ public class LanQuitadoController implements Initializable {
 			idLan = id;
 			ref = txtReferencia.getText();
 		}
+		}
+		else {
+			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir os itens(Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
+		}
 	}
 
 	@FXML
 	public void onBtItemAction(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
+		if(!txtItem.getText().equals("")) {
 		// Lancamento
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -228,6 +234,10 @@ public class LanQuitadoController implements Initializable {
 		obj.setTotal(soma);
 		lancamentoService.atualizar(obj);
 	}
+		else {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do item(Produto/Serviço) do lançamento ", AlertType.WARNING);
+		}
+		}
 
 	@FXML
 	public void onBtItemPagamento(ActionEvent evento) {

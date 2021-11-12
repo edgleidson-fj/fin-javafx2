@@ -118,12 +118,13 @@ public class LanAPagarController implements Initializable {
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
+		if(txtId.getText().equals("")) {
 		total += 0.0;
 		Lancamento obj = new Lancamento();
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
 		if(txtReferencia.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir registro do lançamento ", AlertType.WARNING);
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir referência do lançamento ", AlertType.WARNING);
 		}
 		else {
 		if (datePickerData.getValue() == null) {
@@ -143,11 +144,16 @@ public class LanAPagarController implements Initializable {
 		int id = obj.getId();
 		idLan = id;
 		}
+		}
+		else {
+			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir os itens(Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
+		}
 	}
 
 	@FXML
 	public void onBtADDItem(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
+		if(!txtItem.getText().equals("")) {
 		// Lancamento
 		Lancamento obj = new Lancamento();
 		lbTotal.setText(String.valueOf(obj.getTotal()));
@@ -189,6 +195,10 @@ public class LanAPagarController implements Initializable {
 			lbTotal.setText(String.format("%.2f", soma));
 			obj.setTotal(soma);
 			lancamentoService.atualizar(obj);	
+		}
+		else {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do item(Produto/Serviço) do lançamento ", AlertType.WARNING);
+		}
 		}
 		 
 	@FXML

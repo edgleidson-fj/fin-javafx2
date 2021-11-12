@@ -30,9 +30,9 @@
                </font></Button>
             <TextField fx:id="txtReferencia" layoutX="140.0" layoutY="66.0" prefHeight="25.0" prefWidth="420.0" promptText=" Informe uma referência para o lancamento" />
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" />
-            <Label layoutX="141.0" layoutY="49.0" text="Referência" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="49.0" />
+            <Label layoutX="141.0" layoutY="49.0" text="Referência*" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="49.0" />
             <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="75.0" promptText="ID" />
-            <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTOS (Quitado)">
+            <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTO (Quitado)">
                <font>
                   <Font name="System Bold Italic" size="22.0" />
                </font>
@@ -64,7 +64,7 @@
             <Label fx:id="lbUsuario" layoutX="14.0" layoutY="440.0" text="Label" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="729.0" />
             <Label layoutX="639.0" layoutY="159.0" text="Desconto" AnchorPane.leftAnchor="653.0" AnchorPane.topAnchor="160.0" />
             <TextField fx:id="txtQuantidade" layoutX="377.0" layoutY="167.0" prefHeight="25.0" prefWidth="41.0" text="1" AnchorPane.topAnchor="167.0" />
-            <Label layoutX="67.0" layoutY="151.0" text="Produto/Serviço" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="152.0" />
+            <Label layoutX="67.0" layoutY="151.0" text="Produto/Serviço*" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="152.0" />
             <Label layoutX="369.0" layoutY="151.0" text="Qtde" AnchorPane.bottomAnchor="294.0" AnchorPane.leftAnchor="369.0" AnchorPane.topAnchor="152.0" />
             <Label layoutX="431.0" layoutY="151.0" text="Preço" AnchorPane.leftAnchor="431.0" AnchorPane.topAnchor="152.0" />
             <Label layoutX="589.0" layoutY="23.0" text="R$" textFill="#3008f8">
@@ -89,7 +89,7 @@
                           </columns>
                         </TableView>
                         <ComboBox fx:id="cmbTipoPag" layoutX="54.0" layoutY="76.0" prefHeight="25.0" prefWidth="92.0" AnchorPane.topAnchor="40.0" />
-                        <Label layoutX="37.0" layoutY="23.0" text="Forma de Pagamento" AnchorPane.leftAnchor="1.0" />
+                        <Label layoutX="37.0" layoutY="23.0" text="Forma de Pagamento*" AnchorPane.leftAnchor="1.0" />
                         <TextField fx:id="txtDesconto" layoutX="86.0" layoutY="-10.0" prefHeight="25.0" prefWidth="51.0" promptText="0,00" text="0.00" />
                         <Button fx:id="btDesconto" layoutX="146.0" layoutY="-10.0" mnemonicParsing="false" onAction="#onBtDesconto" stylesheets="@zBotaoAdicionar.css" text="Aplicar" AnchorPane.leftAnchor="140.0">
                            <font>

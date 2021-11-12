@@ -125,15 +125,16 @@ public class LanAPagarParceladoController implements Initializable {
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
+		if(txtId.getText().equals("")) {
 		total += 0.0;
 		Lancamento obj = new Lancamento();
 		obj.setTotal(total);
 		if(txtReferencia.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir registro do lançamento ", AlertType.WARNING);
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir referência do lançamento", AlertType.WARNING);
 		}
 		else {
 		if (datePickerData.getValue() == null) {
-			Alertas.mostrarAlerta("", null, "Necessário informar a data para pagamento", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para o 1º pagamento", AlertType.WARNING);
 		} else {
 			parcela = Utils.stringParaInteiro(txtParcela.getText());
 			LocalDate dtPicker = datePickerData.getValue();
@@ -169,11 +170,16 @@ public class LanAPagarParceladoController implements Initializable {
 			aux = id - parcela;
 		}
 		}
+		}
+		else {
+			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir os itens(Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
+		}
 	}
 
 	@FXML
 	public void onBtADDItem(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
+		if(!txtItem.getText().equals("")) {
 		// Despesa
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
@@ -221,6 +227,10 @@ public class LanAPagarParceladoController implements Initializable {
 			lancamentoService.atualizar(obj);
 		}
 		lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+		}
+		else {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do item(Produto/Serviço) do lançamento ", AlertType.WARNING);
+		}
 		}
 	
 	@FXML

@@ -14,7 +14,7 @@
          <children>
             <TableView fx:id="tbLancamento" layoutX="7.0" layoutY="80.0" prefHeight="452.0" prefWidth="735.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="80.0">
               <columns>
-                  <TableColumn fx:id="colunaConfig" minWidth="5.0" prefWidth="42.0" />
+                  <TableColumn fx:id="colunaConfig" minWidth="5.0" prefWidth="60.0" resizable="false" />
                 <TableColumn fx:id="colunaLanId" prefWidth="54.0" text="ID" />
                 <TableColumn fx:id="colunaLanData" prefWidth="82.0" text="DATA" />
                   <TableColumn fx:id="colunaLanRef" prefWidth="280.0" text="REFERÊNCIA" />

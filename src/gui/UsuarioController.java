@@ -60,6 +60,7 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 
 	public void onBtSalvar() {
 		try {
+			if(!txtNome.getText().equals("") & !txtEmail.getText().equals("") & !txtCPF.getText().equals("") & !txtSenha.getText().equals("")) {
 			if (txtId.getText().equals("")) {
 				x = 1;
 				entidade = dadosDoCampoDeTexto();
@@ -72,7 +73,11 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 				service.atualizar(entidade);
 				atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 				Alertas.mostrarAlerta(null, "Atualização realizado com sucesso!", null, AlertType.INFORMATION);
+			}			
 			}
+			else {
+				Alertas.mostrarAlerta("Atenção", "Nome, CPF, Email e/ou Senha em branco", null, AlertType.WARNING);
+				}
 		} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar", null, ex.getMessage(), AlertType.ERROR);
 		}

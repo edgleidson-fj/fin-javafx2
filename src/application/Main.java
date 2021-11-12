@@ -26,7 +26,7 @@ public class Main extends Application {
 
 			mainScene = new Scene(scrollPane);
 			primaryStage.setScene(mainScene);
-			primaryStage.setTitle("Gerenciador de despesas");
+			primaryStage.setTitle("Minhas Despesas");
 			primaryStage.setResizable(false);
 			primaryStage.show();
 

@@ -15,18 +15,18 @@
             <Label layoutX="314.0" layoutY="195.0" text="CPF" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="220.0" />
             <Label layoutX="314.0" layoutY="231.0" text="Email" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="250.0" />
             <TextField fx:id="txtCPF" layoutX="362.0" layoutY="227.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="999.999.999-99" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="220.0" />
-            <Button fx:id="btRecuperar" layoutX="310.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtRecuperarSenha" stylesheets="@zBotaoConfirmar.css" text="Confirmar" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="310.0" AnchorPane.topAnchor="317.0">
+            <Button fx:id="btRecuperar" layoutX="310.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtRecuperarSenha" stylesheets="@zBotaoConfirmar.css" text="Confirmar" AnchorPane.leftAnchor="310.0" AnchorPane.topAnchor="317.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="btVoltar" layoutX="451.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="451.0">
+            <Button fx:id="btVoltar" layoutX="451.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar" AnchorPane.leftAnchor="451.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
             <Separator layoutX="290.0" layoutY="161.0" prefHeight="0.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="265.0" AnchorPane.topAnchor="150.0" />
             <Separator layoutX="291.0" layoutY="310.0" prefHeight="3.0" prefWidth="254.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="265.0" AnchorPane.topAnchor="360.0" />
-            <Separator layoutX="287.0" layoutY="152.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="127.0" AnchorPane.topAnchor="152.0" />
-            <Separator layoutX="545.0" layoutY="152.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="516.0" AnchorPane.topAnchor="152.0" />
+            <Separator layoutX="287.0" layoutY="152.0" orientation="VERTICAL" prefHeight="207.0" prefWidth="6.0" AnchorPane.topAnchor="152.0" />
+            <Separator layoutX="545.0" layoutY="152.0" orientation="VERTICAL" prefHeight="207.0" prefWidth="6.0" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="152.0" />
             <Button fx:id="btLimpar" layoutX="391.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtLimpar" text="Limpar" AnchorPane.leftAnchor="391.0">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -36,7 +36,7 @@
                   <Font name="System Bold Italic" size="18.0" />
                </font></Label>
             <Label layoutX="312.0" layoutY="266.0" text="Nome" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="195.0" />
-            <TextField fx:id="txtNome" layoutX="354.0" layoutY="191.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="191.0" />
+            <TextField fx:id="txtNome" layoutX="354.0" layoutY="191.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="191.0" />
             <Label layoutX="309.0" layoutY="293.0" text="Senha" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="280.0" />
             <TextField fx:id="txtNovaSenha" layoutX="347.0" layoutY="289.0" promptText="Nova senha" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="280.0" />
             <TextField fx:id="txtEmail" layoutX="124.0" layoutY="166.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="250.0" />
