@@ -49,6 +49,8 @@ public class EditarDespesaDialogFormController implements Initializable{
 	@FXML
 	private TextField txtQuantidade;
 	@FXML
+	private TextField txtDesconto;
+	@FXML
 	private Button btConfirmar;
 	@FXML
 	private Button btVoltar;	
@@ -62,10 +64,13 @@ public class EditarDespesaDialogFormController implements Initializable{
 		desp.setNome(txtNome.getText());
 		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
-		double valorUnid, quantidade;
+		desp.setDescontoIndividual(Utils.stringParaDouble(txtDesconto.getText()));
+		double valorUnid, quantidade, desconto;
 		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-		desp.setPrecoTotal(valorUnid * quantidade);
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		desp.setPrecoBruto(valorUnid * quantidade);
+		desp.setPrecoTotal((valorUnid * quantidade)- desconto);
 		despesaService.atualizar(desp);	
 			
 		parentStage.close();			
@@ -119,13 +124,15 @@ public class EditarDespesaDialogFormController implements Initializable{
 		txtNome.setText(despesaEntidade.getNome());
 		txtPrecoUnid.setText(String.valueOf(despesaEntidade.getPrecoUnid()));
 		txtQuantidade.setText(String.valueOf(despesaEntidade.getQuantidade()));
+		txtDesconto.setText(String.valueOf(despesaEntidade.getDescontoIndividual()));
 	}	
 	
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtNome, 50);
+		Restricoes.setTextFieldTamanhoMaximo(txtNome, 60);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldInteger(txtQuantidade);
+		Restricoes.setTextFieldDouble(txtDesconto);
 		}
 	// -----------------------------------------------------------------
 	

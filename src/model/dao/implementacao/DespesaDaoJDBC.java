@@ -29,13 +29,15 @@ public class DespesaDaoJDBC implements DespesaDao {
 		try {
 			ps = connection.prepareStatement(
 					"INSERT INTO despesa " 
-							+ "(nome, quantidade, precoUnid, precoTotal) " 
-							+ "VALUES  ( ?,?,?,?) ",
+							+ "(nome, quantidade, precoUnid, precoTotal, desconto, precoBruto) " 
+							+ "VALUES  ( ?,?,?,?,?,?) ",
 					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, obj.getNome());
 			ps.setInt(2, obj.getQuantidade());
 			ps.setDouble(3, obj.getPrecoUnid());
 			ps.setDouble(4, obj.getPrecoTotal());
+			ps.setDouble(5, obj.getDescontoIndividual());
+			ps.setDouble(6, obj.getPrecoBruto());
 			int linhasAfetadas = ps.executeUpdate();
 			if (linhasAfetadas > 0) {
 				ResultSet rs = ps.getGeneratedKeys(); // ID gerado no Insert.
@@ -63,13 +65,17 @@ public class DespesaDaoJDBC implements DespesaDao {
 			+ "SET nome = ?, " 
 			+ "precoUnid = ?, "
 			+ "quantidade = ?, "
-			+ "precoTotal = ? " 
+			+ "precoBruto = ?, "
+			+ "precoTotal = ?, "
+			+ "desconto = ? " 
 			+ "WHERE id = ? ");
 			ps.setString(1, obj.getNome());
 			ps.setDouble(2, obj.getPrecoUnid());
 			ps.setInt(3, obj.getQuantidade());
-			ps.setDouble(4, obj.getPrecoTotal());
-			ps.setInt(5, obj.getId());
+			ps.setDouble(4, obj.getPrecoBruto());
+			ps.setDouble(5, obj.getPrecoTotal());
+			ps.setDouble(6, obj.getDescontoIndividual());
+			ps.setInt(7, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());
@@ -159,7 +165,9 @@ public class DespesaDaoJDBC implements DespesaDao {
 				d.setId(rs.getInt("d.id"));
 				d.setQuantidade(rs.getInt("d.quantidade"));
 				d.setPrecoUnid(rs.getDouble("precoUnid"));
+				d.setPrecoBruto(rs.getDouble("precoBruto"));
 				d.setPrecoTotal(rs.getDouble("precoTotal"));
+				d.setDescontoIndividual(rs.getDouble("d.desconto"));
 				lista.add(d);
 			}
 			rs.close();

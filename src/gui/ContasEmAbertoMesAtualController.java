@@ -151,7 +151,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();
-				controle.carregarValorInicial();
+				//controle.carregarValorInicial();
 			}
 
 			Stage stageDialog = new Stage();

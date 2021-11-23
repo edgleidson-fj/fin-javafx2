@@ -77,7 +77,9 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private Label lbTotal;
 	@FXML
-	private Label lbDesconto;
+	private Label lbDescontoGlobal;
+	@FXML
+	private Label lbDescontoIndividual;
 	@FXML
 	private Label lbPago;
 	@FXML
@@ -95,7 +97,11 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorUnid;
 	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorBruto;
+	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorTotal;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespDesconto;
 	@FXML
 	private TableView<ItemPagamento> tbTipoPag;
 	@FXML
@@ -118,7 +124,7 @@ public class PagamentoDialogFormController implements Initializable {
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<ItemPagamento> obsListaItemTipoPag;
 	// ---------------------------------------------------------
-	double desconto, acrescimo, total;
+	double descGlobal, acrescimo, total, descInd;
 
 	@FXML
 	public void onBtItemPagamento(ActionEvent evento) {
@@ -178,11 +184,6 @@ public class PagamentoDialogFormController implements Initializable {
 		txtTipoPagValor.setText(String.format("%.2f", valorDiferenca));
 	}
 
-	public void carregarValorInicial() {
-		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
-		lbDiferenca.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
-	}
-
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		if (lbPago.getText().equals(lbTotal.getText())) {
@@ -191,7 +192,9 @@ public class PagamentoDialogFormController implements Initializable {
 			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 			Date hoje = new Date();
 			obj.setData(hoje);
-			obj.setDesconto(Utils.stringParaDouble(lbDesconto.getText()));
+			descInd = Utils.stringParaDouble(lbDescontoIndividual.getText());
+			descGlobal = Utils.stringParaDouble(lbDescontoGlobal.getText()); 
+			obj.setDesconto(descInd + descGlobal);
 			obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
 			lancamentoService.confirmarPagamento(obj);
 			Utils.stageAtual(evento).close();
@@ -216,21 +219,21 @@ public class PagamentoDialogFormController implements Initializable {
 
 	public void onBtDescontoOuAcrescimo() {
 		Double soma = 0.0;
+		descInd = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPrecoTotal();
+			soma += tab.getPrecoBruto();
+			descInd += tab.getDescontoIndividual();
 		}
-		double total = soma;
-
-		desconto = Utils.stringParaDouble(txtDesconto.getText());
-		lbDesconto.setText(String.format("%.2f", desconto));
-		total -= desconto;
-
+		descGlobal = Utils.stringParaDouble(txtDesconto.getText());
+		lbDescontoGlobal.setText(String.format("%.2f", descGlobal));
+		soma -= descGlobal + descInd;
+		
 		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
 		lbAcrescimo.setText(String.format("%.2f", acrescimo));
-		total += acrescimo;
+		soma += acrescimo;
 
-		lbTotal.setText(String.format("%.2f", total));
-		lbDiferenca.setText(String.format("%.2f", total));
+		lbTotal.setText(String.format("%.2f", soma));
+		lbDiferenca.setText(String.format("%.2f", soma));
 
 		txtDesconto.setText("0.00");
 		txtAcrescimo.setText("0.00");
@@ -276,11 +279,15 @@ public class PagamentoDialogFormController implements Initializable {
 		Restricoes.setTextFieldDouble(txtDesconto);
 		Restricoes.setTextFieldDouble(txtAcrescimo);
 
-		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
+		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
+		Utils.formatTableColumnValorDecimais(colunaDespDesconto, 2);
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
 
@@ -295,15 +302,14 @@ public class PagamentoDialogFormController implements Initializable {
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		lbDesconto.setText(String.format("%.2f", lancamentoEntidade.getDesconto()));
 		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
-		lbDiferenca.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 	}
 
 	public void carregarTableView() {
 		List<Despesa> listaDespesa = despesaService.listarPorId(lancamentoEntidade.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
+		carregarValores();
 	}
 
 	public void carregarObjetosAssociados() {
@@ -391,4 +397,18 @@ public class PagamentoDialogFormController implements Initializable {
 			}
 		}
 	}
+	
+	public void carregarValores() {
+		Double soma = 0.0;
+		descInd = 0.0;
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPrecoBruto();
+			descInd += tab.getDescontoIndividual();
+		}		
+		lbTotal.setText(String.format("%.2f", soma - descInd));
+		lbDiferenca.setText(String.format("%.2f", soma - descInd));
+		lbDescontoIndividual.setText(String.format("%.2f", descInd));
+		txtTipoPagValor.setText(lbDiferenca.getText());
+}
+
 }

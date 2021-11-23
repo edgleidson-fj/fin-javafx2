@@ -72,7 +72,7 @@ public class LanAPagarController implements Initializable {
 	@FXML
 	private TextField txtPrecoUnid;
 	@FXML
-	private TextField txtPrecoTotal;
+	private TextField txtDescontoIndividual;
 	@FXML
 	private Label lbTotal;
 	@FXML
@@ -102,7 +102,11 @@ public class LanAPagarController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorUnid;
 	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorBruto;
+	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorTotal;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespDesconto;
 	@FXML 
 	private TextArea txtAreaObs;
 //--------------------------------------------------------
@@ -110,7 +114,7 @@ public class LanAPagarController implements Initializable {
 	private ObservableList<Despesa> obsListaDespesaTbView;
 // ---------------------------------------------------------
 
-	double total;
+	double total, descInd;
 	int idLan;
 	int idDesp;
 	int idItem;
@@ -146,7 +150,7 @@ public class LanAPagarController implements Initializable {
 		}
 		}
 		else {
-			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir os itens(Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
 		}
 	}
 
@@ -167,10 +171,13 @@ public class LanAPagarController implements Initializable {
 				desp.setNome(txtItem.getText());
 				desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
 				desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
-				double valorUnid, quantidade;
+				desp.setDescontoIndividual(Utils.stringParaDouble(txtDescontoIndividual.getText()));
+				double valorUnid, quantidade, descontoIndividual;
 				valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 				quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-				desp.setPrecoTotal(valorUnid * quantidade);
+				descontoIndividual = Utils.stringParaDouble(txtDescontoIndividual.getText());
+				desp.setPrecoBruto(valorUnid * quantidade);
+				desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
 				despesaService.salvar(desp);			
 		// Item
 		Item item = new Item();
@@ -181,23 +188,19 @@ public class LanAPagarController implements Initializable {
 		txtItem.setText("");
 		txtQuantidade.setText(String.valueOf(1));
 		txtPrecoUnid.setText(String.valueOf(0.00));
+		txtDescontoIndividual.setText(String.valueOf(0.00));
 		//Carregar TableView do Lançamento 
 		List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId()); 
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		  tbDespesa.setItems(obsListaDespesaTbView);			
 		  iniciarBotaoRemover();
 		  iniciarBotaoEditar();
-		// Valor Total
-			Double soma = 0.0;
-			for (Despesa tab : obsListaDespesaTbView) {
-				soma += tab.getPrecoTotal();
-			}
-			lbTotal.setText(String.format("%.2f", soma));
-			obj.setTotal(soma);
+			  carregarValores();
+			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 			lancamentoService.atualizar(obj);	
 		}
 		else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do item(Produto/Serviço) do lançamento ", AlertType.WARNING);
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do (Produto/Serviço).", AlertType.WARNING);
 		}
 		}
 		 
@@ -211,6 +214,7 @@ public class LanAPagarController implements Initializable {
 			}
 			else {
 			obj.setObs(txtAreaObs.getText());
+			obj.setDesconto(0.00);
 			lancamentoService.confirmarLanAPagar(obj);
 			 carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {			  
 			  controller.setLancamento(new Lancamento()); 
@@ -283,15 +287,20 @@ public class LanAPagarController implements Initializable {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
+		Restricoes.setTextFieldDouble(txtDescontoIndividual);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		
-		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
+		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
+		Utils.formatTableColumnValorDecimais(colunaDespDesconto, 2);
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
 	}
@@ -403,13 +412,8 @@ public class LanAPagarController implements Initializable {
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 				  tbDespesa.setItems(obsListaDespesaTbView);			
 				  iniciarBotaoRemover();				  
-				// Valor Total
-					Double soma = 0.0;
-					for (Despesa tab : obsListaDespesaTbView) {
-						soma += tab.getPrecoTotal();
-					}
-					lbTotal.setText(String.format("%.2f", soma));
-					lan.setTotal(soma);
+				  carregarValores();
+					lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 					lancamentoService.atualizar(lan);				
 				}
 			catch (BDIntegrityException ex) {
@@ -428,12 +432,7 @@ public class LanAPagarController implements Initializable {
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
 		//datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		//Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		// Valor Total
-		Double soma = 0.0;
-		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPrecoTotal();
-		}
-		lbTotal.setText(String.format("%.2f", soma));
+		carregarValores();
 	}
 	
 	public void carregarUsuarioLogado() {
@@ -453,4 +452,14 @@ public class LanAPagarController implements Initializable {
 			 }
 		 }
 	}
+	
+	public void carregarValores() {
+		Double soma = 0.0;
+		descInd = 0.0;
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPrecoTotal();
+			descInd += tab.getDescontoIndividual();
+		}
+		lbTotal.setText(String.format("%.2f", soma));
+}
 }

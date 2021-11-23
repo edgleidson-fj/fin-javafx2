@@ -181,6 +181,8 @@ public class ReajustarFaturaDialogFormController implements Initializable {
 		desp.setNome(txtNome.getText());
 		desp.setQuantidade(1);
 		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
+		desp.setPrecoBruto(Utils.stringParaDouble(txtPrecoUnid.getText()));
+		desp.setDescontoIndividual(0.00);
 		desp.setPrecoTotal(Utils.stringParaDouble(txtPrecoUnid.getText()));
 		despesaService.salvar(desp);
 

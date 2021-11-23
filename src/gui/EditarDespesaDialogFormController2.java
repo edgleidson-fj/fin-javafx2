@@ -22,11 +22,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
-import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.entidade.Usuario;
 import model.servico.DespesaService;
-import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.UsuarioService;
@@ -48,6 +46,8 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 	@FXML
 	private TextField txtQuantidade;
 	@FXML
+	private TextField txtDesconto;
+	@FXML
 	private Button btConfirmar;
 	@FXML
 	private Button btVoltar;	
@@ -61,10 +61,13 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 		desp.setNome(txtNome.getText());
 		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
-		double valorUnid, quantidade;
+		desp.setDescontoIndividual(Utils.stringParaDouble(txtDesconto.getText()));
+		double valorUnid, quantidade, desconto;
 		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-		desp.setPrecoTotal(valorUnid * quantidade);
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		desp.setPrecoBruto(valorUnid * quantidade);
+		desp.setPrecoTotal((valorUnid * quantidade)- desconto);
 		despesaService.atualizar(desp);	
 		
 		parentStage.close();			
@@ -114,13 +117,15 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 		txtNome.setText(despesaEntidade.getNome());
 		txtPrecoUnid.setText(String.valueOf(despesaEntidade.getPrecoUnid()));
 		txtQuantidade.setText(String.valueOf(despesaEntidade.getQuantidade()));
+		txtDesconto.setText(String.valueOf(despesaEntidade.getDescontoIndividual()));
 	}	
 	
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtNome, 50);
+		Restricoes.setTextFieldTamanhoMaximo(txtNome, 60);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldInteger(txtQuantidade);
+		Restricoes.setTextFieldDouble(txtDesconto);
 		}
 	// -----------------------------------------------------------------
 	

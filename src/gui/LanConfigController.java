@@ -86,6 +86,8 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TextField txtPrecoUnid;
 	@FXML
+	private TextField txtDescontoIndividual;
+	@FXML
 	private TextArea txtAreaObs;
 	@FXML
 	private TextField txtDesconto;
@@ -93,6 +95,8 @@ public class LanConfigController implements Initializable {
 	private TextField txtAcrescimo;
 	@FXML
 	private Label lbTotal;
+	@FXML
+	private Label lbBruto;
 	@FXML
 	private Label lbStatus;
 	@FXML
@@ -126,7 +130,11 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorUnid;
 	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorBruto;
+	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorTotal;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespDesconto;
 	@FXML
 	private TableView<ItemPagamento> tbTipoPag;
 	@FXML
@@ -143,7 +151,7 @@ public class LanConfigController implements Initializable {
 	private ObservableList<Status> obsListaStatus;
 	// ---------------------------------------------------------
 
-	double total, desconto, acrescimo;
+	double total, descontoGlobal, acrescimo, descInd;
 	int idLan, idDesp, idItem;
 	TipoPag pag = new TipoPag();
 	String ref;
@@ -151,6 +159,7 @@ public class LanConfigController implements Initializable {
 	@FXML
 	public void onBtItemAction(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
+		if(!lbStatus.getText().equals("PAGO")) {
 		// Lancamento
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -163,10 +172,13 @@ public class LanConfigController implements Initializable {
 		desp.setNome(txtItem.getText());
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
 		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
-		double valorUnid, quantidade;
+		desp.setDescontoIndividual(Utils.stringParaDouble(txtDescontoIndividual.getText()));
+		double valorUnid, quantidade, descontoIndividual;
 		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-		desp.setPrecoTotal(valorUnid * quantidade);
+		descontoIndividual = Utils.stringParaDouble(txtDescontoIndividual.getText());
+		desp.setPrecoBruto(valorUnid * quantidade);
+		desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
 		despesaService.salvar(desp);
 		// Item
 		Item item = new Item();
@@ -181,29 +193,26 @@ public class LanConfigController implements Initializable {
 		txtItem.setText("");
 		txtQuantidade.setText(String.valueOf(1));
 		txtPrecoUnid.setText(String.valueOf(0.00));
+		txtDescontoIndividual.setText(String.valueOf(0.00));
 		// Carregar TableView do Lançamento
 		List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
 		iniciarBotaoRemover();
-		// Valor Total
-		Double soma = 0.0;
-		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPrecoTotal();
-		}
-		desconto = Utils.stringParaDouble(txtDesconto.getText());
-		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
-		soma -= desconto;
-		soma += acrescimo;
-		lbTotal.setText(String.format("%.2f", soma));
-		obj.setTotal(soma);
+		carregarValores();
+		obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 		lancamentoService.atualizar(obj);
-		total = soma;
 		carregarTableView();
+		}
+		else {
+			Alertas.mostrarAlerta("Atenção!", "Não é possível adicionar (Produto/Serviço), em lançamentos que já foram pagos.", "Para realizar esse tipo de ajuste é ncessário alterar o Status do lançamento.", AlertType.INFORMATION);
+			txtItem.setText("");
+		}
 	}
 
 	@FXML
 	public void onBtAtualizar(ActionEvent evento) {
+		carregarValores();
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		obj.setReferencia(txtReferencia.getText());
@@ -211,17 +220,23 @@ public class LanConfigController implements Initializable {
 		obj.setData(Date.from(instant));
 		obj.setObs(txtAreaObs.getText());
 		obj.setDesconto(Utils.stringParaDouble(lbDesconto.getText()));
-		obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
 		Status status = new Status();
 		status = cmbStatus.getValue();
-		if (!lbPago.getText().equals(lbTotal.getText())) {
+		if(lbStatus.getText().equals("EM ABERTO") && status == null){
 			Status status1 = new Status(1, null);
 			obj.setStatus(status1);
-			itemPagamentoService.limparItemPagamentoPorIdLan(obj);
+			obj.setAcrescimo(0.00);
+			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
+		}else if(lbStatus.getText().equals("PAGO") && status == null) {
+			Status status2 = new Status(2, null);
+			obj.setStatus(status2);
+			obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
+			obj.setTotal(Utils.stringParaDouble(lbPago.getText()));
 		} else {
 			obj.setStatus(status);
-		}
-		obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
+			obj.setAcrescimo(0.00);
+			obj.setTotal(total);
+		}			
 		lancamentoService.lanConfig(obj);
 		if (status != null) {
 			itemPagamentoService.limparItemPagamentoPorIdLan(obj);
@@ -304,7 +319,6 @@ public class LanConfigController implements Initializable {
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		total = lancamentoEntidade.getTotal();
 		lbStatus.setText(lancamentoEntidade.getStatus().getNome());
 		txtAreaObs.setText(lancamentoEntidade.getObs());
@@ -322,17 +336,22 @@ public class LanConfigController implements Initializable {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
-		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
+		Restricoes.setTextFieldDouble(txtDescontoIndividual);
+		Restricoes.setTextFieldTamanhoMaximo(txtItem, 60);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
-		colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
+		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
+		Utils.formatTableColumnValorDecimais(colunaDespDesconto, 2);
 
 		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
 		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
@@ -440,7 +459,7 @@ public class LanConfigController implements Initializable {
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
-			private final Button button = new Button("Remover");
+			private final Button button = new Button("X");
 
 			@Override
 			protected void updateItem(Despesa obj, boolean empty) {
@@ -482,20 +501,10 @@ public class LanConfigController implements Initializable {
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 				tbDespesa.setItems(obsListaDespesaTbView);
 				iniciarBotaoRemover();
-				// Valor Total
-				Double soma = 0.0;
-				for (Despesa tab : obsListaDespesaTbView) {
-					soma += tab.getPrecoTotal();
-				}
-				desconto = Utils.stringParaDouble(txtDesconto.getText());
-				acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
-				soma -= desconto;
-				soma += acrescimo;
-				lbTotal.setText(String.format("%.2f", soma));
-				lan.setTotal(soma);
+				carregarValores();
+				lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 				lancamentoService.atualizar(lan);
-				total = soma;
-
+				//total = soma;
 				carregarTableView();
 			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
@@ -509,39 +518,41 @@ public class LanConfigController implements Initializable {
 		tbDespesa.setItems(obsListaDespesaTbView);		
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
-		// Valor Total
-		Double soma = 0.0;
-		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPrecoTotal();
-		}
-		soma -= Utils.stringParaDouble(lbDesconto.getText());
-		soma += Utils.stringParaDouble(lbAcrescimo.getText());
-		lbTotal.setText(String.format("%.2f", soma));
-		total = soma;		
-		iniciarBotaoRemover();
 		if(!lbStatus.getText().equals("PAGO")) {
 		iniciarBotaoReajustar();
+		iniciarBotaoRemover();
 		}
+		carregarValores();
 	}
 
 	public void carregarTableViewItemPagamento() {
 		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lancamentoEntidade.getId());
 		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
 		tbTipoPag.setItems(obsListaItemTipoPag);
-		iniciarBotaoRemoverItemPagamento();
+		//iniciarBotaoRemoverItemPagamento();
 		carregarValorPago();
 	}
 
+	//Verificar a necessidade dessa função
 	public void AplicarDescontoOuAcrescimo() {
-		Double desconto, acrescimo;
+		/*Double soma = 0.0;
+		Double desconto = 0.0;
+		Double acrescimo = 0.0;
+		descInd = 0.0;
+
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPrecoTotal();
+			descInd += tab.getDescontoIndividual();
+		}
 		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		desconto += descInd;
 		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+		soma = (soma - desconto) + acrescimo;
+		lbTotal.setText(String.format("%.2f", soma));
 		lbDesconto.setText(String.format("%.2f", desconto));
 		lbAcrescimo.setText(String.format("%.2f", acrescimo));
-		carregarTableView();
-		carregarValorPago();
-		txtDesconto.setText("0.00");
-		txtAcrescimo.setText("0.00");
+		txtDesconto.setText(String.valueOf(0.00));
+		txtAcrescimo.setText(String.valueOf(0.00));*/
 	}
 
 	public void carregarValorPago() {
@@ -591,5 +602,27 @@ public class LanConfigController implements Initializable {
 			}
 		}
 	}
+	
+	public void carregarValores() {
+		Double soma = 0.0;
+		Double bruto = 0.0;
+		descInd = 0.0;
+		for (Despesa tab : obsListaDespesaTbView) {
+			soma += tab.getPrecoTotal();
+			descInd += tab.getDescontoIndividual();
+			bruto += tab.getPrecoBruto();			
+		}
+		if(!lbStatus.getText().equals("PAGO")) {
+		lbDesconto.setText(String.format("%.2f", descInd));
+		soma -= Utils.stringParaDouble(lbDesconto.getText());
+		soma += Utils.stringParaDouble(lbAcrescimo.getText());
+		lbTotal.setText(String.format("%.2f", soma));
+		lbBruto.setText(String.format("%.2f", bruto));
+		}
+		else {
+		lbDesconto.setText(String.format("%.2f", lancamentoEntidade.getDesconto()));
+		}
+		total = soma;
+}
 
 }
