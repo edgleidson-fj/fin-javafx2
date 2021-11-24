@@ -16,6 +16,7 @@ public class Lancamento implements Serializable{
 	private String finalizado;
 	private Usuario usuario;
 	private String obs;
+	private String tipo;
 	
 	//Chave composta.
 	private Item itemLan;
@@ -24,7 +25,7 @@ public class Lancamento implements Serializable{
 	public Lancamento() {
 		}
 	
-	public Lancamento(Integer id, String referencia, Double total, Status status, Item itemLan, Date data, Double desconto, Double acrescimo, String finalizado, Usuario usuario, String obs) {
+	public Lancamento(Integer id, String referencia, Double total, Status status, Item itemLan, Date data, Double desconto, Double acrescimo, String finalizado, Usuario usuario, String obs, String tipo) {
 		super();
 		this.id = id;
 		this.referencia = referencia;
@@ -37,6 +38,7 @@ public class Lancamento implements Serializable{
 		this.finalizado = finalizado;
 		this.usuario = usuario;
 		this.obs = obs;
+		this.tipo = tipo;
 	}
 
 	public Integer getId() {
@@ -117,6 +119,14 @@ public class Lancamento implements Serializable{
 	
 	public void setObs(String obs) {
 		this.obs = obs;
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 	//------- "Chave composta"

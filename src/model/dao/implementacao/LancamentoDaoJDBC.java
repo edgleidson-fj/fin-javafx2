@@ -32,13 +32,14 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			try {
 			ps = connection.prepareStatement(
 					"INSERT INTO lancamento "
-						+ "(referencia, total, data, usuario_id) "
-							+ "VALUES  (?, ?, ?, ?) ",
+						+ "(referencia, total, data, usuario_id, tipo) "
+							+ "VALUES  (?, ?, ?, ?, ?) ",
 							Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, obj.getReferencia());
 			ps.setDouble(2, obj.getTotal());
 			ps.setDate(3, new java.sql.Date(obj.getData().getTime()));
-			ps.setInt(4, obj.getUsuario().getId());			
+			ps.setInt(4, obj.getUsuario().getId());	
+			ps.setString(5, obj.getTipo());
 			int linhasAfetadas = ps.executeUpdate();
 			if (linhasAfetadas > 0) {
 				ResultSet rs = ps.getGeneratedKeys(); // ID gerado no Insert.

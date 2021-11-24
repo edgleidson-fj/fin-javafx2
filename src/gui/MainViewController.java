@@ -58,6 +58,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemLancamentoAPagarParcelado;
 	@FXML
+	private MenuItem menuItemLancamentoAPagarFatura;
+	@FXML
 	private MenuItem menuItemConsultaPorPagamento;
 	@FXML
 	private MenuItem menuItemConsultaPorRank;	
@@ -168,7 +170,7 @@ public class MainViewController implements Initializable {
 				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
 			}
 	}
-	
+		
 	@FXML
 	public void onMenuItemLancamentoAPagarParcelado() {
  List<Usuario> lista = usuarioService.buscarTodos();
@@ -178,6 +180,34 @@ public class MainViewController implements Initializable {
 			 
 			 if(u.getLogado().equals("S")) {		
 		carregarView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.setDespesaService(new DespesaService());
+			controller.setItemService(new ItemService());
+			Usuario user = new Usuario();
+			user.setId(usuarioId);
+			user.setNome(userNome);
+			controller.setUsuario(user);
+			controller.setUsuarioService(new UsuarioService());
+			controller.carregarUsuarioLogado();
+			});
+		 logado = "S";
+			 }			
+		 }
+		 if(logado.equals("N")) {
+				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+			}
+	}
+	
+	@FXML
+	public void onMenuItemLancamentoAPagarFatura() {
+ List<Usuario> lista = usuarioService.buscarTodos();
+ String logado = "N";
+		 for(Usuario u : lista) {
+			 u.getLogado();
+			 
+			 if(u.getLogado().equals("S")) {		
+		carregarView("/gui/LanAPagarFaturaView.fxml", (LanAPagarFaturaController controller) -> {
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
 			controller.setDespesaService(new DespesaService());
