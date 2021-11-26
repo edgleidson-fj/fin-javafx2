@@ -40,8 +40,8 @@
             <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
               <columns>
                   <TableColumn prefWidth="55.0" resizable="false" />
-                  <TableColumn fx:id="colunaRemover" prefWidth="70.0" resizable="false" />
-                  <TableColumn fx:id="colunaDespNome" prefWidth="130.0" resizable="false" text="Produto/Serviço" />
+                  <TableColumn fx:id="colunaRemover" prefWidth="30.0" resizable="false" />
+                  <TableColumn fx:id="colunaDespNome" prefWidth="150.0" resizable="false" text="Produto/Serviço" />
                   <TableColumn fx:id="colunaDespValorUnid" prefWidth="60.0" text="Unid" />
                   <TableColumn fx:id="colunaDespQuantidade" prefWidth="35.0" text="Qtde" />
                   <TableColumn fx:id="colunaDespValorBruto" prefWidth="60.0" text="Bruto" />

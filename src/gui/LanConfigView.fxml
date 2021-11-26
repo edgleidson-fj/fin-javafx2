@@ -29,7 +29,7 @@
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" AnchorPane.leftAnchor="573.0" />
             <Label layoutX="53.0" layoutY="70.0" text="Referência" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="49.0" />
             <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="75.0" promptText="ID" AnchorPane.leftAnchor="14.0" />
-            <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTO (Configuração)">
+            <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTO (Configuração)" AnchorPane.leftAnchor="200.0">
                <font>
                   <Font name="System Bold Italic" size="22.0" />
                </font>
@@ -113,7 +113,10 @@
                </font>
             </Label>
             <ComboBox fx:id="cmbStatus" layoutX="621.0" layoutY="23.0" prefHeight="25.0" prefWidth="113.0" AnchorPane.leftAnchor="573.0" AnchorPane.topAnchor="110.0" />
-            <Label layoutX="623.0" layoutY="6.0" text="Alterar Status" AnchorPane.leftAnchor="573.0" AnchorPane.topAnchor="95.0" />
+            <Label layoutX="623.0" layoutY="6.0" text="Alterar Status" AnchorPane.leftAnchor="573.0" AnchorPane.topAnchor="95.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
             <TextField fx:id="txtDescontoIndividual" layoutX="21.0" layoutY="111.0" prefWidth="69.0" text="0.00" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="170.0" />
             <Label layoutX="52.0" layoutY="115.0" text="Desconto(I)" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="154.0" />
             <Label layoutX="396.0" layoutY="392.0" text="Desconto" AnchorPane.leftAnchor="435.0" AnchorPane.topAnchor="388.0">
@@ -121,11 +124,12 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lbBruto" layoutX="612.0" layoutY="176.0" textFill="#3008f8" AnchorPane.leftAnchor="610.0" AnchorPane.topAnchor="10.0">
+            <Label fx:id="lbBruto" layoutX="612.0" layoutY="176.0" textFill="#3008f8" AnchorPane.leftAnchor="682.0" AnchorPane.topAnchor="14.0">
                <font>
-                  <Font name="System Bold" size="36.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
+            <Label layoutX="585.0" layoutY="49.0" text="Data de Pagamento" AnchorPane.leftAnchor="573.0" AnchorPane.topAnchor="49.0" />
          </children>
       </AnchorPane>
    </children>

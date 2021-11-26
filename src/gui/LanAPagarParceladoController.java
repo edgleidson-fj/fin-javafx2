@@ -173,7 +173,7 @@ public class LanAPagarParceladoController implements Initializable {
 				}else {
 					obj.setReferencia(txtReferencia.getText());
 				}
-								
+				obj.setTipo("P");				
 				lancamentoService.salvar(obj);
 				lancamentoIds = obj.getId();
 			}
@@ -382,7 +382,7 @@ public class LanAPagarParceladoController implements Initializable {
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
-			private final Button button = new Button("remover");
+			private final Button button = new Button("X");
 
 			@Override
 			protected void updateItem(Despesa obj, boolean empty) {

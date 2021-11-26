@@ -31,7 +31,7 @@
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" />
             <Label layoutX="53.0" layoutY="70.0" text="Referência*" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="49.0" />
             <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="75.0" promptText="ID" />
-            <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTO (Fatura Mensal)">
+            <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTO (Fatura Mensal)" AnchorPane.leftAnchor="200.0">
                <font>
                   <Font name="System Bold Italic" size="22.0" />
                </font>
@@ -39,8 +39,8 @@
             <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
               <columns>
                   <TableColumn prefWidth="55.0" resizable="false" />
-                  <TableColumn fx:id="colunaRemover" prefWidth="70.0" resizable="false" />
-                  <TableColumn fx:id="colunaDespNome" prefWidth="130.0" resizable="false" text="Produto/Serviço" />
+                  <TableColumn fx:id="colunaRemover" prefWidth="30.0" resizable="false" />
+                  <TableColumn fx:id="colunaDespNome" prefWidth="150.0" resizable="false" text="Produto/Serviço" />
                   <TableColumn fx:id="colunaDespValorUnid" prefWidth="60.0" text="Unid" />
                   <TableColumn fx:id="colunaDespQuantidade" prefWidth="35.0" text="Qtde" />
                   <TableColumn fx:id="colunaDespValorBruto" prefWidth="60.0" text="Bruto" />
@@ -56,9 +56,9 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Label fx:id="lbTotal" layoutX="621.0" layoutY="23.0" text="0.00" textFill="#3008f8" AnchorPane.leftAnchor="685.0" AnchorPane.topAnchor="15.0">
+            <Label fx:id="lbTotal" layoutX="621.0" layoutY="23.0" text="0.00" textFill="#3008f8" AnchorPane.leftAnchor="682.0" AnchorPane.topAnchor="14.0">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
             <Label fx:id="lbUsuario" layoutX="559.0" layoutY="419.0" text="Label" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="9.0" />
@@ -68,11 +68,7 @@
             <Label layoutX="65.0" layoutY="151.0" text="Produto/Serviço*" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="151.0" />
             <Label layoutX="376.0" layoutY="151.0" text="Qtde" textFill="#c5c0c0" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="151.0" />
             <Label layoutX="431.0" layoutY="151.0" text="Preço*" AnchorPane.leftAnchor="341.0" AnchorPane.topAnchor="151.0" />
-            <Label layoutX="657.0" layoutY="23.0" text="R$" textFill="#3008f8" AnchorPane.topAnchor="15.0">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
+            <Label layoutX="657.0" layoutY="23.0" text="Total" AnchorPane.leftAnchor="682.0" AnchorPane.topAnchor="9.0" />
             <TextField fx:id="txtDescontoIndividual" disable="true" editable="false" layoutX="548.0" layoutY="219.0" prefWidth="69.0" text="0.00" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="167.0" />
             <Label layoutX="623.0" layoutY="223.0" text="Desconto(I)" textFill="#c5c0c0" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="151.0" />
             <Label layoutX="577.0" layoutY="42.0" text="Data de Pagamento*" AnchorPane.leftAnchor="573.0" AnchorPane.topAnchor="49.0" />

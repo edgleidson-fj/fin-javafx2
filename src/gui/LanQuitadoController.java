@@ -178,7 +178,7 @@ public class LanQuitadoController implements Initializable {
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
 			obj.setUsuario(user);
-
+			obj.setTipo("N");
 			lancamentoService.salvar(obj);
 			txtId.setText(String.valueOf(obj.getId()));
 			datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
@@ -557,7 +557,7 @@ public class LanQuitadoController implements Initializable {
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
-			private final Button button = new Button("Remover");
+			private final Button button = new Button("X");
 
 			@Override
 			protected void updateItem(Despesa obj, boolean empty) {
