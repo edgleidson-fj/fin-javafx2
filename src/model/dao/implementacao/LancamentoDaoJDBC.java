@@ -305,11 +305,13 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			+ "SET status_id = '"+status+"', "
 			+ "finalizado = 'S', "
 			+ "obs = ?, "
-			+ "desconto = ? "
+			+ "desconto = ?,"
+			+ "tipo = ? "
 			+ "WHERE Id = ? ");
 				ps.setString(1, obj.getObs());
 				ps.setDouble(2, obj.getDesconto());
-				ps.setInt(3, obj.getId());
+				ps.setString(3, obj.getTipo());
+				ps.setInt(4, obj.getId());
 				ps.executeUpdate();
 			} catch (SQLException ex) {
 				new BDException(ex.getMessage());
