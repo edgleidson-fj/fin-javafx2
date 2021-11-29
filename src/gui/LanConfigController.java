@@ -90,10 +90,6 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TextArea txtAreaObs;
 	@FXML
-	private TextField txtDesconto;
-	@FXML
-	private TextField txtAcrescimo;
-	@FXML
 	private Label lbTotal;
 	@FXML
 	private Label lbBruto;
@@ -106,6 +102,14 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private Label lbDesconto;
 	@FXML
+	private Label lbRotuloItem;
+	@FXML
+	private Label lbRotuloQtde;
+	@FXML
+	private Label lbRotuloPreco;
+	@FXML
+	private Label lbRotuloDescInd;
+	@FXML
 	private DatePicker datePickerData;
 	@FXML
 	private Button btItem;
@@ -114,13 +118,13 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private Button btVoltar;
 	@FXML
-	private Button btAplicarDescontoOuAcrescimo;
-	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaRemover;
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaReajustar;
+	@FXML
+	private TableColumn<Despesa, Despesa> colunaEditar;
 	@FXML
 	private TableColumn<Despesa, Integer> colunaDespId;
 	@FXML
@@ -152,12 +156,12 @@ public class LanConfigController implements Initializable {
 	// ---------------------------------------------------------
 
 	double total, descontoGlobal, acrescimo, descInd;
-	int idLan, idDesp, idItem;
+	int idLan, idDesp, idItem, x;
 	TipoPag pag = new TipoPag();
 	String ref;
 
 	@FXML
-	public void onBtItemAction(ActionEvent evento) {
+	public void onBtItemAction(ActionEvent evento) {		
 		Locale.setDefault(Locale.US);
 		if(!lbStatus.getText().equals("PAGO")) {
 		// Lancamento
@@ -407,7 +411,25 @@ public class LanConfigController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
 			Pane painel = loader.load();
 
+			if(x==1) {
 			ReajustarFaturaDialogFormController controle = loader.getController();
+			controle.setLancamentoService(new LancamentoService());
+			controle.setDespesaService(new DespesaService());
+			controle.setDespesa(new Despesa());
+			Lancamento lan = new Lancamento();
+			lan.setId(Utils.stringParaInteiro(txtId.getText()));
+			lan.setTotal(total);
+			lan.setReferencia(txtReferencia.getText());
+			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
+			lan.setData(Date.from(instant));
+			controle.setLancamento(lan);
+			controle.setDespesaService(new DespesaService());
+			controle.setDespesa(obj);
+			controle.setItemService(new ItemService());
+			controle.carregarCamposDeCadastro();
+			}
+			if(x==2) {
+			ReajustarParcelaDialogFormController controle = loader.getController();
 			controle.setLancamentoService(new LancamentoService());
 			controle.setDespesaService(new DespesaService());
 			controle.setDespesa(new Despesa());
@@ -420,6 +442,19 @@ public class LanConfigController implements Initializable {
 			controle.setDespesa(obj);
 			controle.setItemService(new ItemService());
 			controle.carregarCamposDeCadastro();
+			}
+			if(x==3) {
+				EditarDespesaDialogFormController3 controle = loader.getController();
+				controle.setLancamentoService(new LancamentoService());
+				Lancamento lan = new Lancamento();
+				lan.setId(Utils.stringParaInteiro(txtId.getText()));
+				lan.setTotal(total);
+				lan.setReferencia(txtReferencia.getText());
+				controle.setLancamento(lan);
+				controle.setDespesaService(new DespesaService());
+				controle.setDespesa(obj);
+				controle.carregarCamposDeCadastro();
+			}
 
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
@@ -438,8 +473,8 @@ public class LanConfigController implements Initializable {
 	private void iniciarBotaoReajustar() {
 		colunaReajustar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaReajustar.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
-			private final Button botao = new Button("Reajustar");
-
+			private final Button botao = new Button("Editar");
+			
 			@Override
 			protected void updateItem(Despesa obj, boolean empty) {
 				super.updateItem(obj, empty);
@@ -449,13 +484,25 @@ public class LanConfigController implements Initializable {
 				}
 				setGraphic(botao);
 				setStyle("-fx-color: #F0E68C");
+				if(x==1) {
+					x=1;
 				botao.setOnAction(evento -> criarDialogForm(obj, "/gui/ReajustarFaturaDialogFormView.fxml",
 						Utils.stageAtual(evento)));
+				}
+				if(x==2) {
+					x=2;
+					botao.setOnAction(evento -> criarDialogForm(obj, "/gui/ReajustarParcelaDialogFormView.fxml",
+							Utils.stageAtual(evento)));
+					}
+				if(x==3) {
+					x=3;
+					botao.setOnAction(evento -> criarDialogForm(obj, "/gui/EditarDespesaDialogFormView3.fxml",
+							Utils.stageAtual(evento)));
+					}
 				}
 		});
 	}
 		
-	
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
@@ -519,8 +566,20 @@ public class LanConfigController implements Initializable {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
 		if(!lbStatus.getText().equals("PAGO")) {
+			if(lancamentoEntidade.getTipo().equals("F")) {
+				x=1;
+			}
+			else if(lancamentoEntidade.getTipo().equals("P")){
+				x=2;
+			}
+			else {
+				x=3;
+			}
 		iniciarBotaoReajustar();
 		iniciarBotaoRemover();
+		}
+		else {		
+		ocultarCampos();
 		}
 		carregarValores();
 	}
@@ -531,28 +590,6 @@ public class LanConfigController implements Initializable {
 		tbTipoPag.setItems(obsListaItemTipoPag);
 		//iniciarBotaoRemoverItemPagamento();
 		carregarValorPago();
-	}
-
-	//Verificar a necessidade dessa função
-	public void AplicarDescontoOuAcrescimo() {
-		/*Double soma = 0.0;
-		Double desconto = 0.0;
-		Double acrescimo = 0.0;
-		descInd = 0.0;
-
-		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPrecoTotal();
-			descInd += tab.getDescontoIndividual();
-		}
-		desconto = Utils.stringParaDouble(txtDesconto.getText());
-		desconto += descInd;
-		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
-		soma = (soma - desconto) + acrescimo;
-		lbTotal.setText(String.format("%.2f", soma));
-		lbDesconto.setText(String.format("%.2f", desconto));
-		lbAcrescimo.setText(String.format("%.2f", acrescimo));
-		txtDesconto.setText(String.valueOf(0.00));
-		txtAcrescimo.setText(String.valueOf(0.00));*/
 	}
 
 	public void carregarValorPago() {
@@ -624,5 +661,16 @@ public class LanConfigController implements Initializable {
 		}
 		total = soma;
 }
+	public void ocultarCampos() {
+		txtItem.setVisible(false);
+		txtPrecoUnid.setVisible(false);
+		txtQuantidade.setVisible(false);
+		txtDescontoIndividual.setVisible(false);
+		btItem.setVisible(false);	
+		lbRotuloItem.setVisible(false);
+		lbRotuloQtde.setVisible(false);
+		lbRotuloPreco.setVisible(false);
+		lbRotuloDescInd.setVisible(false);
+	}
 
 }

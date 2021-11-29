@@ -141,6 +141,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				obj.setAcrescimo(rs.getDouble("acrescimo"));
 				obj.setTotal(rs.getDouble("total"));
 				obj.setObs(rs.getString("obs"));
+				obj.setTipo(rs.getString("tipo"));
 				obj.setStatus(status);
 				lista.add(obj);
 			}
@@ -591,6 +592,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setTotal(rs.getDouble("total"));
 					obj.setObs(rs.getString("obs"));
+					obj.setTipo(rs.getString("tipo"));
 					obj.setStatus(status);
 					lista.add(obj);
 				}
@@ -638,6 +640,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					obj.setAcrescimo(rs.getDouble("acrescimo"));
 					obj.setTotal(rs.getDouble("total"));
 					obj.setObs(rs.getString("obs"));
+					obj.setTipo(rs.getString("tipo"));
 					obj.setStatus(status);
 					lista.add(obj);
 				}

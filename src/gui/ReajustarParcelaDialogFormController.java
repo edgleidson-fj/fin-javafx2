@@ -32,7 +32,7 @@ import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 
-public class ReajustarFaturaDialogFormController implements Initializable {
+public class ReajustarParcelaDialogFormController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
@@ -75,7 +75,7 @@ public class ReajustarFaturaDialogFormController implements Initializable {
 			lan.setId(lancamentoEntidade.getId());
 			lan.setReferencia(lancamentoEntidade.getReferencia());
 			lan.setData(data);
-			lan.setTipo("F");
+			lan.setTipo("P");
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(lan);
 			controller.setDespesaService(new DespesaService());
@@ -86,9 +86,6 @@ public class ReajustarFaturaDialogFormController implements Initializable {
 			controller.setItemPagamento(new ItemPagamento());
 			controller.carregarData();
 			controller.carregarTableView();
-			Alertas.mostrarAlerta("Reajuste realizado com sucesso!", 
-					"Todos lançamentos ("+lancamentoEntidade.getReferencia()+") que estão EM ABERTO, serão reajustados.",
-					null, AlertType.INFORMATION);
 		});				
 		}
 		else {

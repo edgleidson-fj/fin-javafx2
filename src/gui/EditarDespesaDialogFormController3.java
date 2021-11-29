@@ -2,6 +2,8 @@ package gui;
 //LanConfig.
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -47,30 +49,39 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 	@FXML
 	private TextField txtQuantidade;
 	@FXML
+	private TextField txtDesconto;
+	@FXML
 	private Button btConfirmar;
 	@FXML
 	private Button btVoltar;	
 	//-------------------------------------------------------
+	Date data = new Date();
 	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
+		auxPegarDataLancamento();
 		Stage parentStage = Utils.stageAtual(evento);
-		Despesa desp = new Despesa();
+		Despesa desp =  new Despesa();
 		desp.setId(Utils.stringParaInteiro(txtId.getText()));
 		desp.setNome(txtNome.getText());
 		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
-		double valorUnid, quantidade;
+		desp.setDescontoIndividual(Utils.stringParaDouble(txtDesconto.getText()));
+		double valorUnid, quantidade, desconto;
 		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-		desp.setPrecoTotal(valorUnid * quantidade);
-		despesaService.atualizar(desp);
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		desp.setPrecoBruto(valorUnid * quantidade);
+		desp.setPrecoTotal((valorUnid * quantidade)- desconto);
+		despesaService.atualizar(desp);	
 					
 		parentStage.close();			
 		carregarView("/gui/LanConfigView.fxml", (LanConfigController controller) -> {
 			Lancamento lan = new Lancamento();
 			lan.setId(lancamentoEntidade.getId());
 			lan.setReferencia(lancamentoEntidade.getReferencia());
+			lan.setData(data);
+			lan.setTipo("N");
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(lan);
 			controller.setDespesaService(new DespesaService());
@@ -79,6 +90,7 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			controller.setItem(new Item());
 			controller.setItemPagamentoService(new ItemPagamentoService());	
 			controller.setItemPagamento(new ItemPagamento());
+			controller.carregarData();
 			controller.carregarTableView();
 			});	
 		}
@@ -114,13 +126,15 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 		txtNome.setText(despesaEntidade.getNome());
 		txtPrecoUnid.setText(String.valueOf(despesaEntidade.getPrecoUnid()));
 		txtQuantidade.setText(String.valueOf(despesaEntidade.getQuantidade()));
+		txtDesconto.setText(String.valueOf(despesaEntidade.getDescontoIndividual()));
 	}	
 	
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtNome, 50);
+		Restricoes.setTextFieldTamanhoMaximo(txtNome, 60);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldInteger(txtQuantidade);
+		Restricoes.setTextFieldDouble(txtDesconto);
 		}
 	// -----------------------------------------------------------------
 	
@@ -143,6 +157,13 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
-	}		
+	}	
+	
+	public void auxPegarDataLancamento() {
+		List<Lancamento> lista = lancamentoService.auxReajuste(lancamentoEntidade.getReferencia());
+		for (Lancamento x : lista) {		
+			data = x.getData();
+			}
+	}
 
 }
