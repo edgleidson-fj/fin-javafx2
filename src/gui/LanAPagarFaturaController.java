@@ -30,7 +30,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -66,8 +65,6 @@ public class LanAPagarFaturaController implements Initializable {
 	@FXML
 	private TextField txtReferencia;
 	@FXML
-	private TextField txtParcela;
-	@FXML
 	private TextField txtItem;
 	@FXML
 	private TextField txtQuantidade;
@@ -79,6 +76,14 @@ public class LanAPagarFaturaController implements Initializable {
 	private Label lbTotal;
 	@FXML
 	private Label lbUsuario;
+	@FXML
+	private Label lbRotuloItem;
+	@FXML
+	private Label lbRotuloQtde;
+	@FXML
+	private Label lbRotuloPreco;
+	@FXML
+	private Label lbRotuloDescInd;
 	@FXML
 	private DatePicker datePickerData;
 	@FXML
@@ -107,8 +112,6 @@ public class LanAPagarFaturaController implements Initializable {
 	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespDesconto;
-	@FXML
-	private CheckBox cbDetalheParcela;
 	@FXML
 	private TextArea txtAreaObs;
 //--------------------------------------------------------
@@ -180,6 +183,7 @@ public class LanAPagarFaturaController implements Initializable {
 			int id = obj.getId();
 			idLan = id;
 			aux = id - parcela;
+			desocultarCampos();
 		}
 		}
 		}
@@ -267,6 +271,7 @@ public class LanAPagarFaturaController implements Initializable {
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
+			controller.ocultarCampos();
 		});
 	}
 			}
@@ -287,6 +292,7 @@ public class LanAPagarFaturaController implements Initializable {
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
+			controller.ocultarCampos();
 		});
 	}
 	// ------------------------------------------------------------------
@@ -422,6 +428,7 @@ public class LanAPagarFaturaController implements Initializable {
 					lancamentoIds--;
 				}
 				lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+				desocultarCampos();
 			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
@@ -468,5 +475,30 @@ public class LanAPagarFaturaController implements Initializable {
 		}
 		lbTotal.setText(String.format("%.2f", soma));
 }
+	
+	public void ocultarCampos() {
+		txtItem.setVisible(false);
+		txtPrecoUnid.setVisible(false);
+		txtQuantidade.setVisible(false);
+		txtDescontoIndividual.setVisible(false);
+		btItem.setVisible(false);
+		lbRotuloItem.setVisible(false);
+		lbRotuloQtde.setVisible(false);
+		lbRotuloPreco.setVisible(false);
+		lbRotuloDescInd.setVisible(false);
+			}
+
+	public void desocultarCampos() {
+		txtItem.setVisible(true);
+		txtPrecoUnid.setVisible(true);
+		txtQuantidade.setVisible(true);
+		txtDescontoIndividual.setVisible(true);
+		btItem.setVisible(true);
+		lbRotuloItem.setVisible(true);
+		lbRotuloQtde.setVisible(true);
+		lbRotuloPreco.setVisible(true);
+		lbRotuloDescInd.setVisible(true);
+		btCriarRegistroDeLancamento.setVisible(false);
+	}
 
 }
