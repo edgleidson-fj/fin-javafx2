@@ -227,10 +227,14 @@ public class LanConfigController implements Initializable {
 		Status status = new Status();
 		status = cmbStatus.getValue();
 		if(lbStatus.getText().equals("EM ABERTO") && status == null){
+			double t, b, d;
+			b = Utils.stringParaDouble(lbBruto.getText());
+			d = Utils.stringParaDouble(lbDesconto.getText());
+			t = b-d; 
 			Status status1 = new Status(1, null);
 			obj.setStatus(status1);
 			obj.setAcrescimo(0.00);
-			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
+			obj.setTotal(t);
 		}else if(lbStatus.getText().equals("PAGO") && status == null) {
 			Status status2 = new Status(2, null);
 			obj.setStatus(status2);
