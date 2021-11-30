@@ -192,6 +192,7 @@ public class MainViewController implements Initializable {
 			controller.setUsuario(user);
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
+			controller.ocultarCampos();
 			});
 		 logado = "S";
 			 }			

@@ -507,6 +507,5 @@ public class LanAPagarController implements Initializable {
 		lbRotuloDescInd.setVisible(true);
 		btCriarRegistroDeLancamento.setVisible(false);
 	}
-
 	
 }

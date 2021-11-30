@@ -87,6 +87,22 @@ public class LanAPagarParceladoController implements Initializable {
 	@FXML
 	private Label lbUsuario;
 	@FXML
+	private Label lbRotuloItem;
+	@FXML
+	private Label lbRotuloQtde;
+	@FXML
+	private Label lbRotuloPreco;
+	@FXML
+	private Label lbRotuloDescInd;
+	@FXML
+	private Label lbRotuloDataCompra;
+	@FXML
+	private Label lbRotuloDescCompra;
+	@FXML
+	private Label lbRotuloTotalCompra;
+	@FXML
+	private Label lbRotuloChaveNFE;
+	@FXML
 	private DatePicker datePickerData;
 	@FXML
 	private DatePicker datePickerDataCompra;
@@ -182,6 +198,7 @@ public class LanAPagarParceladoController implements Initializable {
 			int id = obj.getId();
 			idLan = id;
 			aux = id - parcela;
+			desocultarCampos();
 		}
 		}
 		}
@@ -269,6 +286,7 @@ public class LanAPagarParceladoController implements Initializable {
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
+			controller.ocultarCampos();
 		});
 	}
 			}
@@ -289,6 +307,7 @@ public class LanAPagarParceladoController implements Initializable {
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
+			controller.ocultarCampos();
 		});
 	}
 	// ------------------------------------------------------------------
@@ -427,6 +446,7 @@ public class LanAPagarParceladoController implements Initializable {
 					lancamentoIds--;
 				}
 				lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+				desocultarCampos();
 			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
@@ -504,5 +524,46 @@ public class LanAPagarParceladoController implements Initializable {
 		else {
 			chaveNFE = "";
 		}		
+	}
+	
+	public void ocultarCampos() {
+		txtItem.setVisible(false);
+		txtPrecoUnid.setVisible(false);
+		txtQuantidade.setVisible(false);
+		txtDescontoIndividual.setVisible(false);
+		txtDescontoCompra.setVisible(false);
+		txtTotalCompra.setVisible(false);
+		txtChaveNFE.setVisible(false);
+		btItem.setVisible(false);
+		datePickerDataCompra.setVisible(false);
+		lbRotuloItem.setVisible(false);
+		lbRotuloQtde.setVisible(false);
+		lbRotuloPreco.setVisible(false);
+		lbRotuloDescInd.setVisible(false);
+		lbRotuloDataCompra.setVisible(false);
+		lbRotuloDescCompra.setVisible(false);
+		lbRotuloTotalCompra.setVisible(false);
+		lbRotuloChaveNFE.setVisible(false);
+			}
+
+	public void desocultarCampos() {
+		txtItem.setVisible(true);
+		txtPrecoUnid.setVisible(true);
+		txtQuantidade.setVisible(true);
+		txtDescontoIndividual.setVisible(true);
+		txtDescontoCompra.setVisible(true);
+		txtTotalCompra.setVisible(true);
+		txtChaveNFE.setVisible(true);
+		btItem.setVisible(true);
+		datePickerDataCompra.setVisible(true);
+		lbRotuloItem.setVisible(true);
+		lbRotuloQtde.setVisible(true);
+		lbRotuloPreco.setVisible(true);
+		lbRotuloDescInd.setVisible(true);
+		lbRotuloDataCompra.setVisible(true);
+		lbRotuloDescCompra.setVisible(true);
+		lbRotuloTotalCompra.setVisible(true);
+		lbRotuloChaveNFE.setVisible(true);
+		btCriarRegistroDeLancamento.setVisible(false);
 	}
 }
