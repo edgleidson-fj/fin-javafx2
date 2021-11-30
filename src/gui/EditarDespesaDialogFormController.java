@@ -2,6 +2,8 @@ package gui;
 //LanQuitado.
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -55,9 +57,11 @@ public class EditarDespesaDialogFormController implements Initializable{
 	@FXML
 	private Button btVoltar;	
 	//----------------------------------------------------
+	Date data = new Date();
 	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
+		auxPegarDataLancamento();
 		Stage parentStage = Utils.stageAtual(evento);
 		Despesa desp =  new Despesa();
 		desp.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -78,6 +82,7 @@ public class EditarDespesaDialogFormController implements Initializable{
 			Lancamento lan = new Lancamento();
 			lan.setId(lancamentoEntidade.getId());
 			lan.setReferencia(lancamentoEntidade.getReferencia());
+			lan.setData(data);
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(lan);
 			controller.setDespesaService(new DespesaService());
@@ -91,6 +96,7 @@ public class EditarDespesaDialogFormController implements Initializable{
 			controller.carregarUsuarioLogado();
 			controller.carregarTableView();
 			controller.desocultarCampos();
+			controller.carregarData();
 			});
 		}
 	
@@ -156,6 +162,13 @@ public class EditarDespesaDialogFormController implements Initializable{
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
-	}		
+	}	
+	
+	public void auxPegarDataLancamento() {
+		List<Lancamento> lista = lancamentoService.auxReajuste(lancamentoEntidade.getReferencia());
+		for (Lancamento x : lista) {		
+			data = x.getData();
+			}
+	}
 
 }

@@ -522,6 +522,8 @@ public class LanQuitadoController implements Initializable {
 			lan.setId(Utils.stringParaInteiro(txtId.getText()));
 			lan.setTotal(total);
 			lan.setReferencia(txtReferencia.getText());
+			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
+			lan.setData(Date.from(instant));
 			controle.setLancamento(lan);
 			controle.setDespesaService(new DespesaService());
 			controle.setDespesa(obj);
@@ -712,6 +714,11 @@ public class LanQuitadoController implements Initializable {
 				lbDiferenca.setText(String.format("%.2f", soma));
 				lbDescontoIndividual.setText(String.format("%.2f", descInd));
 				txtTipoPagValor.setText(String.format("%.2f", soma));
+	}
+	
+	public void carregarData() {
+		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 	}
 	
 	public void ocultarCampos() {
