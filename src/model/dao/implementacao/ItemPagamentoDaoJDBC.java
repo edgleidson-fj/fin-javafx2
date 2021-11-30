@@ -99,7 +99,7 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 		try {
 			ps = connection.prepareStatement("SELECT * " + "FROM lancamento " + "inner JOIN itemPagamento "
 					+ "ON lancamento.id = itemPagamento.Lancamento_id " + "inner JOIN tipopag "
-					+ "ON tipopag.id = itemPagamento.tipopag_id " + "WHERE lancamento.id= 100");
+					+ "ON tipopag.id = itemPagamento.tipopag_id " + "WHERE lancamento.id = "+id+" ");
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				TipoPag pag = new TipoPag();
@@ -190,6 +190,7 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 						+"where month(data) = "+mesAtual+" "
 						+ "and year(data) = year(now()) "
 						+ "and l.usuario_id = ? "
+						+ "and l.status_id = 2 "
 						+"group by i.tipopag_id "
 						+"order by sum(i.valor) desc");						
 						ps.setInt(1, id);
@@ -225,6 +226,7 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 						+"on l.id = i.lancamento_id "
 						+"where year(data) = "+anoAtual+" "
 						+ "and l.usuario_id = ? "
+						+ "and l.status_id = 2 "
 						+"group by i.tipopag_id "
 						+"order by sum(i.valor) desc");						
 						ps.setInt(1, id);
