@@ -90,6 +90,7 @@ public class EditarDespesaDialogFormController implements Initializable{
 			controller.carregarObjetosAssociados();
 			controller.carregarUsuarioLogado();
 			controller.carregarTableView();
+			controller.desocultarCampos();
 			});
 		}
 	

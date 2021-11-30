@@ -100,6 +100,18 @@ public class LanQuitadoController implements Initializable {
 	@FXML
 	private Label lbDescontoIndividual;
 	@FXML
+	private Label lbRotuloItem;
+	@FXML
+	private Label lbRotuloQtde;
+	@FXML
+	private Label lbRotuloPreco;
+	@FXML
+	private Label lbRotuloDescInd;
+	@FXML
+	private Label lbRotuloDescGlobal;
+	@FXML
+	private Label lbRotuloPagamento;
+	@FXML
 	private DatePicker datePickerData;
 	@FXML
 	private ComboBox<TipoPag> cmbTipoPag;
@@ -154,7 +166,7 @@ public class LanQuitadoController implements Initializable {
 	int idDesp;
 	int idItem;
 	String ref;
-	int usuarioId;
+	int usuarioId, x;
 	String userNome;
 
 	@FXML
@@ -185,6 +197,7 @@ public class LanQuitadoController implements Initializable {
 			int id = obj.getId();
 			idLan = id;
 			ref = txtReferencia.getText();
+			desocultarCampos();
 		}
 		}
 		else {
@@ -342,6 +355,7 @@ public class LanQuitadoController implements Initializable {
 						controller.setUsuarioService(new UsuarioService());
 						controller.carregarObjetosAssociados();
 						controller.carregarUsuarioLogado();
+						controller.ocultarCampos();
 					});
 				} else {
 					Alertas.mostrarAlerta("Pagamento inválido!", null, "Favor revisar formas de pagamento.",
@@ -373,6 +387,7 @@ public class LanQuitadoController implements Initializable {
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarObjetosAssociados();
 			controller.carregarUsuarioLogado();
+			controller.ocultarCampos();
 		});
 	}
 	// ------------------------------------------------------------------
@@ -601,6 +616,7 @@ public class LanQuitadoController implements Initializable {
 				carregarValores();
 				lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 				lancamentoService.atualizar(lan);
+				desocultarCampos();
 			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
@@ -696,6 +712,45 @@ public class LanQuitadoController implements Initializable {
 				lbDiferenca.setText(String.format("%.2f", soma));
 				lbDescontoIndividual.setText(String.format("%.2f", descInd));
 				txtTipoPagValor.setText(String.format("%.2f", soma));
+	}
+	
+	public void ocultarCampos() {
+		txtItem.setVisible(false);
+		txtPrecoUnid.setVisible(false);
+		txtQuantidade.setVisible(false);
+		txtDescontoIndividual.setVisible(false);
+		txtDesconto.setVisible(false);
+		txtTipoPagValor.setVisible(false);
+		btItem.setVisible(false);
+		btDesconto.setVisible(false);
+		btItemPagamento.setVisible(false);
+		lbRotuloItem.setVisible(false);
+		lbRotuloQtde.setVisible(false);
+		lbRotuloPreco.setVisible(false);
+		lbRotuloDescInd.setVisible(false);
+		lbRotuloDescGlobal.setVisible(false);
+		lbRotuloPagamento.setVisible(false);
+		cmbTipoPag.setVisible(false);
+	}
+
+	public void desocultarCampos() {
+		txtItem.setVisible(true);
+		txtPrecoUnid.setVisible(true);
+		txtQuantidade.setVisible(true);
+		txtDescontoIndividual.setVisible(true);
+		txtDesconto.setVisible(true);
+		txtTipoPagValor.setVisible(true);
+		btItem.setVisible(true);
+		btDesconto.setVisible(true);
+		btItemPagamento.setVisible(true);
+		lbRotuloItem.setVisible(true);
+		lbRotuloQtde.setVisible(true);
+		lbRotuloPreco.setVisible(true);
+		lbRotuloDescInd.setVisible(true);
+		lbRotuloDescGlobal.setVisible(true);
+		lbRotuloPagamento.setVisible(true);
+		cmbTipoPag.setVisible(true);
+		btCriarRegistroDeLancamento.setVisible(false);
 	}
 
 }

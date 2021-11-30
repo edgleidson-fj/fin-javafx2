@@ -134,7 +134,8 @@ public class MainViewController implements Initializable {
 			controller.setUsuario(user);
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarObjetosAssociados();	
-			controller.carregarUsuarioLogado();			
+			controller.carregarUsuarioLogado();	
+			controller.ocultarCampos();
 		});
 		logado = "S";
 			 }
