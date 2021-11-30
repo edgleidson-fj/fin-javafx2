@@ -38,9 +38,9 @@
             </Label>
             <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
               <columns>
-                  <TableColumn fx:id="colunaEditar" prefWidth="70.0" resizable="false" />
+                  <TableColumn fx:id="colunaEditar" prefWidth="55.0" resizable="false" />
                   <TableColumn fx:id="colunaRemover" prefWidth="30.0" resizable="false" />
-                  <TableColumn fx:id="colunaDespNome" prefWidth="150.0" resizable="false" text="Produto/Serviço" />
+                  <TableColumn fx:id="colunaDespNome" prefWidth="168.0" resizable="false" text="Produto/Serviço" />
                   <TableColumn fx:id="colunaDespValorUnid" prefWidth="60.0" text="Unid" />
                   <TableColumn fx:id="colunaDespQuantidade" prefWidth="35.0" text="Qtde" />
                   <TableColumn fx:id="colunaDespValorBruto" prefWidth="60.0" text="Bruto" />
@@ -66,12 +66,12 @@
             <Label layoutX="560.0" layoutY="268.0" text="Observação" AnchorPane.leftAnchor="560.0" AnchorPane.topAnchor="278.0" />
             <TextArea fx:id="txtAreaObs" layoutX="550.0" layoutY="294.0" prefHeight="90.0" prefWidth="169.0" AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="294.0" />
             <TextField fx:id="txtQuantidade" layoutX="369.0" layoutY="167.0" prefHeight="25.0" prefWidth="41.0" text="1" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="167.0" />
-            <Label layoutX="81.0" layoutY="141.0" text="Produto/Serviço*" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="151.0" />
-            <Label layoutX="367.0" layoutY="141.0" text="Qtde" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="151.0" />
-            <Label layoutX="431.0" layoutY="141.0" text="Preço" AnchorPane.leftAnchor="341.0" AnchorPane.topAnchor="151.0" />
+            <Label fx:id="lbRotuloItem" layoutX="81.0" layoutY="141.0" text="Produto/Serviço*" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="151.0" />
+            <Label fx:id="lbRotuloQtde" layoutX="367.0" layoutY="141.0" text="Qtde" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="151.0" />
+            <Label fx:id="lbRotuloPreco" layoutX="431.0" layoutY="141.0" text="Preço" AnchorPane.leftAnchor="341.0" AnchorPane.topAnchor="151.0" />
             <Label layoutX="589.0" layoutY="23.0" text="Total" AnchorPane.leftAnchor="682.0" AnchorPane.topAnchor="9.0" />
             <TextField fx:id="txtDescontoIndividual" focusTraversable="false" layoutX="538.0" layoutY="231.0" prefWidth="69.0" text="0.00" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="167.0" />
-            <Label layoutX="430.0" layoutY="143.0" text="Desconto(I)" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="151.0" />
+            <Label fx:id="lbRotuloDescInd" layoutX="430.0" layoutY="143.0" text="Desconto(I)" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="151.0" />
             <Label layoutX="578.0" layoutY="41.0" text="Data de Pagamento*" AnchorPane.leftAnchor="573.0" AnchorPane.topAnchor="50.0" />
          </children>
       </AnchorPane>

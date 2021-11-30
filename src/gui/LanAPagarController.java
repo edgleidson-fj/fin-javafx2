@@ -78,6 +78,14 @@ public class LanAPagarController implements Initializable {
 	@FXML
 	private Label lbUsuario;
 	@FXML
+	private Label lbRotuloItem;
+	@FXML
+	private Label lbRotuloQtde;
+	@FXML
+	private Label lbRotuloPreco;
+	@FXML
+	private Label lbRotuloDescInd;
+	@FXML
 	private DatePicker datePickerData;
 	@FXML
 	private Button btCriarRegistroDeLancamento;
@@ -147,6 +155,7 @@ public class LanAPagarController implements Initializable {
 		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
 		int id = obj.getId();
 		idLan = id;
+		desocultarCampos();
 		}
 		}
 		else {
@@ -225,6 +234,7 @@ public class LanAPagarController implements Initializable {
 			  controller.setUsuario(new Usuario());
 				controller.setUsuarioService(new UsuarioService());
 				controller.carregarUsuarioLogado();
+				controller.ocultarCampos();
 			  }); 
 			}
 		}catch (RuntimeException ex) {
@@ -248,6 +258,7 @@ public class LanAPagarController implements Initializable {
 		  controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
+			controller.ocultarCampos();
 		   });		 
 	}
 	// ------------------------------------------------------------------
@@ -339,6 +350,8 @@ public class LanAPagarController implements Initializable {
 			lan.setId(Utils.stringParaInteiro(txtId.getText()));
 			lan.setTotal(total);
 			lan.setReferencia(txtReferencia.getText());
+			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
+			lan.setData(Date.from(instant));
 			controle.setLancamento(lan);
 			controle.setDespesaService(new DespesaService());
 			controle.setDespesa(obj);
@@ -415,7 +428,8 @@ public class LanAPagarController implements Initializable {
 				  iniciarBotaoRemover();				  
 				  carregarValores();
 					lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
-					lancamentoService.atualizar(lan);				
+					lancamentoService.atualizar(lan);	
+					desocultarCampos();
 				}
 			catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
@@ -463,4 +477,36 @@ public class LanAPagarController implements Initializable {
 		}
 		lbTotal.setText(String.format("%.2f", soma));
 }
+	
+	public void carregarData() {
+		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+	}
+	
+	public void ocultarCampos() {
+		txtItem.setVisible(false);
+		txtPrecoUnid.setVisible(false);
+		txtQuantidade.setVisible(false);
+		txtDescontoIndividual.setVisible(false);
+		btItem.setVisible(false);
+		lbRotuloItem.setVisible(false);
+		lbRotuloQtde.setVisible(false);
+		lbRotuloPreco.setVisible(false);
+		lbRotuloDescInd.setVisible(false);
+			}
+
+	public void desocultarCampos() {
+		txtItem.setVisible(true);
+		txtPrecoUnid.setVisible(true);
+		txtQuantidade.setVisible(true);
+		txtDescontoIndividual.setVisible(true);
+		btItem.setVisible(true);
+		lbRotuloItem.setVisible(true);
+		lbRotuloQtde.setVisible(true);
+		lbRotuloPreco.setVisible(true);
+		lbRotuloDescInd.setVisible(true);
+		btCriarRegistroDeLancamento.setVisible(false);
+	}
+
+	
 }
