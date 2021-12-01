@@ -612,7 +612,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			ResultSet rs = null;
 			try {
 				ps = connection.prepareStatement(
-						"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, "
+						"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, l.tipo, "
 						+ "s.nome FROM Lancamento l "								
 						+"INNER JOIN Usuario u "
 						+"ON u.usuarioId = l.usuario_Id " 

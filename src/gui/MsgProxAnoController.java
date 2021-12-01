@@ -52,6 +52,6 @@ public class MsgProxAnoController implements Initializable{
 		int proxAno = datahoje.get(Calendar.YEAR)+1;
 		mensagemEntidade = mensagemService.buscarPorId(1);
 		lbMsg.setText(mensagemEntidade.getDescricao());
-		lbProxAno.setText(" "+proxAno+".");
+		lbProxAno.setText(""+proxAno+".");
 	}	
 }

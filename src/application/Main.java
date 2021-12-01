@@ -19,7 +19,7 @@ import model.servico.UsuarioService;
 public class Main extends Application {
 
 	private static Scene mainScene;
-	private Integer prazo = 20211201; 
+	private Integer prazo = 20220101; 
 	private int dias = 0;
 	private int x = 0;
 

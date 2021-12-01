@@ -10,7 +10,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Label fx:id="lbMsg" layoutX="7.0" layoutY="33.0" text="Favor cadastrar lançamentos mensais de" AnchorPane.bottomAnchor="78.0">
+            <Label fx:id="lbMsg" layoutX="7.0" layoutY="33.0" text="Favor cadastrar faturamento mensal de" AnchorPane.bottomAnchor="78.0">
                <font>
                   <Font size="14.0" />
                </font>
@@ -19,7 +19,7 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Label fx:id="lbProxAno" layoutX="257.0" layoutY="33.0" text="2020" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="260.0">
+            <Label fx:id="lbProxAno" layoutX="257.0" layoutY="33.0" text="2020" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="252.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
