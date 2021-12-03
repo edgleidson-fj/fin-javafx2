@@ -20,12 +20,12 @@
          <children>
             <MenuBar>
               <menus>
-                <Menu mnemonicParsing="false" text="Login">
+                <Menu fx:id="menuLogin" mnemonicParsing="false" text="Login">
                   <items>
                         <MenuItem fx:id="menuItemSair" mnemonicParsing="false" onAction="#onMenuItemSair" text="Sair" />
                   </items>
                 </Menu>
-                  <Menu mnemonicParsing="false" text="Lançamentos">
+                  <Menu fx:id="menuLancamentos" mnemonicParsing="false" text="Lançamentos">
                     <items>
                       <MenuItem fx:id="menuItemLancamentoQuitado" mnemonicParsing="false" onAction="#onMenuItemLancamentoQuitado" text="Lançamento (Quitado)" />
                         <Menu mnemonicParsing="false" text="Lançamento (A Pagar)">
@@ -37,7 +37,7 @@
                         </Menu>
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Relatórios/Financeiro">
+                  <Menu fx:id="menuRelatorios" mnemonicParsing="false" text="Relatórios/Financeiro">
                     <items>
                         <MenuItem fx:id="menuItemConsultaPorPagamento" mnemonicParsing="false" onAction="#onMenuItemConsultaPorPagamento" text="Ranking (Tipos de Pagamento)" />
                         <MenuItem fx:id="menuItemConsultaPorRank" mnemonicParsing="false" onAction="#onMenuItemConsultaPorRank" text="Ranking (Despesas)" />
@@ -58,7 +58,7 @@
                         <MenuItem fx:id="menuItemTodasContas1" mnemonicParsing="false" onAction="#onMenuItemTodasContas" text="Tudo (Quitado/A Pagar)" />
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Cadastros">
+                  <Menu fx:id="menuCadastros" mnemonicParsing="false" text="Cadastros">
                     <items>
                       <MenuItem fx:id="menuItemTipoPagamento" mnemonicParsing="false" onAction="#onMenuItemTipoPagamento" text="Tipos de Pagamento" />
                         <MenuItem fx:id="menuItemUsuario" mnemonicParsing="false" onAction="#onMenuItemUsuario" text="Usuário" />

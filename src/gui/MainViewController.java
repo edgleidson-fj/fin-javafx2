@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 import application.Main;
 import gui.util.Alertas;
 import gui.util.Restricoes;
+import gui.util.Utils;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
@@ -49,6 +52,14 @@ public class MainViewController implements Initializable {
 	private Mensagem mensagemEntidade;
 	//-------------------------------------------------------
 	
+	@FXML
+	private Menu menuLogin;
+	@FXML
+	private Menu menuLancamentos;
+	@FXML
+	private Menu menuRelatorios;
+	@FXML
+	private Menu menuCadastros;
 	@FXML
 	private MenuItem menuItemSair;
 	@FXML
@@ -105,11 +116,12 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onMenuItemSair(ActionEvent evento) {	
 		usuarioEntidade.setLogado("N");
-		usuarioService.logadoN(usuarioEntidade);
+		Platform.exit();
+		/*usuarioService.logadoN(usuarioEntidade);
 		carregarView("/gui/LoginView.fxml", (LoginController controller) -> {
 			controller.setUsuarioService(new UsuarioService());
 			controller.setUsuario(new Usuario());
-		});		
+		});*/		
 	}
 
 	@FXML
@@ -479,7 +491,7 @@ public class MainViewController implements Initializable {
 					 usuarioId = u.getId();			 
 				 }				
 			 }
-				
+			desocultarMenu();	
 			carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
 				controller.setLancamentoService(new LancamentoService());
 				controller.setLancamento(new Lancamento());
@@ -551,7 +563,8 @@ public class MainViewController implements Initializable {
 		setUsuarioService(new UsuarioService());
 		setMensagemService(new MensagemService());
 		setMensagem(new Mensagem());
-		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
+		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);	
+		ocultarMenu();
 		}
 	// ------------------------------------------------------------------
 		
@@ -632,5 +645,19 @@ public class MainViewController implements Initializable {
 				Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
 			}
 		}	
+		
+		public void ocultarMenu() {
+			menuLogin.setVisible(false);
+			menuLancamentos.setVisible(false);
+			menuRelatorios.setVisible(false);
+			menuCadastros.setVisible(false);
+		}
+		
+		public void desocultarMenu() {
+			menuLogin.setVisible(true);
+			menuLancamentos.setVisible(true);
+			menuRelatorios.setVisible(true);
+			menuCadastros.setVisible(true);
+		}
 		
 			}
