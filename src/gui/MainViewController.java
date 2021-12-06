@@ -116,12 +116,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onMenuItemSair(ActionEvent evento) {	
 		usuarioEntidade.setLogado("N");
-		Platform.exit();
-		/*usuarioService.logadoN(usuarioEntidade);
-		carregarView("/gui/LoginView.fxml", (LoginController controller) -> {
-			controller.setUsuarioService(new UsuarioService());
-			controller.setUsuario(new Usuario());
-		});*/		
+		Platform.exit();		
 	}
 
 	@FXML
@@ -524,6 +519,7 @@ public class MainViewController implements Initializable {
 			controller.setUsuarioService(new UsuarioService());
 			controller.setUsuario(new Usuario());
 			controller.carregarCamposDeCadastro();
+			desocultarMenu();
 		});
 	}
 	
@@ -539,6 +535,7 @@ public class MainViewController implements Initializable {
 			controller.setUsuarioService(new UsuarioService());
 			controller.setUsuario(new Usuario());
 			controller.carregarCamposDeCadastro();
+			desocultarMenu();
 		});
 	}
 	//-------------------------------------------------------

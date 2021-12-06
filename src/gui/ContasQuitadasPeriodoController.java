@@ -86,6 +86,7 @@ public class ContasQuitadasPeriodoController implements Initializable {
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
+		if(datePickerDataInicial.getValue() != null && datePickerDataFinal.getValue() != null) {
 		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();
 		
 		Instant instant1 = Instant.from(datePickerDataInicial.getValue().atStartOfDay(ZoneId.systemDefault()));		
@@ -103,7 +104,11 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
 		criarBotaoDetalhe();
-		carregarValorTotal();		
+		carregarValorTotal();
+	}
+	else {
+		Alertas.mostrarAlerta("Atenção", null, "Favor informar data INICIAL e FINAL para consulta.", AlertType.INFORMATION);
+	}
 	}
 		
 	public void carregarValorTotal() {
