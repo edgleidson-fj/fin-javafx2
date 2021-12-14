@@ -32,7 +32,7 @@
             <DatePicker fx:id="datePickerData" layoutX="573.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" promptText="   /      /" AnchorPane.leftAnchor="573.0" />
             <Label layoutX="53.0" layoutY="70.0" text="Referência*" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="49.0" />
             <TextField fx:id="txtId" editable="false" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="75.0" promptText="ID" />
-            <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTO (A Pagar Parcelado)" AnchorPane.leftAnchor="200.0">
+            <Label layoutX="244.0" layoutY="14.0" text="LANÇAMENTO (Parcelado)" AnchorPane.leftAnchor="200.0">
                <font>
                   <Font name="System Bold Italic" size="22.0" />
                </font>

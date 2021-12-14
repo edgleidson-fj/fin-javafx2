@@ -58,6 +58,10 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
+		if(txtNome.getText().isEmpty() || txtPrecoUnid.getText().isEmpty() || txtQuantidade.getText().isEmpty()) {
+			Alertas.mostrarAlerta("Atenção", null, "Campo(s) em branco", AlertType.INFORMATION);
+			}
+			else if(Utils.stringParaDouble(txtPrecoUnid.getText()) >0 && Utils.stringParaInteiro(txtQuantidade.getText()) >0 ){
 		auxPegarDataLancamento();
 		Stage parentStage = Utils.stageAtual(evento);
 		Despesa desp =  new Despesa();
@@ -65,11 +69,17 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 		desp.setNome(txtNome.getText());
 		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
-		desp.setDescontoIndividual(Utils.stringParaDouble(txtDesconto.getText()));
 		double valorUnid, quantidade, desconto;
+		if(!txtDesconto.getText().isEmpty()) {
+		desp.setDescontoIndividual(Utils.stringParaDouble(txtDesconto.getText()));
+		desconto = Utils.stringParaDouble(txtDesconto.getText());
+		}
+		else {
+		desp.setDescontoIndividual(0.0);
+		desconto = 0.0;
+		}
 		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-		desconto = Utils.stringParaDouble(txtDesconto.getText());
 		desp.setPrecoBruto(valorUnid * quantidade);
 		desp.setPrecoTotal((valorUnid * quantidade)- desconto);
 		despesaService.atualizar(desp);	
@@ -91,6 +101,10 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 			controller.desocultarCampos();
 			controller.carregarData();
 			});
+			}
+			else {
+				Alertas.mostrarAlerta("Atenção", null, "Preço unitário e/ou quantidade inválido", AlertType.INFORMATION);
+			}
 		}
 	
 	@FXML
