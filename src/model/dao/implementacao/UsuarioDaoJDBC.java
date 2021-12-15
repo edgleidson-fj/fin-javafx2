@@ -269,5 +269,34 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-
+    @Override 
+	public Usuario verificarUsuario(String nome, String cpf, String email) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = connection.prepareStatement(
+					"SELECT * FROM usuario " 
+					+ "WHERE usuarioNome = ? "
+					+ "AND cpf = ? "
+					+ "AND email = ?");
+			ps.setString(1, nome);
+			ps.setString(2, cpf);
+			ps.setString(3, email);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getInt("usuarioId"));
+				obj.setNome(rs.getString("usuarioNome"));
+				obj.setSenha(rs.getString("usuarioSenha"));
+				obj.setCpf(rs.getString("cpf"));
+				return obj;
+			}
+			return null;
+		} catch (SQLException ex) {
+			throw new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+			BD.fecharResultSet(rs);
+		}
+	}
 }

@@ -16,4 +16,5 @@ public interface UsuarioDao {
 	void logado(Usuario obj);
 	void logadoN(Usuario obj);
 	Usuario recuperarSenha (String nome, String cpf, String email, String novaSenha);
+	Usuario verificarUsuario (String nome, String cpf, String email);
 }

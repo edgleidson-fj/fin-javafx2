@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import bd.BDException;
@@ -20,17 +21,19 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import model.entidade.Lancamento;
 import model.entidade.Usuario;
+import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
 
-public class EsqueciASenhaController implements Initializable/*, DataChangerListener*/ {
+public class EsqueciASenhaController implements Initializable/* , DataChangerListener */ {
 
 	private UsuarioService service;
 	private Usuario entidade;
-	
+
 	@FXML
-	private TextField txtNome;	
+	private TextField txtNome;
 	@FXML
 	private TextField txtEmail;
 	@FXML
@@ -43,7 +46,7 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 	private Button btRecuperar;
 	@FXML
 	private Button btLimpar;
-	
+
 	// Injeção da dependência.
 	public void setUsuarioService(UsuarioService service) {
 		this.service = service;
@@ -52,44 +55,59 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 	public void setUsuario(Usuario entidade) {
 		this.entidade = entidade;
 	}
-	
+
 	int x;
+
 	public void onBtRecuperarSenha() {
-		if(!txtNome.getText().equals("") || !txtCPF.getText().equals("") || !txtEmail.getText().equals("")) {
-		try {
-			Criptografia c = new Criptografia();			
-			String nome = txtNome.getText();
-			String cpf = txtCPF.getText();
-			String email = txtEmail.getText();
-			String novaSenha = c.criptografia(txtNovaSenha.getText());				
-			entidade.setNome(nome);
-			entidade.setCpf(cpf);
-			entidade.setEmail(email);
-			entidade.setSenha(novaSenha);
-			Usuario user = service.recuperarSenha(nome, cpf, email, novaSenha);
-				entidade.setCpf(cpf);
-					entidade.setLogado("S");
-					service.logado(entidade);	
-					atualizarPropriaView(null, "/gui/LoginView.fxml");					
-					if(user == null || txtNovaSenha.getText().equals("")) {
-						Alertas.mostrarAlerta("Atenção!","Informação divergente entre: NOME, CPF e/ou EMAIL.", null, AlertType.WARNING);
-					}else {
-						Alertas.mostrarAlerta( null,"Recuperação de senha realizada com sucesso.", null, AlertType.INFORMATION);
-						atualizarPropriaView(null, "/gui/LoginView.fxml");
+		if (!txtNome.getText().equals("") && !txtCPF.getText().equals("") && !txtEmail.getText().equals("")) {
+			if (!txtNovaSenha.getText().isEmpty()) {
+				try {
+					Criptografia c = new Criptografia();
+					String nome = txtNome.getText();
+					String cpf = txtCPF.getText();
+					String email = txtEmail.getText();
+					String novaSenha = c.criptografia(txtNovaSenha.getText());
+					entidade.setNome(nome);
+					entidade.setCpf(cpf);
+					entidade.setEmail(email);
+					entidade.setSenha(novaSenha);
+					Usuario user = service.recuperarSenha(nome, cpf, email, novaSenha);
+					user = service.verificarUsuario(nome, cpf, email);
+					if (user == null) {
+						Alertas.mostrarAlerta("Atenção!", null, "Informação divergente entre: NOME, CPF e/ou EMAIL.",
+								AlertType.INFORMATION);
+					} else {
+						entidade.setCpf(cpf);
+						entidade.setLogado("S");
+						service.logado(entidade);
+						Alertas.mostrarAlerta(null, "Recuperação de senha realizada com sucesso.", null,
+								AlertType.INFORMATION);
+						carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
+							controller.setLancamentoService(new LancamentoService());
+							controller.setLancamento(new Lancamento());
+							controller.rotinasAutomaticas();
+							controller.carregarTableView();
+						});		
+
 					}
-			} catch (BDException ex) {
-			Alertas.mostrarAlerta("Erro!","Erro ao tentar recuperar senha.", ex.getMessage(), AlertType.ERROR);
-		}
-		}
-		else {
-			Alertas.mostrarAlerta("Atenção!", "Favor revisar campos", null, AlertType.WARNING);
+				} catch (BDException ex) {
+					Alertas.mostrarAlerta("Erro!", "Erro ao tentar recuperar senha.", ex.getMessage(), AlertType.ERROR);
+				}
+			} else {
+				Alertas.mostrarAlerta("Atenção!", null, "Favor cadastrar nova senha.", AlertType.INFORMATION);
+			}
+		} else {
+			Alertas.mostrarAlerta("Atenção!", null, "Campo(s) em branco", AlertType.INFORMATION);
 		}
 	}
 
-	public void onBtVoltar() {	
-		atualizarPropriaView(null, "/gui/LoginView.fxml");
+	public void onBtVoltar() {
+		carregarView("/gui/LoginView.fxml", (LoginController controller) ->{
+			controller.setUsuario(new Usuario());
+			controller.setUsuarioService(new UsuarioService());
+		});
 	}
-	
+
 	public void onBtLimpar() {
 		txtNome.setText("");
 		txtCPF.setText("");
@@ -97,11 +115,10 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 		txtNovaSenha.setText("");
 	}
 
-		
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarComportamento();
-		}
+	}
 
 	private void inicializarComportamento() {
 		Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
@@ -112,26 +129,22 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 
 	public void carregarCamposDeCadastro() {
 		List<Usuario> lista = service.buscarTodos();
-		for(Usuario u : lista) {
-			 u.getLogado();
-			
-			 if(u.getLogado().equals("S")) {
-					txtNome.setText(u.getNome());
-					txtEmail.setText(u.getEmail());
-					txtCPF.setText(u.getCpf());
-			 }
-		 }		
+		for (Usuario u : lista) {
+			u.getLogado();
+
+			if (u.getLogado().equals("S")) {
+				txtNome.setText(u.getNome());
+				txtEmail.setText(u.getEmail());
+				txtCPF.setText(u.getCpf());
+			}
+		}
 	}
 	
-	private  void atualizarPropriaView(Usuario obj, String caminhoDaView) {
+	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
-			VBox novoVBox = loader.load();			
-			
-				LoginController controller = loader.getController();
-				controller.setUsuario(new Usuario());
-				controller.setUsuarioService(new UsuarioService());
-		
+			VBox novoVBox = loader.load();
+
 			Scene mainScene = Main.pegarMainScene();
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 
@@ -139,42 +152,46 @@ public class EsqueciASenhaController implements Initializable/*, DataChangerList
 			mainVBox.getChildren().clear();
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
+
+			// Pegando segundo parametro dos onMenuItem()
+			T controller = loader.getController();
+			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-	
-	
-	//Mascara 999.999.999-99
-		@FXML
-		private void mascaraCPF() {
-		   txtCPF.setOnKeyTyped((KeyEvent evento) -> {
-	            if (!"01234567891234".contains(evento.getCharacter())) {
-	                evento.consume();
-	            }
-	            if (evento.getCharacter().trim().length() == 0) {
 
-	            } else if (txtCPF.getText().length() == 16) {
-	                evento.consume();
-	            }
-	            switch (txtCPF.getText().length()) {
-	                case 3:
-	                	txtCPF.setText(txtCPF.getText() + ".");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 7:
-	                	txtCPF.setText(txtCPF.getText() + ".");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 11:
-	                	txtCPF.setText(txtCPF.getText() + "-");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 14:
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	            }
-	        });
-	    }
+
+	// Mascara 999.999.999-99
+	@FXML
+	private void mascaraCPF() {
+		txtCPF.setOnKeyTyped((KeyEvent evento) -> {
+			if (!"01234567891234".contains(evento.getCharacter())) {
+				evento.consume();
+			}
+			if (evento.getCharacter().trim().length() == 0) {
+
+			} else if (txtCPF.getText().length() == 16) {
+				evento.consume();
+			}
+			switch (txtCPF.getText().length()) {
+			case 3:
+				txtCPF.setText(txtCPF.getText() + ".");
+				txtCPF.positionCaret(txtCPF.getText().length());
+				break;
+			case 7:
+				txtCPF.setText(txtCPF.getText() + ".");
+				txtCPF.positionCaret(txtCPF.getText().length());
+				break;
+			case 11:
+				txtCPF.setText(txtCPF.getText() + "-");
+				txtCPF.positionCaret(txtCPF.getText().length());
+				break;
+			case 14:
+				txtCPF.positionCaret(txtCPF.getText().length());
+				break;
+			}
+		});
+	}
 
 }

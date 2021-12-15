@@ -54,4 +54,8 @@ public class UsuarioService {
 		return dao.recuperarSenha(nome, cpf, email, novaSenha);
 	}
 	
+	public Usuario verificarUsuario(String nome, String cpf, String email){
+		return dao.verificarUsuario(nome, cpf, email);
+	}
+	
 }
