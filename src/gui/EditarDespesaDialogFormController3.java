@@ -63,6 +63,10 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			Alertas.mostrarAlerta("Atenção", null, "Campo(s) em branco", AlertType.INFORMATION);
 			}
 			else if(Utils.stringParaDouble(txtPrecoUnid.getText()) >0 && Utils.stringParaInteiro(txtQuantidade.getText()) >0 ){
+				int qtde = Utils.stringParaInteiro(0+ txtQuantidade.getText());
+				double preco = Utils.stringParaDouble(0+ txtPrecoUnid.getText());
+				double desc = Utils.stringParaDouble(0+ txtDesconto.getText());				
+				if(desc < (preco*qtde)) {
 		auxPegarDataLancamento();
 		Stage parentStage = Utils.stageAtual(evento);
 		Despesa desp =  new Despesa();
@@ -104,6 +108,10 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			controller.carregarTableView();
 			});	
 			}
+				else {
+					Alertas.mostrarAlerta("Atenção", "Desconto inválido.", "Valor do desconto é igual ou superior ao valor do (Produto/Serviço)." , AlertType.INFORMATION);
+				}
+				}
 			else {
 				Alertas.mostrarAlerta("Atenção", null, "Preço unitário e/ou quantidade inválido", AlertType.INFORMATION);
 			}

@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -58,7 +59,7 @@ public class LanAPagarController implements Initializable {
 	private ItemService itemService;
 	private DespesaService despesaService;
 	private UsuarioService usuarioService;
-	private Usuario usuarioEntidade;	
+	private Usuario usuarioEntidade;
 	// ------------------------------------------------------
 
 	@FXML
@@ -115,7 +116,7 @@ public class LanAPagarController implements Initializable {
 	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespDesconto;
-	@FXML 
+	@FXML
 	private TextArea txtAreaObs;
 //--------------------------------------------------------
 
@@ -130,114 +131,143 @@ public class LanAPagarController implements Initializable {
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
-		if(txtId.getText().equals("")) {
-		total += 0.0;
-		Lancamento obj = new Lancamento();
-		obj.setReferencia(txtReferencia.getText());
-		obj.setTotal(total);
-		if(txtReferencia.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir referência do lançamento ", AlertType.WARNING);
-		}
-		else {
-		if (datePickerData.getValue() == null) {
-			Alertas.mostrarAlerta("", null, "Necessário informar a data para pagamento", AlertType.INFORMATION);
+		if (txtId.getText().equals("")) {
+			total += 0.0;
+			Lancamento obj = new Lancamento();
+			obj.setReferencia(txtReferencia.getText());
+			obj.setTotal(total);
+			if (txtReferencia.getText().equals("")) {
+				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento ",
+						AlertType.INFORMATION);
+			} else {
+				if (datePickerData.getValue() == null) {
+					Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para pagamento",
+							AlertType.INFORMATION);
+				}
+
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
+				Date dataSelecionada = (Date.from(instant));
+				Date hoje = new Date();
+
+				if (dataSelecionada.before(hoje)) {
+					Alertas.mostrarAlerta("Atenção", "Data inválida (" + sdf.format(dataSelecionada) + ").",
+							"Data selecionada é igual ou anterior a data atual.", AlertType.INFORMATION);
+				} else {
+					instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
+					obj.setData(Date.from(instant));
+				}
+				// Usuário Logado.
+				Usuario user = new Usuario();
+				user.setId(usuarioId);
+				obj.setUsuario(user);
+				obj.setTipo("N");
+				lancamentoService.salvar(obj);
+				txtId.setText(String.valueOf(obj.getId()));
+				datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
+				int id = obj.getId();
+				idLan = id;
+				desocultarCampos();
+			}
 		} else {
-			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
-			obj.setData(Date.from(instant));
-		}
-		//Usuário Logado.
-		Usuario user = new Usuario();
-		user.setId(usuarioId);
-		obj.setUsuario(user);
-		obj.setTipo("N");		
-		lancamentoService.salvar(obj);
-		txtId.setText(String.valueOf(obj.getId()));
-		datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
-		int id = obj.getId();
-		idLan = id;
-		desocultarCampos();
-		}
-		}
-		else {
-			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ",
+					AlertType.INFORMATION);
 		}
 	}
 
 	@FXML
 	public void onBtADDItem(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
-		if(!txtItem.getText().equals("")) {
-		// Lancamento
-		Lancamento obj = new Lancamento();
-		lbTotal.setText(String.valueOf(obj.getTotal()));
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		obj.setReferencia(txtReferencia.getText());
-		obj.setTotal((total));
-		lancamentoService.atualizar(obj);
-		txtId.setText(String.valueOf(obj.getId()));
-		//Despesa
-				Despesa desp = new Despesa();
-				desp.setNome(txtItem.getText());
-				desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
-				desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
-				desp.setDescontoIndividual(Utils.stringParaDouble(txtDescontoIndividual.getText()));
-				double valorUnid, quantidade, descontoIndividual;
-				valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
-				quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-				descontoIndividual = Utils.stringParaDouble(txtDescontoIndividual.getText());
-				desp.setPrecoBruto(valorUnid * quantidade);
-				desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
-				despesaService.salvar(desp);			
-		// Item
-		Item item = new Item();
-		item.setLancamento(obj);
-		item.setDespesa(desp);
-		itemService.salvar(item);
-		// Limpando os campos
-		txtItem.setText("");
-		txtQuantidade.setText(String.valueOf(1));
-		txtPrecoUnid.setText(String.valueOf(0.00));
-		txtDescontoIndividual.setText(String.valueOf(0.00));
-		//Carregar TableView do Lançamento 
-		List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId()); 
-		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
-		  tbDespesa.setItems(obsListaDespesaTbView);			
-		  iniciarBotaoRemover();
-		  iniciarBotaoEditar();
-			  carregarValores();
-			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
-			lancamentoService.atualizar(obj);	
+		if (!txtItem.getText().equals("")) {
+			int qtde = Utils.stringParaInteiro(0 + txtQuantidade.getText());
+			if (!txtQuantidade.getText().equals("") && qtde > 0) {
+				double preco = Utils.stringParaDouble(0 + txtPrecoUnid.getText());
+				if (!txtPrecoUnid.getText().equals("") && preco > 0.0) {
+					double desc = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
+					if (desc < (preco * qtde)) {
+						// Lancamento
+						Lancamento obj = new Lancamento();
+						lbTotal.setText(String.valueOf(obj.getTotal()));
+						obj.setId(Utils.stringParaInteiro(txtId.getText()));
+						obj.setReferencia(txtReferencia.getText());
+						obj.setTotal((total));
+						lancamentoService.atualizar(obj);
+						txtId.setText(String.valueOf(obj.getId()));
+						// Despesa
+						Despesa desp = new Despesa();
+						desp.setNome(txtItem.getText());
+						desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
+						desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
+						desp.setDescontoIndividual(Utils.stringParaDouble(0 + txtDescontoIndividual.getText()));
+						double valorUnid, quantidade, descontoIndividual;
+						valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
+						quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
+						descontoIndividual = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
+						desp.setPrecoBruto(valorUnid * quantidade);
+						desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
+						despesaService.salvar(desp);
+						// Item
+						Item item = new Item();
+						item.setLancamento(obj);
+						item.setDespesa(desp);
+						itemService.salvar(item);
+						// Limpando os campos
+						txtItem.setText("");
+						txtQuantidade.setText(String.valueOf(1));
+						txtPrecoUnid.setText(String.valueOf(0.00));
+						txtDescontoIndividual.setText(String.valueOf(0.00));
+						// Carregar TableView do Lançamento
+						List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
+						obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
+						tbDespesa.setItems(obsListaDespesaTbView);
+						iniciarBotaoRemover();
+						iniciarBotaoEditar();
+						carregarValores();
+						obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
+						lancamentoService.atualizar(obj);
+					} else {
+						Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+								"Valor do desconto é igual ou superior ao valor do (Produto/Serviço).",
+								AlertType.INFORMATION);
+					}
+				} else {
+					Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+							AlertType.INFORMATION);
+				}
+			} else {
+				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma quantidade válida para o (Produto/Serviço).",
+						AlertType.INFORMATION);
+			}
+		} else {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+					AlertType.INFORMATION);
 		}
-		else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do (Produto/Serviço).", AlertType.WARNING);
-		}
-		}
-		 
+	}
+
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
-			if(txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
-			 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+			if (txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
+				Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+			} else {
+				obj.setObs(txtAreaObs.getText());
+				obj.setDesconto(0.00);
+				obj.setTipo("N");
+				lancamentoService.confirmarLanAPagar(obj);
+				carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {
+					controller.setLancamento(new Lancamento());
+					controller.setLancamentoService(new LancamentoService());
+					controller.setDespesaService(new DespesaService());
+					controller.setItemService(new ItemService());
+					controller.setUsuario(new Usuario());
+					controller.setUsuarioService(new UsuarioService());
+					controller.carregarUsuarioLogado();
+					controller.ocultarCampos();
+				});
 			}
-			else {
-			obj.setObs(txtAreaObs.getText());
-			obj.setDesconto(0.00);
-			obj.setTipo("N");
-			lancamentoService.confirmarLanAPagar(obj);
-			 carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {			  
-			  controller.setLancamento(new Lancamento()); 
-			  controller.setLancamentoService(new LancamentoService());
-			  controller.setDespesaService(new  DespesaService()); 
-			  controller.setItemService(new ItemService()); 
-			  controller.setUsuario(new Usuario());
-				controller.setUsuarioService(new UsuarioService());
-				controller.carregarUsuarioLogado();
-				controller.ocultarCampos();
-			  }); 
-			}
-		}catch (RuntimeException ex) {
+		} catch (RuntimeException ex) {
 			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
 		}
 	}
@@ -246,37 +276,39 @@ public class LanAPagarController implements Initializable {
 	public void onBtCancelar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		if(!txtId.getText().equals("")) {
+		if (!txtId.getText().equals("")) {
 			lancamentoService.cancelar(obj);
 			Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
 		}
-		  carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {
-		  controller.setLancamentoService(new LancamentoService());
-		  controller.setLancamento(new Lancamento()); 
-		  controller.setDespesaService(new DespesaService()); 
-		  controller.setItemService(new ItemService()); 
-		  controller.setUsuario(new Usuario());
+		carregarPropriaView("/gui/LanAPagarView.fxml", (LanAPagarController controller) -> {
+			controller.setLancamentoService(new LancamentoService());
+			controller.setLancamento(new Lancamento());
+			controller.setDespesaService(new DespesaService());
+			controller.setItemService(new ItemService());
+			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarUsuarioLogado();
 			controller.ocultarCampos();
-		   });		 
+		});
 	}
 	// ------------------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
 	}
+
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
+
 	public void setItemService(ItemService itemService) {
 		this.itemService = itemService;
 	}
-	
+
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
-	
+
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
@@ -294,7 +326,7 @@ public class LanAPagarController implements Initializable {
 	public void carregarCamposDeCadastro() {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 	}
-	
+
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
@@ -303,8 +335,8 @@ public class LanAPagarController implements Initializable {
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		
-		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -337,7 +369,7 @@ public class LanAPagarController implements Initializable {
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
-	}	
+	}
 
 	public void criarDialogForm(Despesa obj, String nomeAbsoluto, Stage stagePai) {
 		try {
@@ -404,7 +436,7 @@ public class LanAPagarController implements Initializable {
 					return;
 				}
 				setGraphic(button);
-				setStyle("-fx-color: #FF6347");	
+				setStyle("-fx-color: #FF6347");
 				button.setOnAction(event -> removerDespesa(obj));
 			}
 		});
@@ -419,24 +451,23 @@ public class LanAPagarController implements Initializable {
 			try {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				itemService.excluir(lan,desp);
+				itemService.excluir(lan, desp);
 				despesaService.excluir(desp);
-				//Carregar TableView do Lançamento 					
-				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText())); 
+				// Carregar TableView do Lançamento
+				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText()));
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
-				  tbDespesa.setItems(obsListaDespesaTbView);			
-				  iniciarBotaoRemover();				  
-				  carregarValores();
-					lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
-					lancamentoService.atualizar(lan);	
-					desocultarCampos();
-				}
-			catch (BDIntegrityException ex) {
+				tbDespesa.setItems(obsListaDespesaTbView);
+				iniciarBotaoRemover();
+				carregarValores();
+				lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
+				lancamentoService.atualizar(lan);
+				desocultarCampos();
+			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
 	}
-	
+
 	public void carregarTableView() {
 		List<Despesa> listaDespesa = despesaService.listarPorId(lancamentoEntidade.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
@@ -445,29 +476,30 @@ public class LanAPagarController implements Initializable {
 		iniciarBotaoEditar();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
-		//datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
-		//Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+		// datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(),
+		// ZoneId.systemDefault()));
+		// Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		carregarValores();
 	}
-	
+
 	public void carregarUsuarioLogado() {
-		if(usuarioEntidade == null) {
+		if (usuarioEntidade == null) {
 			System.out.println("entidade nulo");
 		}
-		if(usuarioService == null) {
+		if (usuarioService == null) {
 			System.out.println("service nulo");
 		}
 		List<Usuario> lista = usuarioService.buscarTodos();
-		for(Usuario u : lista) {
-			 u.getLogado();
-			
-			 if(u.getLogado().equals("S")) {
-				 usuarioId = u.getId();	
-				 lbUsuario.setText(String.valueOf(u.getNome()));
-			 }
-		 }
+		for (Usuario u : lista) {
+			u.getLogado();
+
+			if (u.getLogado().equals("S")) {
+				usuarioId = u.getId();
+				lbUsuario.setText(String.valueOf(u.getNome()));
+			}
+		}
 	}
-	
+
 	public void carregarValores() {
 		Double soma = 0.0;
 		descInd = 0.0;
@@ -476,13 +508,13 @@ public class LanAPagarController implements Initializable {
 			descInd += tab.getDescontoIndividual();
 		}
 		lbTotal.setText(String.format("%.2f", soma));
-}
-	
+	}
+
 	public void carregarData() {
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 	}
-	
+
 	public void ocultarCampos() {
 		txtItem.setVisible(false);
 		txtPrecoUnid.setVisible(false);
@@ -493,9 +525,11 @@ public class LanAPagarController implements Initializable {
 		lbRotuloQtde.setVisible(false);
 		lbRotuloPreco.setVisible(false);
 		lbRotuloDescInd.setVisible(false);
-			}
+	}
 
 	public void desocultarCampos() {
+		datePickerData.setDisable(true);
+		txtReferencia.setDisable(true);
 		txtItem.setVisible(true);
 		txtPrecoUnid.setVisible(true);
 		txtQuantidade.setVisible(true);
@@ -506,6 +540,8 @@ public class LanAPagarController implements Initializable {
 		lbRotuloPreco.setVisible(true);
 		lbRotuloDescInd.setVisible(true);
 		btCriarRegistroDeLancamento.setVisible(false);
+		datePickerData.setDisable(true);
+		txtReferencia.setDisable(true);
 	}
-	
+
 }
