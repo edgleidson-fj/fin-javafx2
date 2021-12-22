@@ -140,11 +140,11 @@ public class LanAPagarFaturaController implements Initializable {
 			Lancamento obj = new Lancamento();
 			obj.setTotal(total);
 			if (txtReferencia.getText().equals("")) {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento ",
+				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento.",
 						AlertType.INFORMATION);
 			} else {
 				if (datePickerData.getValue() == null) {
-					Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para o primeiro vencimento",
+					Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para o primeiro vencimento.",
 							AlertType.INFORMATION);
 				}
 
@@ -210,7 +210,6 @@ public class LanAPagarFaturaController implements Initializable {
 		if (!txtItem.getText().equals("")) {
 			double preco = Utils.stringParaDouble(0 + txtPrecoUnid.getText());
 			if (!txtPrecoUnid.getText().equals("") && preco > 0.0) {
-
 				// Despesa
 				Despesa desp = new Despesa();
 				desp.setNome(txtItem.getText());
@@ -353,10 +352,10 @@ public class LanAPagarFaturaController implements Initializable {
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
-		Restricoes.setTextFieldDouble(txtPrecoUnid);
-		Restricoes.setTextFieldDouble(txtDescontoIndividual);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
+		Restricoes.setTextFieldDouble(txtPrecoUnid);
+		Restricoes.setTextFieldDouble(txtDescontoIndividual);		
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
 		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));

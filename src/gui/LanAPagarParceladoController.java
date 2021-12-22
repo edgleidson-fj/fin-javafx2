@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -59,7 +60,7 @@ public class LanAPagarParceladoController implements Initializable {
 	private ItemService itemService;
 	private DespesaService despesaService;
 	private UsuarioService usuarioService;
-	private Usuario usuarioEntidade;		
+	private Usuario usuarioEntidade;
 	// ------------------------------------------------------
 
 	@FXML
@@ -75,7 +76,7 @@ public class LanAPagarParceladoController implements Initializable {
 	@FXML
 	private TextField txtPrecoUnid;
 	@FXML
-	private TextField txtDescontoIndividual;	
+	private TextField txtDescontoIndividual;
 	@FXML
 	private TextField txtTotalCompra;
 	@FXML
@@ -149,159 +150,194 @@ public class LanAPagarParceladoController implements Initializable {
 	int aux;
 	int despesaId;
 	int lancamentoIds;
-	int usuarioId;	
+	int usuarioId;
 	String dataCompra, parcelado, totalCompra, descontoCompra, chaveNFE;
 	// ----------------------------------------------------------------------------------------------------------
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
-		if(txtId.getText().equals("")) {
-		total += 0.0;
-		Lancamento obj = new Lancamento();
-		obj.setTotal(total);
-		if(txtReferencia.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir referência do lançamento", AlertType.WARNING);
-		}
-		else {
-		if (datePickerData.getValue() == null) {
-			Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para o 1º pagamento", AlertType.WARNING);
-		} else {
-			parcela = Utils.stringParaInteiro(txtParcela.getText());
-			LocalDate dtPicker = datePickerData.getValue();
-			for (int x = 1; x <= parcela; x++) {
-				int mais30Dias = (x-1) * 30;
-				GregorianCalendar data = new GregorianCalendar(dtPicker.getYear(), dtPicker.getMonthValue(),
-						dtPicker.getDayOfMonth(), 0, 0, 0);
-				int numero = 0;
-				data.add(Calendar.DATE, numero + mais30Dias);
-				data.add(Calendar.MONTH, numero - 1);
-				Date dataParcelas = data.getTime();
-				obj.setData(dataParcelas);
-				
-				//Usuário logado.
-				Usuario user = new Usuario();
-				user.setId(usuarioId);
-				obj.setUsuario(user);							
-				
-				//Detalhe do parcelamento no Registro.				
-				if(cbDetalheParcela.isSelected()) {
-					obj.setReferencia(txtReferencia.getText()+" "+x+"/"+parcela+" ");
-				}else {
-					obj.setReferencia(txtReferencia.getText());
+		if (txtId.getText().equals("")) {
+			total += 0.0;
+			Lancamento obj = new Lancamento();
+			obj.setTotal(total);
+			if (txtReferencia.getText().equals("")) {
+				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento.",
+						AlertType.INFORMATION);
+			} else {
+				if (datePickerData.getValue() == null) {
+					Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para primeira parcela.",
+							AlertType.INFORMATION);
 				}
-				obj.setTipo("P");				
-				lancamentoService.salvar(obj);
-				lancamentoIds = obj.getId();
+
+				int parc = Utils.stringParaInteiro(0 + txtParcela.getText());
+				if (txtParcela.getText().equals(null) || parc <= 0) {
+					Alertas.mostrarAlerta("Atenção", "Parcela inválida.", "Favor informar o número de parcelas.",
+							AlertType.INFORMATION);
+				}
+
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
+				Date dataSelecionada = (Date.from(instant));
+				Date hoje = new Date();
+
+				if (dataSelecionada.before(hoje)) {
+					Alertas.mostrarAlerta("Atenção", "Data inválida (" + sdf.format(dataSelecionada) + ").",
+							"Data selecionada é igual ou anterior a data atual.", AlertType.INFORMATION);
+				} else {
+					parcela = Utils.stringParaInteiro(txtParcela.getText());
+					LocalDate dtPicker = datePickerData.getValue();
+					for (int x = 1; x <= parcela; x++) {
+						int mais30Dias = (x - 1) * 30;
+						GregorianCalendar data = new GregorianCalendar(dtPicker.getYear(), dtPicker.getMonthValue(),
+								dtPicker.getDayOfMonth(), 0, 0, 0);
+						int numero = 0;
+						data.add(Calendar.DATE, numero + mais30Dias);
+						data.add(Calendar.MONTH, numero - 1);
+						Date dataParcelas = data.getTime();
+						obj.setData(dataParcelas);
+
+						// Usuário logado.
+						Usuario user = new Usuario();
+						user.setId(usuarioId);
+						obj.setUsuario(user);
+
+						// Detalhe do parcelamento no Registro.
+						if (cbDetalheParcela.isSelected()) {
+							obj.setReferencia(txtReferencia.getText() + " " + x + "/" + parcela + " ");
+						} else {
+							obj.setReferencia(txtReferencia.getText());
+						}
+						obj.setTipo("P");
+						lancamentoService.salvar(obj);
+						lancamentoIds = obj.getId();
+					}
+					txtId.setText(String.valueOf(obj.getId()));
+					datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
+					int id = obj.getId();
+					idLan = id;
+					aux = id - parcela;
+					desocultarCampos();
+				}
 			}
-			txtId.setText(String.valueOf(obj.getId()));
-			datePickerData.setValue(LocalDate.ofInstant(obj.getData().toInstant(), ZoneId.systemDefault()));
-			int id = obj.getId();
-			idLan = id;
-			aux = id - parcela;
-			desocultarCampos();
-		}
-		}
-		}
-		else {
-			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
+		} else {
+			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ",
+					AlertType.INFORMATION);
 		}
 	}
 
 	@FXML
 	public void onBtADDItem(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
-		if(!txtItem.getText().equals("")) {
-		// Despesa
-		Despesa desp = new Despesa();
-		desp.setNome(txtItem.getText());
-		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
-		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()) / parcela);
-		double valorUnid, quantidade, descontoIndividual;
-		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
-		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-		descontoIndividual = Utils.stringParaDouble(txtDescontoIndividual.getText()) / parcela;
-		desp.setPrecoBruto((valorUnid * quantidade)/ parcela);
-		desp.setPrecoTotal(((valorUnid * quantidade) / parcela) - descontoIndividual);
-		desp.setDescontoIndividual(descontoIndividual);
-		despesaService.salvar(desp);
-		despesaId = desp.getId();
+		if (!txtItem.getText().equals("")) {
+			int qtde = Utils.stringParaInteiro(0 + txtQuantidade.getText());
+			if (!txtQuantidade.getText().equals("") && qtde > 0) {
+				double preco = Utils.stringParaDouble(0 + txtPrecoUnid.getText());
+				if (!txtPrecoUnid.getText().equals("") && preco > 0.0) {
+					double desc = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
+					if (desc < (preco * qtde)) {
+						// Despesa
+						Despesa desp = new Despesa();
+						desp.setNome(txtItem.getText());
+						desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
+						desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()) / parcela);
+						double valorUnid, quantidade, descontoIndividual;
+						valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
+						quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
+						descontoIndividual = Utils.stringParaDouble(0 + txtDescontoIndividual.getText()) / parcela;
+						desp.setPrecoBruto((valorUnid * quantidade) / parcela);
+						desp.setPrecoTotal(((valorUnid * quantidade) / parcela) - descontoIndividual);
+						desp.setDescontoIndividual(descontoIndividual);
+						despesaService.salvar(desp);
+						despesaId = desp.getId();
 
-		for (int x = 0; x < parcela; x++) {
-			// Lancamento
-			Lancamento obj = new Lancamento();
-			lbTotal.setText(String.valueOf(obj.getTotal()));
-			obj.setId(lancamentoIds);
-			obj.setReferencia(txtReferencia.getText());
-			obj.setTotal((total));
-			lancamentoService.atualizar(obj);
-			lancamentoIds--;
-			// Item
-			Item item = new Item();
-			item.setLancamento(obj);
-			item.setDespesa(desp);
-			itemService.salvar(item);
-			// Carregar campos
-			txtId.setText(String.valueOf(obj.getId()));
-			txtItem.setText("");
-			txtQuantidade.setText(String.valueOf(1));
-			txtPrecoUnid.setText(String.valueOf(0.00));
-			txtDescontoIndividual.setText(String.valueOf(0.00));
-			// Carregar TableView do Lançamento
-			List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
-			obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
-			tbDespesa.setItems(obsListaDespesaTbView);
-			iniciarBotaoRemover();
-			carregarValores();
-			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
-			lancamentoService.atualizar(obj);			
+						for (int x = 0; x < parcela; x++) {
+							// Lancamento
+							Lancamento obj = new Lancamento();
+							lbTotal.setText(String.valueOf(obj.getTotal()));
+							obj.setId(lancamentoIds);
+							obj.setReferencia(txtReferencia.getText());
+							obj.setTotal((total));
+							lancamentoService.atualizar(obj);
+							lancamentoIds--;
+							// Item
+							Item item = new Item();
+							item.setLancamento(obj);
+							item.setDespesa(desp);
+							itemService.salvar(item);
+							// Carregar campos
+							txtId.setText(String.valueOf(obj.getId()));
+							txtItem.setText("");
+							txtQuantidade.setText(String.valueOf(1));
+							txtPrecoUnid.setText(String.valueOf(0.00));
+							txtDescontoIndividual.setText(String.valueOf(0.00));
+							// Carregar TableView do Lançamento
+							List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
+							obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
+							tbDespesa.setItems(obsListaDespesaTbView);
+							iniciarBotaoRemover();
+							carregarValores();
+							obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
+							lancamentoService.atualizar(obj);
+						}
+						lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+					} else {
+						Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+								"Valor do desconto é igual ou superior ao valor do (Produto/Serviço).",
+								AlertType.INFORMATION);
+					}
+				} else {
+					Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+							AlertType.INFORMATION);
+				}
+			} else {
+				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma quantidade válida para o (Produto/Serviço).",
+						AlertType.INFORMATION);
+			}
+		} else {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+					AlertType.INFORMATION);
 		}
-		lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
-		}
-		else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do (Produto/Serviço).", AlertType.WARNING);
-		}
-		}
-	
+	}
+
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		infoExtra();
 		Lancamento obj = new Lancamento();
-		if(txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
-			 Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
-		}
-		else {
-		for (int x = 0; x < parcela; x++) {
-			obj.setId(lancamentoIds);
-			obj.setDesconto(0.00);			
-			obj.setObs(dataCompra+parcelado+descontoCompra+totalCompra+chaveNFE+txtAreaObs.getText());
-			obj.setTipo("P");
-			lancamentoService.confirmarLanAPagar(obj);
-			lancamentoIds--;
-		}
-		carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
-			controller.setLancamento(new Lancamento());
-			controller.setLancamentoService(new LancamentoService());
-			controller.setDespesaService(new DespesaService());
-			controller.setItemService(new ItemService());
-			controller.setUsuario(new Usuario());
-			controller.setUsuarioService(new UsuarioService());
-			controller.carregarUsuarioLogado();
-			controller.ocultarCampos();
-		});
-	}
+		if (txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
+			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+		} else {
+			for (int x = 0; x < parcela; x++) {
+				obj.setId(lancamentoIds);
+				obj.setDesconto(0.00);
+				obj.setObs(dataCompra + parcelado + descontoCompra + totalCompra + chaveNFE + txtAreaObs.getText());
+				obj.setTipo("P");
+				lancamentoService.confirmarLanAPagar(obj);
+				lancamentoIds--;
 			}
+			carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
+				controller.setLancamento(new Lancamento());
+				controller.setLancamentoService(new LancamentoService());
+				controller.setDespesaService(new DespesaService());
+				controller.setItemService(new ItemService());
+				controller.setUsuario(new Usuario());
+				controller.setUsuarioService(new UsuarioService());
+				controller.carregarUsuarioLogado();
+				controller.ocultarCampos();
+			});
+		}
+	}
 
 	@FXML
 	public void onBtCancelar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		if(!txtId.getText().equals("")) {
+		if (!txtId.getText().equals("")) {
 			lancamentoService.cancelar(obj);
 			Alertas.mostrarAlerta(null, null, "Lançamento cancelado com sucesso", AlertType.INFORMATION);
 		}
 		carregarPropriaView("/gui/LanAPagarParceladoView.fxml", (LanAPagarParceladoController controller) -> {
 			controller.setLancamento(new Lancamento());
-			controller.setLancamentoService(new LancamentoService());			
+			controller.setLancamentoService(new LancamentoService());
 			controller.setDespesaService(new DespesaService());
 			controller.setItemService(new ItemService());
 			controller.setUsuario(new Usuario());
@@ -324,12 +360,10 @@ public class LanAPagarParceladoController implements Initializable {
 		this.itemService = itemService;
 	}
 
-	
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
 	}
 
-	
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
@@ -350,17 +384,21 @@ public class LanAPagarParceladoController implements Initializable {
 
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);		
-		Restricoes.setTextFieldDouble(txtPrecoUnid);
-		Restricoes.setTextFieldDouble(txtDescontoIndividual);
+		Restricoes.setTextFieldInteger(txtParcela);
+		Restricoes.setTextFieldInteger(txtQuantidade);
+		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
+		Restricoes.setTextFieldTamanhoMaximo(txtQuantidade, 4);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
 		Restricoes.setTextFieldTamanhoMaximo(txtChaveNFE, 44);
+		Restricoes.setTextFieldTamanhoMaximo(txtParcela, 2);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
+		Restricoes.setTextFieldDouble(txtPrecoUnid);
+		Restricoes.setTextFieldDouble(txtDescontoIndividual);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
-		Utils.formatDatePicker(datePickerDataCompra, "dd/MM/YYYY");		
-		cbDetalheParcela.setSelected(true); //CheckBox já marcado.
-		
-		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		Utils.formatDatePicker(datePickerDataCompra, "dd/MM/YYYY");
+		cbDetalheParcela.setSelected(true); // CheckBox já marcado.
+
+		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -370,7 +408,7 @@ public class LanAPagarParceladoController implements Initializable {
 		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
 		Utils.formatTableColumnValorDecimais(colunaDespDesconto, 2);
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
+		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
 
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
@@ -397,7 +435,7 @@ public class LanAPagarParceladoController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-		
+
 	private void iniciarBotaoRemover() {
 		colunaRemover.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemover.setCellFactory(param -> new TableCell<Despesa, Despesa>() {
@@ -411,7 +449,7 @@ public class LanAPagarParceladoController implements Initializable {
 					return;
 				}
 				setGraphic(button);
-				setStyle("-fx-color: #FF6347");	
+				setStyle("-fx-color: #FF6347");
 				button.setOnAction(event -> removerDespesa(obj));
 			}
 		});
@@ -462,25 +500,25 @@ public class LanAPagarParceladoController implements Initializable {
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
 		carregarValores();
 	}
-	
+
 	public void carregarUsuarioLogado() {
-		if(usuarioEntidade == null) {
+		if (usuarioEntidade == null) {
 			System.out.println("entidade nulo");
 		}
-		if(usuarioService == null) {
+		if (usuarioService == null) {
 			System.out.println("service nulo");
 		}
 		List<Usuario> lista = usuarioService.buscarTodos();
-		for(Usuario u : lista) {
-			 u.getLogado();
-			
-			 if(u.getLogado().equals("S")) {
-				 usuarioId = u.getId();	
-				 lbUsuario.setText(String.valueOf(u.getNome()));
-			 }
-		 }
+		for (Usuario u : lista) {
+			u.getLogado();
+
+			if (u.getLogado().equals("S")) {
+				usuarioId = u.getId();
+				lbUsuario.setText(String.valueOf(u.getNome()));
+			}
+		}
 	}
-	
+
 	public void carregarValores() {
 		Double soma = 0.0;
 		descInd = 0.0;
@@ -493,39 +531,37 @@ public class LanAPagarParceladoController implements Initializable {
 		lbTotal.setText(String.format("%.2f", soma));
 		txtTotalCompra.setText(String.format("%.2f", valorTotalCompra));
 		txtDescontoCompra.setText(String.format("%.2f", descInd * parcela));
-}
-	
+	}
+
 	public void infoExtra() {
-		if(datePickerDataCompra.getValue() != null) {
+		if (datePickerDataCompra.getValue() != null) {
 			LocalDate dtPicker = datePickerDataCompra.getValue();
-			GregorianCalendar data = new GregorianCalendar(dtPicker.getYear(), dtPicker.getMonthValue(),dtPicker.getDayOfMonth(), 0, 0, 0);		
-			data.add(Calendar.MONTH, - 1);
-			Date dtCompra = data.getTime();		
+			GregorianCalendar data = new GregorianCalendar(dtPicker.getYear(), dtPicker.getMonthValue(),
+					dtPicker.getDayOfMonth(), 0, 0, 0);
+			data.add(Calendar.MONTH, -1);
+			Date dtCompra = data.getTime();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			dataCompra = "Feito no dia "+sdf.format(dtCompra)+" - ";
-			parcelado = "Parcelado em "+txtParcela.getText()+"x - ";
-			totalCompra = "Total ("+txtTotalCompra.getText()+"). \n";
-			}
-		else {
+			dataCompra = "Feito no dia " + sdf.format(dtCompra) + " - ";
+			parcelado = "Parcelado em " + txtParcela.getText() + "x - ";
+			totalCompra = "Total (" + txtTotalCompra.getText() + "). \n";
+		} else {
 			dataCompra = "";
 			parcelado = "";
 			totalCompra = "";
-			
+
 		}
-		if(!txtDescontoCompra.getText().equals("0.00")) {
-			descontoCompra = "Desconto ("+txtDescontoCompra.getText()+") - ";
-		}
-		else {
+		if (!txtDescontoCompra.getText().equals("0.00")) {
+			descontoCompra = "Desconto (" + txtDescontoCompra.getText() + ") - ";
+		} else {
 			descontoCompra = "";
 		}
-		if(!txtChaveNFE.getText().equals("")) {
-			chaveNFE = "Chave NFe: ("+txtChaveNFE.getText()+"). \n";
-		}
-		else {
+		if (!txtChaveNFE.getText().equals("")) {
+			chaveNFE = "Chave NFe: (" + txtChaveNFE.getText() + "). \n";
+		} else {
 			chaveNFE = "";
-		}		
+		}
 	}
-	
+
 	public void ocultarCampos() {
 		txtItem.setVisible(false);
 		txtPrecoUnid.setVisible(false);
@@ -544,9 +580,13 @@ public class LanAPagarParceladoController implements Initializable {
 		lbRotuloDescCompra.setVisible(false);
 		lbRotuloTotalCompra.setVisible(false);
 		lbRotuloChaveNFE.setVisible(false);
-			}
+	}
 
 	public void desocultarCampos() {
+		datePickerData.setDisable(true);
+		txtReferencia.setDisable(true);
+		txtParcela.setDisable(true);
+		cbDetalheParcela.setDisable(true);
 		txtItem.setVisible(true);
 		txtPrecoUnid.setVisible(true);
 		txtQuantidade.setVisible(true);

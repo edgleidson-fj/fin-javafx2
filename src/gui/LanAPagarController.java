@@ -329,11 +329,13 @@ public class LanAPagarController implements Initializable {
 
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
+		Restricoes.setTextFieldInteger(txtQuantidade);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
-		Restricoes.setTextFieldDouble(txtPrecoUnid);
-		Restricoes.setTextFieldDouble(txtDescontoIndividual);
+		Restricoes.setTextFieldTamanhoMaximo(txtQuantidade, 4);
 		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
+		Restricoes.setTextFieldDouble(txtPrecoUnid);
+		Restricoes.setTextFieldDouble(txtDescontoIndividual);		
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
 		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));

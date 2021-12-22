@@ -68,21 +68,21 @@
             <CheckBox fx:id="cbDetalheParcela" layoutX="635.0" layoutY="102.0" mnemonicParsing="false" text="Destacar nº parcela" AnchorPane.leftAnchor="575.0" />
             <TextArea fx:id="txtAreaObs" layoutX="559.0" layoutY="315.0" prefHeight="70.0" prefWidth="240.0" scrollLeft="10.0" AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="5.0" />
             <Label layoutX="511.0" layoutY="269.0" text="Observação" AnchorPane.leftAnchor="559.0" AnchorPane.topAnchor="300.0" />
-            <TextField fx:id="txtQuantidade" layoutX="376.0" layoutY="167.0" prefHeight="25.0" prefWidth="41.0" text="1" AnchorPane.leftAnchor="297.0" />
+            <TextField fx:id="txtQuantidade" layoutX="376.0" layoutY="167.0" prefHeight="25.0" prefWidth="41.0" promptText="0" text="1" AnchorPane.leftAnchor="297.0" />
             <Label fx:id="lbRotuloItem" layoutX="65.0" layoutY="151.0" text="Produto/Serviço*" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="151.0" />
             <Label fx:id="lbRotuloQtde" layoutX="376.0" layoutY="151.0" text="Qtde" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="151.0" />
             <Label fx:id="lbRotuloPreco" layoutX="431.0" layoutY="151.0" text="Preço" AnchorPane.leftAnchor="341.0" AnchorPane.topAnchor="151.0" />
-            <TextField fx:id="txtDescontoIndividual" layoutX="548.0" layoutY="219.0" prefWidth="69.0" text="0.00" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="167.0" />
+            <TextField fx:id="txtDescontoIndividual" layoutX="548.0" layoutY="219.0" prefWidth="69.0" promptText="0.00" text="0.00" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="167.0" />
             <Label fx:id="lbRotuloDescInd" layoutX="623.0" layoutY="223.0" text="Desconto" AnchorPane.leftAnchor="413.0" AnchorPane.topAnchor="151.0" />
-            <TextField fx:id="txtTotalCompra" editable="false" layoutX="647.0" layoutY="228.0" prefHeight="25.0" prefWidth="69.0" promptText="total" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="220.0" />
+            <TextField fx:id="txtTotalCompra" editable="false" layoutX="647.0" layoutY="228.0" prefHeight="25.0" prefWidth="69.0" promptText="0.00" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="220.0" />
             <TextField fx:id="txtChaveNFE" layoutX="554.0" layoutY="269.0" prefHeight="25.0" prefWidth="235.0" promptText="00000000000000000000000000000000000000001234" AnchorPane.leftAnchor="553.0" AnchorPane.topAnchor="269.0" />
             <Label layoutX="577.0" layoutY="49.0" text="Data de Pagamento*" AnchorPane.leftAnchor="573.0" />
-            <TextField fx:id="txtDescontoCompra" editable="false" layoutX="626.0" layoutY="220.0" prefHeight="25.0" prefWidth="69.0" promptText="desconto" AnchorPane.topAnchor="220.0" />
+            <TextField fx:id="txtDescontoCompra" editable="false" layoutX="626.0" layoutY="220.0" prefHeight="25.0" prefWidth="69.0" promptText="0.00" AnchorPane.topAnchor="220.0" />
             <Label fx:id="lbRotuloDataCompra" layoutX="653.0" layoutY="151.0" text="Data da Compra" AnchorPane.leftAnchor="658.0" AnchorPane.topAnchor="154.0" />
             <Label fx:id="lbRotuloDescCompra" layoutX="625.0" layoutY="204.0" text="Desconto" AnchorPane.topAnchor="204.0" />
             <Label fx:id="lbRotuloTotalCompra" layoutX="709.0" layoutY="204.0" text="Total " AnchorPane.leftAnchor="718.0" AnchorPane.topAnchor="204.0" />
             <Label fx:id="lbRotuloChaveNFE" layoutX="504.0" layoutY="252.0" text="Chave NFe" AnchorPane.leftAnchor="553.0" AnchorPane.topAnchor="252.0" />
-            <DatePicker fx:id="datePickerDataCompra" layoutX="635.0" layoutY="167.0" prefWidth="123.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="170.0" />
+            <DatePicker fx:id="datePickerDataCompra" layoutX="635.0" layoutY="167.0" prefWidth="123.0" promptText="   /      /" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="170.0" />
             <Label layoutX="681.0" layoutY="11.0" text="Valor da Parcela" AnchorPane.leftAnchor="681.0" AnchorPane.topAnchor="9.0" />
          </children>
       </AnchorPane>
