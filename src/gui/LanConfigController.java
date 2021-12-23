@@ -164,6 +164,14 @@ public class LanConfigController implements Initializable {
 	public void onBtItemAction(ActionEvent evento) {		
 		Locale.setDefault(Locale.US);
 		if(!lbStatus.getText().equals("PAGO")) {
+			if (!txtItem.getText().equals("")) {
+				int qtde = Utils.stringParaInteiro(0 + txtQuantidade.getText());
+				if (!txtQuantidade.getText().equals("") && qtde > 0) {
+					double preco = Utils.stringParaDouble(0 + txtPrecoUnid.getText());
+					if (!txtPrecoUnid.getText().equals("") && preco > 0.0) {
+						double desc = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
+						if (desc < (preco * qtde)) {
+
 		// Lancamento
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -176,11 +184,11 @@ public class LanConfigController implements Initializable {
 		desp.setNome(txtItem.getText());
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
 		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
-		desp.setDescontoIndividual(Utils.stringParaDouble(txtDescontoIndividual.getText()));
+		desp.setDescontoIndividual(Utils.stringParaDouble(0+ txtDescontoIndividual.getText()));
 		double valorUnid, quantidade, descontoIndividual;
 		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-		descontoIndividual = Utils.stringParaDouble(txtDescontoIndividual.getText());
+		descontoIndividual = Utils.stringParaDouble(0+ txtDescontoIndividual.getText());
 		desp.setPrecoBruto(valorUnid * quantidade);
 		desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
 		despesaService.salvar(desp);
@@ -207,6 +215,24 @@ public class LanConfigController implements Initializable {
 		obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 		lancamentoService.atualizar(obj);
 		carregarTableView();
+		
+						} else {
+							Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+									"Valor do desconto é igual ou superior ao valor do (Produto/Serviço).",
+									AlertType.INFORMATION);
+						}
+					} else {
+						Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+								AlertType.INFORMATION);
+					}
+				} else {
+					Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma quantidade válida para o (Produto/Serviço).",
+							AlertType.INFORMATION);
+				}
+			} else {
+				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+						AlertType.INFORMATION);
+			}
 		}
 		else {
 			Alertas.mostrarAlerta("Atenção!", "Não é possível adicionar (Produto/Serviço), em lançamentos que já foram pagos.", "Para realizar esse tipo de ajuste é ncessário alterar o Status do lançamento.", AlertType.INFORMATION);
@@ -215,11 +241,16 @@ public class LanConfigController implements Initializable {
 	}
 
 	@FXML
-	public void onBtAtualizar(ActionEvent evento) {
-		carregarValores();
-		Lancamento obj = new Lancamento();
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		obj.setReferencia(txtReferencia.getText());
+	public void onBtAtualizar(ActionEvent evento) {		
+		if(txtReferencia.getText() == null || txtReferencia.getText().equals("")) {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento ",
+					AlertType.INFORMATION);
+		}
+		else {
+			carregarValores();
+			Lancamento obj = new Lancamento();
+			obj.setId(Utils.stringParaInteiro(txtId.getText()));
+		obj.setReferencia(txtReferencia.getText());		
 		Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 		obj.setData(Date.from(instant));
 		obj.setObs(txtAreaObs.getText());
@@ -254,6 +285,7 @@ public class LanConfigController implements Initializable {
 			controller.setLancamento(new Lancamento());
 			controller.carregarTableView();
 		});
+		}
 	}
 
 	@FXML
@@ -342,10 +374,12 @@ public class LanConfigController implements Initializable {
 
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
+		Restricoes.setTextFieldInteger(txtQuantidade);
+		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);		
+		Restricoes.setTextFieldTamanhoMaximo(txtItem, 60);
+		Restricoes.setTextFieldTamanhoMaximo(txtQuantidade, 4);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldDouble(txtDescontoIndividual);
-		Restricoes.setTextFieldTamanhoMaximo(txtItem, 60);
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
@@ -572,6 +606,7 @@ public class LanConfigController implements Initializable {
 		if(!lbStatus.getText().equals("PAGO")) {
 			if(lancamentoEntidade.getTipo().equals("F")) {
 				x=1;
+				desabilitarCampos();
 			}
 			else if(lancamentoEntidade.getTipo().equals("P")){
 				x=2;
@@ -604,7 +639,7 @@ public class LanConfigController implements Initializable {
 		lbPago.setText(String.format("%.2f", soma));
 	}
 
-	private void iniciarBotaoRemoverItemPagamento() {
+	/*private void iniciarBotaoRemoverItemPagamento() {
 		colunaRemoverTipoPag.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaRemoverTipoPag.setCellFactory(param -> new TableCell<ItemPagamento, ItemPagamento>() {
 			private final Button button = new Button("X");
@@ -621,9 +656,9 @@ public class LanConfigController implements Initializable {
 				setStyle("-fx-color: #FF6347");
 			}
 		});
-	}
+	}*/
 
-	private void removerItemPagamento(ItemPagamento desp) {
+	/*private void removerItemPagamento(ItemPagamento desp) {
 		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação", "Tem certeza que deseja remover?");
 		if (result.get() == ButtonType.OK) {
 			if (itemPagamentoService == null) {
@@ -642,7 +677,7 @@ public class LanConfigController implements Initializable {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
-	}
+	}*/
 	
 	public void carregarValores() {
 		Double soma = 0.0;
@@ -676,5 +711,12 @@ public class LanConfigController implements Initializable {
 		lbRotuloPreco.setVisible(false);
 		lbRotuloDescInd.setVisible(false);
 	}
+	
+	public void desabilitarCampos() {
+		txtQuantidade.setDisable(true);
+		txtDescontoIndividual.setDisable(true);
+		lbRotuloQtde.setDisable(true);
+		lbRotuloDescInd.setDisable(true);
+		}
 
 }
