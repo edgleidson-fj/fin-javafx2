@@ -96,6 +96,7 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			lan.setReferencia(lancamentoEntidade.getReferencia());
 			lan.setData(data);
 			lan.setTipo("N");
+			lan.setObs(lancamentoEntidade.getObs());
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(lan);
 			controller.setDespesaService(new DespesaService());
@@ -109,7 +110,7 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			});	
 			}
 				else {
-					Alertas.mostrarAlerta("Atenção", "Desconto inválido.", "Valor do desconto é igual ou superior ao valor do (Produto/Serviço)." , AlertType.INFORMATION);
+					Alertas.mostrarAlerta("Atenção", "Desconto inválido.", "Valor do desconto igual ou superior ao valor do (Produto/Serviço)." , AlertType.INFORMATION);
 				}
 				}
 			else {
@@ -157,6 +158,7 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldInteger(txtQuantidade);
 		Restricoes.setTextFieldDouble(txtDesconto);
+		txtId.setDisable(true);
 		}
 	// -----------------------------------------------------------------
 	

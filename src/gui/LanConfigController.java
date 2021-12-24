@@ -218,7 +218,7 @@ public class LanConfigController implements Initializable {
 		
 						} else {
 							Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
-									"Valor do desconto é igual ou superior ao valor do (Produto/Serviço).",
+									"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
 									AlertType.INFORMATION);
 						}
 					} else {
@@ -373,6 +373,7 @@ public class LanConfigController implements Initializable {
 	// -----------------------------------------------------------------------------------------------------
 
 	private void inicializarNodes() {
+		txtId.setDisable(true);
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldInteger(txtQuantidade);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);		
@@ -458,6 +459,7 @@ public class LanConfigController implements Initializable {
 			lan.setId(Utils.stringParaInteiro(txtId.getText()));
 			lan.setTotal(total);
 			lan.setReferencia(txtReferencia.getText());
+			lan.setObs(txtAreaObs.getText());
 			Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 			lan.setData(Date.from(instant));
 			controle.setLancamento(lan);
@@ -475,6 +477,7 @@ public class LanConfigController implements Initializable {
 			lan.setId(Utils.stringParaInteiro(txtId.getText()));
 			lan.setTotal(total);
 			lan.setReferencia(txtReferencia.getText());
+			lan.setObs(txtAreaObs.getText());
 			controle.setLancamento(lan);
 			controle.setDespesaService(new DespesaService());
 			controle.setDespesa(obj);
@@ -488,6 +491,7 @@ public class LanConfigController implements Initializable {
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
 				lan.setTotal(total);
 				lan.setReferencia(txtReferencia.getText());
+				lan.setObs(txtAreaObs.getText());
 				controle.setLancamento(lan);
 				controle.setDespesaService(new DespesaService());
 				controle.setDespesa(obj);
@@ -603,6 +607,7 @@ public class LanConfigController implements Initializable {
 		tbDespesa.setItems(obsListaDespesaTbView);		
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
+		txtAreaObs.setText(lancamentoEntidade.getObs());
 		if(!lbStatus.getText().equals("PAGO")) {
 			if(lancamentoEntidade.getTipo().equals("F")) {
 				x=1;
@@ -701,6 +706,7 @@ public class LanConfigController implements Initializable {
 		total = soma;
 }
 	public void ocultarCampos() {
+		txtId.setDisable(true);
 		txtItem.setVisible(false);
 		txtPrecoUnid.setVisible(false);
 		txtQuantidade.setVisible(false);

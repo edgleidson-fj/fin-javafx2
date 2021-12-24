@@ -76,6 +76,7 @@ public class ReajustarParcelaDialogFormController implements Initializable {
 			lan.setReferencia(lancamentoEntidade.getReferencia());
 			lan.setData(data);
 			lan.setTipo("P");
+			lan.setObs(lancamentoEntidade.getObs());
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(lan);
 			controller.setDespesaService(new DespesaService());

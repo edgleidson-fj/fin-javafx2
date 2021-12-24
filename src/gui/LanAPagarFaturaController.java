@@ -155,7 +155,7 @@ public class LanAPagarFaturaController implements Initializable {
 
 				if (dataSelecionada.before(hoje)) {
 					Alertas.mostrarAlerta("Atenção", "Data inválida (" + sdf.format(dataSelecionada) + ").",
-							"Data selecionada é igual ou anterior a data atual.", AlertType.INFORMATION);
+							"Data selecionada igual ou anterior a data atual.", AlertType.INFORMATION);
 				} else {
 					Calendar datahoje = Calendar.getInstance();
 					int mesAtual = datahoje.get(Calendar.MONTH) + 1;
@@ -493,6 +493,7 @@ public class LanAPagarFaturaController implements Initializable {
 	}
 
 	public void ocultarCampos() {
+		txtId.setDisable(true);
 		txtItem.setVisible(false);
 		txtPrecoUnid.setVisible(false);
 		txtQuantidade.setVisible(false);

@@ -274,6 +274,7 @@ public class PagamentoDialogFormController implements Initializable {
 	}
 
 	private void inicializarNodes() {
+		txtId.setDisable(true);
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldDouble(txtTipoPagValor);
 		Restricoes.setTextFieldDouble(txtDesconto);
@@ -300,7 +301,8 @@ public class PagamentoDialogFormController implements Initializable {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtRef.setText(lancamentoEntidade.getReferencia());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
-		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
+		Date hoje = new Date();
+		datePickerData.setValue(LocalDate.ofInstant(hoje.toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
 	}

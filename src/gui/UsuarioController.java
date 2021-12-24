@@ -94,6 +94,7 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 	}
 
 	private void inicializarComportamento() {
+		txtId.setDisable(true);
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);

@@ -103,6 +103,7 @@ public class DetalheDialogFormController implements Initializable {
 	}
 
 	private void inicializarNodes() {
+		txtId.setDisable(true);
 		Restricoes.setTextFieldInteger(txtId);
 		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));

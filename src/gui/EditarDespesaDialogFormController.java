@@ -110,11 +110,12 @@ public class EditarDespesaDialogFormController implements Initializable{
 			controller.carregarUsuarioLogado();
 			controller.carregarTableView();
 			controller.desocultarCampos();
+			controller.ativarCampos();
 			controller.carregarData();
 			});
 		}
 			else {
-				Alertas.mostrarAlerta("Atenção", "Desconto inválido.", "Valor do desconto é igual ou superior ao valor do (Produto/Serviço)." , AlertType.INFORMATION);
+				Alertas.mostrarAlerta("Atenção", "Desconto inválido.", "Valor do desconto igual ou superior ao valor do (Produto/Serviço)." , AlertType.INFORMATION);
 			}
 			}
 		else {
@@ -162,6 +163,7 @@ public class EditarDespesaDialogFormController implements Initializable{
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldInteger(txtQuantidade);
 		Restricoes.setTextFieldDouble(txtDesconto);
+		txtId.setDisable(true);
 		}
 	// -----------------------------------------------------------------
 	

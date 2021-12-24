@@ -182,7 +182,7 @@ public class LanAPagarParceladoController implements Initializable {
 
 				if (dataSelecionada.before(hoje)) {
 					Alertas.mostrarAlerta("Atenção", "Data inválida (" + sdf.format(dataSelecionada) + ").",
-							"Data selecionada é igual ou anterior a data atual.", AlertType.INFORMATION);
+							"Data selecionada igual ou anterior a data atual.", AlertType.INFORMATION);
 				} else {
 					parcela = Utils.stringParaInteiro(txtParcela.getText());
 					LocalDate dtPicker = datePickerData.getValue();
@@ -282,7 +282,7 @@ public class LanAPagarParceladoController implements Initializable {
 						lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
 					} else {
 						Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
-								"Valor do desconto é igual ou superior ao valor do (Produto/Serviço).",
+								"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
 								AlertType.INFORMATION);
 					}
 				} else {
@@ -563,6 +563,7 @@ public class LanAPagarParceladoController implements Initializable {
 	}
 
 	public void ocultarCampos() {
+		txtId.setDisable(true);
 		txtItem.setVisible(false);
 		txtPrecoUnid.setVisible(false);
 		txtQuantidade.setVisible(false);

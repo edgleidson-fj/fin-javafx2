@@ -157,14 +157,14 @@ public class TipoPagController implements Initializable {
 		}
 
 	private void inicializarComportamento() {
+		txtId.setDisable(true);
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-
-		// Tamanho da tabela.
-		Stage stage = (Stage) Main.pegarMainScene().getWindow();
-		tableViewTipoPagamento.prefHeightProperty().bind(stage.heightProperty());
-
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
+		
+		// Tamanho da tabela.
+				Stage stage = (Stage) Main.pegarMainScene().getWindow();
+				tableViewTipoPagamento.prefHeightProperty().bind(stage.heightProperty());
 	}
 
 	public void carregarTableView() {

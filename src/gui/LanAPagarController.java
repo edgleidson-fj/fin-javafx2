@@ -152,7 +152,7 @@ public class LanAPagarController implements Initializable {
 
 				if (dataSelecionada.before(hoje)) {
 					Alertas.mostrarAlerta("Atenção", "Data inválida (" + sdf.format(dataSelecionada) + ").",
-							"Data selecionada é igual ou anterior a data atual.", AlertType.INFORMATION);
+							"Data selecionada igual ou anterior a data atual.", AlertType.INFORMATION);
 				} else {
 					instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 					obj.setData(Date.from(instant));
@@ -198,11 +198,11 @@ public class LanAPagarController implements Initializable {
 						desp.setNome(txtItem.getText());
 						desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
 						desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
-						desp.setDescontoIndividual(Utils.stringParaDouble(0 + txtDescontoIndividual.getText()));
+						desp.setDescontoIndividual(Utils.stringParaDouble(0+ txtDescontoIndividual.getText()));
 						double valorUnid, quantidade, descontoIndividual;
 						valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 						quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-						descontoIndividual = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
+						descontoIndividual = Utils.stringParaDouble(0+ txtDescontoIndividual.getText());
 						desp.setPrecoBruto(valorUnid * quantidade);
 						desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
 						despesaService.salvar(desp);
@@ -227,7 +227,7 @@ public class LanAPagarController implements Initializable {
 						lancamentoService.atualizar(obj);
 					} else {
 						Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
-								"Valor do desconto é igual ou superior ao valor do (Produto/Serviço).",
+								"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
 								AlertType.INFORMATION);
 					}
 				} else {
@@ -518,6 +518,7 @@ public class LanAPagarController implements Initializable {
 	}
 
 	public void ocultarCampos() {
+		txtId.setDisable(true);
 		txtItem.setVisible(false);
 		txtPrecoUnid.setVisible(false);
 		txtQuantidade.setVisible(false);

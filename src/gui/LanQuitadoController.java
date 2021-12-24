@@ -178,7 +178,8 @@ public class LanQuitadoController implements Initializable {
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
 		if (txtReferencia.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir referência do lançamento ", AlertType.WARNING);
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento ",
+					AlertType.INFORMATION);
 		} else {
 			if (datePickerData.getValue() == null) {
 				obj.setData(hoje);
@@ -209,6 +210,12 @@ public class LanQuitadoController implements Initializable {
 	public void onBtItemAction(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
 		if(!txtItem.getText().equals("")) {
+			int qtde = Utils.stringParaInteiro(0 + txtQuantidade.getText());
+			if (!txtQuantidade.getText().equals("") && qtde > 0) {
+				double preco = Utils.stringParaDouble(0 + txtPrecoUnid.getText());
+				if (!txtPrecoUnid.getText().equals("") && preco > 0.0) {
+					double desc = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
+					if (desc < (preco * qtde)) {			
 		// Lancamento
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -221,11 +228,11 @@ public class LanQuitadoController implements Initializable {
 		desp.setNome(txtItem.getText());
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
 		desp.setPrecoUnid(Utils.stringParaDouble(txtPrecoUnid.getText()));
-		desp.setDescontoIndividual(Utils.stringParaDouble(txtDescontoIndividual.getText()));
+		desp.setDescontoIndividual(Utils.stringParaDouble(0+ txtDescontoIndividual.getText()));
 		double valorUnid, quantidade, descontoIndividual;
 		valorUnid = Utils.stringParaDouble(txtPrecoUnid.getText());
 		quantidade = Utils.stringParaInteiro(txtQuantidade.getText());
-		descontoIndividual = Utils.stringParaDouble(txtDescontoIndividual.getText());
+		descontoIndividual = Utils.stringParaDouble(0+ txtDescontoIndividual.getText());
 		desp.setPrecoBruto(valorUnid * quantidade);
 		desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
 		despesaService.salvar(desp);
@@ -250,14 +257,39 @@ public class LanQuitadoController implements Initializable {
 		iniciarBotaoRemover();
 		iniciarBotaoEditar();
 		carregarValores();
+		ativarCampos();
 		obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 		lancamentoService.atualizar(obj);
+		// Limpando Item de Pagamento
+				Lancamento lan = new Lancamento();
+				lan.setId(Utils.stringParaInteiro(txtId.getText()));
+				itemPagamentoService.limparItemPagamentoPorIdLan(lan);
+				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
+				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+				tbTipoPag.setItems(obsListaItemTipoPag);
+				carregarValorPago();
+				lbDesconto.setText("0.00");
+				txtDesconto.setText("0.00");
+					} else {
+						Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+								"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
+								AlertType.INFORMATION);
+					}
+				} else {
+					Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+							AlertType.INFORMATION);
+				}
+			} else {
+				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma quantidade válida para o (Produto/Serviço).",
+						AlertType.INFORMATION);
+			}
+		} else {
+			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+					AlertType.INFORMATION);
+		}
 	}
-		else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do (Produto/Serviço).", AlertType.WARNING);
-		}
-		}
-
+	
+	
 	@FXML
 	public void onBtItemPagamento(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
@@ -288,14 +320,16 @@ public class LanQuitadoController implements Initializable {
 			tbTipoPag.setItems(obsListaItemTipoPag);
 			carregarValorPago();
 			txtTipoPagValor.setText(lbDiferenca.getText());
-
-			iniciarBotaoRemoverItemPagamento();
-		} else {
+			iniciarBotaoRemoverItemPagamento();		
+			} else {
 			Alertas.mostrarAlerta("Valor inválido!", null, "Favor verificar o valor informado.", AlertType.WARNING);
 		}
 	}
 
 	public void onBtDesconto() {
+		double t = Utils.stringParaDouble(lbTotal.getText());
+		double desc = Utils.stringParaDouble(0+ txtDesconto.getText());
+		if (desc < t) {
 		Double soma = 0.0;
 		Double desconto = 0.0;
 
@@ -307,23 +341,26 @@ public class LanQuitadoController implements Initializable {
 		lbTotal.setText(String.format("%.2f", total));
 		lbDiferenca.setText(String.format("%.2f", total));
 		lbDesconto.setText(String.format("%.2f", desconto));
-		txtDesconto.setText(String.valueOf(0.00));
+		txtDesconto.setText(String.format("%.2f", desconto));
 		txtTipoPagValor.setText(String.format("%.2f", total));
+		
+		// Limpando Item de Pagamento
+		Lancamento lan = new Lancamento();
+		lan.setId(Utils.stringParaInteiro(txtId.getText()));
+		itemPagamentoService.limparItemPagamentoPorIdLan(lan);
+		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
+		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
+		tbTipoPag.setItems(obsListaItemTipoPag);
+		carregarValorPago();
 	}
-
-	public void carregarValorPago() {
-		Double valorDiferenca = 0.0;
-		Double valorTotal = 0.0;
-		Double soma = 0.0;
-		for (ItemPagamento tab : obsListaItemTipoPag) {
-			soma += tab.getValor();
+		else {
+			Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+					"Valor do desconto igual ou superior ao valor do lançamento.",
+					AlertType.INFORMATION);
 		}
-		lbPago.setText(String.format("%.2f", soma));
-		valorTotal += Utils.stringParaDouble(lbTotal.getText());
-		valorDiferenca = valorTotal - soma;
-		lbDiferenca.setText(String.format("%.2f", valorDiferenca));
 	}
 
+	
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
@@ -431,6 +468,8 @@ public class LanQuitadoController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		Date hoje = new Date();
+		datePickerData.setValue(LocalDate.ofInstant(hoje.toInstant(), ZoneId.systemDefault()));
 		inicializarComboBoxTipoPag();
 		inicializarNodes();
 		if (lancamentoEntidade != null) {
@@ -441,11 +480,12 @@ public class LanQuitadoController implements Initializable {
 
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
+		Restricoes.setTextFieldInteger(txtQuantidade);
 		Restricoes.setTextFieldTamanhoMaximo(txtReferencia, 70);
+		Restricoes.setTextFieldTamanhoMaximo(txtQuantidade, 4);
+		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
 		Restricoes.setTextFieldDouble(txtDescontoIndividual);
-		Restricoes.setTextFieldTamanhoMaximo(txtItem, 45);
-		Restricoes.setTextFieldInteger(txtQuantidade);
 		Restricoes.setTextFieldDouble(txtDesconto);
 		Restricoes.setTextFieldDouble(txtTipoPagValor);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
@@ -535,7 +575,10 @@ public class LanQuitadoController implements Initializable {
 			obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
 			tbTipoPag.setItems(obsListaItemTipoPag);
 			carregarValorPago();
+			ativarCampos();
 			lbDiferenca.setText(lbTotal.getText());
+			lbDesconto.setText("0.00");
+			txtDesconto.setText("0.00");
 
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
@@ -599,7 +642,6 @@ public class LanQuitadoController implements Initializable {
 			try {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-
 				// Limpando Item de Pagamento
 				itemPagamentoService.limparItemPagamentoPorIdLan(lan);
 				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
@@ -607,6 +649,8 @@ public class LanQuitadoController implements Initializable {
 				tbTipoPag.setItems(obsListaItemTipoPag);
 				carregarValorPago();
 				lbDiferenca.setText("0.00");
+				lbDesconto.setText("0.00");
+				txtDesconto.setText("0.00");
 
 				itemService.excluir(lan, desp);
 				despesaService.excluir(desp);
@@ -619,7 +663,8 @@ public class LanQuitadoController implements Initializable {
 				lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 				lancamentoService.atualizar(lan);
 				desocultarCampos();
-			} catch (BDIntegrityException ex) {
+				ativarCampos();
+				} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
 		}
@@ -697,6 +742,9 @@ public class LanQuitadoController implements Initializable {
 				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
 				tbTipoPag.setItems(obsListaItemTipoPag);
 				carregarValorPago();
+				ativarCampos();
+				lbDesconto.setText("0.00");
+				txtDesconto.setText("0.00");
 			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
@@ -716,12 +764,31 @@ public class LanQuitadoController implements Initializable {
 				txtTipoPagValor.setText(String.format("%.2f", soma));
 	}
 	
+	public void carregarValorPago() {
+		Double valorDiferenca = 0.0;
+		Double valorTotal = 0.0;
+		Double soma = 0.0;
+		for (ItemPagamento tab : obsListaItemTipoPag) {
+			soma += tab.getValor();
+		}
+		lbPago.setText(String.format("%.2f", soma));
+		valorTotal += Utils.stringParaDouble(lbTotal.getText());
+		valorDiferenca = valorTotal - soma;
+		lbDiferenca.setText(String.format("%.2f", valorDiferenca));
+		txtTipoPagValor.setText(String.format("%.2f", valorDiferenca));
+		if(lbDiferenca.getText().equals("0.00")) {
+			desativarCampos();
+		}
+	}
+
+	
 	public void carregarData() {
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 	}
 	
 	public void ocultarCampos() {
+		txtId.setDisable(true);
 		txtItem.setVisible(false);
 		txtPrecoUnid.setVisible(false);
 		txtQuantidade.setVisible(false);
@@ -741,6 +808,8 @@ public class LanQuitadoController implements Initializable {
 	}
 
 	public void desocultarCampos() {
+		datePickerData.setDisable(true);
+		txtReferencia.setDisable(true);
 		txtItem.setVisible(true);
 		txtPrecoUnid.setVisible(true);
 		txtQuantidade.setVisible(true);
@@ -758,6 +827,22 @@ public class LanQuitadoController implements Initializable {
 		lbRotuloPagamento.setVisible(true);
 		cmbTipoPag.setVisible(true);
 		btCriarRegistroDeLancamento.setVisible(false);
+	}
+	
+	public void ativarCampos() {
+		txtTipoPagValor.setDisable(false);
+		cmbTipoPag.setDisable(false);
+		btItemPagamento.setDisable(false);
+		txtDesconto.setDisable(false);
+		btDesconto.setDisable(false);
+	}
+	
+	public void desativarCampos() {
+		txtTipoPagValor.setDisable(true);
+		cmbTipoPag.setDisable(true);
+		btItemPagamento.setDisable(true);
+		txtDesconto.setDisable(true);
+		btDesconto.setDisable(true);
 	}
 
 }

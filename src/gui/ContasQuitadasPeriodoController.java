@@ -125,6 +125,8 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	}
 
 	private void inicializarNodes() {
+		Utils.formatDatePicker(datePickerDataInicial, "dd/MM/yyyy");
+		Utils.formatDatePicker(datePickerDataFinal, "dd/MM/yyyy");
 		colunaLanData.setCellValueFactory(new PropertyValueFactory<>("data"));
 		Utils.formatTableColumnData(colunaLanData, "dd/MM/yyyy");
 		colunaLanId.setCellValueFactory(new PropertyValueFactory<>("id"));
