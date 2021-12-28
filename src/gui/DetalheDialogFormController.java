@@ -1,8 +1,10 @@
 package gui;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -38,7 +40,7 @@ public class DetalheDialogFormController implements Initializable {
 	@FXML
 	private TextField txtRef;
 	@FXML
-	private DatePicker datePickerData;
+	private TextField txtData;
 	@FXML
 	private Label lbTotal;
 	@FXML
@@ -125,9 +127,9 @@ public class DetalheDialogFormController implements Initializable {
 	public void atualizarDialogForm() {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtRef.setText(lancamentoEntidade.getReferencia());
-		txtObs.setText(lancamentoEntidade.getObs());		
-		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
-		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+		txtObs.setText(lancamentoEntidade.getObs());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		txtData.setText(sdf.format(lancamentoEntidade.getData()));
 		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
 		}
 

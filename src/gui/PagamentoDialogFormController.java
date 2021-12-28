@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -71,7 +72,7 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private TextField txtTipoPagValor;
 	@FXML
-	private DatePicker datePickerData;
+	private TextField txtDataHoje;
 	@FXML
 	private ComboBox<TipoPag> cmbTipoPag;
 	@FXML
@@ -131,10 +132,10 @@ public class PagamentoDialogFormController implements Initializable {
 		Locale.setDefault(Locale.US);
 
 		double valorInformado, valorDiferenca;
-		valorInformado = Utils.stringParaDouble(txtTipoPagValor.getText());
+		valorInformado = Utils.stringParaDouble(0+ txtTipoPagValor.getText());
 		valorDiferenca = Utils.stringParaDouble(lbDiferenca.getText());
 
-		if (valorInformado <= valorDiferenca) {
+		if (valorInformado <= valorDiferenca && valorInformado != 0) {
 			Lancamento obj = new Lancamento();
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 
@@ -151,7 +152,7 @@ public class PagamentoDialogFormController implements Initializable {
 			txtTipoPagValor.setText(lbDiferenca.getText());
 			zerarDiferecaDePagamento();
 		} else {
-			Alertas.mostrarAlerta("Valor inválido!", null, "Favor verificar o valor.", AlertType.WARNING);
+			Alertas.mostrarAlerta("Atenção!","Valor inválido",  "- O valor informado superior ao valor restante. \n- O valor informado é R$(0.00).", AlertType.INFORMATION);
 		}
 	}
 
@@ -218,17 +219,19 @@ public class PagamentoDialogFormController implements Initializable {
 	}
 
 	public void onBtDescontoOuAcrescimo() {
+		double desc = Utils.stringParaDouble(0 + txtDesconto.getText());
+		if (desc < Utils.stringParaDouble(lbDiferenca.getText())) {	
 		Double soma = 0.0;
 		descInd = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
 			soma += tab.getPrecoBruto();
 			descInd += tab.getDescontoIndividual();
 		}
-		descGlobal = Utils.stringParaDouble(txtDesconto.getText());
+		descGlobal = Utils.stringParaDouble(0+ txtDesconto.getText());
 		lbDescontoGlobal.setText(String.format("%.2f", descGlobal));
 		soma -= descGlobal + descInd;
 		
-		acrescimo = Utils.stringParaDouble(txtAcrescimo.getText());
+		acrescimo = Utils.stringParaDouble(0+ txtAcrescimo.getText());
 		lbAcrescimo.setText(String.format("%.2f", acrescimo));
 		soma += acrescimo;
 
@@ -239,6 +242,12 @@ public class PagamentoDialogFormController implements Initializable {
 		txtAcrescimo.setText("0.00");
 		txtTipoPagValor.setText(lbDiferenca.getText());
 		limparItemPagamento();
+		}
+		else {
+			Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+					"Valor do desconto igual ou superior ao valor do lançamento.",
+					AlertType.INFORMATION);
+		}
 	}
 	// -----------------------------------------------
 
@@ -302,8 +311,8 @@ public class PagamentoDialogFormController implements Initializable {
 		txtRef.setText(lancamentoEntidade.getReferencia());
 		lbTotal.setText(String.format("%.2f", lancamentoEntidade.getTotal()));
 		Date hoje = new Date();
-		datePickerData.setValue(LocalDate.ofInstant(hoje.toInstant(), ZoneId.systemDefault()));
-		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		txtDataHoje.setText(sdf.format(hoje));
 		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
 	}
 
