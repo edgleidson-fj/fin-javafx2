@@ -467,10 +467,13 @@ public class MainViewController implements Initializable {
 	}	
 	//--------------------------------------------------------
 	@FXML
-	public void onBtConfirmar(ActionEvent evento) {	
+	public void onBtConfirmar(ActionEvent evento) {
 		Criptografia c = new Criptografia();		
 		String cpf = txtCPF.getText();
-		String senha = c.criptografia(txtSenha.getText());		
+		String senha ="";
+		if(!txtSenha.getText().equals("")) {
+			senha = c.criptografia(txtSenha.getText());	
+		}
 		usuarioEntidade.setNome(cpf);
 		usuarioEntidade.setSenha(senha);
 		Usuario user = usuarioService.login(cpf, senha);
@@ -509,8 +512,8 @@ public class MainViewController implements Initializable {
 				mensagemService.atualizar(msg);
 			}
 		} else{
-			Alertas.mostrarAlerta(null,null , "Usuário ou Senha incorreto!", AlertType.ERROR);
-		}			
+			Alertas.mostrarAlerta(null,null , "Usuário e/ou Senha incorreto!", AlertType.ERROR);
+		}
 		}
 	
 	@FXML
