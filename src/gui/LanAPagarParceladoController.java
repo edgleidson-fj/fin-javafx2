@@ -161,17 +161,17 @@ public class LanAPagarParceladoController implements Initializable {
 			Lancamento obj = new Lancamento();
 			obj.setTotal(total);
 			if (txtReferencia.getText().equals("")) {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento.",
+				Alertas.mostrarAlerta("Atenção!", "Referência em branco.", "Favor inserir uma referência para o lançamento.",
 						AlertType.INFORMATION);
 			} else {
 				if (datePickerData.getValue() == null) {
-					Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para primeira parcela.",
+					Alertas.mostrarAlerta("Atenção!", "Data em branco", "Necessário informar a data para primeira parcela.",
 							AlertType.INFORMATION);
 				}
 
 				int parc = Utils.stringParaInteiro(0 + txtParcela.getText());
 				if (txtParcela.getText().equals(null) || parc <= 0) {
-					Alertas.mostrarAlerta("Atenção", "Parcela inválida.", "Favor informar o número de parcelas.",
+					Alertas.mostrarAlerta("Atenção!", "Parcela inválida.", "Verificar se: \n-A parcela informada é 0.",
 							AlertType.INFORMATION);
 				}
 
@@ -181,7 +181,7 @@ public class LanAPagarParceladoController implements Initializable {
 				Date hoje = new Date();
 
 				if (dataSelecionada.before(hoje)) {
-					Alertas.mostrarAlerta("Atenção", "Data inválida (" + sdf.format(dataSelecionada) + ").",
+					Alertas.mostrarAlerta("Atenção!", "Data inválida (" + sdf.format(dataSelecionada) + ").",
 							"Data selecionada igual ou anterior a data atual.", AlertType.INFORMATION);
 				} else {
 					parcela = Utils.stringParaInteiro(txtParcela.getText());
@@ -220,7 +220,7 @@ public class LanAPagarParceladoController implements Initializable {
 				}
 			}
 		} else {
-			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ",
+			Alertas.mostrarAlerta("Lançamento registrado.", null, "Favor inserir o (Produto/Serviço) do lançamento. ",
 					AlertType.INFORMATION);
 		}
 	}
@@ -281,20 +281,20 @@ public class LanAPagarParceladoController implements Initializable {
 						}
 						lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
 					} else {
-						Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+						Alertas.mostrarAlerta("Atenção!", "Desconto inválido.",
 								"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
 								AlertType.INFORMATION);
 					}
 				} else {
-					Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+					Alertas.mostrarAlerta("Atenção!", "Preço inválido.", "Verificar se: \n-O valor informado é R$(0.00).",
 							AlertType.INFORMATION);
 				}
 			} else {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma quantidade válida para o (Produto/Serviço).",
+				Alertas.mostrarAlerta("Atenção!", "Quantidade inválida.", "Verificar se: \n-A quantidade informada é 0.",
 						AlertType.INFORMATION);
 			}
 		} else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+			Alertas.mostrarAlerta("Atenção!", "Descrição em branco.", "Favor inserir uma descrição para o (Produto/Serviço).",
 					AlertType.INFORMATION);
 		}
 	}
@@ -304,7 +304,7 @@ public class LanAPagarParceladoController implements Initializable {
 		infoExtra();
 		Lancamento obj = new Lancamento();
 		if (txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
-			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+			Alertas.mostrarAlerta("Lançamento incompleto!", "Favor revisar todos campos", null, AlertType.INFORMATION);
 		} else {
 			for (int x = 0; x < parcela; x++) {
 				obj.setId(lancamentoIds);

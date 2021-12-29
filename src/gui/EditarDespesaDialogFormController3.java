@@ -60,7 +60,7 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		if(txtNome.getText().isEmpty() || txtPrecoUnid.getText().isEmpty() || txtQuantidade.getText().isEmpty()) {
-			Alertas.mostrarAlerta("Atenção", null, "Campo(s) em branco", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Atenção!", "Campo(s) em branco", null, AlertType.INFORMATION);
 			}
 			else if(Utils.stringParaDouble(txtPrecoUnid.getText()) >0 && Utils.stringParaInteiro(txtQuantidade.getText()) >0 ){
 				int qtde = Utils.stringParaInteiro(0+ txtQuantidade.getText());
@@ -110,11 +110,11 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			});	
 			}
 				else {
-					Alertas.mostrarAlerta("Atenção", "Desconto inválido.", "Valor do desconto igual ou superior ao valor do (Produto/Serviço)." , AlertType.INFORMATION);
+					Alertas.mostrarAlerta("Atenção!", "Desconto inválido.", "Valor do desconto igual ou superior ao valor do (Produto/Serviço)." , AlertType.INFORMATION);
 				}
 				}
 			else {
-				Alertas.mostrarAlerta("Atenção", null, "Preço unitário e/ou quantidade inválido", AlertType.INFORMATION);
+				Alertas.mostrarAlerta("Atenção!", "Preço unitário e/ou quantidade inválido", "Verificar se: \n-O valor informado é R$(0.00). \n-A quantidade informada é 0.", AlertType.INFORMATION);
 			}
 		}
 	

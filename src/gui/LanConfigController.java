@@ -217,20 +217,20 @@ public class LanConfigController implements Initializable {
 		carregarTableView();
 		
 						} else {
-							Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+							Alertas.mostrarAlerta("Atenção!", "Desconto inválido.",
 									"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
 									AlertType.INFORMATION);
 						}
 					} else {
-						Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+						Alertas.mostrarAlerta("Atenção!", "Preço inválido.", "Verificar se: \n-O valor informado é R$(0.00).",
 								AlertType.INFORMATION);
 					}
 				} else {
-					Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma quantidade válida para o (Produto/Serviço).",
+					Alertas.mostrarAlerta("Atenção!", "Quantidade inválida.", "Verificar se: \n-A quantidade informada é 0.",
 							AlertType.INFORMATION);
 				}
 			} else {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+				Alertas.mostrarAlerta("Atenção!", "Descrição em branco.", "Favor inserir uma descrição para o (Produto/Serviço).",
 						AlertType.INFORMATION);
 			}
 		}
@@ -243,7 +243,7 @@ public class LanConfigController implements Initializable {
 	@FXML
 	public void onBtAtualizar(ActionEvent evento) {		
 		if(txtReferencia.getText() == null || txtReferencia.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento ",
+			Alertas.mostrarAlerta("Atenção!", "Referência em branco.", "Favor inserir uma referência para o lançamento ",
 					AlertType.INFORMATION);
 		}
 		else {

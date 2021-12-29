@@ -147,7 +147,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}	
 		}
 	
@@ -176,7 +176,7 @@ public class MainViewController implements Initializable {
 			 }			 
 		 }
 		 if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 		
@@ -205,7 +205,7 @@ public class MainViewController implements Initializable {
 			 }			
 		 }
 		 if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 	
@@ -234,7 +234,7 @@ public class MainViewController implements Initializable {
 			 }			
 		 }
 		 if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 	
@@ -260,7 +260,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}	
 	
@@ -286,7 +286,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}	
 	
@@ -307,7 +307,7 @@ public class MainViewController implements Initializable {
 	logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 	
@@ -327,7 +327,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 	
@@ -348,7 +348,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 	
@@ -369,7 +369,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 	
@@ -392,7 +392,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 		
@@ -413,7 +413,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 	
@@ -434,7 +434,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 
@@ -453,7 +453,7 @@ public class MainViewController implements Initializable {
 		logado = "S";
 			 }			 
 		 }if(logado.equals("N")) {
-				Alertas.mostrarAlerta(null,null , "Necessário efetuar Login!", AlertType.WARNING);
+				Alertas.mostrarAlerta("Acesso negado!",null , "Necessário efetuar Login.", AlertType.WARNING);
 			}
 	}
 	
@@ -512,7 +512,7 @@ public class MainViewController implements Initializable {
 				mensagemService.atualizar(msg);
 			}
 		} else{
-			Alertas.mostrarAlerta(null,null , "Usuário e/ou Senha incorreto!", AlertType.ERROR);
+			Alertas.mostrarAlerta("Erro de autenticação.",null , "Usuário e/ou Senha incorreto!", AlertType.ERROR);
 		}
 		}
 	

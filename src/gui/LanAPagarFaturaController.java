@@ -140,11 +140,11 @@ public class LanAPagarFaturaController implements Initializable {
 			Lancamento obj = new Lancamento();
 			obj.setTotal(total);
 			if (txtReferencia.getText().equals("")) {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento.",
+				Alertas.mostrarAlerta("Atenção!", "Referência em branco.", "Favor inserir uma referência para o lançamento.",
 						AlertType.INFORMATION);
 			} else {
 				if (datePickerData.getValue() == null) {
-					Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para o primeiro vencimento.",
+					Alertas.mostrarAlerta("Atenção", "Data em branco.", "Necessário informar a data para o primeiro vencimento.",
 							AlertType.INFORMATION);
 				}
 
@@ -199,7 +199,7 @@ public class LanAPagarFaturaController implements Initializable {
 				}
 			}
 		} else {
-			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ",
+			Alertas.mostrarAlerta("Lançamento registrado.", null, "Favor inserir o (Produto/Serviço) do lançamento. ",
 					AlertType.INFORMATION);
 		}
 	}
@@ -256,11 +256,11 @@ public class LanAPagarFaturaController implements Initializable {
 				}
 				lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
 			} else {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+				Alertas.mostrarAlerta("Atenção", "Preço inválido.", "Verificar se: \n-O valor informado é R$(0.00).",
 						AlertType.INFORMATION);
 			}
 		} else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+			Alertas.mostrarAlerta("Atenção", "Descrição em branco.", "Favor inserir uma descrição para o (Produto/Serviço).",
 					AlertType.INFORMATION);
 		}
 	}
@@ -269,7 +269,7 @@ public class LanAPagarFaturaController implements Initializable {
 	public void onBtConfirmar(ActionEvent evento) {
 		Lancamento obj = new Lancamento();
 		if (txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
-			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+			Alertas.mostrarAlerta("Lançamento incompleto!", "Favor revisar todos campos", null, AlertType.INFORMATION);
 		} else {
 			for (int x = 0; x < parcela; x++) {
 				obj.setId(lancamentoIds);

@@ -110,7 +110,7 @@ public class LoginController implements Initializable {
 				mensagemService.atualizar(msg);
 			}			
 		} else{
-			Alertas.mostrarAlerta(null,null , "Usuário e/ou Senha incorreto!", AlertType.ERROR);
+			Alertas.mostrarAlerta(null,null , "Usuário e/ou Senha incorreto!", AlertType.WARNING);
 		}			
 		}
 	

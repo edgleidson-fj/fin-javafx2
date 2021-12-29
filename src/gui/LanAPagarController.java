@@ -137,11 +137,11 @@ public class LanAPagarController implements Initializable {
 			obj.setReferencia(txtReferencia.getText());
 			obj.setTotal(total);
 			if (txtReferencia.getText().equals("")) {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento ",
+				Alertas.mostrarAlerta("Atenção!", "Referência em branco.", "Favor inserir uma referência para o lançamento ",
 						AlertType.INFORMATION);
 			} else {
 				if (datePickerData.getValue() == null) {
-					Alertas.mostrarAlerta("Atenção", null, "Necessário informar a data para pagamento",
+					Alertas.mostrarAlerta("Atenção!", "Data em branco.", "Necessário informar a data para pagamento",
 							AlertType.INFORMATION);
 				}
 
@@ -151,7 +151,7 @@ public class LanAPagarController implements Initializable {
 				Date hoje = new Date();
 
 				if (dataSelecionada.before(hoje)) {
-					Alertas.mostrarAlerta("Atenção", "Data inválida (" + sdf.format(dataSelecionada) + ").",
+					Alertas.mostrarAlerta("Atenção!", "Data inválida (" + sdf.format(dataSelecionada) + ").",
 							"Data selecionada igual ou anterior a data atual.", AlertType.INFORMATION);
 				} else {
 					instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
@@ -170,7 +170,7 @@ public class LanAPagarController implements Initializable {
 				desocultarCampos();
 			}
 		} else {
-			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ",
+			Alertas.mostrarAlerta("Lançamento registrado.", null, "Favor inserir o (Produto/Serviço) do lançamento. ",
 					AlertType.INFORMATION);
 		}
 	}
@@ -226,20 +226,20 @@ public class LanAPagarController implements Initializable {
 						obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 						lancamentoService.atualizar(obj);
 					} else {
-						Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+						Alertas.mostrarAlerta("Atenção!", "Desconto inválido.",
 								"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
 								AlertType.INFORMATION);
 					}
 				} else {
-					Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+					Alertas.mostrarAlerta("Atenção!", "Preço inválido.", "Verificar se: \n-O valor informado é R$(0.00).",
 							AlertType.INFORMATION);
 				}
 			} else {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma quantidade válida para o (Produto/Serviço).",
+				Alertas.mostrarAlerta("Atenção!", "Quantidade inválida.", "Verificar se: \n-A quantidade informada é 0.",
 						AlertType.INFORMATION);
 			}
 		} else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+			Alertas.mostrarAlerta("Atenção!", "Descrição em branco.", "Favor inserir uma descrição para o (Produto/Serviço).",
 					AlertType.INFORMATION);
 		}
 	}
@@ -250,7 +250,7 @@ public class LanAPagarController implements Initializable {
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			if (txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
-				Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+				Alertas.mostrarAlerta("Lançamento incompleto!", "Favor revisar todos campos", null, AlertType.INFORMATION);
 			} else {
 				obj.setObs(txtAreaObs.getText());
 				obj.setDesconto(0.00);
@@ -268,7 +268,7 @@ public class LanAPagarController implements Initializable {
 				});
 			}
 		} catch (RuntimeException ex) {
-			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+			Alertas.mostrarAlerta("Lançamento incompleto!", "Favor revisar todos campos", null, AlertType.INFORMATION);
 		}
 	}
 

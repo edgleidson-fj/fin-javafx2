@@ -74,7 +74,7 @@ public class EsqueciASenhaController implements Initializable/* , DataChangerLis
 					Usuario user = service.recuperarSenha(nome, cpf, email, novaSenha);
 					user = service.verificarUsuario(nome, cpf, email);
 					if (user == null) {
-						Alertas.mostrarAlerta("Atenção!", null, "Informação divergente entre: NOME, CPF e/ou EMAIL.",
+						Alertas.mostrarAlerta("Atenção!", "Informação divergente entre: NOME, CPF e/ou EMAIL.", null,
 								AlertType.INFORMATION);
 					} else {
 						entidade.setCpf(cpf);
@@ -94,10 +94,10 @@ public class EsqueciASenhaController implements Initializable/* , DataChangerLis
 					Alertas.mostrarAlerta("Erro!", "Erro ao tentar recuperar senha.", ex.getMessage(), AlertType.ERROR);
 				}
 			} else {
-				Alertas.mostrarAlerta("Atenção!", null, "Favor cadastrar nova senha.", AlertType.INFORMATION);
+				Alertas.mostrarAlerta("Atenção!", "Senha em branco.", "Favor cadastrar nova senha.", AlertType.INFORMATION);
 			}
 		} else {
-			Alertas.mostrarAlerta("Atenção!", null, "Campo(s) em branco", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Atenção!", "Campo(s) em branco", null, AlertType.INFORMATION);
 		}
 	}
 

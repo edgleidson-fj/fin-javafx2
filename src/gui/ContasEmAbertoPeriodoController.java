@@ -90,7 +90,7 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
-		if(datePickerDataInicial.getValue() != null && datePickerDataFinal.getValue() != null) {
+		if(datePickerDataInicial.getValue() != null && datePickerDataFinal.getValue() != null && !datePickerDataFinal.getValue().isBefore(datePickerDataInicial.getValue()))  {
 		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();
 		
 		Instant instant1 = Instant.from(datePickerDataInicial.getValue().atStartOfDay(ZoneId.systemDefault()));
@@ -112,7 +112,7 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 		carregarSomaTotal();
 		}
 		else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor informar data INICIAL e FINAL para consulta.", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Atenção!", "Data inválida.", "Verificar se: \n-Data INICIAL e/ou FINAL em branco. \n-Data INICIAL maior que a FINAL.", AlertType.INFORMATION);
 		}
 	}
 	

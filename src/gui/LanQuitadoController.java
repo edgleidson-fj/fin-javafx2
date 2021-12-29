@@ -178,7 +178,7 @@ public class LanQuitadoController implements Initializable {
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal(total);
 		if (txtReferencia.getText().equals("")) {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma referência para o lançamento ",
+			Alertas.mostrarAlerta("Atenção!", "Referência em branco.", "Favor inserir uma referência para o lançamento ",
 					AlertType.INFORMATION);
 		} else {
 			if (datePickerData.getValue() == null) {
@@ -202,7 +202,7 @@ public class LanQuitadoController implements Initializable {
 		}
 		}
 		else {
-			Alertas.mostrarAlerta("Lançamento registrado!", null, "Favor inserir o (Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Lançamento registrado.", null, "Favor inserir o (Produto/Serviço) do lançamento. ", AlertType.INFORMATION);
 		}
 	}
 
@@ -271,20 +271,20 @@ public class LanQuitadoController implements Initializable {
 				lbDesconto.setText("0.00");
 				txtDesconto.setText("0.00");
 					} else {
-						Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+						Alertas.mostrarAlerta("Atenção!", "Desconto inválido.",
 								"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
 								AlertType.INFORMATION);
 					}
 				} else {
-					Alertas.mostrarAlerta("Atenção", null, "Favor inserir um preço válido para o (Produto/Serviço).",
+					Alertas.mostrarAlerta("Atenção!", "Preço inválido.", "Verificar se: \n-O valor informado é R$(0.00).",
 							AlertType.INFORMATION);
 				}
 			} else {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma quantidade válida para o (Produto/Serviço).",
+				Alertas.mostrarAlerta("Atenção!", "Quantidade inválida.", "Verificar se: \n-A quantidade informada é 0.",
 						AlertType.INFORMATION);
 			}
 		} else {
-			Alertas.mostrarAlerta("Atenção", null, "Favor inserir uma descrição para o (Produto/Serviço).",
+			Alertas.mostrarAlerta("Atenção!", "Descrição em branco.", "Favor inserir uma descrição para o (Produto/Serviço).",
 					AlertType.INFORMATION);
 		}
 	}
@@ -295,10 +295,10 @@ public class LanQuitadoController implements Initializable {
 		Locale.setDefault(Locale.US);
 
 		double valorInformado, valorDiferenca;
-		valorInformado = Utils.stringParaDouble(txtTipoPagValor.getText());
+		valorInformado = Utils.stringParaDouble(0+ txtTipoPagValor.getText());
 		valorDiferenca = Utils.stringParaDouble(lbDiferenca.getText());
 
-		if (valorInformado <= valorDiferenca) {
+		if (valorInformado <= valorDiferenca && valorInformado != 0) {
 			Lancamento obj = new Lancamento();
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			obj.setReferencia(txtReferencia.getText());
@@ -322,7 +322,7 @@ public class LanQuitadoController implements Initializable {
 			txtTipoPagValor.setText(lbDiferenca.getText());
 			iniciarBotaoRemoverItemPagamento();		
 			} else {
-			Alertas.mostrarAlerta("Valor inválido!", null, "Favor verificar o valor informado.", AlertType.WARNING);
+				Alertas.mostrarAlerta("Atenção!","Pagamento inválido.",  "Verificar se: \n- O valor informado superior ao valor restante. \n- O valor informado é R$(0.00).", AlertType.INFORMATION);
 		}
 	}
 
@@ -367,7 +367,7 @@ public class LanQuitadoController implements Initializable {
 		try {
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
 			if (txtId.getText().equals("") || txtPrecoUnid.getText().equals("")) {
-				Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos", AlertType.WARNING);
+				Alertas.mostrarAlerta("Lançamento incompleto!", "Favor revisar todos campos", null, AlertType.INFORMATION);
 			} else {
 				double valorDiferenca;
 				valorDiferenca = Utils.stringParaDouble(lbDiferenca.getText());
@@ -395,12 +395,12 @@ public class LanQuitadoController implements Initializable {
 						controller.ocultarCampos();
 					});
 				} else {
-					Alertas.mostrarAlerta("Pagamento inválido!", null, "Favor revisar formas de pagamento.",
-							AlertType.WARNING);
+					Alertas.mostrarAlerta("Atenção!", "Pagamento inválido!", "Favor revisar formas de pagamento.",
+							AlertType.INFORMATION);
 				}
 			}
 		} catch (RuntimeException ex) {
-			Alertas.mostrarAlerta("Incompleto!", null, "Favor revisar todos campos.", AlertType.WARNING);
+			Alertas.mostrarAlerta("Lançamento incompleto!", "Favor revisar todos campos", null, AlertType.INFORMATION);
 		}
 	}
 

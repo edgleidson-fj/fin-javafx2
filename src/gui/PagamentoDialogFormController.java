@@ -152,7 +152,7 @@ public class PagamentoDialogFormController implements Initializable {
 			txtTipoPagValor.setText(lbDiferenca.getText());
 			zerarDiferecaDePagamento();
 		} else {
-			Alertas.mostrarAlerta("Atenção!","Valor inválido",  "- O valor informado superior ao valor restante. \n- O valor informado é R$(0.00).", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Atenção!","Pagamento inválido.",  "Verificar se: \n- O valor informado superior ao valor restante. \n- O valor informado é R$(0.00).", AlertType.INFORMATION);
 		}
 	}
 
@@ -244,7 +244,7 @@ public class PagamentoDialogFormController implements Initializable {
 		limparItemPagamento();
 		}
 		else {
-			Alertas.mostrarAlerta("Atenção", "Desconto inválido.",
+			Alertas.mostrarAlerta("Atenção!", "Desconto inválido.",
 					"Valor do desconto igual ou superior ao valor do lançamento.",
 					AlertType.INFORMATION);
 		}

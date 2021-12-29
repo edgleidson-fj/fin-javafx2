@@ -65,7 +65,8 @@ public class ReajustarFaturaDialogFormController implements Initializable {
 	public void onBtConfirmar(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
 		
-		if(!txtPrecoUnid.getText().equals("")) {
+		double valorInfomado= Utils.stringParaDouble(0+ txtPrecoUnid.getText()); 		
+		if(valorInfomado > 0 && valorInfomado != itemValorAnterior) {
 		excluirItemAntesDoReajuste();
 		inserirNovoItemDoReajuste();
 		parentStage.close();
@@ -93,7 +94,7 @@ public class ReajustarFaturaDialogFormController implements Initializable {
 		});				
 		}
 		else {
-			Alertas.mostrarAlerta("Valor Inválido!", "Favor verificar o valor informado.",null, AlertType.WARNING);
+			Alertas.mostrarAlerta("Atenção!","Valor Inválido.", "Verificar se: \n- O valor informado é o mesmo. \n- O valor informado é R$(0.00).", AlertType.INFORMATION);
 		}
 	}
 
