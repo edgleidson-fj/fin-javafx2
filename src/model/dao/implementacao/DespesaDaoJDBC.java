@@ -189,7 +189,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 			int mesAtual = datahoje.get(Calendar.MONTH)+1;
 			
 			ps = connection.prepareStatement(					
-					"select d.nome,  sum(d.precoTotal) from item i "
+					"select d.nome,  sum(d.precoTotal), count(d.nome) from item i "
 					+"inner join lancamento l "
 					+"on l.id = i.lancamento_id "
 					+"inner join despesa d "
@@ -199,8 +199,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 					+ "and l.status_id = 2 "					
 					+ "and l.usuario_id = ? "
 					+"group by d.nome "
-					+"order by sum(d.precoTotal) desc "
-					+ "limit 10 ");						
+					+"order by sum(d.precoTotal) desc ");
 					ps.setInt(1, id);
 			rs = ps.executeQuery();
 			List<Despesa> lista = new ArrayList<Despesa>();
@@ -208,6 +207,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 				Despesa d = new Despesa();
 				d.setPrecoTotal(rs.getDouble("sum(d.precoTotal)"));
 				d.setNome(rs.getString("nome"));
+				d.setQuantidade(rs.getInt("count(d.nome)"));
 				lista.add(d);
 			}
 			rs.close();
@@ -229,7 +229,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 			int anoAtual = datahoje.get(Calendar.YEAR);
 			
 			ps = connection.prepareStatement(					
-					"select d.nome,  sum(d.precoTotal) from item i "
+					"select d.nome,  sum(d.precoTotal), count(d.nome) from item i "
 							+"inner join lancamento l "
 							+"on l.id = i.lancamento_id "
 							+"inner join despesa d "
@@ -238,15 +238,15 @@ public class DespesaDaoJDBC implements DespesaDao {
 					+ "and l.status_id = 2 "					
 					+ "and l.usuario_id = ? "
 					+"group by d.nome "
-					+"order by sum(d.precoTotal) desc "
-					+ "limit 10 ");									
-					ps.setInt(1, id);
+					+"order by sum(d.precoTotal) desc ");
+				ps.setInt(1, id);
 			rs = ps.executeQuery();
 			List<Despesa> lista = new ArrayList<Despesa>();
 			while (rs.next()) {
 				Despesa d = new Despesa();
 				d.setPrecoTotal(rs.getDouble("sum(d.precoTotal)"));
 				d.setNome(rs.getString("nome"));
+				d.setQuantidade(rs.getInt("count(d.nome)"));
 				lista.add(d);
 			}
 			rs.close();

@@ -42,11 +42,15 @@ public class ConsultaPorRankController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> tableColumnValorTotal;
 	@FXML
+	private TableColumn<Despesa, Double> tableColumnQuantidade;
+	@FXML
 	private TableView<Despesa> tableViewDespesaAnoAtual;
 	@FXML
 	private TableColumn<Despesa, String> tableColumnNomeAnoAtual;
 	@FXML
 	private TableColumn<Despesa, Double> tableColumnValorTotalAnoAtual;
+	@FXML
+	private TableColumn<Despesa, Double> tableColumnQuantidadeAnoAtual;
 	@FXML
 	private Label lbMesAtual;
 	@FXML
@@ -81,10 +85,12 @@ public class ConsultaPorRankController implements Initializable {
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(tableColumnValorTotal, 2);// Formatar com(0,00)
-
+		tableColumnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+		
 		tableColumnNomeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnValorTotalAnoAtual.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(tableColumnValorTotalAnoAtual, 2);// Formatar com(0,00)
+		tableColumnQuantidadeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		// Tamanho da tabela.
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tableViewDespesa.prefHeightProperty().bind(stage.heightProperty());

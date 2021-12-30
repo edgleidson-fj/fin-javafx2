@@ -23,28 +23,30 @@
          <children>
             <AnchorPane prefHeight="359.0" prefWidth="692.0">
                <children>
-                  <TableView fx:id="tableViewDespesa" layoutX="100.0" layoutY="14.0" prefHeight="200.0" prefWidth="230.0" AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="50.0">
+                  <TableView fx:id="tableViewDespesa" layoutX="100.0" layoutY="14.0" prefHeight="200.0" prefWidth="290.0" AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="50.0">
                     <columns>
                         <TableColumn fx:id="tableColumnNome" maxWidth="1.7976931348623157E308" prefWidth="150.0" sortable="false" />
+                        <TableColumn fx:id="tableColumnQuantidade" prefWidth="50.0" text="Qtde" />
                       <TableColumn fx:id="tableColumnValorTotal" prefWidth="70.0" sortable="false" text="Total" />
                     </columns>
                      <padding>
                         <Insets bottom="1.0" />
                      </padding>
                   </TableView>
-                  <TableView fx:id="tableViewDespesaAnoAtual" layoutX="427.0" layoutY="44.0" prefHeight="200.0" prefWidth="230.0" AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="50.0">
+                  <TableView fx:id="tableViewDespesaAnoAtual" layoutX="427.0" layoutY="44.0" prefHeight="200.0" prefWidth="290.0" AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="50.0">
                     <columns>
                       <TableColumn fx:id="tableColumnNomeAnoAtual" prefWidth="150.0" sortable="false" />
+                        <TableColumn fx:id="tableColumnQuantidadeAnoAtual" prefWidth="50.0" text="Qtde" />
                       <TableColumn fx:id="tableColumnValorTotalAnoAtual" prefWidth="70.0" sortable="false" text="Total" />
                     </columns>
                   </TableView>
-                  <Label layoutX="100.0" layoutY="33.0" text="Top 10 do mês de" AnchorPane.topAnchor="35.0" />
-                  <Label layoutX="427.0" layoutY="33.0" text="Top 10 do ano" AnchorPane.topAnchor="35.0" />
-                  <Label fx:id="lbMesAtual" layoutX="182.0" layoutY="25.0" text="JANEIRO" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="35.0">
+                  <Label layoutX="100.0" layoutY="33.0" text="Mês" AnchorPane.topAnchor="35.0" />
+                  <Label layoutX="427.0" layoutY="33.0" text="Ano" AnchorPane.topAnchor="35.0" />
+                  <Label fx:id="lbMesAtual" layoutX="182.0" layoutY="25.0" text="JANEIRO" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="35.0">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
-                  <Label fx:id="lbAnoAtual" layoutX="522.0" layoutY="17.0" text="2021" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="35.0">
+                  <Label fx:id="lbAnoAtual" layoutX="522.0" layoutY="17.0" text="2021" AnchorPane.leftAnchor="452.0" AnchorPane.topAnchor="35.0">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
