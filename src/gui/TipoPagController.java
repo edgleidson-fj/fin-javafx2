@@ -76,14 +76,14 @@ public class TipoPagController implements Initializable {
 
 	public void onBtSalvar() {
 		try {
-			if(!txtNome.getText().equals("")) {
+			if(!txtNome.getText().equals("") && txtNome.getText() != null) {
 			entidade = dadosDoCampoDeTexto();
 			service.salvarOuAtualizar(entidade);
 			entidade = new TipoPag();
 			atualizarPropriaView(entidade, "/gui/TipoPagView.fxml");
 			}
 			else {
-				Alertas.mostrarAlerta("Atenção", null, "Favor inserir a descrição do tipo de pagamento", AlertType.WARNING);
+				Alertas.mostrarAlerta("Atenção!", "Descrição em branco.", "Favor inserir uma descrição para o tipo de pagamento.", AlertType.INFORMATION);
 			}
 		} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
