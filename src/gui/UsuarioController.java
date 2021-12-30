@@ -21,7 +21,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import model.entidade.Lancamento;
 import model.entidade.Usuario;
+import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
 
@@ -45,8 +47,6 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 	@FXML
 	private Button btSalvar;
 
-	@FXML
-
 	// Injeção da dependência.
 	public void setUsuarioService(UsuarioService service) {
 		this.service = service;
@@ -57,35 +57,46 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 	}
 
 	int x;
+	String CPFexiste = "N";
 
 	public void onBtSalvar() {
 		try {
-			if(!txtNome.getText().equals("") & !txtEmail.getText().equals("") & !txtCPF.getText().equals("") & !txtSenha.getText().equals("")) {
-			if (txtId.getText().equals("")) {
-				x = 1;
+			if (!txtNome.getText().equals("") & !txtEmail.getText().equals("") & !txtCPF.getText().equals("")
+					& !txtSenha.getText().equals("")) {
 				entidade = dadosDoCampoDeTexto();
-				service.salvar(entidade);
-				atualizarPropriaView(entidade, "/gui/LoginView.fxml");
-				Alertas.mostrarAlerta(null, "Cadastro realizado com sucesso!", null, AlertType.INFORMATION);
-			} else {
-				x = 2;
-				entidade = dadosDoCampoDeTexto();
-				service.atualizar(entidade);
-				atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
-				Alertas.mostrarAlerta(null, "Atualização realizado com sucesso!", null, AlertType.INFORMATION);
-			}			
-			}
-			else {
-				Alertas.mostrarAlerta("Atenção", "Nome, CPF, Email e/ou Senha em branco", null, AlertType.WARNING);
+				if (txtId.getText().equals("")) {
+					if (CPFexiste.equals("N")) {
+						x = 1;
+						service.salvar(entidade);
+						entidade.setCpf(txtCPF.getText());
+						entidade.setLogado("S");
+						service.logado(entidade);
+						atualizarPropriaView(entidade, "/gui/ContasEmAbertoMesAtualView.fxml");
+						Alertas.mostrarAlerta(null, "Cadastro realizado com sucesso!", null, AlertType.INFORMATION);
+					} else {
+						Alertas.mostrarAlerta("Atenção!", "Cadastro inválido.", "CPF informado já existe no sistema.",
+								AlertType.WARNING);
+						x = 2;
+						atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
+					}
+				} else {
+					x = 3;
+					service.atualizar(entidade);
+					atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
+					Alertas.mostrarAlerta(null, "Atualização realizado com sucesso!", null, AlertType.INFORMATION);
 				}
+			} else {
+				Alertas.mostrarAlerta("Atenção!", "Nome, CPF, Email e/ou Senha em branco.", null,
+						AlertType.INFORMATION);
+			}
 		} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar", null, ex.getMessage(), AlertType.ERROR);
 		}
 	}
 
 	public void onBtVoltar() {
-		x = 1;
-		atualizarPropriaView(null, "/gui/LoginView.fxml");		
+		x = 4;
+		atualizarPropriaView(null, "/gui/LoginView.fxml");
 	}
 
 	@Override
@@ -104,6 +115,7 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 	// ---------------------------------------------
 
 	public Usuario dadosDoCampoDeTexto() {
+		service.logado(entidade);
 		Criptografia c = new Criptografia();
 		Usuario obj = new Usuario();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -111,6 +123,7 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 		obj.setSenha(c.criptografia(txtSenha.getText()));
 		obj.setEmail(txtEmail.getText());
 		obj.setCpf(txtCPF.getText());
+		VerificarCPF();
 		return obj;
 	}
 
@@ -124,6 +137,9 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 				txtNome.setText(u.getNome());
 				txtEmail.setText(u.getEmail());
 				txtCPF.setText(u.getCpf());
+				Criptografia c = new Criptografia();
+				txtSenha.setText(c.descriptografar(u.getSenha()));
+				ocultarOuDesocultar();
 			}
 		}
 	}
@@ -134,15 +150,28 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 			VBox novoVBox = loader.load();
 
 			if (x == 1) {
-				LoginController controller = loader.getController();
-			    controller.setUsuario(new Usuario());
-				controller.setUsuarioService(new UsuarioService());
+				ContasEmAbertoMesAtualController controller = loader.getController();
+				controller.setLancamentoService(new LancamentoService());
+				controller.setLancamento(new Lancamento());
+				controller.rotinasAutomaticas();
+				controller.carregarTableView();
 			}
-			else{
+			if (x == 2) {
+				UsuarioController controller = loader.getController();
+				controller.setUsuarioService(new UsuarioService());
+				controller.setUsuario(new Usuario());
+				controller.carregarCamposDeCadastro();
+			}
+			if (x == 3) {
 				UsuarioController controller = loader.getController();
 				controller.setUsuario(obj);
 				controller.setUsuarioService(new UsuarioService());
 				controller.carregarCamposDeCadastro();
+			}
+			if (x == 4) {
+				LoginController controller = loader.getController();
+				controller.setUsuario(new Usuario());
+				controller.setUsuarioService(new UsuarioService());
 			}
 
 			Scene mainScene = Main.pegarMainScene();
@@ -187,5 +216,23 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 				break;
 			}
 		});
+	}
+
+	public void ocultarOuDesocultar() {
+		if (txtId.getText().equals("")) {
+			btVoltar.setVisible(true);
+		} else {
+			btVoltar.setVisible(false);
+		}
+	}
+
+	public void VerificarCPF() {
+		List<Usuario> lista = service.buscarTodos();
+		for (Usuario u : lista) {
+			u.getCpf();
+			if (txtCPF.getText().equals(u.getCpf())) {
+				CPFexiste = "S";
+			}
+		}
 	}
 }
