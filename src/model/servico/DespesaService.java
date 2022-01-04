@@ -41,4 +41,8 @@ public class DespesaService {
 	public List<Despesa> consultaPorRankDespesaAnoAtual(Integer id) {
 		return dao.consultaPorRankDespesaAnoAtual(id);
 	}
+	
+	public void rateioDesconto(Despesa obj) {
+		dao.rateioDesconto(obj);		
+	}
 }

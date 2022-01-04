@@ -3,8 +3,6 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -30,7 +28,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -132,7 +129,7 @@ public class PagamentoDialogFormController implements Initializable {
 		Locale.setDefault(Locale.US);
 
 		double valorInformado, valorDiferenca;
-		valorInformado = Utils.stringParaDouble(0+ txtTipoPagValor.getText());
+		valorInformado = Utils.stringParaDouble(0 + txtTipoPagValor.getText());
 		valorDiferenca = Utils.stringParaDouble(lbDiferenca.getText());
 
 		if (valorInformado <= valorDiferenca && valorInformado != 0) {
@@ -152,7 +149,9 @@ public class PagamentoDialogFormController implements Initializable {
 			txtTipoPagValor.setText(lbDiferenca.getText());
 			zerarDiferecaDePagamento();
 		} else {
-			Alertas.mostrarAlerta("Atenção!","Pagamento inválido.",  "Verificar se: \n- O valor informado superior ao valor restante. \n- O valor informado é R$(0.00).", AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Atenção!", "Pagamento inválido.",
+					"Verificar se: \n- O valor informado superior ao valor restante. \n- O valor informado é R$(0.00).",
+					AlertType.INFORMATION);
 		}
 	}
 
@@ -194,10 +193,11 @@ public class PagamentoDialogFormController implements Initializable {
 			Date hoje = new Date();
 			obj.setData(hoje);
 			descInd = Utils.stringParaDouble(lbDescontoIndividual.getText());
-			descGlobal = Utils.stringParaDouble(lbDescontoGlobal.getText()); 
+			descGlobal = Utils.stringParaDouble(lbDescontoGlobal.getText());
 			obj.setDesconto(descInd + descGlobal);
 			obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
 			lancamentoService.confirmarPagamento(obj);
+			rateioDesconto(descGlobal);
 			Utils.stageAtual(evento).close();
 			carregarPropriaView("/gui/ContasEmAbertoMesAtualView.fxml",
 					(ContasEmAbertoMesAtualController controller) -> {
@@ -215,38 +215,36 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	public void onBtVoltar(ActionEvent evento) {
 		limparItemPagamento();
-		Utils.stageAtual(evento).close();		
+		Utils.stageAtual(evento).close();
 	}
 
 	public void onBtDescontoOuAcrescimo() {
 		double desc = Utils.stringParaDouble(0 + txtDesconto.getText());
-		if (desc < Utils.stringParaDouble(lbDiferenca.getText())) {	
-		Double soma = 0.0;
-		descInd = 0.0;
-		for (Despesa tab : obsListaDespesaTbView) {
-			soma += tab.getPrecoBruto();
-			descInd += tab.getDescontoIndividual();
-		}
-		descGlobal = Utils.stringParaDouble(0+ txtDesconto.getText());
-		lbDescontoGlobal.setText(String.format("%.2f", descGlobal));
-		soma -= descGlobal + descInd;
-		
-		acrescimo = Utils.stringParaDouble(0+ txtAcrescimo.getText());
-		lbAcrescimo.setText(String.format("%.2f", acrescimo));
-		soma += acrescimo;
+		if (desc < Utils.stringParaDouble(lbDiferenca.getText())) {
+			Double soma = 0.0;
+			descInd = 0.0;
+			for (Despesa tab : obsListaDespesaTbView) {
+				soma += tab.getPrecoBruto();
+				descInd += tab.getDescontoIndividual();
+			}
+			descGlobal = Utils.stringParaDouble(0 + txtDesconto.getText());
+			lbDescontoGlobal.setText(String.format("%.2f", descGlobal));
+			soma -= descGlobal + descInd;
 
-		lbTotal.setText(String.format("%.2f", soma));
-		lbDiferenca.setText(String.format("%.2f", soma));
+			acrescimo = Utils.stringParaDouble(0 + txtAcrescimo.getText());
+			lbAcrescimo.setText(String.format("%.2f", acrescimo));
+			soma += acrescimo;
 
-		txtDesconto.setText("0.00");
-		txtAcrescimo.setText("0.00");
-		txtTipoPagValor.setText(lbDiferenca.getText());
-		limparItemPagamento();
-		}
-		else {
+			lbTotal.setText(String.format("%.2f", soma));
+			lbDiferenca.setText(String.format("%.2f", soma));
+
+			txtDesconto.setText("0.00");
+			txtAcrescimo.setText("0.00");
+			txtTipoPagValor.setText(lbDiferenca.getText());
+			limparItemPagamento();
+		} else {
 			Alertas.mostrarAlerta("Atenção!", "Desconto inválido.",
-					"Valor do desconto igual ou superior ao valor do lançamento.",
-					AlertType.INFORMATION);
+					"Valor do desconto igual ou superior ao valor do lançamento.", AlertType.INFORMATION);
 		}
 	}
 	// -----------------------------------------------
@@ -289,7 +287,7 @@ public class PagamentoDialogFormController implements Initializable {
 		Restricoes.setTextFieldDouble(txtDesconto);
 		Restricoes.setTextFieldDouble(txtAcrescimo);
 
-		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -408,18 +406,35 @@ public class PagamentoDialogFormController implements Initializable {
 			}
 		}
 	}
-	
+
 	public void carregarValores() {
 		Double soma = 0.0;
 		descInd = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
 			soma += tab.getPrecoBruto();
 			descInd += tab.getDescontoIndividual();
-		}		
+		}
 		lbTotal.setText(String.format("%.2f", soma - descInd));
 		lbDiferenca.setText(String.format("%.2f", soma - descInd));
 		lbDescontoIndividual.setText(String.format("%.2f", descInd));
 		txtTipoPagValor.setText(lbDiferenca.getText());
-}
+	}
+
+	public void rateioDesconto(Double desc) {
+		Double t = 0.0;
+		for (Despesa tab1 : obsListaDespesaTbView) {
+			t += tab1.getPrecoTotal();
+		}
+		for (Despesa tab : obsListaDespesaTbView) {
+			double percentual = (tab.getPrecoTotal() / t) * 100;
+			double descAux = (percentual / 100) * desc;
+			Despesa obj = new Despesa();
+			obj.setId(tab.getId());
+			obj.setPrecoTotal(tab.getPrecoTotal() - descAux);
+			obj.setDescontoIndividual(tab.getDescontoIndividual() + descAux);
+			despesaService.rateioDesconto(obj);
+			descAux = desc;
+		}
+	}
 
 }
