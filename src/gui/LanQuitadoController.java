@@ -380,6 +380,7 @@ public class LanQuitadoController implements Initializable {
 					total = Utils.stringParaDouble(lbTotal.getText());
 					obj.setTotal(total);
 					lancamentoService.confirmarLanQuitado(obj);
+					rateioDesconto(descGlobal);
 					carregarPropriaView("/gui/LanQuitadoView.fxml", (LanQuitadoController controller) -> {
 						controller.setLancamento(new Lancamento());
 						controller.setLancamentoService(new LancamentoService());
@@ -843,6 +844,23 @@ public class LanQuitadoController implements Initializable {
 		btItemPagamento.setDisable(true);
 		txtDesconto.setDisable(true);
 		btDesconto.setDisable(true);
+	}
+	
+	public void rateioDesconto(Double desc) {
+		Double t = 0.0;
+		for (Despesa tab1 : obsListaDespesaTbView) {
+			t += tab1.getPrecoTotal();
+		}
+		for (Despesa tab : obsListaDespesaTbView) {
+			double percentual = (tab.getPrecoTotal() / t) * 100;
+			double descAux = (percentual / 100) * desc;
+			Despesa obj = new Despesa();
+			obj.setId(tab.getId());
+			obj.setPrecoTotal(tab.getPrecoTotal() - descAux);
+			obj.setDescontoIndividual(tab.getDescontoIndividual() + descAux);
+			despesaService.rateioDesconto(obj);
+			descAux = desc;
+		}
 	}
 
 }
