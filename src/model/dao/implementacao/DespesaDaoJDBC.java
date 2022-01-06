@@ -168,6 +168,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 				d.setPrecoBruto(rs.getDouble("precoBruto"));
 				d.setPrecoTotal(rs.getDouble("precoTotal"));
 				d.setDescontoIndividual(rs.getDouble("d.desconto"));
+				d.setAcrescimo(rs.getDouble("d.acrescimo"));
 				lista.add(d);
 			}
 			rs.close();
@@ -271,6 +272,26 @@ public class DespesaDaoJDBC implements DespesaDao {
 			+ "WHERE id = ? ");
 			ps.setDouble(1, obj.getPrecoTotal());
 			ps.setDouble(2, obj.getDescontoIndividual());
+			ps.setInt(3, obj.getId());
+			ps.executeUpdate();
+		} catch (SQLException ex) {
+			new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+		}
+	}
+	
+	@Override
+	public void rateioAcrescimo(Despesa obj) {
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(
+					"UPDATE despesa " 
+			+ "SET precoTotal = ?, "
+			+ "acrescimo = ? " 
+			+ "WHERE id = ? ");
+			ps.setDouble(1, obj.getPrecoTotal());
+			ps.setDouble(2, obj.getAcrescimo());
 			ps.setInt(3, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {

@@ -12,11 +12,12 @@ public class Despesa implements Serializable{
 	private Double precoTotal;
 	private Integer quantidade;
 	private Double descontoIndividual;
+	private Double acrescimo;
 	
 	public Despesa() {
 		}
 
-	public Despesa(Integer id, String nome, Double precoUnid, Double precoBruto, Double precoTotal, Integer quantidade, Double descontoIndividual) {
+	public Despesa(Integer id, String nome, Double precoUnid, Double precoBruto, Double precoTotal, Integer quantidade, Double descontoIndividual, Double acrescimo) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -25,6 +26,7 @@ public class Despesa implements Serializable{
 		this.precoTotal = precoTotal;
 		this.quantidade = quantidade;
 		this.descontoIndividual = descontoIndividual;
+		this.acrescimo = acrescimo;
 	}
 
 	public Integer getId() {
@@ -81,6 +83,14 @@ public class Despesa implements Serializable{
 
 	public void setDescontoIndividual(Double descontoIndividual) {
 		this.descontoIndividual = descontoIndividual;
+	}
+	
+	public Double getAcrescimo() {
+		return acrescimo;
+	}
+
+	public void setAcrescimo(Double acrescimo) {
+		this.acrescimo = acrescimo;
 	}
 
 	@Override

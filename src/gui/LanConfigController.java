@@ -136,9 +136,11 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespValorBruto;
 	@FXML
-	private TableColumn<Despesa, Double> colunaDespValorTotal;
-	@FXML
 	private TableColumn<Despesa, Double> colunaDespDesconto;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespAcrescimo;
+	@FXML
+	private TableColumn<Despesa, Double> colunaDespValorTotal;
 	@FXML
 	private TableView<ItemPagamento> tbTipoPag;
 	@FXML
@@ -391,10 +393,12 @@ public class LanConfigController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
 		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
-		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
 		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
 		Utils.formatTableColumnValorDecimais(colunaDespDesconto, 2);
+		colunaDespAcrescimo.setCellValueFactory(new PropertyValueFactory<>("acrescimo"));
+		Utils.formatTableColumnValorDecimais(colunaDespAcrescimo, 2);
+		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
+		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
 
 		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
 		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)

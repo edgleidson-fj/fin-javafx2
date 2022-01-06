@@ -15,4 +15,5 @@ public interface DespesaDao {
 	List<Despesa> consultaPorRankDespesaMesAtual(Integer id);
 	List<Despesa> consultaPorRankDespesaAnoAtual(Integer id);
 	void rateioDesconto(Despesa obj);
+	void rateioAcrescimo(Despesa obj);
 }

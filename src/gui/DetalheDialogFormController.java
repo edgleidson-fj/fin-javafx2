@@ -68,6 +68,8 @@ public class DetalheDialogFormController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespDesconto;
 	@FXML
+	private TableColumn<Despesa, Double> colunaDespAcrescimo;
+	@FXML
 	private TableView<ItemPagamento> tbTipoPag;
 	@FXML
 	private TableColumn<ItemPagamento, String> colunaTipoPagNome;
@@ -116,6 +118,8 @@ public class DetalheDialogFormController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
 		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
 		Utils.formatTableColumnValorDecimais(colunaDespDesconto, 2);
+		colunaDespAcrescimo.setCellValueFactory(new PropertyValueFactory<>("acrescimo"));
+		Utils.formatTableColumnValorDecimais(colunaDespAcrescimo, 2);
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
 		

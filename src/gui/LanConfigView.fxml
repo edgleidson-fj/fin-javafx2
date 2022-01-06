@@ -34,16 +34,17 @@
                   <Font name="System Bold Italic" size="22.0" />
                </font>
             </Label>
-            <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="470.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="202.0">
+            <TableView fx:id="tbDespesa" layoutX="9.0" layoutY="202.0" maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="542.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="237.0" AnchorPane.topAnchor="202.0">
               <columns>
                   <TableColumn fx:id="colunaReajustar" prefWidth="55.0" resizable="false" />
                   <TableColumn fx:id="colunaRemover" prefWidth="30.0" />
-                  <TableColumn fx:id="colunaDespNome" prefWidth="168.0" resizable="false" text="Produto/Serviço" />
-                  <TableColumn fx:id="colunaDespValorUnid" prefWidth="60.0" text="Unid" />
-                  <TableColumn fx:id="colunaDespQuantidade" prefWidth="35.0" text="Qtde" />
-                  <TableColumn fx:id="colunaDespValorBruto" prefWidth="60.0" text="Bruto" />
+                  <TableColumn fx:id="colunaDespNome" prefWidth="140.0" resizable="false" text="Produto/Serviço" />
+                  <TableColumn fx:id="colunaDespValorUnid" prefWidth="57.0" text="Unid" />
+                  <TableColumn fx:id="colunaDespQuantidade" prefWidth="33.0" text="Qtde" />
+                  <TableColumn fx:id="colunaDespValorBruto" prefWidth="57.0" text="Bruto" />
                   <TableColumn fx:id="colunaDespDesconto" prefWidth="57.0" text="Desconto" />
-                <TableColumn fx:id="colunaDespValorTotal" prefWidth="60.0" text="Total" />
+                  <TableColumn fx:id="colunaDespAcrescimo" prefWidth="63.0" text="Acréscimo" />
+                <TableColumn fx:id="colunaDespValorTotal" prefWidth="57.0" text="Total" />
               </columns>
             </TableView>
             <Button fx:id="btAtualizar" layoutX="79.0" layoutY="398.0" mnemonicParsing="false" onAction="#onBtAtualizar" prefHeight="42.0" prefWidth="123.0" stylesheets="@zBotaoConfirmar.css" text="Atualizar">

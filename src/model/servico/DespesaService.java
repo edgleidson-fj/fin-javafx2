@@ -45,4 +45,8 @@ public class DespesaService {
 	public void rateioDesconto(Despesa obj) {
 		dao.rateioDesconto(obj);		
 	}
+	
+	public void rateioAcrescimo(Despesa obj) {
+		dao.rateioAcrescimo(obj);		
+	}
 }
