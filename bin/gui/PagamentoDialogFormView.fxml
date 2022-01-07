@@ -45,8 +45,8 @@
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="74.0" layoutY="299.0" text="Desconto" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="250.0" />
-            <Label layoutX="80.0" layoutY="331.0" text="Acréscimo" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="275.0" />
+            <Label fx:id="lbDescontoTxt" layoutX="74.0" layoutY="299.0" text="Desconto" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="250.0" />
+            <Label fx:id="lbAcrescimoTxt" layoutX="80.0" layoutY="331.0" text="Acréscimo" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="275.0" />
             <TextField fx:id="txtDesconto" layoutX="170.0" layoutY="295.0" prefHeight="25.0" prefWidth="73.0" promptText="0.00" text="0.00" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="245.0" />
             <TextField fx:id="txtAcrescimo" layoutX="170.0" layoutY="327.0" prefHeight="25.0" prefWidth="73.0" promptText="0.00" text="0.00" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="275.0" />
             <Button fx:id="btDescontoOuAcrescimo" layoutX="57.0" layoutY="320.0" mnemonicParsing="false" onAction="#onBtDescontoOuAcrescimo" stylesheets="@zBotaoAdicionar.css" text="Aplicar" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="260.0">
@@ -62,7 +62,7 @@
             <TableView fx:id="tbTipoPag" layoutX="285.0" layoutY="282.0" prefHeight="118.0" prefWidth="200.0" AnchorPane.leftAnchor="290.0">
               <columns>
                 <TableColumn fx:id="colunaRemoverTipoPag" prefWidth="30.0" />
-                <TableColumn fx:id="colunaTipoPagNome" prefWidth="100.0" />
+                <TableColumn fx:id="colunaTipoPagNome" prefWidth="110.0" />
                   <TableColumn fx:id="colunaTipoPagValor" prefWidth="50.0" />
               </columns>
             </TableView>

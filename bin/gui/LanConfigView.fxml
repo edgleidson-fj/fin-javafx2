@@ -10,7 +10,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -69,19 +68,15 @@
             <TextField fx:id="txtQuantidade" layoutX="372.0" layoutY="167.0" prefHeight="25.0" prefWidth="41.0" promptText="0" text="1" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="170.0" />
             <Label fx:id="lbRotuloItem" layoutX="67.0" layoutY="151.0" text="Produto/Serviço" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="154.0" />
             <Label fx:id="lbRotuloQtde" layoutX="372.0" layoutY="151.0" text="Qtde" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="154.0" />
+            <TableView fx:id="tbTipoPag" layoutX="563.0" layoutY="270.0" prefHeight="116.0" prefWidth="215.0" AnchorPane.leftAnchor="570.0">
+              <columns>
+                <TableColumn fx:id="colunaRemoverTipoPag" prefWidth="1.0" resizable="false" />
+                <TableColumn fx:id="colunaTipoPagNome" prefWidth="130.0" />
+                  <TableColumn fx:id="colunaTipoPagValor" prefWidth="60.0" />
+              </columns>
+            </TableView>
             <Label fx:id="lbRotuloPreco" layoutX="431.0" layoutY="151.0" text="Preço" AnchorPane.leftAnchor="341.0" AnchorPane.topAnchor="154.0" />
-            <Pane layoutX="514.0" layoutY="257.0" prefHeight="168.0" prefWidth="200.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="570.0">
-               <children>
-                  <TableView fx:id="tbTipoPag" layoutX="-1.0" layoutY="52.0" prefHeight="116.0" prefWidth="215.0">
-                    <columns>
-                      <TableColumn fx:id="colunaRemoverTipoPag" prefWidth="30.0" />
-                      <TableColumn fx:id="colunaTipoPagNome" prefWidth="100.0" />
-                        <TableColumn fx:id="colunaTipoPagValor" prefWidth="65.0" />
-                    </columns>
-                  </TableView>
-                  <Label layoutY="35.0" text=" Forma de Pagamento" />
-               </children>
-            </Pane>
+            <Label layoutX="567.0" layoutY="247.0" text=" Forma de Pagamento" AnchorPane.leftAnchor="570.0" AnchorPane.topAnchor="251.0" />
             <Label layoutX="711.0" layoutY="398.0" text="Pago" AnchorPane.leftAnchor="680.0" AnchorPane.topAnchor="388.0">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -123,6 +118,11 @@
                </font>
             </Label>
             <Label layoutX="585.0" layoutY="49.0" text="Data de Pagamento" AnchorPane.leftAnchor="573.0" AnchorPane.topAnchor="49.0" />
+            <Button fx:id="btZerarDesconto" layoutX="663.0" layoutY="170.0" mnemonicParsing="false" onAction="#onBtZerarDesconto" prefHeight="25.0" prefWidth="116.0" stylesheets="@zBotaoAdicionar.css" text=" Limpar Desconto" AnchorPane.leftAnchor="660.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

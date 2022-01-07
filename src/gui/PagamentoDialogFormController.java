@@ -85,6 +85,10 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private Label lbAcrescimo;
 	@FXML
+	private Label lbDescontoTxt;
+	@FXML
+	private Label lbAcrescimoTxt;
+	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
 	private TableColumn<Despesa, Integer> colunaDespId;
@@ -148,6 +152,7 @@ public class PagamentoDialogFormController implements Initializable {
 			carregarTableViewItemPagamento();
 			txtTipoPagValor.setText(lbDiferenca.getText());
 			zerarDiferecaDePagamento();
+			desativarBtDescontoAcrescimo();
 		} else {
 			Alertas.mostrarAlerta("Atenção!", "Pagamento inválido.",
 					"Verificar se: \n- O valor informado superior ao valor restante. \n- O valor informado é R$(0.00).",
@@ -403,6 +408,7 @@ public class PagamentoDialogFormController implements Initializable {
 				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
 				tbTipoPag.setItems(obsListaItemTipoPag);
 				carregarValorPago();
+				desativarBtDescontoAcrescimo();
 			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
 			}
@@ -438,7 +444,7 @@ public class PagamentoDialogFormController implements Initializable {
 			descAux = desc;
 		}
 	}
-	
+
 	public void rateioAcrescimo(Double acr) {
 		Double t = 0.0;
 		for (Despesa tab1 : obsListaDespesaTbView) {
@@ -453,6 +459,28 @@ public class PagamentoDialogFormController implements Initializable {
 			obj.setAcrescimo(acrAux);
 			despesaService.rateioAcrescimo(obj);
 			acrAux = acr;
+		}
+	}
+
+	public void desativarBtDescontoAcrescimo() {
+		if (!lbPago.getText().equals("0.00")) {
+			lbDescontoTxt.setDisable(true);
+			lbAcrescimoTxt.setDisable(true);
+			txtDesconto.setDisable(true);
+			txtAcrescimo.setDisable(true);
+			btDescontoOuAcrescimo.setDisable(true);
+		} else {
+			lbDescontoTxt.setDisable(false);
+			lbAcrescimoTxt.setDisable(false);
+			txtDesconto.setDisable(false);
+			txtAcrescimo.setDisable(false);
+			btDescontoOuAcrescimo.setDisable(false);
+		}
+		if(lbDiferenca.getText().equals("0.00")) {
+			txtTipoPagValor.setDisable(true);
+		}
+		else {
+			txtTipoPagValor.setDisable(false);
 		}
 	}
 }

@@ -118,6 +118,8 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private Button btVoltar;
 	@FXML
+	private Button btZerarDesconto;
+	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaRemover;
@@ -267,13 +269,14 @@ public class LanConfigController implements Initializable {
 			Status status1 = new Status(1, null);
 			obj.setStatus(status1);
 			obj.setAcrescimo(0.00);
-			obj.setTotal(t);
+			obj.setTotal(t);			
 		}else if(lbStatus.getText().equals("PAGO") && status == null) {
 			Status status2 = new Status(2, null);
 			obj.setStatus(status2);
 			obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
 			obj.setTotal(Utils.stringParaDouble(lbPago.getText()));
 		} else {
+			zerarAcrescimo();
 			obj.setStatus(status);
 			obj.setAcrescimo(0.00);
 			obj.setTotal(total);
@@ -630,6 +633,7 @@ public class LanConfigController implements Initializable {
 		ocultarCampos();
 		}
 		carregarValores();
+		desativarBtDesconto();
 	}
 
 	public void carregarTableViewItemPagamento() {
@@ -691,11 +695,13 @@ public class LanConfigController implements Initializable {
 	public void carregarValores() {
 		Double soma = 0.0;
 		Double bruto = 0.0;
+		Double acr = 0.0;
 		descInd = 0.0;
 		for (Despesa tab : obsListaDespesaTbView) {
 			soma += tab.getPrecoTotal();
 			descInd += tab.getDescontoIndividual();
-			bruto += tab.getPrecoBruto();			
+			bruto += tab.getPrecoBruto();	
+			acr += tab.getAcrescimo();
 		}
 		if(!lbStatus.getText().equals("PAGO")) {
 		lbDesconto.setText(String.format("%.2f", descInd));
@@ -703,6 +709,7 @@ public class LanConfigController implements Initializable {
 		soma += Utils.stringParaDouble(lbAcrescimo.getText());
 		lbTotal.setText(String.format("%.2f", soma));
 		lbBruto.setText(String.format("%.2f", bruto));
+		lbAcrescimo.setText(String.format("%.2f", acr));
 		}
 		else {
 		lbDesconto.setText(String.format("%.2f", lancamentoEntidade.getDesconto()));
@@ -715,7 +722,8 @@ public class LanConfigController implements Initializable {
 		txtPrecoUnid.setVisible(false);
 		txtQuantidade.setVisible(false);
 		txtDescontoIndividual.setVisible(false);
-		btItem.setVisible(false);	
+		btItem.setVisible(false);
+		btZerarDesconto.setVisible(false);
 		lbRotuloItem.setVisible(false);
 		lbRotuloQtde.setVisible(false);
 		lbRotuloPreco.setVisible(false);
@@ -728,5 +736,36 @@ public class LanConfigController implements Initializable {
 		lbRotuloQtde.setDisable(true);
 		lbRotuloDescInd.setDisable(true);
 		}
+	
+	public void desativarBtDesconto() {
+		if(lbDesconto.getText().equals("0.00")) {
+		btZerarDesconto.setDisable(true);
+		}
+	}
+	
+	public void onBtZerarDesconto() {
+		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação!", "Tem certeza que deseja remover os descontos dos itens?");
+		if (result.get() == ButtonType.OK) {
+		for (Despesa tab : obsListaDespesaTbView) {
+			Despesa obj = new Despesa();
+			obj.setId(tab.getId());
+			obj.setPrecoTotal(tab.getPrecoBruto());
+			obj.setDescontoIndividual(0.00);
+			despesaService.rateioDesconto(obj);
+			carregarTableView();
+		}
+		}
+	}
+	
+	public void zerarAcrescimo() {
+		for (Despesa tab : obsListaDespesaTbView) {
+			Despesa obj = new Despesa();
+			obj.setId(tab.getId());
+			obj.setPrecoTotal(tab.getPrecoBruto());
+			obj.setAcrescimo(0.00);
+			despesaService.rateioAcrescimo(obj);
+			carregarTableView();
+		}
+	}
 
 }
