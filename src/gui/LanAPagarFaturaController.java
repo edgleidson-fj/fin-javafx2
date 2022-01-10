@@ -151,18 +151,16 @@ public class LanAPagarFaturaController implements Initializable {
 					Alertas.mostrarAlerta("Atenção", "Data inválida (" + sdf.format(dataSelecionada) + ").",
 							"Data selecionada igual ou anterior a data atual.", AlertType.INFORMATION);
 				} else {
-					Calendar datahoje = Calendar.getInstance();
-					int mesAtual = datahoje.get(Calendar.MONTH) + 1;
-
 					LocalDate dtPicker = datePickerData.getValue();
 					anoFatura = dtPicker.getYear();
 					int mesSelecionado = dtPicker.getMonth().getValue();
 					int repeticao = 12 - mesSelecionado;
-
-					if (mesAtual >= mesSelecionado) {
-						repeticao += 1;
-					} else if (mesSelecionado == 12) {
+					
+					if (mesSelecionado == 12) {
 						repeticao = 1;
+					}
+					else {
+						repeticao += 1;
 					}
 
 					parcela = repeticao;
