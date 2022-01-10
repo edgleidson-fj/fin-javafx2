@@ -9,36 +9,26 @@ import model.entidade.Item;
 import model.entidade.Lancamento;
 
 public class ItemService {
-	
+
 	private ItemDao dao = DaoFactory.criarItemDao();
 
-	public List<Item> buscarTodos(){
+	public List<Item> buscarTodos() {
 		return dao.buscarTudo();
 	}
-	
+
 	public void salvar(Item obj) {
-			dao.inserir(obj);
+		dao.inserir(obj);
 	}
-	
+
 	public void atualizar(Item obj) {
-			dao.atualizar(obj);
-		}
-		
-	public void excluir (Lancamento lanId, Despesa despId) {
-	dao.excluirPorId(lanId.getId(), despId.getId());
+		dao.atualizar(obj);
 	}
-	
-	
-	public List<Item> listarPorId(Integer id){
-		return dao.listarPorId(id);
+
+	public void excluir(Lancamento lanId, Despesa despId) {
+		dao.excluirPorId(lanId.getId(), despId.getId());
 	}
-	
-	
-	public Item buscarPorId(Integer id){
-		return dao.buscarPorId(id);
-	}
-	
-	public void limparItemPorIdLan (Integer lanId) {
+
+	public void limparItemPorIdLan(Integer lanId) {
 		dao.limparItemPorIdLan(lanId);
-		}
+	}
 }

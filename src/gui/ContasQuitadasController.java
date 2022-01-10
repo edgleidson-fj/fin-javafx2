@@ -27,7 +27,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
@@ -37,7 +36,6 @@ public class ContasQuitadasController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	// -------------------------------------------
 
 	@FXML
 	private TableView<Lancamento> tbLancamento;
@@ -61,7 +59,6 @@ public class ContasQuitadasController implements Initializable {
 	private TextField txtConsultaReferenciaOuDespesa;
 	@FXML 
 	private Button btConsultaIDReferenciaOuDespesa;
-	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	
@@ -73,7 +70,6 @@ public class ContasQuitadasController implements Initializable {
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);				
 	}
-	// -----------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -81,7 +77,6 @@ public class ContasQuitadasController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-	// ----------------------------------------------------------
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -121,7 +116,6 @@ public class ContasQuitadasController implements Initializable {
 			controle.setLancamento(obj);
 			controle.setDespesaService(new DespesaService());
 			controle.setItemPagamentoService(new ItemPagamentoService());	
-			controle.setItemPagamento(new ItemPagamento());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
 			

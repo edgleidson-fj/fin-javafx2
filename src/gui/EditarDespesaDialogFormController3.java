@@ -25,7 +25,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
-import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
@@ -38,7 +37,6 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 	private Lancamento lancamentoEntidade; 
 	private Despesa despesaEntidade;
 	private DespesaService despesaService;
-	//-------------------------------------------------------
 	
 	@FXML
 	private TextField txtId;
@@ -54,7 +52,7 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 	private Button btConfirmar;
 	@FXML
 	private Button btVoltar;	
-	//-------------------------------------------------------
+
 	Date data = new Date();
 	
 	@FXML
@@ -104,7 +102,6 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 			controller.setItemService(new ItemService());
 			controller.setItem(new Item());
 			controller.setItemPagamentoService(new ItemPagamentoService());	
-			controller.setItemPagamento(new ItemPagamento());
 			controller.carregarData();
 			controller.carregarTableView();
 			});	
@@ -123,7 +120,6 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 		Stage parentStage = Utils.stageAtual(evento);		
 		parentStage.close();
 	}
-	//-------------------------------------------------------
 	
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -137,7 +133,6 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 	public void setDespesa(Despesa despesaEntidade) {
 		this.despesaEntidade = despesaEntidade;
 	}
-	//------------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -160,7 +155,6 @@ public class EditarDespesaDialogFormController3 implements Initializable{
 		Restricoes.setTextFieldDouble(txtDesconto);
 		txtId.setDisable(true);
 		}
-	// -----------------------------------------------------------------
 	
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {

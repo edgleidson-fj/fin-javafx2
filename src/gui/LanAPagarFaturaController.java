@@ -60,7 +60,6 @@ public class LanAPagarFaturaController implements Initializable {
 	private DespesaService despesaService;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;
-	// ------------------------------------------------------
 
 	@FXML
 	private TextField txtId;
@@ -101,8 +100,6 @@ public class LanAPagarFaturaController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaRemover;
 	@FXML
-	private TableColumn<Despesa, Integer> colunaDespId;
-	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespQuantidade;
@@ -116,10 +113,8 @@ public class LanAPagarFaturaController implements Initializable {
 	private TableColumn<Despesa, Double> colunaDespDesconto;
 	@FXML
 	private TextArea txtAreaObs;
-//--------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
-// ---------------------------------------------------------
 
 	double total, descInd;
 	int idLan;
@@ -131,7 +126,6 @@ public class LanAPagarFaturaController implements Initializable {
 	int lancamentoIds;
 	int usuarioId;
 	int anoFatura;
-	// ----------------------------------------------------------------------------------------------------------
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
@@ -313,7 +307,6 @@ public class LanAPagarFaturaController implements Initializable {
 			controller.ocultarCampos();
 		});
 	}
-	// ------------------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -338,7 +331,6 @@ public class LanAPagarFaturaController implements Initializable {
 	public void setUsuario(Usuario usuarioEntidade) {
 		this.usuarioEntidade = usuarioEntidade;
 	}
-	// ------------------------------------------------------------
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -358,7 +350,6 @@ public class LanAPagarFaturaController implements Initializable {
 		Restricoes.setTextFieldDouble(txtDescontoIndividual);		
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
-		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -373,7 +364,6 @@ public class LanAPagarFaturaController implements Initializable {
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
 	}
-	// -----------------------------------------------------------------
 
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
@@ -458,9 +448,6 @@ public class LanAPagarFaturaController implements Initializable {
 		iniciarBotaoRemover();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
-		// datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(),
-		// ZoneId.systemDefault()));
-		// Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		carregarValores();
 	}
 

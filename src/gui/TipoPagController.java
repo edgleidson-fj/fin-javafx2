@@ -177,7 +177,6 @@ public class TipoPagController implements Initializable {
 		criarBotaoEditar();
 		criarBotaoExcluir();
 	}
-	// ---------------------------------------------
 
 	public TipoPag dadosDoCampoDeTexto() {
 		TipoPag obj = new TipoPag();

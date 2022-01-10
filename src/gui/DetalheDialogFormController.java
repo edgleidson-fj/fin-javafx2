@@ -2,9 +2,6 @@ package gui;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -32,8 +28,6 @@ public class DetalheDialogFormController implements Initializable {
 	private DespesaService despesaService;
 	private Lancamento lancamentoEntidade;
 	private ItemPagamentoService itemPagamentoService;
-	private ItemPagamento itemPagamentoEntidade;
-	// ---------------------------------------------
 
 	@FXML
 	private TextField txtId;
@@ -53,8 +47,6 @@ public class DetalheDialogFormController implements Initializable {
 	private Label lbDescontoAcrescimo;
 	@FXML
 	private TableView<Despesa> tbDespesa;
-	@FXML
-	private TableColumn<Despesa, Integer> colunaDespId;
 	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
@@ -77,11 +69,9 @@ public class DetalheDialogFormController implements Initializable {
 	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;
 	@FXML
 	private TextArea txtObs;
-	// -----------------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	private ObservableList<ItemPagamento> obsListaItemTipoPag;
-	// ---------------------------------------------------------
 
 	double descInd;
 
@@ -96,11 +86,6 @@ public class DetalheDialogFormController implements Initializable {
 		this.itemPagamentoService = itemPagamentoService;
 	}
 
-	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
-		this.itemPagamentoEntidade = itemPagamentoEntidade;
-	}
-// ----------------------------------------------------------------
-
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarNodes();
@@ -109,7 +94,6 @@ public class DetalheDialogFormController implements Initializable {
 	private void inicializarNodes() {
 		txtId.setDisable(true);
 		Restricoes.setTextFieldInteger(txtId);
-		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -124,7 +108,7 @@ public class DetalheDialogFormController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2); 
 		
 		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);
 		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 	}
 

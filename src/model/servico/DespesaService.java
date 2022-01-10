@@ -10,30 +10,22 @@ public class DespesaService {
 
 	private DespesaDao dao = DaoFactory.criarDespesaDao();
 
-	public List<Despesa> buscarTodos(){
-		return dao.buscarTudo();
-	}
-		
 	public void salvar(Despesa obj) {
-			dao.inserir(obj);	
+		dao.inserir(obj);
 	}
-	
+
 	public void atualizar(Despesa obj) {
-		dao.atualizar(obj);		
+		dao.atualizar(obj);
 	}
-	
-	public void excluir (Despesa obj) {
+
+	public void excluir(Despesa obj) {
 		dao.excluirPorId(obj.getId());
 	}
-		
-	public List<Despesa> listarPorId(Integer id){
+
+	public List<Despesa> listarPorId(Integer id) {
 		return dao.listarPorId(id);
 	}
-		
-	public Despesa buscarPorId(Integer id){
-		return dao.buscarPorId(id);
-	}	
-	
+
 	public List<Despesa> consultaPorRankDespesaMesAtual(Integer id) {
 		return dao.consultaPorRankDespesaMesAtual(id);
 	}
@@ -41,12 +33,12 @@ public class DespesaService {
 	public List<Despesa> consultaPorRankDespesaAnoAtual(Integer id) {
 		return dao.consultaPorRankDespesaAnoAtual(id);
 	}
-	
+
 	public void rateioDesconto(Despesa obj) {
-		dao.rateioDesconto(obj);		
+		dao.rateioDesconto(obj);
 	}
-	
+
 	public void rateioAcrescimo(Despesa obj) {
-		dao.rateioAcrescimo(obj);		
+		dao.rateioAcrescimo(obj);
 	}
 }

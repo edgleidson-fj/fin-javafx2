@@ -57,7 +57,6 @@ import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.StatusService;
-import model.servico.TipoPagService;
 
 public class LanConfigController implements Initializable {
 
@@ -67,13 +66,8 @@ public class LanConfigController implements Initializable {
 	private Item itemEntidade;
 	private DespesaService despesaService;
 	private Despesa despesaEntidade;
-	private TipoPagService tipoPagService;
 	private ItemPagamentoService itemPagamentoService;
-	private ItemPagamento itemPagamentoEntidade;
 	private StatusService statusService;
-	private Status statusEntidade;
-
-	// ----------------------------------------------------------------
 
 	@FXML
 	private TextField txtId;
@@ -128,8 +122,6 @@ public class LanConfigController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaEditar;
 	@FXML
-	private TableColumn<Despesa, Integer> colunaDespId;
-	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespQuantidade;
@@ -153,11 +145,10 @@ public class LanConfigController implements Initializable {
 	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;
 	@FXML
 	private ComboBox<Status> cmbStatus;
-	// --------------------------------------------------------
+
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	private ObservableList<ItemPagamento> obsListaItemTipoPag;
 	private ObservableList<Status> obsListaStatus;
-	// ---------------------------------------------------------
 
 	double total, descontoGlobal, acrescimo, descInd;
 	int idLan, idDesp, idItem, x;
@@ -301,7 +292,6 @@ public class LanConfigController implements Initializable {
 			controller.carregarTableView();
 		});
 	}
-	// ------------------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -327,26 +317,13 @@ public class LanConfigController implements Initializable {
 		this.despesaEntidade = despesaEntidade;
 	}
 
-	public void setTipoPagService(TipoPagService tipoPagService) {
-		this.tipoPagService = tipoPagService;
-	}
-
 	public void setItemPagamentoService(ItemPagamentoService itemPagamentoService) {
 		this.itemPagamentoService = itemPagamentoService;
-	}
-
-	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
-		this.itemPagamentoEntidade = itemPagamentoEntidade;
 	}
 
 	public void setStatusService(StatusService statusService) {
 		this.statusService = statusService;
 	}
-
-	public void setStatus(Status statusEntidade) {
-		this.statusEntidade = statusEntidade;
-	}
-	// -----------------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -358,7 +335,6 @@ public class LanConfigController implements Initializable {
 		}
 	}
 
-	// ------------------------------------------------------------------
 	public void carregarCamposDeCadastro() {
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
@@ -375,7 +351,6 @@ public class LanConfigController implements Initializable {
 		datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(), ZoneId.systemDefault()));
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 	}
-	// -----------------------------------------------------------------------------------------------------
 
 	private void inicializarNodes() {
 		txtId.setDisable(true);
@@ -389,7 +364,6 @@ public class LanConfigController implements Initializable {
 		Restricoes.setTextAreaTamanhoMaximo(txtAreaObs, 500);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
-		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -404,13 +378,12 @@ public class LanConfigController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
 
 		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);
 		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
 	}
-	// -----------------------------------------------------------------
 
 	public void carregarObjetosAssociados() {
 		List<Status> listaStatus = statusService.buscarEmAbertoECancelado();
@@ -429,7 +402,6 @@ public class LanConfigController implements Initializable {
 		cmbStatus.setCellFactory(factory);
 		cmbStatus.setButtonCell(factory.call(null));
 	}
-	// --------------------------------------------------
 
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
@@ -517,7 +489,6 @@ public class LanConfigController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-	// -----------------------------------------------------------------------------------------------------------
 
 	private void iniciarBotaoReajustar() {
 		colunaReajustar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -640,7 +611,6 @@ public class LanConfigController implements Initializable {
 		List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lancamentoEntidade.getId());
 		obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
 		tbTipoPag.setItems(obsListaItemTipoPag);
-		//iniciarBotaoRemoverItemPagamento();
 		carregarValorPago();
 	}
 
@@ -651,46 +621,6 @@ public class LanConfigController implements Initializable {
 		}
 		lbPago.setText(String.format("%.2f", soma));
 	}
-
-	/*private void iniciarBotaoRemoverItemPagamento() {
-		colunaRemoverTipoPag.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		colunaRemoverTipoPag.setCellFactory(param -> new TableCell<ItemPagamento, ItemPagamento>() {
-			private final Button button = new Button("X");
-
-			@Override
-			protected void updateItem(ItemPagamento obj, boolean empty) {
-				super.updateItem(obj, empty);
-				if (obj == null) {
-					setGraphic(null);
-					return;
-				}
-				setGraphic(button);
-				button.setOnAction(event -> removerItemPagamento(obj));
-				setStyle("-fx-color: #FF6347");
-			}
-		});
-	}*/
-
-	/*private void removerItemPagamento(ItemPagamento desp) {
-		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação", "Tem certeza que deseja remover?");
-		if (result.get() == ButtonType.OK) {
-			if (itemPagamentoService == null) {
-				throw new IllegalStateException("Service nulo");
-			}
-			try {
-				Lancamento lan = new Lancamento();
-				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				// Limpando Item de Pagamento
-				itemPagamentoService.excluir(lan.getId(), desp.getTipoPag().getId());
-				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
-				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
-				tbTipoPag.setItems(obsListaItemTipoPag);
-				carregarValorPago();
-			} catch (BDIntegrityException ex) {
-				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);
-			}
-		}
-	}*/
 	
 	public void carregarValores() {
 		Double soma = 0.0;
@@ -743,6 +673,7 @@ public class LanConfigController implements Initializable {
 		}
 	}
 	
+	@FXML
 	public void onBtZerarDesconto() {
 		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação!", "Tem certeza que deseja remover os descontos dos itens?");
 		if (result.get() == ButtonType.OK) {

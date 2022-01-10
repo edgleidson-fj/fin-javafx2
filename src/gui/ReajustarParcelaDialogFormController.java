@@ -25,7 +25,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
-import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
@@ -39,8 +38,6 @@ public class ReajustarParcelaDialogFormController implements Initializable {
 	private Despesa despesaEntidade;
 	private DespesaService despesaService;
 	private ItemService itemService;
-	private Item itemEntidade;
-	// -------------------------------------------------------
 
 	@FXML
 	private TextField txtId;
@@ -56,7 +53,7 @@ public class ReajustarParcelaDialogFormController implements Initializable {
 	private Button btConfirmar;
 	@FXML
 	private Button btVoltar;
-	// -------------------------------------------------------
+
 	Date data = new Date();
 	double itemValorAnterior;
 	double novoTotal;
@@ -85,7 +82,6 @@ public class ReajustarParcelaDialogFormController implements Initializable {
 			controller.setItemService(new ItemService());
 			controller.setItem(new Item());
 			controller.setItemPagamentoService(new ItemPagamentoService());
-			controller.setItemPagamento(new ItemPagamento());
 			controller.carregarData();
 			controller.carregarTableView();
 		});				
@@ -100,7 +96,6 @@ public class ReajustarParcelaDialogFormController implements Initializable {
 		Stage parentStage = Utils.stageAtual(evento);
 		parentStage.close();
 	}
-	// -------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -122,12 +117,6 @@ public class ReajustarParcelaDialogFormController implements Initializable {
 		this.itemService = itemService;
 	}
 
-	public void setItem(Item itemEntidade) {
-		this.itemEntidade = itemEntidade;
-	}
-
-	// ------------------------------------------------------------
-
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		Restricoes.setTextFieldDouble(txtPrecoUnid);
@@ -140,7 +129,6 @@ public class ReajustarParcelaDialogFormController implements Initializable {
 		itemValorAnterior = despesaEntidade.getPrecoUnid();
 		txtPrecoUnid.setText("");
 	}
-	// -----------------------------------------------------------------
 
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {

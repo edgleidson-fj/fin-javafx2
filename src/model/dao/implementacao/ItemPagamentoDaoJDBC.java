@@ -21,7 +21,6 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 
 	private Connection connection;
 
-	// Força injeção de pagendencia (Connection) dentro da Classe.
 	public ItemPagamentoDaoJDBC(Connection connection) {
 		this.connection = connection;
 	}
@@ -249,6 +248,7 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 			}
 		}
 
+	//Metodos auxiliares.
 	private ItemPagamento instantiateItemPagamento(ResultSet rs, TipoPag pag, Lancamento lan) throws SQLException {
 		ItemPagamento obj = new ItemPagamento();
 		obj.setLancamento(lan);

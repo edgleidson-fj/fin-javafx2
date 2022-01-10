@@ -97,56 +97,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 			BD.fecharStatement(ps);
 		}
 	}
-
-	// Sem uso.
-	@Override
-	public Despesa buscarPorId(Integer id) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM despesa " + "WHERE Id = ? ");
-			ps.setInt(1, id);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				Despesa obj = new Despesa();
-				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("nome"));
-				return obj;
-			}
-			return null;
-		} catch (SQLException ex) {
-			throw new BDException(ex.getMessage());
-		} finally {
-			BD.fecharStatement(ps);
-			BD.fecharResultSet(rs);
-		}
-	}
-
-	// Sem uso.
-	@Override
-	public List<Despesa> buscarTudo() {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT *  " + "from lancamento as l, item as i, despesa as d "
-					+ "where l.id = i.lancamento_id " + "and i.despesa_id = d.id " + "order by l.id desc");
-			rs = ps.executeQuery();
-			List<Despesa> lista = new ArrayList<>();
-			while (rs.next()) {
-				Despesa obj = new Despesa();
-				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("nome"));
-				lista.add(obj);
-			}
-			return lista;
-		} catch (SQLException ex) {
-			throw new BDException(ex.getMessage());
-		} finally {
-			BD.fecharStatement(ps);
-			BD.fecharResultSet(rs);
-		}
-	}
-
+	
 	public List<Despesa> listarPorId(Integer id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;

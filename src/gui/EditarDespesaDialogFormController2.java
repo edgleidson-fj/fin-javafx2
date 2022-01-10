@@ -37,7 +37,6 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 	private Lancamento lancamentoEntidade; 
 	private Despesa despesaEntidade;
 	private DespesaService despesaService;
-	//-------------------------------------------------------
 	
 	@FXML
 	private TextField txtId;
@@ -53,7 +52,7 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 	private Button btConfirmar;
 	@FXML
 	private Button btVoltar;	
-	//-------------------------------------------------------
+
 	Date data = new Date();
 	
 	@FXML
@@ -120,7 +119,6 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 		Stage parentStage = Utils.stageAtual(evento);		
 		parentStage.close();
 	}
-	//-------------------------------------------------------
 	
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -134,7 +132,6 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 	public void setDespesa(Despesa despesaEntidade) {
 		this.despesaEntidade = despesaEntidade;
 	}
-	//------------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -157,7 +154,6 @@ public class EditarDespesaDialogFormController2 implements Initializable{
 		Restricoes.setTextFieldDouble(txtDesconto);
 		txtId.setDisable(true);
 		}
-	// -----------------------------------------------------------------
 	
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {

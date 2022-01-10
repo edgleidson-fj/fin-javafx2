@@ -233,7 +233,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	@Override
 	public void cancelar(Lancamento obj) {
 		PreparedStatement ps = null;
-		int status = 4; //4=Cancelado.
+		int status = 4; 
 		try {
 			ps = connection.prepareStatement("UPDATE lancamento " 
 		+ "SET status_id = '"+status+"' "
@@ -250,7 +250,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	@Override
 	public void confirmarLanQuitado(Lancamento obj) {
 		PreparedStatement ps = null;
-		int status = 2; //2=Pago.
+		int status = 2; 
 		try {
 			ps = connection.prepareStatement(
 		"UPDATE lancamento " 
@@ -273,7 +273,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 	@Override
 	public void confirmarPagamento(Lancamento obj) {
 		PreparedStatement ps = null;
-		int status = 2; //2=Pago.
+		int status = 2; 
 		try {
 			ps = connection.prepareStatement(
 		"UPDATE lancamento " 
@@ -299,7 +299,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		@Override
 		public void confirmarLanAPagar(Lancamento obj) {
 			PreparedStatement ps = null;
-			int status = 1; //1=Em Aberto.
+			int status = 1; 
 			try {
 				ps = connection.prepareStatement(
 			"UPDATE lancamento " 

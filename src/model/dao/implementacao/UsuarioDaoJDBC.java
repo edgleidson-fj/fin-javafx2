@@ -17,10 +17,10 @@ import model.entidade.Usuario;
 public class UsuarioDaoJDBC implements UsuarioDao {
 
 	private Connection connection;
+	
 	public UsuarioDaoJDBC(Connection connection) {
 		this.connection = connection;
 	}
-//-------------------------------------------------------------------
 
 	@Override 
 	public void inserir(Usuario obj) {
@@ -145,36 +145,6 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			BD.fecharResultSet(rs);
 		}
 	}
-
-	//Sem Uso.
-   public List<Usuario> listarPorId(Integer id){
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-     try {
-    	 ps = connection.prepareStatement(
-        		"");     
-    	 ps.setInt(1, id);
-        rs = ps.executeQuery();        
-        List<Usuario> lista = new ArrayList<Usuario>();
-        while(rs.next()){
-            Usuario d = new Usuario();
-            d.setNome(rs.getString("usuarioNome"));
-            d.setId(rs.getInt("usuarioId"));
-            d.setSenha(rs.getString("usuarioSenha"));
-            lista.add(d);
-        }
-        rs.close();
-        ps.close();
-        return lista;
-     } catch (SQLException ex) {
-			throw new BDException(ex.getMessage());
-		} finally {
-			BD.fecharStatement(ps);
-			BD.fecharResultSet(rs);
-		}
-	     }
-    
-	
     
     @Override 
 	public Usuario login(String cpf, String senha) {
@@ -183,10 +153,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 			ps = connection.prepareStatement(
 					"SELECT * FROM usuario " 
-					//+ "WHERE usuarioNome = ? "
 					+ "WHERE cpf = ? "
 					+ "AND usuarioSenha = ? ");
-			//ps.setString(1, nome);
 			ps.setString(1, cpf);
 			ps.setString(2, senha);
 			rs = ps.executeQuery();
@@ -206,10 +174,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			BD.fecharResultSet(rs);
 		}
 	}
-    
-    
   
-    
     @Override
 	public void logado(Usuario obj) {
 		PreparedStatement ps = null;
@@ -217,10 +182,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			ps = connection.prepareStatement(
 					"UPDATE usuario " 
 					+ "SET logado = ? "
-					//+ "WHERE usuarioNome = ?");
 					+ "WHERE cpf = ?");
 			ps.setString(1, obj.getLogado());
-			//ps.setString(2, obj.getNome());
 			ps.setString(2, obj.getCpf());
 			ps.executeUpdate();
 		} catch (SQLException ex) {

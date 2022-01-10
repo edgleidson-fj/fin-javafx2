@@ -36,7 +36,6 @@ public class MsgProxAnoController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub		
 	}
 
 	public void setMensagemService(MensagemService mensagemService) {

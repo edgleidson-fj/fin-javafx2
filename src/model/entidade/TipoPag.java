@@ -63,5 +63,4 @@ public class TipoPag implements Serializable{
 		return nome;
 	}
 	
-	
 }

@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 import application.Main;
 import gui.util.Alertas;
 import gui.util.Restricoes;
-import gui.util.Utils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,8 +48,6 @@ public class MainViewController implements Initializable {
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade; 
 	private MensagemService mensagemService;
-	private Mensagem mensagemEntidade;
-	//-------------------------------------------------------
 	
 	@FXML
 	private Menu menuLogin;
@@ -108,7 +105,7 @@ public class MainViewController implements Initializable {
 	private Button btLimpar;
 	@FXML
 	private Button btEsqueciSenha;	
-	//-----------------------------------------------------
+
 	int usuarioId;
 	String userNome;
 	int id;	
@@ -248,11 +245,8 @@ public class MainViewController implements Initializable {
 			 if(u.getLogado().equals("S")) {	
 		carregarView("/gui/ConsultaPorPagamentoView.fxml", (ConsultaPorPagamentoController controller) -> {
 			controller.setItemPagamentoService(new ItemPagamentoService());
-			controller.setLancamentoService(new LancamentoService());
-			controller.setLancamento(new Lancamento());
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
-			//user.setNome(userNome);
 			controller.setUsuario(user);
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarTableView();
@@ -274,11 +268,8 @@ public class MainViewController implements Initializable {
 			 if(u.getLogado().equals("S")) {	
 		carregarView("/gui/ConsultaPorRankView.fxml", (ConsultaPorRankController controller) -> {
 			controller.setDespesaService(new DespesaService());
-			controller.setLancamentoService(new LancamentoService());
-			controller.setLancamento(new Lancamento());
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
-			//user.setNome(userNome);
 			controller.setUsuario(user);
 			controller.setUsuarioService(new UsuarioService());
 			controller.carregarTableView();
@@ -465,7 +456,7 @@ public class MainViewController implements Initializable {
 			controller.carregarCamposDeCadastro();
 		});			
 	}	
-	//--------------------------------------------------------
+
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Criptografia c = new Criptografia();		
@@ -541,7 +532,6 @@ public class MainViewController implements Initializable {
 			desocultarMenu();
 		});
 	}
-	//-------------------------------------------------------
 	
 		public void setUsuarioService(UsuarioService usuarioService) {
 			this.usuarioService = usuarioService;
@@ -552,21 +542,15 @@ public class MainViewController implements Initializable {
 		public void setMensagemService(MensagemService mensagemService) {
 			this.mensagemService = mensagemService;
 		}		
-		public void setMensagem(Mensagem mensagemEntidade) {
-			this.mensagemEntidade = mensagemEntidade;
-		}
-		//-------------------------------------------------------
 		
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		setUsuario(new Usuario());
 		setUsuarioService(new UsuarioService());
 		setMensagemService(new MensagemService());
-		setMensagem(new Mensagem());
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);	
 		ocultarMenu();
 		}
-	// ------------------------------------------------------------------
 		
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
@@ -588,7 +572,6 @@ public class MainViewController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-	
 	
 	//Mascara 999.999.999-99
 		@FXML
@@ -637,7 +620,6 @@ public class MainViewController implements Initializable {
 				stageDialog.setTitle("AVISO");
 				stageDialog.setScene(new Scene(painel));
 				stageDialog.setResizable(false); // Redimencionavel.
-				//stageDialog.initOwner(stagePai); // Stage pai da janela.
 				stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
 				stageDialog.showAndWait();
 			} catch (IOException ex) {

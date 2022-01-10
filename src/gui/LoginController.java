@@ -40,8 +40,7 @@ public class LoginController implements Initializable {
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade; 
 	private MensagemService mensagemService;
-	private Mensagem mensagemEntidade;
-	//-------------------------------------------------------
+
 	@FXML
 	private Label lbUsuario;
 	@FXML
@@ -58,7 +57,7 @@ public class LoginController implements Initializable {
 	private Button btLimpar;
 	@FXML
 	private Button btEsqueciSenha;
-	//-----------------------------------------------------
+
 	int usuarioId;
 	String userNome;
 	int id;	
@@ -75,7 +74,6 @@ public class LoginController implements Initializable {
 		usuarioEntidade.setSenha(senha);
 		Usuario user = usuarioService.login(cpf, senha);
 		if(user != null) {				
-				//usuarioEntidade.setNome(nome);
 				usuarioEntidade.setCpf(cpf);
 				usuarioEntidade.setLogado("S");
 				usuarioService.logado(usuarioEntidade);
@@ -137,7 +135,6 @@ public class LoginController implements Initializable {
 			controller.carregarCamposDeCadastro();
 		});
 	}
-	//-------------------------------------------------------
 	
 		public void setUsuarioService(UsuarioService usuarioService) {
 			this.usuarioService = usuarioService;
@@ -148,21 +145,14 @@ public class LoginController implements Initializable {
 		public void setMensagemService(MensagemService mensagemService) {
 			this.mensagemService = mensagemService;
 		}
-		
-		public void setMensagem(Mensagem mensagemEntidade) {
-			this.mensagemEntidade = mensagemEntidade;
-		}
-		//-------------------------------------------------------
-		
+			
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		setUsuario(new Usuario());
 		setUsuarioService(new UsuarioService());
 		setMensagemService(new MensagemService());
-		setMensagem(new Mensagem());		
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
 		}
-	// ------------------------------------------------------------------
 		
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
@@ -234,7 +224,6 @@ public class LoginController implements Initializable {
 			stageDialog.setTitle("AVISO");
 			stageDialog.setScene(new Scene(painel));
 			stageDialog.setResizable(false); // Redimencionavel.
-			//stageDialog.initOwner(stagePai); // Stage pai da janela.
 			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
 			stageDialog.showAndWait();
 		} catch (IOException ex) {

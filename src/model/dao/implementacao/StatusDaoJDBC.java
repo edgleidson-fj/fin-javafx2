@@ -17,7 +17,6 @@ public class StatusDaoJDBC implements StatusDao {
 
 	private Connection connection;
 
-	// Força injeção de dependencia (Connection) dentro da Classe.
 	public StatusDaoJDBC(Connection connection) {
 		this.connection = connection;
 	}

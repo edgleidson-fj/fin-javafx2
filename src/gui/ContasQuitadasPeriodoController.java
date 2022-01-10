@@ -32,7 +32,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
@@ -42,7 +41,6 @@ public class ContasQuitadasPeriodoController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	// -------------------------------------------
 
 	@FXML
 	private DatePicker datePickerDataInicial;
@@ -70,10 +68,8 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
 	private TextField txtConsultaReferenciaOuDespesa;
-	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
-	// -----------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -82,7 +78,6 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-	// ----------------------------------------------------------
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
@@ -152,7 +147,6 @@ public class ContasQuitadasPeriodoController implements Initializable {
 			controle.setLancamento(obj);
 			controle.setDespesaService(new DespesaService());
 			controle.setItemPagamentoService(new ItemPagamentoService());	
-			controle.setItemPagamento(new ItemPagamento());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
 

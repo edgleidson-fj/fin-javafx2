@@ -67,7 +67,6 @@ public class Mensagem implements Serializable{
 	@Override
 	public String toString() {
 		return "Mensagem [id=" + id + ", descricao=" + descricao + ", mostrar=" + mostrar + "]";
-	}
-	
+	}	
 	
 }

@@ -56,7 +56,6 @@ public class PagamentoDialogFormController implements Initializable {
 	private TipoPagService tipoPagService;
 	private ItemPagamentoService itemPagamentoService;
 	private ItemPagamento itemPagamentoEntidade;
-	// ---------------------------------------------
 
 	@FXML
 	private TextField txtId;
@@ -91,8 +90,6 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
-	private TableColumn<Despesa, Integer> colunaDespId;
-	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespQuantidade;
@@ -120,12 +117,11 @@ public class PagamentoDialogFormController implements Initializable {
 	private Button btDescontoOuAcrescimo;
 	@FXML
 	private Button btItemPagamento;
-	// ----------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<ItemPagamento> obsListaItemTipoPag;
-	// ---------------------------------------------------------
+
 	double descGlobal, acrescimo, total, descInd;
 
 	@FXML
@@ -254,7 +250,6 @@ public class PagamentoDialogFormController implements Initializable {
 					"Valor do desconto igual ou superior ao valor do lançamento.", AlertType.INFORMATION);
 		}
 	}
-	// -----------------------------------------------
 
 	public void setDespesaService(DespesaService despesaService) {
 		this.despesaService = despesaService;
@@ -279,7 +274,6 @@ public class PagamentoDialogFormController implements Initializable {
 	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
 		this.itemPagamentoEntidade = itemPagamentoEntidade;
 	}
-	// ----------------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -294,7 +288,6 @@ public class PagamentoDialogFormController implements Initializable {
 		Restricoes.setTextFieldDouble(txtDesconto);
 		Restricoes.setTextFieldDouble(txtAcrescimo);
 
-		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -307,7 +300,7 @@ public class PagamentoDialogFormController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
 
 		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);
 		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 	}
 

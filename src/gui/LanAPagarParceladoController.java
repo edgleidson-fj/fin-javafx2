@@ -61,7 +61,6 @@ public class LanAPagarParceladoController implements Initializable {
 	private DespesaService despesaService;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;
-	// ------------------------------------------------------
 
 	@FXML
 	private TextField txtId;
@@ -120,8 +119,6 @@ public class LanAPagarParceladoController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaRemover;
 	@FXML
-	private TableColumn<Despesa, Integer> colunaDespId;
-	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespQuantidade;
@@ -137,10 +134,8 @@ public class LanAPagarParceladoController implements Initializable {
 	private CheckBox cbDetalheParcela;
 	@FXML
 	private TextArea txtAreaObs;
-//--------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
-// ---------------------------------------------------------
 
 	double total, descInd, valorTotalCompra;
 	int idLan;
@@ -152,7 +147,6 @@ public class LanAPagarParceladoController implements Initializable {
 	int lancamentoIds;
 	int usuarioId;
 	String dataCompra, parcelado, totalCompra, descontoCompra, chaveNFE;
-	// ----------------------------------------------------------------------------------------------------------
 
 	@FXML
 	public void onBtCriarRegistroDeLancamento(ActionEvent evento) {
@@ -346,7 +340,6 @@ public class LanAPagarParceladoController implements Initializable {
 			controller.ocultarCampos();
 		});
 	}
-	// ------------------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -371,7 +364,6 @@ public class LanAPagarParceladoController implements Initializable {
 	public void setUsuario(Usuario usuarioEntidade) {
 		this.usuarioEntidade = usuarioEntidade;
 	}
-	// ------------------------------------------------------------
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -398,7 +390,6 @@ public class LanAPagarParceladoController implements Initializable {
 		Utils.formatDatePicker(datePickerDataCompra, "dd/MM/YYYY");
 		cbDetalheParcela.setSelected(true); // CheckBox já marcado.
 
-		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -413,7 +404,6 @@ public class LanAPagarParceladoController implements Initializable {
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
 	}
-	// -----------------------------------------------------------------
 
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {

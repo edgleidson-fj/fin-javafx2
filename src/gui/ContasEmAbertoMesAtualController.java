@@ -40,7 +40,6 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	// -------------------------------------------
 
 	@FXML
 	private TableView<Lancamento> tbLancamento;
@@ -66,7 +65,6 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private TextField txtConsultaReferenciaOuDespesa;
 	@FXML 
 	private Button btConsultaIDReferenciaOuDespesa;
-	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	
@@ -79,7 +77,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		tbLancamento.setItems(obsListaLancamentoTbView);	
 		carregarSomaTotal();
 	}
-	// -----------------------------------------------------
+
 	int usuarioId;
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
@@ -88,7 +86,6 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}	
-	// ----------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -133,9 +130,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 			DetalheDialogFormController controle = loader.getController();
 			obj.setObs(obj.getObs());
 			controle.setLancamento(obj);
-			//controle.setLancamentoService(new LancamentoService());
 			controle.setItemPagamentoService(new ItemPagamentoService());	
-			controle.setItemPagamento(new ItemPagamento());
 			controle.setDespesaService(new DespesaService());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
@@ -151,7 +146,6 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();
-				//controle.carregarValorInicial();
 			}
 
 			Stage stageDialog = new Stage();

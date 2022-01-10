@@ -69,7 +69,6 @@ public class LanQuitadoController implements Initializable {
 	private Usuario usuarioEntidade;
 	private ItemPagamentoService itemPagamentoService;
 	private ItemPagamento itemPagamentoEntidade;
-	// ----------------------------------------------------------------
 
 	@FXML
 	private TextField txtId;
@@ -134,8 +133,6 @@ public class LanQuitadoController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaEditar;
 	@FXML
-	private TableColumn<Despesa, Integer> colunaDespId;
-	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespQuantidade;
@@ -155,11 +152,10 @@ public class LanQuitadoController implements Initializable {
 	private TableColumn<ItemPagamento, String> colunaTipoPagNome;
 	@FXML
 	private TableColumn<ItemPagamento, Double> colunaTipoPagValor;
-	// --------------------------------------------------------
+
 	private ObservableList<TipoPag> obsListaTipoPag;
 	private ObservableList<Despesa> obsListaDespesaTbView;
 	private ObservableList<ItemPagamento> obsListaItemTipoPag;
-	// ---------------------------------------------------------
 
 	double total, descontoGlobal;
 	int idLan;
@@ -428,7 +424,6 @@ public class LanQuitadoController implements Initializable {
 			controller.ocultarCampos();
 		});
 	}
-	// ------------------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -465,7 +460,6 @@ public class LanQuitadoController implements Initializable {
 	public void setItemPagamento(ItemPagamento itemPagamentoEntidade) {
 		this.itemPagamentoEntidade = itemPagamentoEntidade;
 	}
-	// -----------------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -477,7 +471,6 @@ public class LanQuitadoController implements Initializable {
 			carregarTableView();
 		}
 	}
-	// ------------------------------------------------------------------
 
 	private void inicializarNodes() {
 		Restricoes.setTextFieldInteger(txtId);
@@ -491,7 +484,6 @@ public class LanQuitadoController implements Initializable {
 		Restricoes.setTextFieldDouble(txtTipoPagValor);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
-		//colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -510,7 +502,6 @@ public class LanQuitadoController implements Initializable {
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tbDespesa.prefHeightProperty().bind(stage.heightProperty());
 	}
-	// -----------------------------------------------------------------
 
 	public void carregarObjetosAssociados() {
 		List<TipoPag> listaTipoPag = tipoPagService.buscarTodos();
@@ -529,7 +520,6 @@ public class LanQuitadoController implements Initializable {
 		cmbTipoPag.setCellFactory(factory);
 		cmbTipoPag.setButtonCell(factory.call(null));
 	}
-	// --------------------------------------------------
 
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
@@ -593,7 +583,6 @@ public class LanQuitadoController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-	// -----------------------------------------------------------------------------------------------------------
 
 	private void iniciarBotaoEditar() {
 		colunaEditar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));

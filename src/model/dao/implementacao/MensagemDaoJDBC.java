@@ -14,7 +14,6 @@ public class MensagemDaoJDBC implements MensagemDao {
 
 	private Connection connection;
 
-	// Força injeção de dependencia (Connection) dentro da Classe.
 	public MensagemDaoJDBC(Connection connection) {
 		this.connection = connection;
 	}	

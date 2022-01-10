@@ -61,7 +61,6 @@ public class ItemPagamento implements Serializable{
 	public void setNomePag(String nomePag) {
 		this.nomePag = nomePag;
 	}
-	//-----------------------
 
 	@Override
 	public int hashCode() {

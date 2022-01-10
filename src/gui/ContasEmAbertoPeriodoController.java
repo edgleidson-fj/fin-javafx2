@@ -44,7 +44,6 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	// -------------------------------------------
 
 	@FXML
 	private DatePicker datePickerDataInicial;
@@ -74,10 +73,8 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 	private TableColumn<Lancamento, Lancamento> colunaPagar;
 	@FXML
 	private TextField txtConsultaReferenciaOuDespesa;
-	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
-	// -----------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -86,7 +83,6 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-	// ----------------------------------------------------------
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
@@ -156,7 +152,6 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 				controle.setLancamento(obj);
 				controle.setDespesaService(new DespesaService());
 				controle.setItemPagamentoService(new ItemPagamentoService());	
-				controle.setItemPagamento(new ItemPagamento());
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
 			} else {

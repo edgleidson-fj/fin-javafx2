@@ -12,15 +12,12 @@ import bd.BD;
 import bd.BDException;
 import bd.BDIntegrityException;
 import model.dao.ItemDao;
-import model.entidade.Despesa;
 import model.entidade.Item;
-import model.entidade.Lancamento;
 
 public class ItemDaoJDBC implements ItemDao {
 
 	private Connection connection;
 	
-	// Força injeção de dependencia (Connection) dentro da Classe.
 	public ItemDaoJDBC(Connection connection) {
 		this.connection = connection;
 	}
@@ -73,58 +70,6 @@ public class ItemDaoJDBC implements ItemDao {
 	}
 
 	@Override
-	public Item buscarPorId(Integer id) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement(
-					"SELECT * " + "FROM lancamento " + "inner JOIN item " + "ON lancamento.id = item.Lancamento_id "
-							+ "inner JOIN despesa " + "ON despesa.id = item.despesa_id " + "WHERE lancamento.id= 100");
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				Despesa dep = new Despesa();
-				Lancamento lan = new Lancamento();
-				Item obj = new Item();
-				instantiateDespesa(rs);
-				instantiateLancamento(rs);
-				instantiateItem(rs, dep, lan);
-				obj.getDespesa().getId();
-				return obj;
-			}
-			return null;
-		} catch (SQLException ex) {
-			throw new BDException(ex.getMessage());
-		} finally {
-			BD.fecharStatement(ps);
-			BD.fecharResultSet(rs);
-		}
-	}
-
-	@Override
-	public List<Item> listarPorId(Integer id) {
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		try {
-			st = connection.prepareStatement("SELECT * " + "FROM Despesa inner JOIN item "
-					+ "ON Item.Despesa_Id = despesa.Id " + "WHERE Item.despesa_Id = ?");
-			st.setInt(1, id);
-			rs = st.executeQuery();
-			List<Item> lista = new ArrayList<>();
-			/*
-			 * while (rs.next()) { Despesa dep = instantiateDespesa(rs);
-			 * 
-			 * }
-			 */
-			return lista;
-		} catch (SQLException e) {
-			throw new BDException(e.getMessage());
-		} finally {
-			BD.fecharStatement(st);
-			BD.fecharResultSet(rs);
-		}
-	}
-
-	@Override
 	public List<Item> buscarTudo() {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -162,23 +107,4 @@ public class ItemDaoJDBC implements ItemDao {
 		}
 	}	
 	
-	private Item instantiateItem(ResultSet rs, Despesa dep, Lancamento lan) throws SQLException {
-		Item obj = new Item();
-		obj.setLancamento(lan);
-		obj.setDespesa(dep);
-		return obj;
 	}
-
-	private Despesa instantiateDespesa(ResultSet rs) throws SQLException {
-		Despesa dep = new Despesa();
-		dep.setId(rs.getInt("Id"));
-		dep.setNome(rs.getString("Nome"));
-		return dep;
-	}
-
-	private Lancamento instantiateLancamento(ResultSet rs) throws SQLException {
-		Lancamento lan = new Lancamento();
-		lan.setId(rs.getInt("Id"));
-		return lan;
-	}
-}

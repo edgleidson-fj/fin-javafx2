@@ -27,7 +27,7 @@ import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
 
-public class EsqueciASenhaController implements Initializable/* , DataChangerListener */ {
+public class EsqueciASenhaController implements Initializable{
 
 	private UsuarioService service;
 	private Usuario entidade;
@@ -125,8 +125,6 @@ public class EsqueciASenhaController implements Initializable/* , DataChangerLis
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
 	}
 
-	// ---------------------------------------------
-
 	public void carregarCamposDeCadastro() {
 		List<Usuario> lista = service.buscarTodos();
 		for (Usuario u : lista) {
@@ -160,7 +158,6 @@ public class EsqueciASenhaController implements Initializable/* , DataChangerLis
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-
 
 	// Mascara 999.999.999-99
 	@FXML

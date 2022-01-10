@@ -13,7 +13,6 @@ public interface LancamentoDao {
 	List<Lancamento> buscarTudo();
 	List<Lancamento> buscarTudoQuitado();
 	List<Lancamento> buscarContasQuitadoMesAtual();
-	//List<Lancamento> buscarContasQuitadoPeriodo(String dataInicial, String dataFinal);
 	List<Lancamento> buscarTudoEmAberto();
 	List<Lancamento> buscarContasAPagarMesAtual();
 	List<Lancamento> buscarContasEmAbertoPeriodo(String dataInicial, String dataFinal);

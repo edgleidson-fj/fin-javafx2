@@ -39,7 +39,6 @@ public class ContasEmAbertoController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;	
-	// -------------------------------------------
 
 	@FXML
 	private TableView<Lancamento> tbLancamento;
@@ -65,7 +64,6 @@ public class ContasEmAbertoController implements Initializable {
 	private TextField txtConsultaReferenciaOuDespesa;
 	@FXML 
 	private Button btConsultaIDReferenciaOuDespesa;
-	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	
@@ -78,7 +76,6 @@ public class ContasEmAbertoController implements Initializable {
 		tbLancamento.setItems(obsListaLancamentoTbView);	
 		carregarSomaTotal();
 	}
-	// -----------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -86,7 +83,6 @@ public class ContasEmAbertoController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-	// ----------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -135,7 +131,6 @@ public class ContasEmAbertoController implements Initializable {
 				controle.setLancamento(obj);
 				controle.setDespesaService(new DespesaService());
 				controle.setItemPagamentoService(new ItemPagamentoService());	
-				controle.setItemPagamento(new ItemPagamento());
 				controle.atualizarDialogForm();
 				controle.carregarTableView();
 				}
@@ -150,16 +145,7 @@ public class ContasEmAbertoController implements Initializable {
 				controle.atualizarDialogForm();			
 				controle.carregarTableView();
 				controle.carregarObjetosAssociados();
-				}
-				else {
-					LanConfigController controle = loader.getController();
-					controle.setLancamento(obj);
-					controle.setLancamentoService(new LancamentoService());
-					controle.setDespesaService(new DespesaService());
-					controle.setTipoPagService(new TipoPagService());
-					controle.carregarCamposDeCadastro();		
-					controle.carregarTableView();
-				}
+				}				
 
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");

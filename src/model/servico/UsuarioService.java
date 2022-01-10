@@ -25,11 +25,7 @@ public class UsuarioService {
 	public void excluir (Usuario obj) {
 		dao.excluirPorId(obj.getId());
 	}
-		
-	public List<Usuario> listarPorId(Integer id){
-		return dao.listarPorId(id);
-	}
-		
+			
 	public Usuario buscarPorId(Integer id){
 		return dao.buscarPorId(id);
 	}	
@@ -37,10 +33,6 @@ public class UsuarioService {
 	public Usuario login(String nome, String senha){
 		return dao.login(nome, senha);
 	}
-	
-	/*public Usuario login(int id, String senha){
-		return dao.login(id, senha);
-	}*/
 	
 	public void logado(Usuario obj) {
 		dao.logado(obj);		

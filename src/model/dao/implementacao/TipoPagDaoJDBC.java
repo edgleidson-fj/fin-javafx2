@@ -16,7 +16,6 @@ import javafx.scene.control.Alert.AlertType;
 import model.dao.TipoPagDao;
 import model.entidade.ItemPagamento;
 import model.entidade.TipoPag;
-import model.entidade.TipoPag;
 
 public class TipoPagDaoJDBC implements TipoPagDao {
 
@@ -27,7 +26,7 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 		this.connection = connection;
 	}
 
-	@Override //ok
+	@Override 
 	public void inserir(TipoPag obj) {
 		PreparedStatement ps = null;
 		try {
@@ -57,7 +56,7 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 		}
 	}
 
-	@Override //ok
+	@Override
 	public void atualizar(TipoPag obj) {
 		PreparedStatement ps = null;
 		try {
@@ -75,7 +74,7 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 		}
 	}
 
-	@Override //ok
+	@Override 
 	public void excluirPorId(Integer id) {
 		PreparedStatement ps = null;
 		try {
@@ -92,7 +91,7 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 		}
 	}
 
-	@Override //ok
+	@Override 
 	public TipoPag buscarPorId(Integer id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -120,7 +119,7 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 		}
 	}
 
-	@Override //ok
+	@Override 
 	public List<TipoPag> buscarTudo() {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -149,7 +148,6 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 		}
 	}
 	
-	//Teste
 	public List<TipoPag> listarPorId(Integer id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;

@@ -60,7 +60,6 @@ public class LanAPagarController implements Initializable {
 	private DespesaService despesaService;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;
-	// ------------------------------------------------------
 
 	@FXML
 	private TextField txtId;
@@ -103,8 +102,6 @@ public class LanAPagarController implements Initializable {
 	@FXML
 	private TableColumn<Despesa, Despesa> colunaEditar;
 	@FXML
-	private TableColumn<Despesa, Integer> colunaDespId;
-	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
 	@FXML
 	private TableColumn<Despesa, Double> colunaDespQuantidade;
@@ -118,10 +115,8 @@ public class LanAPagarController implements Initializable {
 	private TableColumn<Despesa, Double> colunaDespDesconto;
 	@FXML
 	private TextArea txtAreaObs;
-//--------------------------------------------------------
 
 	private ObservableList<Despesa> obsListaDespesaTbView;
-// ---------------------------------------------------------
 
 	double total, descInd;
 	int idLan;
@@ -291,7 +286,6 @@ public class LanAPagarController implements Initializable {
 			controller.ocultarCampos();
 		});
 	}
-	// ------------------------------------------------------------------
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
@@ -316,7 +310,6 @@ public class LanAPagarController implements Initializable {
 	public void setUsuario(Usuario usuarioEntidade) {
 		this.usuarioEntidade = usuarioEntidade;
 	}
-	// ------------------------------------------------------------
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -338,7 +331,6 @@ public class LanAPagarController implements Initializable {
 		Restricoes.setTextFieldDouble(txtDescontoIndividual);		
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 
-		// colunaDespId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
@@ -350,7 +342,6 @@ public class LanAPagarController implements Initializable {
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorTotal, 2);
 	}
-	// -----------------------------------------------------------------
 
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
@@ -403,7 +394,6 @@ public class LanAPagarController implements Initializable {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
 		}
 	}
-	// -----------------------------------------------------------------------------------------------------------
 
 	private void iniciarBotaoEditar() {
 		colunaEditar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -478,9 +468,6 @@ public class LanAPagarController implements Initializable {
 		iniciarBotaoEditar();
 		txtId.setText(String.valueOf(lancamentoEntidade.getId()));
 		txtReferencia.setText(lancamentoEntidade.getReferencia());
-		// datePickerData.setValue(LocalDate.ofInstant(lancamentoEntidade.getData().toInstant(),
-		// ZoneId.systemDefault()));
-		// Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		carregarValores();
 	}
 

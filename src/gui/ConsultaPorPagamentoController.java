@@ -17,18 +17,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.entidade.ItemPagamento;
-import model.entidade.Lancamento;
 import model.entidade.Usuario;
 import model.servico.ItemPagamentoService;
-import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 
 public class ConsultaPorPagamentoController implements Initializable {
 
 	private ItemPagamentoService service;
-	private ItemPagamento entidade;
-	private LancamentoService lancamentoService;
-	private Lancamento lancamentoEntidade;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;
 	private ObservableList<ItemPagamento> obsLista;
@@ -61,15 +56,6 @@ public class ConsultaPorPagamentoController implements Initializable {
 	public void setItemPagamentoService(ItemPagamentoService service) {
 		this.service = service;
 	}
-	public void setItemPagamento(ItemPagamento entidade) {
-		this.entidade = entidade;
-	}
-	public void setLancamentoService(LancamentoService lancamentoService) {
-		this.lancamentoService = lancamentoService;
-	}
-	public void setLancamento(Lancamento lancamentoEntidade) {
-		this.lancamentoEntidade = lancamentoEntidade;
-	}
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
@@ -89,7 +75,7 @@ public class ConsultaPorPagamentoController implements Initializable {
 
 		tableColumnNomeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 		tableColumnValorTotalAnoAtual.setCellValueFactory(new PropertyValueFactory<>("valor"));
-		Utils.formatTableColumnValorDecimais(tableColumnValorTotalAnoAtual, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(tableColumnValorTotalAnoAtual, 2);
 		// Tamanho da tabela.
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tableViewItemPagamento.prefHeightProperty().bind(stage.heightProperty());
@@ -110,7 +96,6 @@ public class ConsultaPorPagamentoController implements Initializable {
 		pegarMesEAnoAtual();
 		carregarValorTotal();
 	}
-	// ---------------------------------------------
 
 	public void pegarMesEAnoAtual() {
 		Calendar datahoje = Calendar.getInstance();

@@ -27,7 +27,7 @@ import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
 
-public class UsuarioController implements Initializable/* , DataChangerListener */ {
+public class UsuarioController implements Initializable{
 
 	private UsuarioService service;
 	private Usuario entidade;
@@ -111,8 +111,6 @@ public class UsuarioController implements Initializable/* , DataChangerListener 
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
 		Restricoes.setTextFieldTamanhoMaximo(txtSenha, 40);
 	}
-
-	// ---------------------------------------------
 
 	public Usuario dadosDoCampoDeTexto() {
 		service.logado(entidade);

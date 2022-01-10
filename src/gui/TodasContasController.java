@@ -29,13 +29,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import model.entidade.Despesa;
 import model.entidade.Item;
-import model.entidade.ItemPagamento;
 import model.entidade.Lancamento;
 import model.entidade.Status;
 import model.servico.DespesaService;
@@ -43,13 +39,11 @@ import model.servico.ItemPagamentoService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.StatusService;
-import model.servico.TipoPagService;
 
 public class TodasContasController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
-	// -------------------------------------------
 
 	@FXML
 	private TableView<Lancamento> tbLancamento;
@@ -79,10 +73,8 @@ public class TodasContasController implements Initializable {
 	private TextField txtConsultaReferenciaOuDespesa;
 	@FXML 
 	private Button btConsultaIDReferenciaOuDespesa;
-	// -----------------------------------------------------
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
-	// -----------------------------------------------------
 	
 	public void onBtConsultaID(ActionEvent evento) {
 		Integer id = Utils.stringParaInteiro(txtConsultaID.getText());
@@ -102,8 +94,6 @@ public class TodasContasController implements Initializable {
 		tbLancamento.setItems(obsListaLancamentoTbView);				
 	}
 
-	//------------------------------------------------------
-
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
 	}
@@ -111,8 +101,6 @@ public class TodasContasController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
-
-	// ----------------------------------------------------------
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -154,7 +142,6 @@ public class TodasContasController implements Initializable {
 		}
 	}
 	
-//---------------------------------------------------------------------------
 	private synchronized <T> void carregarPropriaView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
@@ -176,50 +163,7 @@ public class TodasContasController implements Initializable {
 		}
 	}
 
-	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai, String dialogForm) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
-			Pane painel = loader.load();
-
-			if (dialogForm == "detalhe") {
-				DetalheDialogFormController controle = loader.getController();
-				controle.setLancamento(obj);
-				controle.setDespesaService(new DespesaService());
-				controle.atualizarDialogForm();
-				controle.carregarTableView();
-			} else {
-				LanConfigController controle = loader.getController();
-				obj.setObs(obj.getObs());
-				controle.setLancamento(obj);
-				controle.setLancamentoService(new LancamentoService());
-				controle.setDespesaService(new DespesaService());
-				controle.setDespesa(new Despesa());
-				controle.setItemService(new ItemService());
-				controle.setItem(new Item());
-				controle.setTipoPagService(new TipoPagService());
-				controle.setItemPagamentoService(new ItemPagamentoService());
-				controle.setItemPagamento(new ItemPagamento());		
-				controle.setStatus(obj.getStatus());
-				controle.setStatusService(new StatusService());	
-				controle.carregarCamposDeCadastro();
-				controle.carregarObjetosAssociados();
-				controle.carregarTableView();
-			}
-
-			Stage stageDialog = new Stage();
-			stageDialog.setTitle("");
-			stageDialog.setScene(new Scene(painel));
-			stageDialog.setResizable(false); // Redimencionavel.
-			stageDialog.initOwner(stagePai); // Stage pai da janela.
-			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
-			stageDialog.showAndWait();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
-		}
-	}
-
-	private void criarBotaoConfig() {
+		private void criarBotaoConfig() {
 		colunaConfig.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		colunaConfig.setCellFactory(param -> new TableCell<Lancamento, Lancamento>() {
 			private final Button botao = new Button("Config.");
@@ -246,10 +190,7 @@ public class TodasContasController implements Initializable {
 							controle.setDespesa(new Despesa());
 							controle.setItemService(new ItemService());
 							controle.setItem(new Item());
-							controle.setTipoPagService(new TipoPagService());
 							controle.setItemPagamentoService(new ItemPagamentoService());
-							controle.setItemPagamento(new ItemPagamento());
-							controle.setStatus(obj.getStatus());
 							controle.setStatusService(new StatusService());
 							controle.carregarCamposDeCadastro();
 							controle.carregarObjetosAssociados();

@@ -17,18 +17,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.entidade.Despesa;
-import model.entidade.Lancamento;
 import model.entidade.Usuario;
 import model.servico.DespesaService;
-import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 
 public class ConsultaPorRankController implements Initializable {
 
 	private DespesaService service;
-	private Despesa entidade;
-	private LancamentoService lancamentoService;
-	private Lancamento lancamentoEntidade;
 	private UsuarioService usuarioService;
 	private Usuario usuarioEntidade;
 	private ObservableList<Despesa> obsLista;
@@ -60,15 +55,7 @@ public class ConsultaPorRankController implements Initializable {
 	public void setDespesaService(DespesaService service) {
 		this.service = service;
 	}
-	public void setDespesa(Despesa entidade) {
-		this.entidade = entidade;
-	}
-	public void setLancamentoService(LancamentoService lancamentoService) {
-		this.lancamentoService = lancamentoService;
-	}
-	public void setLancamento(Lancamento lancamentoEntidade) {
-		this.lancamentoEntidade = lancamentoEntidade;
-	}
+
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
@@ -89,7 +76,7 @@ public class ConsultaPorRankController implements Initializable {
 		
 		tableColumnNomeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnValorTotalAnoAtual.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
-		Utils.formatTableColumnValorDecimais(tableColumnValorTotalAnoAtual, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(tableColumnValorTotalAnoAtual, 2);
 		tableColumnQuantidadeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		// Tamanho da tabela.
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
@@ -110,7 +97,6 @@ public class ConsultaPorRankController implements Initializable {
 		tableViewDespesaAnoAtual.setItems(obsListaAnoAtual);
 		pegarMesEAnoAtual();
 	}
-	// ---------------------------------------------
 
 	public void pegarMesEAnoAtual() {
 		Calendar datahoje = Calendar.getInstance();

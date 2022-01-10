@@ -43,16 +43,4 @@ public class Restricoes {
 			}
 		});
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
