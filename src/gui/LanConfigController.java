@@ -692,7 +692,7 @@ public class LanConfigController implements Initializable {
 		for (Despesa tab : obsListaDespesaTbView) {
 			Despesa obj = new Despesa();
 			obj.setId(tab.getId());
-			obj.setPrecoTotal(tab.getPrecoBruto());
+			obj.setPrecoTotal(tab.getPrecoBruto() - tab.getDescontoIndividual());
 			obj.setAcrescimo(0.00);
 			despesaService.rateioAcrescimo(obj);
 			carregarTableView();

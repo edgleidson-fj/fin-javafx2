@@ -278,14 +278,14 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			ps = connection.prepareStatement(
 		"UPDATE lancamento " 
 		+ "SET status_id = '"+status+"', "
-		+"total = ?, "
 		+"desconto = ?, "
 		+"acrescimo = ?, "
+		+"total = ?, "
 		+ "data = ? "
 		+ "WHERE Id = ? ");
-			ps.setDouble(1, obj.getTotal());
-			ps.setDouble(2, obj.getDesconto());
-			ps.setDouble(3, obj.getAcrescimo());
+			ps.setDouble(1, obj.getDesconto());
+			ps.setDouble(2, obj.getAcrescimo());
+			ps.setDouble(3, obj.getTotal());
 			ps.setDate(4, new java.sql.Date(obj.getData().getTime()));
 			ps.setInt(5, obj.getId());
 			ps.executeUpdate();

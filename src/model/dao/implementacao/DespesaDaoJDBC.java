@@ -212,9 +212,10 @@ public class DespesaDaoJDBC implements DespesaDao {
 		}
 	}
 	
+	
 	@Override
 	public void rateioDesconto(Despesa obj) {
-		PreparedStatement ps = null;
+	PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement(
 					"UPDATE despesa " 
@@ -230,8 +231,8 @@ public class DespesaDaoJDBC implements DespesaDao {
 		} finally {
 			BD.fecharStatement(ps);
 		}
-	}
-	
+	}	
+
 	@Override
 	public void rateioAcrescimo(Despesa obj) {
 		PreparedStatement ps = null;

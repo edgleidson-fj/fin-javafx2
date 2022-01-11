@@ -190,7 +190,6 @@ public class PagamentoDialogFormController implements Initializable {
 		if (lbPago.getText().equals(lbTotal.getText())) {
 			Lancamento obj = new Lancamento();
 			obj.setId(Utils.stringParaInteiro(txtId.getText()));
-			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 			Date hoje = new Date();
 			obj.setData(hoje);
 			descInd = Utils.stringParaDouble(lbDescontoIndividual.getText());
@@ -198,9 +197,16 @@ public class PagamentoDialogFormController implements Initializable {
 			acrescimo = Utils.stringParaDouble(lbAcrescimo.getText());
 			obj.setDesconto(descInd + descGlobal);
 			obj.setAcrescimo(Utils.stringParaDouble(lbAcrescimo.getText()));
+			obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 			lancamentoService.confirmarPagamento(obj);
+			double ratDesc = Utils.stringParaDouble(lbDescontoGlobal.getText());
+			if(ratDesc > 0) {
 			rateioDesconto(descGlobal);
+			}
+			double ratAcr = Utils.stringParaDouble(lbAcrescimo.getText());
+			if(ratAcr > 0) {
 			rateioAcrescimo(acrescimo);
+			}
 			Utils.stageAtual(evento).close();
 			carregarPropriaView("/gui/ContasEmAbertoMesAtualView.fxml",
 					(ContasEmAbertoMesAtualController controller) -> {
@@ -429,26 +435,27 @@ public class PagamentoDialogFormController implements Initializable {
 		for (Despesa tab : obsListaDespesaTbView) {
 			double percentual = (tab.getPrecoTotal() / t) * 100;
 			double descAux = (percentual / 100) * desc;
+			double descTotal = tab.getDescontoIndividual() + descAux;
 			Despesa obj = new Despesa();
 			obj.setId(tab.getId());
-			obj.setPrecoTotal(tab.getPrecoTotal() - descAux);
-			obj.setDescontoIndividual(tab.getDescontoIndividual() + descAux);
+			obj.setPrecoTotal(tab.getPrecoTotal() - descTotal);
+			obj.setDescontoIndividual(descTotal);
 			despesaService.rateioDesconto(obj);
 			descAux = desc;
 		}
 	}
-
+		
 	public void rateioAcrescimo(Double acr) {
 		Double t = 0.0;
 		for (Despesa tab1 : obsListaDespesaTbView) {
-			t += tab1.getPrecoBruto();
+			t += tab1.getPrecoTotal();
 		}
 		for (Despesa tab : obsListaDespesaTbView) {
 			double percentual = (tab.getPrecoTotal() / t) * 100;
 			double acrAux = (percentual / 100) * acr;
 			Despesa obj = new Despesa();
 			obj.setId(tab.getId());
-			obj.setPrecoTotal(tab.getPrecoBruto() + acrAux);
+			obj.setPrecoTotal(tab.getPrecoTotal() + acrAux);
 			obj.setAcrescimo(acrAux);
 			despesaService.rateioAcrescimo(obj);
 			acrAux = acr;
@@ -471,9 +478,13 @@ public class PagamentoDialogFormController implements Initializable {
 		}
 		if(lbDiferenca.getText().equals("0.00")) {
 			txtTipoPagValor.setDisable(true);
+			btItemPagamento.setDisable(true);
+			cmbTipoPag.setDisable(true);
 		}
 		else {
 			txtTipoPagValor.setDisable(false);
+			btItemPagamento.setDisable(false);
+			cmbTipoPag.setDisable(false);
 		}
 	}
 }

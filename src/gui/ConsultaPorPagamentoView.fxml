@@ -38,13 +38,13 @@
                       <TableColumn fx:id="tableColumnValorTotalAnoAtual" prefWidth="70.0" text="Total" />
                     </columns>
                   </TableView>
-                  <Label layoutX="100.0" layoutY="33.0" text="Mês de" AnchorPane.topAnchor="35.0" />
+                  <Label layoutX="100.0" layoutY="33.0" text="Mês" AnchorPane.topAnchor="35.0" />
                   <Label layoutX="427.0" layoutY="33.0" text="Ano" AnchorPane.topAnchor="35.0" />
-                  <Label fx:id="lbMesAtual" layoutX="182.0" layoutY="25.0" text="JANEIRO" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="35.0">
+                  <Label fx:id="lbMesAtual" layoutX="182.0" layoutY="25.0" text="JANEIRO" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="35.0">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
-                  <Label fx:id="lbAnoAtual" layoutX="522.0" layoutY="17.0" text="2021" AnchorPane.leftAnchor="455.0" AnchorPane.topAnchor="35.0">
+                  <Label fx:id="lbAnoAtual" layoutX="522.0" layoutY="17.0" text="2021" AnchorPane.leftAnchor="451.0" AnchorPane.topAnchor="35.0">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
