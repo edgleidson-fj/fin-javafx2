@@ -29,14 +29,18 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
 import model.servico.LancamentoService;
+import model.servico.UsuarioService;
 
 public class ContasQuitadasMesAtualController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade;
 
 	@FXML
 	private TableView<Lancamento> tbLancamento;
@@ -52,59 +56,60 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	private TableColumn<Lancamento, Double> colunaLanDesconto;
 	@FXML
 	private TableColumn<Lancamento, Double> colunaLanAcrescimo;
-    @FXML
+	@FXML
 	private TableColumn<Lancamento, Lancamento> colunaDetalhe;
 	@FXML
 	private Label lbTotal;
 	@FXML
-	private Label lbMes;	
+	private Label lbMes;
+	@FXML
+	private Label lbMsgTetoDeGastos;
 	@FXML
 	private TextField txtConsultaReferenciaOuDespesa;
-	@FXML 
+	@FXML
 	private Button btConsultaIDReferenciaOuDespesa;
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	private ObservableList<Lancamento> obsListaLancamentoTbViewAux;
-	
+
 	@FXML
 	public void onBtConsultaReferenciaOuDespesa(ActionEvent evento) {
-		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();		
-		if(!refOuDespesa.equals("")) {	
-		List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaQuitadoMesAtual(refOuDespesa);
-		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
-		tbLancamento.setItems(obsListaLancamentoTbView);
-		carregarValorTotalFiltrado();
-		}
-		else {
+		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();
+		if (!refOuDespesa.equals("")) {
+			List<Lancamento> lista = lancamentoService.buscarPorReferenciaOuDespesaQuitadoMesAtual(refOuDespesa);
+			obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
+			tbLancamento.setItems(obsListaLancamentoTbView);
+			carregarValorTotalFiltrado();
+		} else {
 			carregarTableView();
-		}		
+		}
 	}
-	
-	public void carregarValorTotal() {		
+
+	public void carregarValorTotal() {
 		List<Lancamento> listaAux = lancamentoService.AuxNaoContabilizarValorOutros();
-		obsListaLancamentoTbViewAux = FXCollections.observableArrayList(listaAux);		
+		obsListaLancamentoTbViewAux = FXCollections.observableArrayList(listaAux);
 		Double total = 0.0;
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			total += tab.getTotal();
-		}	
-		//Subtrair valor do Tipo de Pagamento(Outros).
+		}
+		// Subtrair valor do Tipo de Pagamento(Outros).
 		String itemPagOutros = "";
 		Double itemPagOutrosValor = 0.00;
 		for (Lancamento tabAux : obsListaLancamentoTbViewAux) {
 			itemPagOutros = tabAux.getItemPagamento().getNomePag();
-			if(itemPagOutros.equals("Outros")) {
-			itemPagOutrosValor += tabAux.getItemPagamento().getValor();
+			if (itemPagOutros.equals("Outros")) {
+				itemPagOutrosValor += tabAux.getItemPagamento().getValor();
 			}
 		}
-		lbTotal.setText(String.format("R$ %.2f", total-itemPagOutrosValor));
+		lbTotal.setText(String.format("%.2f", total - itemPagOutrosValor));
 	}
 
-	public void carregarValorTotalFiltrado() {		
+	public void carregarValorTotalFiltrado() {
 		Double total = 0.0;
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			total += tab.getTotal();
 		}
-		lbTotal.setText(String.format("R$ %.2f", total));
+		lbTotal.setText(String.format("%.2f", total));
 	}
 
 	public void setLancamentoService(LancamentoService lancamentoService) {
@@ -113,6 +118,14 @@ public class ContasQuitadasMesAtualController implements Initializable {
 
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
+	}
+
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	public void setUsuario(Usuario usuarioEntidade) {
+		this.usuarioEntidade = usuarioEntidade;
 	}
 
 	@Override
@@ -140,11 +153,11 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		List<Lancamento> lista = lancamentoService.buscarContasQuitadoMesAtual();
 		obsListaLancamentoTbView = FXCollections.observableArrayList(lista);
 		tbLancamento.setItems(obsListaLancamentoTbView);
-		criarBotaoDetalhe();		
+		criarBotaoDetalhe();
 		carregarValorTotal();
 		pegarMesAtual();
 	}
-	
+
 	public void criarDialogForm(Lancamento obj, String nomeAbsoluto, Stage stagePai) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
@@ -154,7 +167,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 			obj.setObs(obj.getObs());
 			controle.setLancamento(obj);
 			controle.setDespesaService(new DespesaService());
-			controle.setItemPagamentoService(new ItemPagamentoService());	
+			controle.setItemPagamentoService(new ItemPagamentoService());
 			controle.atualizarDialogForm();
 			controle.carregarTableView();
 
@@ -197,11 +210,11 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
-	
+
 	public void pegarMesAtual() {
 		Calendar datahoje = Calendar.getInstance();
 		int mesAtual = datahoje.get(Calendar.MONTH) + 1;
-		
+
 		switch (mesAtual) {
 		case 1:
 			lbMes.setText("(JANEIRO)");
@@ -239,6 +252,37 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		case 12:
 			lbMes.setText("(DEZEMBRO)");
 			break;
+		}
+	}
+
+	public void carregarUsuarioLogado() {
+		if (usuarioEntidade == null) {
+			System.out.println("entidade nulo");
+		}
+		if (usuarioService == null) {
+			System.out.println("service nulo");
+		}
+		List<Usuario> lista = usuarioService.buscarTodos();
+		for (Usuario u : lista) {
+			u.getLogado();
+
+			if (u.getLogado().equals("S")) {
+				Double tetoGasto = u.getTetoGasto();
+				Double gasto = Utils.stringParaDouble(lbTotal.getText());
+				Double valorComparativo = tetoGasto - gasto;
+				double percentual = (tetoGasto * 30) / 100;
+
+				if (gasto > tetoGasto && tetoGasto > 0) {
+					valorComparativo = gasto - tetoGasto;
+					lbMsgTetoDeGastos.setText("Atenção! \nVocê ultrapassou R$ "
+							+ String.format("%.2f", valorComparativo) + " do teto de gastos mensal.");
+				} else if (valorComparativo <= percentual && tetoGasto > 0) {
+					valorComparativo = tetoGasto - gasto;
+					lbMsgTetoDeGastos.setText("Atenção! \nFalta R$ " + String.format("%.2f", valorComparativo)
+							+ " para atingir o teto de gastos mensal.");
+				}
+
+			}
 		}
 	}
 

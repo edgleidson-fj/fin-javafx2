@@ -292,8 +292,14 @@ public class MainViewController implements Initializable {
 	carregarView("/gui/ContasQuitadasMesAtualView.fxml", (ContasQuitadasMesAtualController controller) ->{
 			controller.setLancamentoService(new LancamentoService());
 			controller.setLancamento(new Lancamento());
+			Usuario user = new Usuario();
+			user.setId(usuarioId);
+			user.setNome(userNome);
+			controller.setUsuario(user);
+			controller.setUsuarioService(new UsuarioService());
 			controller.rotinasAutomaticas();
 			controller.carregarTableView();
+			controller.carregarUsuarioLogado();
 		});
 	logado = "S";
 			 }			 
@@ -549,6 +555,7 @@ public class MainViewController implements Initializable {
 		setUsuarioService(new UsuarioService());
 		setMensagemService(new MensagemService());
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);	
+		Restricoes.setTextFieldTamanhoMaximo(txtSenha, 20);
 		ocultarMenu();
 		}
 		

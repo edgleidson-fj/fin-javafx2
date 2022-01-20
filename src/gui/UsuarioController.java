@@ -27,7 +27,7 @@ import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
 
-public class UsuarioController implements Initializable{
+public class UsuarioController implements Initializable {
 
 	private UsuarioService service;
 	private Usuario entidade;
@@ -41,11 +41,15 @@ public class UsuarioController implements Initializable{
 	@FXML
 	private TextField txtEmail;
 	@FXML
+	private TextField txtTetoGastos;
+	@FXML
 	private TextField txtCPF;
 	@FXML
 	private Button btVoltar;
 	@FXML
 	private Button btSalvar;
+	@FXML
+	private Button btLimparSenha;
 
 	// Injeção da dependência.
 	public void setUsuarioService(UsuarioService service) {
@@ -64,7 +68,7 @@ public class UsuarioController implements Initializable{
 			if (!txtNome.getText().equals("") & !txtEmail.getText().equals("") & !txtCPF.getText().equals("")
 					& !txtSenha.getText().equals("")) {
 				entidade = dadosDoCampoDeTexto();
-				if (txtId.getText().equals("")) {
+				if (txtId.getText().equals("") && x == 0) {
 					if (CPFexiste.equals("N")) {
 						x = 1;
 						service.salvar(entidade);
@@ -79,15 +83,15 @@ public class UsuarioController implements Initializable{
 						x = 2;
 						atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 					}
-				} else {
+				} else if (!txtId.getText().equals("")) {
 					x = 3;
+					entidade.setCpf(txtCPF.getText());
+					entidade.setLogado("S");
+					service.logado(entidade);
 					service.atualizar(entidade);
 					atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 					Alertas.mostrarAlerta(null, "Atualização realizado com sucesso!", null, AlertType.INFORMATION);
 				}
-			} else {
-				Alertas.mostrarAlerta("Atenção!", "Nome, CPF, Email e/ou Senha em branco.", null,
-						AlertType.INFORMATION);
 			}
 		} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar", null, ex.getMessage(), AlertType.ERROR);
@@ -107,22 +111,42 @@ public class UsuarioController implements Initializable{
 	private void inicializarComportamento() {
 		txtId.setDisable(true);
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
+		Restricoes.setTextFieldDouble(txtTetoGastos);
+		Restricoes.setTextFieldTamanhoMaximo(txtNome, 45);
+		Restricoes.setTextFieldTamanhoMaximo(txtEmail, 45);
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
-		Restricoes.setTextFieldTamanhoMaximo(txtSenha, 40);
+		Restricoes.setTextFieldTamanhoMaximo(txtTetoGastos, 10);
+		Restricoes.setTextFieldTamanhoMaximo(txtSenha, 20);
 	}
 
 	public Usuario dadosDoCampoDeTexto() {
 		service.logado(entidade);
 		Criptografia c = new Criptografia();
-		Usuario obj = new Usuario();
-		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		obj.setNome(txtNome.getText());
-		obj.setSenha(c.criptografia(txtSenha.getText()));
-		obj.setEmail(txtEmail.getText());
-		obj.setCpf(txtCPF.getText());
-		VerificarCPF();
-		return obj;
+		int tamanhoDaSenha = txtSenha.getText().length();
+
+		if (tamanhoDaSenha > 3) {
+			x = 0;
+			Usuario obj = new Usuario();
+			obj.setId(Utils.stringParaInteiro(txtId.getText()));
+			obj.setNome(txtNome.getText());
+			obj.setSenha(c.criptografia(txtSenha.getText()));
+			obj.setEmail(txtEmail.getText());
+			obj.setCpf(txtCPF.getText());
+			double tetoGasto = Utils.stringParaDouble(0 + txtTetoGastos.getText());
+			if (tetoGasto > 0) {
+				obj.setTetoGasto(tetoGasto);
+			} else {
+				obj.setTetoGasto(0.00);
+			}
+			VerificarCPF();
+			return obj;
+		} else {
+			Alertas.mostrarAlerta("Atenção!", "Senha inválida.", "A senha deve ter no mínimo 4 caracteres.",
+					AlertType.INFORMATION);
+			x = 5;
+			Usuario u = new Usuario();
+			return u;
+		}
 	}
 
 	public void carregarCamposDeCadastro() {
@@ -137,6 +161,11 @@ public class UsuarioController implements Initializable{
 				txtCPF.setText(u.getCpf());
 				Criptografia c = new Criptografia();
 				txtSenha.setText(c.descriptografar(u.getSenha()));
+				if (u.getTetoGasto() != null && u.getTetoGasto() > 0) {
+					txtTetoGastos.setText(String.format("%.2f", u.getTetoGasto()));
+				} else {
+					txtTetoGastos.setText("");
+				}
 				ocultarOuDesocultar();
 			}
 		}
@@ -232,5 +261,9 @@ public class UsuarioController implements Initializable{
 				CPFexiste = "S";
 			}
 		}
+	}
+
+	public void OnBtLimparSenha() {
+		txtSenha.setText("");
 	}
 }

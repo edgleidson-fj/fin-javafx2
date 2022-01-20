@@ -15,6 +15,16 @@ public class Restricoes {
 			}
 		});
 	}
+	
+	// Rstrigir o campo TextField apenas com números Double (0.00).
+		// Expressão regular ("\\d*([\\.]\\d*)?") = Para números Double.
+		public static void setTextFieldDouble(TextField txt) {
+			txt.textProperty().addListener((obs, oldValue, newValue) -> {
+				if (newValue != null && !newValue.matches("\\d*([\\.]\\d*)?")) {
+					txt.setText(oldValue);
+				}
+			});
+		}
 
 	// Restrigir o campo TextField com quantidade máxima de caracteres definido.
 	public static void setTextFieldTamanhoMaximo(TextField txt, int max) {
@@ -32,15 +42,6 @@ public class Restricoes {
 					txtArea.setText(oldValue);
 				}
 			});
-		}
-
-	// Rstrigir o campo TextField apenas com números Double (0.00).
-	// Expressão regular ("\\d*([\\.]\\d*)?") = Para números Double.
-	public static void setTextFieldDouble(TextField txt) {
-		txt.textProperty().addListener((obs, oldValue, newValue) -> {
-			if (newValue != null && !newValue.matches("\\d*([\\.]\\d*)?")) {
-				txt.setText(oldValue);
-			}
-		});
-	}
+		}	
+		
 }

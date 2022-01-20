@@ -24,23 +24,30 @@
          <children>
             <Pane prefHeight="367.0" prefWidth="695.0">
                <children>
-                  <TextField fx:id="txtId" editable="false" layoutX="246.0" layoutY="36.0" prefHeight="27.0" prefWidth="29.0" promptText="ID" />
-                  <TextField fx:id="txtNome" layoutX="277.0" layoutY="36.0" prefHeight="25.0" prefWidth="149.0" promptText="Nome" />
-                  <Button fx:id="btSalvar" layoutX="290.0" layoutY="155.0" mnemonicParsing="false" onAction="#onBtSalvar" prefHeight="25.0" prefWidth="56.0" stylesheets="@zBotaoConfirmar.css" text="Salvar">
+                  <TextField fx:id="txtId" editable="false" layoutX="246.0" layoutY="36.0" prefHeight="27.0" prefWidth="29.0" promptText="ID" visible="false" />
+                  <TextField fx:id="txtNome" layoutX="249.0" layoutY="35.0" prefHeight="25.0" prefWidth="220.0" />
+                  <Button fx:id="btSalvar" layoutX="262.0" layoutY="220.0" mnemonicParsing="false" onAction="#onBtSalvar" prefHeight="25.0" prefWidth="74.0" stylesheets="@zBotaoConfirmar.css" text="Salvar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Button fx:id="btVoltar" layoutX="352.0" layoutY="155.0" mnemonicParsing="false" onAction="#onBtVoltar" stylesheets="@zBotaoVoltar.css" text="Voltar">
+                  <Button fx:id="btVoltar" layoutX="362.0" layoutY="220.0" mnemonicParsing="false" onAction="#onBtVoltar" prefHeight="25.0" prefWidth="74.0" stylesheets="@zBotaoVoltar.css" text="Voltar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Separator layoutX="240.0" layoutY="33.0" prefHeight="2.0" prefWidth="205.0" />
-                  <Separator layoutX="240.0" layoutY="183.0" prefHeight="3.0" prefWidth="205.0" />
-                  <Separator layoutX="240.0" layoutY="33.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="6.0" />
-                  <Separator layoutX="446.0" layoutY="33.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="6.0" />
-                  <TextField fx:id="txtEmail" layoutX="277.0" layoutY="96.0" promptText="Email" />
-                  <TextField fx:id="txtCPF" layoutX="277.0" layoutY="68.0" onKeyTyped="#mascaraCPF" promptText="CPF" />
-                  <PasswordField fx:id="txtSenha" layoutX="277.0" layoutY="125.0" prefHeight="25.0" prefWidth="149.0" promptText="Senha" />
+                  <Separator layoutX="240.0" layoutY="10.0" prefHeight="2.0" prefWidth="235.0" />
+                  <Separator layoutX="240.0" layoutY="250.0" prefHeight="3.0" prefWidth="235.0" />
+                  <Separator layoutX="240.0" layoutY="10.0" orientation="VERTICAL" prefHeight="240.0" prefWidth="1.0" />
+                  <Separator layoutX="475.0" layoutY="10.0" orientation="VERTICAL" prefHeight="240.0" prefWidth="1.0" />
+                  <TextField fx:id="txtEmail" layoutX="249.0" layoutY="85.0" prefHeight="25.0" prefWidth="220.0" />
+                  <TextField fx:id="txtCPF" layoutX="249.0" layoutY="135.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="100.0" promptText="999.999.999-99" />
+                  <PasswordField fx:id="txtSenha" layoutX="249.0" layoutY="185.0" prefHeight="25.0" prefWidth="167.0" />
+                  <TextField fx:id="txtTetoGastos" layoutX="365.0" layoutY="135.0" prefHeight="25.0" prefWidth="74.0" promptText="Opcional" />
+                  <Label layoutX="252.0" layoutY="20.0" text="Nome" />
+                  <Label layoutX="254.0" layoutY="70.0" text="Email" />
+                  <Label layoutX="252.0" layoutY="120.0" text="CPF" />
+                  <Label layoutX="365.0" layoutY="120.0" text="Teto de Gasto" />
+                  <Label layoutX="252.0" layoutY="170.0" text="Senha" />
+                  <Button fx:id="btLimparSenha" layoutX="418.0" layoutY="185.0" mnemonicParsing="false" onAction="#OnBtLimparSenha" text="x" />
                </children>
             </Pane>
          </children>

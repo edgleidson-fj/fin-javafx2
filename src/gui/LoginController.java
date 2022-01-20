@@ -152,6 +152,7 @@ public class LoginController implements Initializable {
 		setUsuarioService(new UsuarioService());
 		setMensagemService(new MensagemService());
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
+		Restricoes.setTextFieldTamanhoMaximo(txtSenha, 20);
 		}
 		
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {

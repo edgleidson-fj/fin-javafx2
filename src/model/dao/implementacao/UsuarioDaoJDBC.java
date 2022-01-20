@@ -61,12 +61,14 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 					 "UPDATE usuario "
 					+ "SET usuarioNome = ?,  "
 					+ "usuarioSenha = ?, "
-					+ "email = ?  "
+					+ "email = ?,  "
+					+ "tetoGasto = ? "
 					+ "WHERE usuarioId = ? ");
 			ps.setString(1, obj.getNome());
 			ps.setString(2, obj.getSenha());
 			ps.setString(3, obj.getEmail());
-			ps.setInt(4, obj.getId());
+			ps.setDouble(4, obj.getTetoGasto());
+			ps.setInt(5, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
 			new BDException(ex.getMessage());
@@ -135,6 +137,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				obj.setLogado(rs.getString("logado"));
 				obj.setEmail(rs.getString("email"));
 				obj.setCpf(rs.getString("cpf"));
+				obj.setTetoGasto(rs.getDouble("tetoGasto"));
 				lista.add(obj);
 			}
 			return lista;
@@ -262,4 +265,6 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			BD.fecharResultSet(rs);
 		}
 	}
+    
+ 
 }

@@ -27,7 +27,7 @@ import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
 
-public class EsqueciASenhaController implements Initializable{
+public class EsqueciASenhaController implements Initializable {
 
 	private UsuarioService service;
 	private Usuario entidade;
@@ -61,40 +61,50 @@ public class EsqueciASenhaController implements Initializable{
 	public void onBtRecuperarSenha() {
 		if (!txtNome.getText().equals("") && !txtCPF.getText().equals("") && !txtEmail.getText().equals("")) {
 			if (!txtNovaSenha.getText().isEmpty()) {
-				try {
-					Criptografia c = new Criptografia();
-					String nome = txtNome.getText();
-					String cpf = txtCPF.getText();
-					String email = txtEmail.getText();
-					String novaSenha = c.criptografia(txtNovaSenha.getText());
-					entidade.setNome(nome);
-					entidade.setCpf(cpf);
-					entidade.setEmail(email);
-					entidade.setSenha(novaSenha);
-					Usuario user = service.recuperarSenha(nome, cpf, email, novaSenha);
-					user = service.verificarUsuario(nome, cpf, email);
-					if (user == null) {
-						Alertas.mostrarAlerta("Atenção!", "Informação divergente entre: NOME, CPF e/ou EMAIL.", null,
-								AlertType.INFORMATION);
-					} else {
+				int tamanhoDaSenha = txtNovaSenha.getText().length();
+				if (tamanhoDaSenha >= 4) {
+					try {
+						Usuario user = null;
+						Criptografia c = new Criptografia();
+						String nome = txtNome.getText();
+						String cpf = txtCPF.getText();
+						String email = txtEmail.getText();
+						String novaSenha = c.criptografia(txtNovaSenha.getText());
+						entidade.setNome(nome);
 						entidade.setCpf(cpf);
-						entidade.setLogado("S");
-						service.logado(entidade);
-						Alertas.mostrarAlerta(null, "Recuperação de senha realizada com sucesso.", null,
-								AlertType.INFORMATION);
-						carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) ->{
-							controller.setLancamentoService(new LancamentoService());
-							controller.setLancamento(new Lancamento());
-							controller.rotinasAutomaticas();
-							controller.carregarTableView();
-						});		
+						entidade.setEmail(email);
+						entidade.setSenha(novaSenha);
+						user = service.recuperarSenha(nome, cpf, email, novaSenha);
+						user = service.verificarUsuario(nome, cpf, email);
+						if (user == null) {
+							Alertas.mostrarAlerta("Atenção!", "Informação divergente entre: NOME, CPF e/ou EMAIL.",
+									null, AlertType.INFORMATION);
+						} else {
+							entidade.setCpf(cpf);
+							entidade.setLogado("S");
+							service.logado(entidade);
+							Alertas.mostrarAlerta(null, "Recuperação de senha realizada com sucesso.", null,
+									AlertType.INFORMATION);
+							carregarView("/gui/ContasEmAbertoMesAtualView.fxml",
+									(ContasEmAbertoMesAtualController controller) -> {
+										controller.setLancamentoService(new LancamentoService());
+										controller.setLancamento(new Lancamento());
+										controller.rotinasAutomaticas();
+										controller.carregarTableView();
+									});
 
+						}
+					} catch (BDException ex) {
+						Alertas.mostrarAlerta("Erro!", "Erro ao tentar recuperar senha.", ex.getMessage(),
+								AlertType.ERROR);
 					}
-				} catch (BDException ex) {
-					Alertas.mostrarAlerta("Erro!", "Erro ao tentar recuperar senha.", ex.getMessage(), AlertType.ERROR);
+				} else {
+					Alertas.mostrarAlerta("Atenção!", "Senha inválida.", "A senha deve ter no mínimo 4 caracteres.",
+							AlertType.INFORMATION);
 				}
 			} else {
-				Alertas.mostrarAlerta("Atenção!", "Senha em branco.", "Favor cadastrar nova senha.", AlertType.INFORMATION);
+				Alertas.mostrarAlerta("Atenção!", "Senha em branco.", "Favor cadastrar nova senha.",
+						AlertType.INFORMATION);
 			}
 		} else {
 			Alertas.mostrarAlerta("Atenção!", "Campo(s) em branco", null, AlertType.INFORMATION);
@@ -102,7 +112,7 @@ public class EsqueciASenhaController implements Initializable{
 	}
 
 	public void onBtVoltar() {
-		carregarView("/gui/LoginView.fxml", (LoginController controller) ->{
+		carregarView("/gui/LoginView.fxml", (LoginController controller) -> {
 			controller.setUsuario(new Usuario());
 			controller.setUsuarioService(new UsuarioService());
 		});
@@ -121,8 +131,10 @@ public class EsqueciASenhaController implements Initializable{
 	}
 
 	private void inicializarComportamento() {
-		Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
+		Restricoes.setTextFieldTamanhoMaximo(txtNome, 45);
+		Restricoes.setTextFieldTamanhoMaximo(txtEmail, 45);
 		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
+		Restricoes.setTextFieldTamanhoMaximo(txtNovaSenha, 20);
 	}
 
 	public void carregarCamposDeCadastro() {
@@ -137,7 +149,7 @@ public class EsqueciASenhaController implements Initializable{
 			}
 		}
 	}
-	
+
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));

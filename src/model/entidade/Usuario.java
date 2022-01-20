@@ -11,11 +11,12 @@ public class Usuario implements Serializable{
 	private String logado;
 	private String cpf;
 	private String email;
+	private Double tetoGasto;
 	
 	public Usuario() {
 		}
 
-	public Usuario(Integer id, String nome, String senha, String logado, String cpf, String email) {
+	public Usuario(Integer id, String nome, String senha, String logado, String cpf, String email, Double tetoGasto) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -23,6 +24,7 @@ public class Usuario implements Serializable{
 		this.logado = logado;
 		this.cpf = cpf;
 		this.email = email;
+		this.tetoGasto = tetoGasto;
 	}
 
 	public Integer getId() {
@@ -73,6 +75,13 @@ public class Usuario implements Serializable{
 		this.email = email;
 	}
 
+	public Double getTetoGasto() {
+		return tetoGasto;
+	}
+
+	public void setTetoGasto(Double tetoGasto) {
+		this.tetoGasto = tetoGasto;
+	}	
 	
 	@Override
 	public int hashCode() {
@@ -102,5 +111,6 @@ public class Usuario implements Serializable{
 	@Override
 	public String toString() {
 		return nome;
-	}	
-}
+	}
+
+	}
