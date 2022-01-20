@@ -51,6 +51,7 @@ import model.servico.DespesaService;
 import model.servico.ItemService;
 import model.servico.LancamentoService;
 import model.servico.UsuarioService;
+import seguranca.Criptografia;
 
 public class LanAPagarController implements Initializable {
 
@@ -478,13 +479,14 @@ public class LanAPagarController implements Initializable {
 		if (usuarioService == null) {
 			System.out.println("service nulo");
 		}
+		Criptografia c = new Criptografia();
 		List<Usuario> lista = usuarioService.buscarTodos();
 		for (Usuario u : lista) {
 			u.getLogado();
 
 			if (u.getLogado().equals("S")) {
 				usuarioId = u.getId();
-				lbUsuario.setText(String.valueOf(u.getNome()));
+				lbUsuario.setText(c.descriptografar(u.getNome()));
 			}
 		}
 	}

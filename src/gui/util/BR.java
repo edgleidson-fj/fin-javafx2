@@ -25,12 +25,12 @@ public class BR {
         return tfn.equals(number + digit1 + digit2);
     }
 
-    /**
-     * Valida CPF
-     */
+    // Validacao CPF.
     public static boolean isValidSsn(String ssn) {
         if (ssn == null || !ssn.matches("\\d{11}") || ssn.matches(ssn.charAt(0) + "{11}")) return false;
         return check(ssn, 9, WEIGHT_SSN);
     }
    
 }
+
+//Referência: https://gist.github.com/adrianoluis/5043397d378ae506d87366abb0ab4e30
