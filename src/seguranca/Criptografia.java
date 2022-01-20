@@ -12,7 +12,8 @@ public class Criptografia implements GatilhoCriptografia {
 		p = sc.insert(0, "G{RP H4áwiyz70$,72K ]#&*301?%").toString();
 		p = sc.insert(p.length() - 1, "!-ma  qz6h3ò><0b i4jc8k0").toString();
 		p = sc.insert(p.length(), "ih fne julwi0").toString();
-		return p.toUpperCase();
+		//return p.toUpperCase();
+		return p;
 	}
 
 	@Override

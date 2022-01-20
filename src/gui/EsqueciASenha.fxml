@@ -15,7 +15,7 @@
          <children>
             <Label layoutX="314.0" layoutY="195.0" text="CPF" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="220.0" />
             <Label layoutX="314.0" layoutY="231.0" text="Email" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="250.0" />
-            <TextField fx:id="txtCPF" layoutX="362.0" layoutY="227.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="141.0" promptText="999.999.999-99" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="220.0" />
+            <TextField fx:id="txtCPF" layoutX="362.0" layoutY="227.0" prefHeight="25.0" prefWidth="141.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="292.0" AnchorPane.topAnchor="220.0" />
             <Button fx:id="btRecuperar" layoutX="310.0" layoutY="317.0" mnemonicParsing="false" onAction="#onBtRecuperarSenha" stylesheets="@zBotaoConfirmar.css" text="Confirmar" AnchorPane.leftAnchor="310.0" AnchorPane.topAnchor="317.0">
                <font>
                   <Font name="System Bold" size="12.0" />

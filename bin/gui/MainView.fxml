@@ -74,7 +74,7 @@
                      </font></Button>
                   <Label layoutX="308.0" layoutY="231.0" text="Senha" AnchorPane.leftAnchor="308.0" AnchorPane.topAnchor="225.0" />
                   <Label layoutX="314.0" layoutY="195.0" text="CPF" AnchorPane.leftAnchor="314.0" />
-                  <TextField fx:id="txtCPF" layoutX="362.0" layoutY="167.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="117.0" promptText="999.999.999-99" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="190.0" />
+                  <TextField fx:id="txtCPF" layoutX="362.0" layoutY="167.0" prefHeight="25.0" prefWidth="117.0" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="190.0" />
                   <Button fx:id="btCriarUsuario" alignment="CENTER" contentDisplay="CENTER" layoutX="347.0" layoutY="295.0" mnemonicParsing="false" onAction="#onBtCriarUsuario" prefHeight="25.0" prefWidth="143.0" text="Cadastrar" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="280.0">
                      <font>
                         <Font name="System Bold" size="12.0" />

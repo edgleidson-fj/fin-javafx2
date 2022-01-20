@@ -39,7 +39,7 @@
                   <Separator layoutX="240.0" layoutY="10.0" orientation="VERTICAL" prefHeight="240.0" prefWidth="1.0" />
                   <Separator layoutX="475.0" layoutY="10.0" orientation="VERTICAL" prefHeight="240.0" prefWidth="1.0" />
                   <TextField fx:id="txtEmail" layoutX="249.0" layoutY="85.0" prefHeight="25.0" prefWidth="220.0" />
-                  <TextField fx:id="txtCPF" layoutX="249.0" layoutY="135.0" onKeyTyped="#mascaraCPF" prefHeight="25.0" prefWidth="100.0" promptText="999.999.999-99" />
+                  <TextField fx:id="txtCPF" layoutX="249.0" layoutY="135.0" prefHeight="25.0" prefWidth="100.0" />
                   <PasswordField fx:id="txtSenha" layoutX="249.0" layoutY="185.0" prefHeight="25.0" prefWidth="167.0" />
                   <TextField fx:id="txtTetoGastos" layoutX="365.0" layoutY="135.0" prefHeight="25.0" prefWidth="74.0" promptText="Opcional" />
                   <Label layoutX="252.0" layoutY="20.0" text="Nome" />

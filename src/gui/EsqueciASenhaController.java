@@ -19,7 +19,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import model.entidade.Lancamento;
 import model.entidade.Usuario;
@@ -66,9 +65,9 @@ public class EsqueciASenhaController implements Initializable {
 					try {
 						Usuario user = null;
 						Criptografia c = new Criptografia();
-						String nome = txtNome.getText();
-						String cpf = txtCPF.getText();
-						String email = txtEmail.getText();
+						String nome = c.criptografia(txtNome.getText());
+						String cpf = c.criptografia(txtCPF.getText());
+						String email = c.criptografia(txtEmail.getText());
 						String novaSenha = c.criptografia(txtNovaSenha.getText());
 						entidade.setNome(nome);
 						entidade.setCpf(cpf);
@@ -131,10 +130,11 @@ public class EsqueciASenhaController implements Initializable {
 	}
 
 	private void inicializarComportamento() {
+		Restricoes.setTextFieldInteger(txtCPF);
 		Restricoes.setTextFieldTamanhoMaximo(txtNome, 45);
 		Restricoes.setTextFieldTamanhoMaximo(txtEmail, 45);
-		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
-		Restricoes.setTextFieldTamanhoMaximo(txtNovaSenha, 20);
+		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 11);
+		Restricoes.setTextFieldTamanhoMaximo(txtNovaSenha, 10);
 	}
 
 	public void carregarCamposDeCadastro() {
@@ -169,38 +169,6 @@ public class EsqueciASenhaController implements Initializable {
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
-	}
-
-	// Mascara 999.999.999-99
-	@FXML
-	private void mascaraCPF() {
-		txtCPF.setOnKeyTyped((KeyEvent evento) -> {
-			if (!"01234567891234".contains(evento.getCharacter())) {
-				evento.consume();
-			}
-			if (evento.getCharacter().trim().length() == 0) {
-
-			} else if (txtCPF.getText().length() == 16) {
-				evento.consume();
-			}
-			switch (txtCPF.getText().length()) {
-			case 3:
-				txtCPF.setText(txtCPF.getText() + ".");
-				txtCPF.positionCaret(txtCPF.getText().length());
-				break;
-			case 7:
-				txtCPF.setText(txtCPF.getText() + ".");
-				txtCPF.positionCaret(txtCPF.getText().length());
-				break;
-			case 11:
-				txtCPF.setText(txtCPF.getText() + "-");
-				txtCPF.positionCaret(txtCPF.getText().length());
-				break;
-			case 14:
-				txtCPF.positionCaret(txtCPF.getText().length());
-				break;
-			}
-		});
 	}
 
 }

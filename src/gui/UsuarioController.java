@@ -3,11 +3,13 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import application.Main;
 import bd.BDException;
 import gui.util.Alertas;
+import gui.util.BR;
 import gui.util.Restricoes;
 import gui.util.Utils;
 import javafx.fxml.FXML;
@@ -19,7 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import model.entidade.Lancamento;
 import model.entidade.Usuario;
@@ -69,11 +70,12 @@ public class UsuarioController implements Initializable {
 					& !txtSenha.getText().equals("")) {
 				entidade = dadosDoCampoDeTexto();
 				if (txtId.getText().equals("") && x == 0) {
+					System.out.println("SALVAR");
 					if (CPFexiste.equals("N")) {
 						x = 1;
-						service.salvar(entidade);
-						entidade.setCpf(txtCPF.getText());
 						entidade.setLogado("S");
+						service.salvar(entidade);
+						entidade.setCpf(txtCPF.getText());						
 						service.logado(entidade);
 						atualizarPropriaView(entidade, "/gui/ContasEmAbertoMesAtualView.fxml");
 						Alertas.mostrarAlerta(null, "Cadastro realizado com sucesso!", null, AlertType.INFORMATION);
@@ -84,6 +86,7 @@ public class UsuarioController implements Initializable {
 						atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 					}
 				} else if (!txtId.getText().equals("")) {
+					System.out.println("ATUALIZAR");
 					x = 3;
 					entidade.setCpf(txtCPF.getText());
 					entidade.setLogado("S");
@@ -92,6 +95,8 @@ public class UsuarioController implements Initializable {
 					atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 					Alertas.mostrarAlerta(null, "Atualização realizado com sucesso!", null, AlertType.INFORMATION);
 				}
+			} else {
+				Alertas.mostrarAlerta("Atenção!", "Campo(s) em branco", null, AlertType.INFORMATION);
 			}
 		} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar", null, ex.getMessage(), AlertType.ERROR);
@@ -111,62 +116,70 @@ public class UsuarioController implements Initializable {
 	private void inicializarComportamento() {
 		txtId.setDisable(true);
 		Restricoes.setTextFieldInteger(txtId);
+		Restricoes.setTextFieldInteger(txtCPF);
 		Restricoes.setTextFieldDouble(txtTetoGastos);
 		Restricoes.setTextFieldTamanhoMaximo(txtNome, 45);
 		Restricoes.setTextFieldTamanhoMaximo(txtEmail, 45);
-		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);
+		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 11);
 		Restricoes.setTextFieldTamanhoMaximo(txtTetoGastos, 10);
 		Restricoes.setTextFieldTamanhoMaximo(txtSenha, 20);
 	}
 
 	public Usuario dadosDoCampoDeTexto() {
 		service.logado(entidade);
-		Criptografia c = new Criptografia();
-		int tamanhoDaSenha = txtSenha.getText().length();
-
-		if (tamanhoDaSenha > 3) {
-			x = 0;
-			Usuario obj = new Usuario();
-			obj.setId(Utils.stringParaInteiro(txtId.getText()));
-			obj.setNome(txtNome.getText());
-			obj.setSenha(c.criptografia(txtSenha.getText()));
-			obj.setEmail(txtEmail.getText());
-			obj.setCpf(txtCPF.getText());
-			double tetoGasto = Utils.stringParaDouble(0 + txtTetoGastos.getText());
-			if (tetoGasto > 0) {
+		Boolean validarCPF = BR.isValidSsn(txtCPF.getText());
+		if (validarCPF.booleanValue() == true) {
+			int tamanhoDaSenha = txtSenha.getText().length();
+			if (tamanhoDaSenha > 3) {
+				x = 0;
+				Criptografia c = new Criptografia();
+				Usuario obj = new Usuario();
+				obj.setId(Utils.stringParaInteiro(txtId.getText()));
+				obj.setNome(c.criptografia(txtNome.getText()));
+				obj.setSenha(c.criptografia(txtSenha.getText()));
+				obj.setEmail(c.criptografia(txtEmail.getText()));
+				obj.setCpf(c.criptografia(txtCPF.getText()));				
+				double tetoGasto = Utils.stringParaDouble(0 + txtTetoGastos.getText());
 				obj.setTetoGasto(tetoGasto);
+				VerificarCPF();
+				return obj;
 			} else {
-				obj.setTetoGasto(0.00);
+				Alertas.mostrarAlerta("Atenção!", "Senha inválida.", "A senha deve ter no mínimo 4 caracteres.",
+						AlertType.INFORMATION);
+				x = 5;
+				Usuario user = new Usuario();
+				return user;
 			}
-			VerificarCPF();
-			return obj;
 		} else {
-			Alertas.mostrarAlerta("Atenção!", "Senha inválida.", "A senha deve ter no mínimo 4 caracteres.",
-					AlertType.INFORMATION);
+			Alertas.mostrarAlerta("Atenção!", "CPF inválido.", null, AlertType.INFORMATION);
 			x = 5;
-			Usuario u = new Usuario();
-			return u;
+			txtCPF.setText("");
+			Usuario user = new Usuario();
+			return user;
 		}
 	}
 
 	public void carregarCamposDeCadastro() {
+		Locale.setDefault(Locale.US);
 		List<Usuario> lista = service.buscarTodos();
 		for (Usuario u : lista) {
 			u.getLogado();
 
 			if (u.getLogado().equals("S")) {
-				txtId.setText(String.valueOf(u.getId()));
-				txtNome.setText(u.getNome());
-				txtEmail.setText(u.getEmail());
-				txtCPF.setText(u.getCpf());
 				Criptografia c = new Criptografia();
+				txtId.setText(String.valueOf(u.getId()));
+				txtNome.setText(c.descriptografar(u.getNome()));
+				txtEmail.setText(c.descriptografar(u.getEmail()));
+				txtCPF.setText(c.descriptografar(u.getCpf()));
 				txtSenha.setText(c.descriptografar(u.getSenha()));
-				if (u.getTetoGasto() != null && u.getTetoGasto() > 0) {
-					txtTetoGastos.setText(String.format("%.2f", u.getTetoGasto()));
-				} else {
+				if(u.getTetoGasto() > 0) {
+				txtTetoGastos.setText(String.format("%.2f", +u.getTetoGasto()));
+				}
+				else {
 					txtTetoGastos.setText("");
 				}
 				ocultarOuDesocultar();
+				txtCPF.setEditable(false);
 			}
 		}
 	}
@@ -213,39 +226,7 @@ public class UsuarioController implements Initializable {
 		}
 	}
 
-	// Mascara 999.999.999-99
-	@FXML
-	private void mascaraCPF() {
-		txtCPF.setOnKeyTyped((KeyEvent evento) -> {
-			if (!"01234567891234".contains(evento.getCharacter())) {
-				evento.consume();
-			}
-			if (evento.getCharacter().trim().length() == 0) {
-
-			} else if (txtCPF.getText().length() == 16) {
-				evento.consume();
-			}
-			switch (txtCPF.getText().length()) {
-			case 3:
-				txtCPF.setText(txtCPF.getText() + ".");
-				txtCPF.positionCaret(txtCPF.getText().length());
-				break;
-			case 7:
-				txtCPF.setText(txtCPF.getText() + ".");
-				txtCPF.positionCaret(txtCPF.getText().length());
-				break;
-			case 11:
-				txtCPF.setText(txtCPF.getText() + "-");
-				txtCPF.positionCaret(txtCPF.getText().length());
-				break;
-			case 14:
-				txtCPF.positionCaret(txtCPF.getText().length());
-				break;
-			}
-		});
-	}
-
-	public void ocultarOuDesocultar() {
+		public void ocultarOuDesocultar() {
 		if (txtId.getText().equals("")) {
 			btVoltar.setVisible(true);
 		} else {

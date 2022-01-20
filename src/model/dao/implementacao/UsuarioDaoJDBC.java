@@ -28,13 +28,15 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 			ps = connection.prepareStatement(
 					"INSERT INTO usuario "
-						+ "(usuarioNome, usuarioSenha, email, cpf) "
-							+ "VALUES  ( ?, ?, ?, ?) ",
+						+ "(usuarioNome, usuarioSenha, email, cpf, tetoGasto, logado) "
+							+ "VALUES  ( ?, ?, ?, ?, ?, ?) ",
 							Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, obj.getNome());
 			ps.setString(2, obj.getSenha());
 			ps.setString(3, obj.getEmail());
 			ps.setString(4, obj.getCpf());
+			ps.setDouble(5, obj.getTetoGasto());
+			ps.setString(6, obj.getLogado());
 			int linhasAfetadas = ps.executeUpdate();
 			if (linhasAfetadas > 0) {
 				ResultSet rs = ps.getGeneratedKeys(); // ID gerado no Insert.

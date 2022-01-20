@@ -25,7 +25,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -466,7 +465,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
 		Criptografia c = new Criptografia();		
-		String cpf = txtCPF.getText();
+		String cpf = c.criptografia(txtCPF.getText());
 		String senha ="";
 		if(!txtSenha.getText().equals("")) {
 			senha = c.criptografia(txtSenha.getText());	
@@ -554,7 +553,8 @@ public class MainViewController implements Initializable {
 		setUsuario(new Usuario());
 		setUsuarioService(new UsuarioService());
 		setMensagemService(new MensagemService());
-		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 14);	
+		Restricoes.setTextFieldInteger(txtCPF);
+		Restricoes.setTextFieldTamanhoMaximo(txtCPF, 11);	
 		Restricoes.setTextFieldTamanhoMaximo(txtSenha, 20);
 		ocultarMenu();
 		}
@@ -578,39 +578,7 @@ public class MainViewController implements Initializable {
 		} catch (IOException ex) {
 			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a tela.", ex.getMessage(), AlertType.ERROR);
 		}
-	}
-	
-	//Mascara 999.999.999-99
-		@FXML
-		private void mascaraCPF() {
-		   txtCPF.setOnKeyTyped((KeyEvent evento) -> {
-	            if (!"01234567891234".contains(evento.getCharacter())) {
-	                evento.consume();
-	            }
-	            if (evento.getCharacter().trim().length() == 0) {
-
-	            } else if (txtCPF.getText().length() == 16) {
-	                evento.consume();
-	            }
-	            switch (txtCPF.getText().length()) {
-	                case 3:
-	                	txtCPF.setText(txtCPF.getText() + ".");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 7:
-	                	txtCPF.setText(txtCPF.getText() + ".");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 11:
-	                	txtCPF.setText(txtCPF.getText() + "-");
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	                case 14:
-	                	txtCPF.positionCaret(txtCPF.getText().length());
-	                    break;
-	            }
-	        });
-	    }
+	}	
 	
 		//Mensagem de aviso.
 		public void MsgProxAnoDialogForm() {
