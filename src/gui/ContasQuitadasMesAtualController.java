@@ -275,11 +275,11 @@ public class ContasQuitadasMesAtualController implements Initializable {
 				if (gasto > tetoGasto && tetoGasto > 0) {
 					valorComparativo = gasto - tetoGasto;
 					lbMsgTetoDeGastos.setText("Atenção! \nVocê ultrapassou R$ "
-							+ String.format("%.2f", valorComparativo) + " do teto de gastos mensal.");
+							+ String.format("%.2f", valorComparativo) + " do seu teto de gasto mensal.");
 				} else if (valorComparativo <= percentual && tetoGasto > 0) {
 					valorComparativo = tetoGasto - gasto;
 					lbMsgTetoDeGastos.setText("Atenção! \nFalta R$ " + String.format("%.2f", valorComparativo)
-							+ " para atingir o teto de gastos mensal.");
+							+ " para atingir o seu teto de gasto mensal.");
 				}
 
 			}

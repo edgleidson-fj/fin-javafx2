@@ -1,5 +1,9 @@
 package gui.util;
 
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -44,4 +48,15 @@ public class Restricoes {
 			});
 		}	
 		
+		@SuppressWarnings("unused")
+		public static boolean validarEmail(String email){
+			Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
+			Matcher m = p.matcher(email);
+			if(m.find() && m.group().equals(email)){
+			return true;
+			}
+			else{
+			return false;
+			}
+		}
 }

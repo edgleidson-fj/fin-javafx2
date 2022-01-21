@@ -65,28 +65,27 @@ public class UsuarioController implements Initializable {
 	String CPFexiste = "N";
 
 	public void onBtSalvar() {
+		Criptografia c = new Criptografia();
 		try {
 			if (!txtNome.getText().equals("") & !txtEmail.getText().equals("") & !txtCPF.getText().equals("")
 					& !txtSenha.getText().equals("")) {
 				entidade = dadosDoCampoDeTexto();
 				if (txtId.getText().equals("") && x == 0) {
-					System.out.println("SALVAR");
 					if (CPFexiste.equals("N")) {
 						x = 1;
 						entidade.setLogado("S");
 						service.salvar(entidade);
-						entidade.setCpf(txtCPF.getText());						
+						entidade.setCpf(c.criptografia(txtCPF.getText()));
 						service.logado(entidade);
 						atualizarPropriaView(entidade, "/gui/ContasEmAbertoMesAtualView.fxml");
 						Alertas.mostrarAlerta(null, "Cadastro realizado com sucesso!", null, AlertType.INFORMATION);
 					} else {
-						Alertas.mostrarAlerta("Atenção!", "Cadastro inválido.", "CPF informado já existe no sistema.",
+						Alertas.mostrarAlerta("Atenção!", "Cadastro inválido.", "CPF: "+txtCPF.getText()+" já existe no sistema.",
 								AlertType.WARNING);
 						x = 2;
 						atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 					}
 				} else if (!txtId.getText().equals("")) {
-					System.out.println("ATUALIZAR");
 					x = 3;
 					entidade.setCpf(txtCPF.getText());
 					entidade.setLogado("S");
@@ -126,33 +125,41 @@ public class UsuarioController implements Initializable {
 	}
 
 	public Usuario dadosDoCampoDeTexto() {
+		Criptografia c = new Criptografia();
 		service.logado(entidade);
 		Boolean validarCPF = BR.isValidSsn(txtCPF.getText());
 		if (validarCPF.booleanValue() == true) {
-			int tamanhoDaSenha = txtSenha.getText().length();
-			if (tamanhoDaSenha > 3) {
-				x = 0;
-				Criptografia c = new Criptografia();
-				Usuario obj = new Usuario();
-				obj.setId(Utils.stringParaInteiro(txtId.getText()));
-				obj.setNome(c.criptografia(txtNome.getText()));
-				obj.setSenha(c.criptografia(txtSenha.getText()));
-				obj.setEmail(c.criptografia(txtEmail.getText()));
-				obj.setCpf(c.criptografia(txtCPF.getText()));				
-				double tetoGasto = Utils.stringParaDouble(0 + txtTetoGastos.getText());
-				obj.setTetoGasto(tetoGasto);
-				VerificarCPF();
-				return obj;
+			Boolean validarEmail = Restricoes.validarEmail(txtEmail.getText());
+			if (validarEmail.booleanValue() == true) {
+				int tamanhoDaSenha = txtSenha.getText().length();
+				if (tamanhoDaSenha > 3) {
+					x=0;					
+					Usuario obj = new Usuario();
+					obj.setId(Utils.stringParaInteiro(txtId.getText()));
+					obj.setNome(c.criptografia(txtNome.getText()));
+					obj.setSenha(c.criptografia(txtSenha.getText()));
+					obj.setEmail(c.criptografia(txtEmail.getText()));
+					obj.setCpf(c.criptografia(txtCPF.getText()));
+					double tetoGasto = Utils.stringParaDouble(0 + txtTetoGastos.getText());
+					obj.setTetoGasto(tetoGasto);
+					VerificarCPF();
+					return obj;
+				} else {
+					Alertas.mostrarAlerta("Atenção!", "Senha inválida.", "A senha deve ter no mínimo 4 caracteres.",
+							AlertType.INFORMATION);
+					x=5;
+					Usuario user = new Usuario();
+					return user;
+				}
 			} else {
-				Alertas.mostrarAlerta("Atenção!", "Senha inválida.", "A senha deve ter no mínimo 4 caracteres.",
-						AlertType.INFORMATION);
-				x = 5;
+				Alertas.mostrarAlerta("Atenção!", "Email inválido.", null, AlertType.INFORMATION);
+				x=5;
 				Usuario user = new Usuario();
 				return user;
 			}
 		} else {
 			Alertas.mostrarAlerta("Atenção!", "CPF inválido.", null, AlertType.INFORMATION);
-			x = 5;
+			x=5;
 			txtCPF.setText("");
 			Usuario user = new Usuario();
 			return user;
@@ -172,10 +179,9 @@ public class UsuarioController implements Initializable {
 				txtEmail.setText(c.descriptografar(u.getEmail()));
 				txtCPF.setText(c.descriptografar(u.getCpf()));
 				txtSenha.setText(c.descriptografar(u.getSenha()));
-				if(u.getTetoGasto() > 0) {
-				txtTetoGastos.setText(String.format("%.2f", +u.getTetoGasto()));
-				}
-				else {
+				if (u.getTetoGasto() > 0) {
+					txtTetoGastos.setText(String.format("%.2f", +u.getTetoGasto()));
+				} else {
 					txtTetoGastos.setText("");
 				}
 				ocultarOuDesocultar();
@@ -226,7 +232,7 @@ public class UsuarioController implements Initializable {
 		}
 	}
 
-		public void ocultarOuDesocultar() {
+	public void ocultarOuDesocultar() {
 		if (txtId.getText().equals("")) {
 			btVoltar.setVisible(true);
 		} else {
@@ -235,10 +241,11 @@ public class UsuarioController implements Initializable {
 	}
 
 	public void VerificarCPF() {
+		Criptografia c = new Criptografia();
 		List<Usuario> lista = service.buscarTodos();
 		for (Usuario u : lista) {
 			u.getCpf();
-			if (txtCPF.getText().equals(u.getCpf())) {
+			if (c.criptografia(txtCPF.getText()).equals(u.getCpf())) {
 				CPFexiste = "S";
 			}
 		}
