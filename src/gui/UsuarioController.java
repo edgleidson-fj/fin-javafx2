@@ -27,6 +27,7 @@ import model.entidade.Usuario;
 import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
+import smtp.Email;
 
 public class UsuarioController implements Initializable {
 
@@ -77,8 +78,9 @@ public class UsuarioController implements Initializable {
 						service.salvar(entidade);
 						entidade.setCpf(c.criptografia(txtCPF.getText()));
 						service.logado(entidade);
+						Email.envio(entidade, x);
 						atualizarPropriaView(entidade, "/gui/ContasEmAbertoMesAtualView.fxml");
-						Alertas.mostrarAlerta(null, "Cadastro realizado com sucesso!", null, AlertType.INFORMATION);
+						Alertas.mostrarAlerta(null, "Cadastro realizado com sucesso!", "Email enviado para "+c.descriptografar(entidade.getEmail()), AlertType.INFORMATION);
 					} else {
 						Alertas.mostrarAlerta("Atenção!", "Cadastro inválido.", "CPF: "+txtCPF.getText()+" já existe no sistema.",
 								AlertType.WARNING);
@@ -91,6 +93,7 @@ public class UsuarioController implements Initializable {
 					entidade.setLogado("S");
 					service.logado(entidade);
 					service.atualizar(entidade);
+					Email.envio(entidade, x);
 					atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 					Alertas.mostrarAlerta(null, "Atualização realizado com sucesso!", null, AlertType.INFORMATION);
 				}
@@ -142,7 +145,7 @@ public class UsuarioController implements Initializable {
 					obj.setCpf(c.criptografia(txtCPF.getText()));
 					double tetoGasto = Utils.stringParaDouble(0 + txtTetoGastos.getText());
 					obj.setTetoGasto(tetoGasto);
-					VerificarCPF();
+					VerificarCPF();					
 					return obj;
 				} else {
 					Alertas.mostrarAlerta("Atenção!", "Senha inválida.", "A senha deve ter no mínimo 4 caracteres.",
@@ -160,10 +163,10 @@ public class UsuarioController implements Initializable {
 		} else {
 			Alertas.mostrarAlerta("Atenção!", "CPF inválido.", null, AlertType.INFORMATION);
 			x=5;
-			txtCPF.setText("");
+			txtCPF.setText("");	
 			Usuario user = new Usuario();
 			return user;
-		}
+		}		
 	}
 
 	public void carregarCamposDeCadastro() {
@@ -252,6 +255,6 @@ public class UsuarioController implements Initializable {
 	}
 
 	public void OnBtLimparSenha() {
-		txtSenha.setText("");
+		txtSenha.setText("");	
 	}
 }

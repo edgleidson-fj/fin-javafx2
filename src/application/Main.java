@@ -24,7 +24,7 @@ public class Main extends Application {
 	private int x = 0;
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) {		
 		expiracao();
 		if (x == 1) {
 			try {
@@ -96,4 +96,5 @@ public class Main extends Application {
 		statusEntidade.setNome("CANCELADO");
 		statusService.salvar(statusEntidade);
 	}
+
 }
