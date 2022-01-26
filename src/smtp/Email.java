@@ -11,7 +11,7 @@ public class Email {
 	public static void envio(Usuario obj, int x) {
 		Criptografia c = new Criptografia();
 		
-    	String meuEmail = "meu@gmail.com";
+    	String meuEmail = "@gmail.com";
 		String minhaSenha = "minhaSenha";
 				 
 		 SimpleEmail email = new SimpleEmail();

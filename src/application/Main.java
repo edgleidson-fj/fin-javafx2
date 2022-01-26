@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -10,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Status;
 import model.entidade.Usuario;
@@ -24,8 +27,9 @@ public class Main extends Application {
 	private int x = 0;
 
 	@Override
-	public void start(Stage primaryStage) {		
-		expiracao();
+	public void start(Stage primaryStage) {			
+		expiracao();		
+		bd();
 		if (x == 1) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
@@ -40,7 +44,7 @@ public class Main extends Application {
 				primaryStage.setTitle("Minhas Despesas");
 				primaryStage.setResizable(false);
 				primaryStage.show();
-				bd();
+				//bd();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -76,6 +80,7 @@ public class Main extends Application {
 	}
 
 	public void bd() {
+		try {
 		UsuarioService usuarioService = new UsuarioService();
 		Usuario usuarioEntidade = new Usuario();
 		usuarioEntidade.setLogado("N");
@@ -95,6 +100,28 @@ public class Main extends Application {
 		statusEntidade.setId(4);
 		statusEntidade.setNome("CANCELADO");
 		statusService.salvar(statusEntidade);
+		}
+		catch(Exception e) {
+			BDConfigDialogForm();
+		}
 	}
+		
+	//Configuração do Banco de Dados.
+			public void BDConfigDialogForm() {
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/BDConfigDialogFormView.fxml"));
+					Pane painel = loader.load();					
+			
+					Stage stageDialog = new Stage();
+					stageDialog.setTitle("Banco de Dados");
+					stageDialog.setScene(new Scene(painel));
+					stageDialog.setResizable(false); // Redimencionavel.
+					stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
+					stageDialog.showAndWait();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+					Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
+				}
+			}	
 
 }

@@ -32,7 +32,12 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Edgleidson/Desktop/activation-1.1.jar">
+	<classpathentry kind="lib" path="C:/_DESENVOLVIMENTO/Java/Biblioteca/Activation (Necessário_no _Java11)/activation-1.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Activation">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
