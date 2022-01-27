@@ -17,8 +17,6 @@ public class Lancamento implements Serializable{
 	private Usuario usuario;
 	private String obs;
 	private String tipo;
-	
-	//Chave composta.
 	private Item itemLan;
 	private ItemPagamento itemPagamento;
 	
@@ -129,7 +127,6 @@ public class Lancamento implements Serializable{
 		this.tipo = tipo;
 	}
 	
-	//------- "Chave composta"
 	public Item getItemLan() {
 		return itemLan;
 	}
@@ -144,8 +141,7 @@ public class Lancamento implements Serializable{
 	public void setItemPagamento(ItemPagamento itemPagamento) {
 		this.itemPagamento = itemPagamento;
 	}
-	//-------
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

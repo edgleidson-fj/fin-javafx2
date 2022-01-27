@@ -57,14 +57,13 @@ public class TipoPagController implements Initializable {
 
 	@FXML
 	private TableColumn<TipoPag, String> tableColumnNome;
-	
+
 	@FXML
 	private TableColumn<TipoPag, TipoPag> tableColumnEditar;
-	
+
 	@FXML
 	private TableColumn<TipoPag, TipoPag> tableColumnExcluir;
 
-	// Injeção da dependência.
 	public void setTipoPagService(TipoPagService service) {
 		this.service = service;
 	}
@@ -72,18 +71,17 @@ public class TipoPagController implements Initializable {
 	public void setTipoPag(TipoPag entidade) {
 		this.entidade = entidade;
 	}
-	
 
 	public void onBtSalvar() {
 		try {
-			if(!txtNome.getText().equals("") && txtNome.getText() != null) {
-			entidade = dadosDoCampoDeTexto();
-			service.salvarOuAtualizar(entidade);
-			entidade = new TipoPag();
-			atualizarPropriaView(entidade, "/gui/TipoPagView.fxml");
-			}
-			else {
-				Alertas.mostrarAlerta("Atenção!", "Descrição em branco.", "Favor inserir uma descrição para o tipo de pagamento.", AlertType.INFORMATION);
+			if (!txtNome.getText().equals("") && txtNome.getText() != null) {
+				entidade = dadosDoCampoDeTexto();
+				service.salvarOuAtualizar(entidade);
+				entidade = new TipoPag();
+				atualizarPropriaView(entidade, "/gui/TipoPagView.fxml");
+			} else {
+				Alertas.mostrarAlerta("Atenção!", "Descrição em branco.",
+						"Favor inserir uma descrição para o tipo de pagamento.", AlertType.INFORMATION);
 			}
 		} catch (BDException ex) {
 			Alertas.mostrarAlerta("Erro ao salvar objeto", null, ex.getMessage(), AlertType.ERROR);
@@ -108,9 +106,9 @@ public class TipoPagController implements Initializable {
 					return;
 				}
 				setGraphic(botao);
-				setStyle("-fx-color: #FFD700");	
+				setStyle("-fx-color: #FFD700");
 				botao.setOnAction(evento -> atualizarPropriaView(obj, "/gui/TipoPagView.fxml"));
-			}			
+			}
 		});
 	}
 
@@ -128,12 +126,12 @@ public class TipoPagController implements Initializable {
 					return;
 				}
 				setGraphic(button);
-				setStyle("-fx-color: #FF6347");	
+				setStyle("-fx-color: #FF6347");
 				button.setOnAction(evento -> excluirEntidade(obj));
 			}
 		});
 	}
-	
+
 	private void excluirEntidade(TipoPag obj) {
 		Optional<ButtonType> result = Alertas.mostrarConfirmacao("Confirmação", "Você tem certeza que deseja excluir?");
 
@@ -144,27 +142,25 @@ public class TipoPagController implements Initializable {
 			try {
 				service.excluir(obj);
 				carregarTableView();
-			}
-			catch (BDIntegrityException e) {
+			} catch (BDIntegrityException e) {
 				Alertas.mostrarAlerta("Erro ao excluir objeto", null, e.getMessage(), AlertType.ERROR);
 			}
 		}
 	}
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarComportamento();
-		}
+	}
 
 	private void inicializarComportamento() {
 		txtId.setDisable(true);
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		Restricoes.setTextFieldInteger(txtId);
 		Restricoes.setTextFieldTamanhoMaximo(txtNome, 20);
-		
-		// Tamanho da tabela.
-				Stage stage = (Stage) Main.pegarMainScene().getWindow();
-				tableViewTipoPagamento.prefHeightProperty().bind(stage.heightProperty());
+
+		Stage stage = (Stage) Main.pegarMainScene().getWindow();
+		tableViewTipoPagamento.prefHeightProperty().bind(stage.heightProperty());
 	}
 
 	public void carregarTableView() {
@@ -189,18 +185,18 @@ public class TipoPagController implements Initializable {
 		txtId.setText(String.valueOf(entidade.getId()));
 		txtNome.setText(entidade.getNome());
 	}
-	
-	private  void atualizarPropriaView(TipoPag obj, String caminhoDaView) {
+
+	private void atualizarPropriaView(TipoPag obj, String caminhoDaView) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoDaView));
-			VBox novoVBox = loader.load();			
-			
+			VBox novoVBox = loader.load();
+
 			TipoPagController controller = loader.getController();
 			controller.setTipoPag(obj);
 			controller.carregarCamposDeCadastro();
 			controller.setTipoPagService(new TipoPagService());
 			controller.carregarTableView();
-			        	
+
 			Scene mainScene = Main.pegarMainScene();
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 

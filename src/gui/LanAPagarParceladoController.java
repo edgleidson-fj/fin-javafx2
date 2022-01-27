@@ -191,12 +191,10 @@ public class LanAPagarParceladoController implements Initializable {
 						Date dataParcelas = data.getTime();
 						obj.setData(dataParcelas);
 
-						// Usuário logado.
 						Usuario user = new Usuario();
 						user.setId(usuarioId);
 						obj.setUsuario(user);
 
-						// Detalhe do parcelamento no Registro.
 						if (cbDetalheParcela.isSelected()) {
 							obj.setReferencia(txtReferencia.getText() + " " + x + "/" + parcela + " ");
 						} else {
@@ -230,7 +228,6 @@ public class LanAPagarParceladoController implements Initializable {
 				if (!txtPrecoUnid.getText().equals("") && preco > 0.0) {
 					double desc = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
 					if (desc < (preco * qtde)) {
-						// Despesa
 						Despesa desp = new Despesa();
 						desp.setNome(txtItem.getText());
 						desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
@@ -246,7 +243,6 @@ public class LanAPagarParceladoController implements Initializable {
 						despesaId = desp.getId();
 
 						for (int x = 0; x < parcela; x++) {
-							// Lancamento
 							Lancamento obj = new Lancamento();
 							lbTotal.setText(String.valueOf(obj.getTotal()));
 							obj.setId(lancamentoIds);
@@ -254,18 +250,18 @@ public class LanAPagarParceladoController implements Initializable {
 							obj.setTotal((total));
 							lancamentoService.atualizar(obj);
 							lancamentoIds--;
-							// Item
+							
 							Item item = new Item();
 							item.setLancamento(obj);
 							item.setDespesa(desp);
 							itemService.salvar(item);
-							// Carregar campos
+							
 							txtId.setText(String.valueOf(obj.getId()));
 							txtItem.setText("");
 							txtQuantidade.setText(String.valueOf(1));
 							txtPrecoUnid.setText(String.valueOf(0.00));
 							txtDescontoIndividual.setText(String.valueOf(0.00));
-							// Carregar TableView do Lançamento
+							
 							List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
 							obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 							tbDespesa.setItems(obsListaDespesaTbView);
@@ -274,7 +270,7 @@ public class LanAPagarParceladoController implements Initializable {
 							obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 							lancamentoService.atualizar(obj);
 						}
-						lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+						lancamentoIds += parcela; 
 					} else {
 						Alertas.mostrarAlerta("Atenção!", "Desconto inválido.",
 								"Valor do desconto igual ou superior ao valor do (Produto/Serviço).",
@@ -389,12 +385,12 @@ public class LanAPagarParceladoController implements Initializable {
 		Restricoes.setTextFieldDouble(txtDescontoIndividual);
 		Utils.formatDatePicker(datePickerData, "dd/MM/yyyy");
 		Utils.formatDatePicker(datePickerDataCompra, "dd/MM/YYYY");
-		cbDetalheParcela.setSelected(true); // CheckBox já marcado.
+		cbDetalheParcela.setSelected(true); 
 
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);
 		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
 		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
@@ -419,7 +415,6 @@ public class LanAPagarParceladoController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
 
-			// Pegando segundo parametro dos onMenuItem()
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {
@@ -458,7 +453,7 @@ public class LanAPagarParceladoController implements Initializable {
 					lan.setId(lancamentoIds);
 					itemService.excluir(lan, desp);
 					despesaService.excluir(desp);
-					// Carregar TableView do Lançamento
+					
 					List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText()));
 					obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 					tbDespesa.setItems(obsListaDespesaTbView);
@@ -467,14 +462,14 @@ public class LanAPagarParceladoController implements Initializable {
 					lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 					lancamentoIds--;
 				}
-				lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+				lancamentoIds += parcela; 
 				for (int x = 0; x < parcela; x++) {
 					lan.setId(lancamentoIds);
 					lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 					lancamentoService.atualizar(lan);
 					lancamentoIds--;
 				}
-				lancamentoIds += parcela; // Voltar o valor do primeiro ID Lançamentos do loop.
+				lancamentoIds += parcela; 
 				desocultarCampos();
 			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);

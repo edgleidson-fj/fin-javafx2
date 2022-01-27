@@ -8,10 +8,8 @@ import model.entidade.Lancamento;
 public class ItemPK implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	//(name = "lancamento_id")
 	private Lancamento lancamento;
 	
-	//(name = "despesa_id")
 	private Despesa despesa;
 	
 	public Lancamento getLancamento() {

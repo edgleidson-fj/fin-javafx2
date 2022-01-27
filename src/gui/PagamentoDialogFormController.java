@@ -297,7 +297,7 @@ public class PagamentoDialogFormController implements Initializable {
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);
 		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
 		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
@@ -401,7 +401,6 @@ public class PagamentoDialogFormController implements Initializable {
 			try {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				// Limpando Item de Pagamento
 				itemPagamentoService.excluir(lan.getId(), desp.getTipoPag().getId());
 				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
 				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);

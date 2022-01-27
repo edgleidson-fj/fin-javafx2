@@ -92,7 +92,6 @@ public class LoginController implements Initializable {
 				controller.carregarTableView();
 			});			
 			
-			//Mensagem de aviso para próximo ano.
 			Mensagem msg = new Mensagem();
 			msg = mensagemService.buscarPorId(1);
 			Calendar datahoje = Calendar.getInstance();
@@ -168,7 +167,6 @@ public class LoginController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
 
-			// Pegando segundo parametro dos onMenuItem()
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {
@@ -176,7 +174,6 @@ public class LoginController implements Initializable {
 		}
 	}			
 	
-	//Mensagem de aviso.
 	public void MsgProxAnoDialogForm() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MsgProxAnoView.fxml"));
@@ -190,8 +187,8 @@ public class LoginController implements Initializable {
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("AVISO");
 			stageDialog.setScene(new Scene(painel));
-			stageDialog.setResizable(false); // Redimencionavel.
-			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
+			stageDialog.setResizable(false); 
+			stageDialog.initModality(Modality.WINDOW_MODAL); 
 			stageDialog.showAndWait();
 		} catch (IOException ex) {
 			ex.printStackTrace();

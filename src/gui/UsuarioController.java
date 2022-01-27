@@ -53,7 +53,6 @@ public class UsuarioController implements Initializable {
 	@FXML
 	private Button btLimparSenha;
 
-	// Injeção da dependência.
 	public void setUsuarioService(UsuarioService service) {
 		this.service = service;
 	}
@@ -70,9 +69,9 @@ public class UsuarioController implements Initializable {
 		try {
 			if (!txtNome.getText().equals("") & !txtEmail.getText().equals("") & !txtCPF.getText().equals("")
 					& !txtSenha.getText().equals("")) {
-				entidade = dadosDoCampoDeTexto();
+				entidade = dadosDoCampoDeTexto(); 
 				if (txtId.getText().equals("") && x == 0) {
-					if (CPFexiste.equals("N")) {
+					if (CPFexiste.equals("N")) { 
 						x = 1;
 						entidade.setLogado("S");
 						service.salvar(entidade);
@@ -87,7 +86,7 @@ public class UsuarioController implements Initializable {
 						x = 2;
 						atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
 					}
-				} else if (!txtId.getText().equals("")) {
+				} else if (!txtId.getText().equals("")) { 
 					x = 3;
 					entidade.setCpf(txtCPF.getText());
 					entidade.setLogado("S");
@@ -130,10 +129,10 @@ public class UsuarioController implements Initializable {
 	public Usuario dadosDoCampoDeTexto() {
 		Criptografia c = new Criptografia();
 		service.logado(entidade);
-		Boolean validarCPF = BR.isValidSsn(txtCPF.getText());
-		if (validarCPF.booleanValue() == true) {
+		Boolean validarCPF = BR.validarCPF(txtCPF.getText());
+		if (validarCPF.booleanValue() == true) { 
 			Boolean validarEmail = Restricoes.validarEmail(txtEmail.getText());
-			if (validarEmail.booleanValue() == true) {
+			if (validarEmail.booleanValue() == true) { 
 				int tamanhoDaSenha = txtSenha.getText().length();
 				if (tamanhoDaSenha > 3) {
 					x=0;					
@@ -175,7 +174,7 @@ public class UsuarioController implements Initializable {
 		for (Usuario u : lista) {
 			u.getLogado();
 
-			if (u.getLogado().equals("S")) {
+			if (u.getLogado().equals("S")) { 
 				Criptografia c = new Criptografia();
 				txtId.setText(String.valueOf(u.getId()));
 				txtNome.setText(c.descriptografar(u.getNome()));

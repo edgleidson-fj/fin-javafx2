@@ -25,7 +25,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		this.connection = connection;
 	}
 
-	//Registrar Lancamento.
 	@Override
 	public void inserir(Lancamento obj) {
 		PreparedStatement ps = null;
@@ -42,9 +41,9 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			ps.setString(5, obj.getTipo());
 			int linhasAfetadas = ps.executeUpdate();
 			if (linhasAfetadas > 0) {
-				ResultSet rs = ps.getGeneratedKeys(); // ID gerado no Insert.
+				ResultSet rs = ps.getGeneratedKeys(); 
 				if (rs.next()) {
-					int id = rs.getInt(1); // ID do Insert.
+					int id = rs.getInt(1); 
 					obj.setId(id);
 				}
 				BD.fecharResultSet(rs);
@@ -58,7 +57,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 		}
 	}
 
-	//Atualizar valor Total ao adicionar Itens no Lançamento.
 	@Override
 	public void atualizar(Lancamento obj) {
 		PreparedStatement ps = null;
@@ -112,8 +110,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			BD.fecharResultSet(rs);
 		}
 	}
-	
-	
+		
 	@Override
 	public List<Lancamento> buscarTudo() {
 		PreparedStatement ps = null;
@@ -229,7 +226,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 	
-	// Cancelar Lancamento.
 	@Override
 	public void cancelar(Lancamento obj) {
 		PreparedStatement ps = null;
@@ -321,7 +317,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		// Reconfiguracao de Lancamento.
 				@Override
 				public void lanConfig(Lancamento obj) {					
 					if(obj.getStatus() != null) {
@@ -502,7 +497,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		//Rotinas Automáticas
 		@Override
 		public void cancelamentoAutomatico(Lancamento obj) {
 			PreparedStatement ps = null;
@@ -545,7 +539,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}
 		
-		//Obs: Não está excluindo por causa do vinculo do Usuário no Lançamento.
 		@Override
 		public void exclusaoAutomatico(Lancamento obj) {
 			PreparedStatement ps = null;
@@ -562,9 +555,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharStatement(ps);
 			}
 		}
-		//-------------------------------
 		
-		//Tela (Todas Contas)
 		@Override
 		public List<Lancamento> buscarLanPorId(Integer id) {
 			PreparedStatement ps = null;
@@ -605,7 +596,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 			}
 		}		
 		
-		//Consultas por Referencia ou Despesa.
 		@Override
 		public List<Lancamento> buscarPorReferenciaOuDespesa(String refOuDespesa) {
 			PreparedStatement ps = null;
@@ -927,7 +917,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					}
 				}		
 								
-				//Auxiliar - Para não contabilizar o Tipo de Pagamento(Outros) no mês atual.
 				public ArrayList<Lancamento> AuxNaoContabilizarValorOutros() {	
 					PreparedStatement ps = null;
 					ResultSet rs = null;
@@ -964,7 +953,6 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					}
 					}		
 				
-				//Auxiliar - Para reajustar valor de fatura mensal.
 				@Override
 				public List<Lancamento> auxReajuste(String ref) {
 					PreparedStatement ps = null;

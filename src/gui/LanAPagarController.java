@@ -153,7 +153,6 @@ public class LanAPagarController implements Initializable {
 					instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 					obj.setData(Date.from(instant));
 				}
-				// Usuário Logado.
 				Usuario user = new Usuario();
 				user.setId(usuarioId);
 				obj.setUsuario(user);
@@ -181,7 +180,6 @@ public class LanAPagarController implements Initializable {
 				if (!txtPrecoUnid.getText().equals("") && preco > 0.0) {
 					double desc = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
 					if (desc < (preco * qtde)) {
-						// Lancamento
 						Lancamento obj = new Lancamento();
 						lbTotal.setText(String.valueOf(obj.getTotal()));
 						obj.setId(Utils.stringParaInteiro(txtId.getText()));
@@ -189,7 +187,7 @@ public class LanAPagarController implements Initializable {
 						obj.setTotal((total));
 						lancamentoService.atualizar(obj);
 						txtId.setText(String.valueOf(obj.getId()));
-						// Despesa
+					
 						Despesa desp = new Despesa();
 						desp.setNome(txtItem.getText());
 						desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
@@ -202,17 +200,17 @@ public class LanAPagarController implements Initializable {
 						desp.setPrecoBruto(valorUnid * quantidade);
 						desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
 						despesaService.salvar(desp);
-						// Item
+						
 						Item item = new Item();
 						item.setLancamento(obj);
 						item.setDespesa(desp);
 						itemService.salvar(item);
-						// Limpando os campos
+						
 						txtItem.setText("");
 						txtQuantidade.setText(String.valueOf(1));
 						txtPrecoUnid.setText(String.valueOf(0.00));
 						txtDescontoIndividual.setText(String.valueOf(0.00));
-						// Carregar TableView do Lançamento
+						
 						List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
 						obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 						tbDespesa.setItems(obsListaDespesaTbView);
@@ -335,7 +333,7 @@ public class LanAPagarController implements Initializable {
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);
 		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
 		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
@@ -357,7 +355,6 @@ public class LanAPagarController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
 
-			// Pegando segundo parametro dos onMenuItem()
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {
@@ -386,9 +383,9 @@ public class LanAPagarController implements Initializable {
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
-			stageDialog.setResizable(false); // Redimencionavel.
-			stageDialog.initOwner(stagePai); // Stage pai da janela.
-			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
+			stageDialog.setResizable(false); 
+			stageDialog.initOwner(stagePai); 
+			stageDialog.initModality(Modality.WINDOW_MODAL); 
 			stageDialog.showAndWait();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -446,7 +443,7 @@ public class LanAPagarController implements Initializable {
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
 				itemService.excluir(lan, desp);
 				despesaService.excluir(desp);
-				// Carregar TableView do Lançamento
+				
 				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText()));
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 				tbDespesa.setItems(obsListaDespesaTbView);

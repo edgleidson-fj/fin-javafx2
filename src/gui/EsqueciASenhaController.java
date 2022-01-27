@@ -46,7 +46,6 @@ public class EsqueciASenhaController implements Initializable {
 	@FXML
 	private Button btLimpar;
 
-	// Injeção da dependência.
 	public void setUsuarioService(UsuarioService service) {
 		this.service = service;
 	}
@@ -163,7 +162,6 @@ public class EsqueciASenhaController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
 
-			// Pegando segundo parametro dos onMenuItem()
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {

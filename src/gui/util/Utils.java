@@ -14,17 +14,12 @@ import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-// Classe utilitária (Utils.java).
 public class Utils {
 
-	// Função para retornar o Stage atual.
 	public static Stage stageAtual(ActionEvent evento) {
-		// Necessário fazer os Cast (Stage e Node).
-		// O código do evento vai está dentro do parenteses junto com Cast (Node).
 		return (Stage) ((Node) evento.getSource()).getScene().getWindow();
 	}
 
-	// Função para transformar String em Inteiro.
 	public static Integer stringParaInteiro(String str) {
 		try {
 			return Integer.parseInt(str);
@@ -33,7 +28,6 @@ public class Utils {
 		}
 	}
 
-	// Função para transformar String em Double.
 		public static Double stringParaDouble(String str) {
 			try {
 				return Double.parseDouble(str);
@@ -42,11 +36,10 @@ public class Utils {
 			}
 		}
 	
-	// Função para formatar campo com Data.
 	public static <T> void formatTableColumnData(TableColumn<T, Date> tableColumn, String format) {
 		tableColumn.setCellFactory(column -> {
 			TableCell<T, Date> cell = new TableCell<T, Date>() {
-				private SimpleDateFormat sdf = new SimpleDateFormat(format); // format
+				private SimpleDateFormat sdf = new SimpleDateFormat(format); 
 
 				@Override
 				protected void updateItem(Date item, boolean empty) {
@@ -62,7 +55,6 @@ public class Utils {
 		});
 	}
 
-	// Função para formatar campo com Valores Decimais (Double).
 	public static <T> void formatTableColumnValorDecimais(TableColumn<T, Double> tableColumn, int decimalPlaces) {
 		tableColumn.setCellFactory(column -> {
 			TableCell<T, Double> cell = new TableCell<T, Double>() {
@@ -83,7 +75,6 @@ public class Utils {
 		});
 	}
 
-	// Função para formatar com (DatePicker).
 	public static void formatDatePicker(DatePicker datePicker, String format) {
 		datePicker.setConverter(new StringConverter<LocalDate>() {
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);

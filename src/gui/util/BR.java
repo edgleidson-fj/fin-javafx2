@@ -1,8 +1,8 @@
 package gui.util;
 
 public class BR {
-	// CPF
-    private static final int[] WEIGHT_SSN = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
+	
+    private static final int[] NUMERO_CPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 
     private static int sum(int[] weight, char[] numbers, int length) {
         if (length <= 0) return 0;
@@ -25,10 +25,9 @@ public class BR {
         return tfn.equals(number + digit1 + digit2);
     }
 
-    // Validacao CPF.
-    public static boolean isValidSsn(String ssn) {
+    public static boolean validarCPF(String ssn) {
         if (ssn == null || !ssn.matches("\\d{11}") || ssn.matches(ssn.charAt(0) + "{11}")) return false;
-        return check(ssn, 9, WEIGHT_SSN);
+        return check(ssn, 9, NUMERO_CPF);
     }
    
 }

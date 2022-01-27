@@ -248,7 +248,6 @@ public class ItemPagamentoDaoJDBC implements ItemPagamentoDao {
 			}
 		}
 
-	//Metodos auxiliares.
 	private ItemPagamento instantiateItemPagamento(ResultSet rs, TipoPag pag, Lancamento lan) throws SQLException {
 		ItemPagamento obj = new ItemPagamento();
 		obj.setLancamento(lan);

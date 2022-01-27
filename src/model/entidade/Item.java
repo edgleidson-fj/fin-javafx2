@@ -7,7 +7,6 @@ import model.entidade.pk.ItemPK;
 public class Item implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	 // PrimaryKey composto - (Lancamento/Despesa).
 	private ItemPK id = new ItemPK();
 	
 	public Item() {
@@ -27,7 +26,6 @@ public class Item implements Serializable{
 	public void setLancamento(Lancamento lancamento) {
 		id.setLancamento(lancamento);
 	}
-	//------------------------	
 	
 	public Despesa getDespesa() {
 		return id.getDespesa();
@@ -36,7 +34,6 @@ public class Item implements Serializable{
 	public void setDespesa(Despesa despesa) {
 		id.setDespesa(despesa);
 	}
-	//-----------------------
 
 	@Override
 	public int hashCode() {

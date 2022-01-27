@@ -35,9 +35,9 @@ public class StatusDaoJDBC implements StatusDao {
 			int linhasAfetadas = ps.executeUpdate();
 
 			if (linhasAfetadas > 0) {
-				ResultSet rs = ps.getGeneratedKeys(); // ID gerado no Insert.
+				ResultSet rs = ps.getGeneratedKeys();
 				if (rs.next()) {
-					int id = rs.getInt(1); // ID do Insert.
+					int id = rs.getInt(1); 
 					obj.setId(id);
 				}
 				BD.fecharResultSet(rs);

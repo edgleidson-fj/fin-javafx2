@@ -1,5 +1,4 @@
 package bd;
-//Banco de Dados Exception.
 
 public class BDException extends RuntimeException {
 	

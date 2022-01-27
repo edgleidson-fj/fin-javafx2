@@ -51,7 +51,6 @@ public class ConsultaPorRankController implements Initializable {
 	@FXML
 	private Label lbAnoAtual;
 		
-	// Injeção da dependência.
 	public void setDespesaService(DespesaService service) {
 		this.service = service;
 	}
@@ -71,14 +70,14 @@ public class ConsultaPorRankController implements Initializable {
 	private void inicializarComportamento() {
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
-		Utils.formatTableColumnValorDecimais(tableColumnValorTotal, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(tableColumnValorTotal, 2);
 		tableColumnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		
 		tableColumnNomeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnValorTotalAnoAtual.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(tableColumnValorTotalAnoAtual, 2);
 		tableColumnQuantidadeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
-		// Tamanho da tabela.
+		
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tableViewDespesa.prefHeightProperty().bind(stage.heightProperty());
 	}
@@ -157,7 +156,6 @@ public class ConsultaPorRankController implements Initializable {
 
 			if (u.getLogado().equals("S")) {
 				usuarioId = u.getId();
-				// lbUsuario.setText(String.valueOf(u.getNome()));
 			}
 		}
 	}

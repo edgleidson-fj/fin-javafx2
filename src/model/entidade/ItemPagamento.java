@@ -7,7 +7,6 @@ import model.entidade.pk.ItemPagamentoPK;
 public class ItemPagamento implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	 // PrimaryKey composto - (Lancamento/TipoPag).
 	private ItemPagamentoPK id = new ItemPagamentoPK();
 	
 	private Double valor;
@@ -35,7 +34,6 @@ public class ItemPagamento implements Serializable{
 	public void setLancamento(Lancamento lancamento) {
 		id.setLancamento(lancamento);
 	}
-	//------------------------	
 	
 	public TipoPag getTipoPag() {
 		return id.getTipoPag();
@@ -44,7 +42,6 @@ public class ItemPagamento implements Serializable{
 	public void setTipoPag(TipoPag tipoPag) {
 		id.setTipoPag(tipoPag);
 	}
-	//-----------------------
 	
 	public Double getValor() {
 		return valor;

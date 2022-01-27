@@ -50,9 +50,7 @@ public class ConsultaPorPagamentoController implements Initializable {
 	private Label lbTotalMes;
 	@FXML
 	private Label lbTotalAno;
-
 	
-	// Injeção da dependência.
 	public void setItemPagamentoService(ItemPagamentoService service) {
 		this.service = service;
 	}
@@ -76,7 +74,7 @@ public class ConsultaPorPagamentoController implements Initializable {
 		tableColumnNomeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 		tableColumnValorTotalAnoAtual.setCellValueFactory(new PropertyValueFactory<>("valor"));
 		Utils.formatTableColumnValorDecimais(tableColumnValorTotalAnoAtual, 2);
-		// Tamanho da tabela.
+		
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tableViewItemPagamento.prefHeightProperty().bind(stage.heightProperty());
 	}
@@ -171,7 +169,6 @@ public class ConsultaPorPagamentoController implements Initializable {
 
 			if (u.getLogado().equals("S")) {
 				usuarioId = u.getId();
-				// lbUsuario.setText(String.valueOf(u.getNome()));
 			}
 		}
 	}

@@ -184,7 +184,6 @@ public class LanQuitadoController implements Initializable {
 				Instant instant = Instant.from(datePickerData.getValue().atStartOfDay(ZoneId.systemDefault()));
 				obj.setData(Date.from(instant));
 			}
-			// Usuário logado.
 			Usuario user = new Usuario();
 			user.setId(usuarioId);
 			obj.setUsuario(user);
@@ -213,14 +212,13 @@ public class LanQuitadoController implements Initializable {
 				if (!txtPrecoUnid.getText().equals("") && preco > 0.0) {
 					double desc = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
 					if (desc < (preco * qtde)) {			
-		// Lancamento
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal((total));
 		lancamentoService.atualizar(obj);
 		txtId.setText(String.valueOf(obj.getId()));
-		// Despesa
+		
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
@@ -233,21 +231,20 @@ public class LanQuitadoController implements Initializable {
 		desp.setPrecoBruto(valorUnid * quantidade);
 		desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
 		despesaService.salvar(desp);
-		// Item
+		
 		Item item = new Item();
 		item.setLancamento(obj);
 		item.setDespesa(desp);
 		itemService.salvar(item);
-		// Total
 		total += desp.getPrecoTotal();
 		lbTotal.setText(String.format("%.2f", total));
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		// Limpando os campos
+		
 		txtItem.setText("");
 		txtQuantidade.setText(String.valueOf(1));
 		txtPrecoUnid.setText(String.valueOf(0.00));
 		txtDescontoIndividual.setText(String.valueOf(0.00));
-		// Carregar TableView do Lançamento
+		
 		List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
@@ -257,7 +254,6 @@ public class LanQuitadoController implements Initializable {
 		ativarCampos();
 		obj.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 		lancamentoService.atualizar(obj);
-		// Limpando Item de Pagamento
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
 				itemPagamentoService.limparItemPagamentoPorIdLan(lan);
@@ -341,7 +337,6 @@ public class LanQuitadoController implements Initializable {
 		txtDesconto.setText(String.format("%.2f", desconto));
 		txtTipoPagValor.setText(String.format("%.2f", total));
 		
-		// Limpando Item de Pagamento
 		Lancamento lan = new Lancamento();
 		lan.setId(Utils.stringParaInteiro(txtId.getText()));
 		itemPagamentoService.limparItemPagamentoPorIdLan(lan);
@@ -488,7 +483,7 @@ public class LanQuitadoController implements Initializable {
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);
 		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
 		colunaDespValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
@@ -497,7 +492,7 @@ public class LanQuitadoController implements Initializable {
 		Utils.formatTableColumnValorDecimais(colunaDespDesconto, 2);
 		
 		colunaTipoPagValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaTipoPagValor, 2);
 		colunaTipoPagNome.setCellValueFactory(new PropertyValueFactory<>("nomePag"));
 
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
@@ -535,7 +530,6 @@ public class LanQuitadoController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
 
-			// Pegando segundo parametro dos onMenuItem()
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {
@@ -561,7 +555,6 @@ public class LanQuitadoController implements Initializable {
 			controle.setDespesa(obj);
 			controle.carregarCamposDeCadastro();
 
-			// Limpando Item de Pagamento
 			itemPagamentoService.limparItemPagamentoPorIdLan(lan);
 			List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
 			obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
@@ -575,9 +568,9 @@ public class LanQuitadoController implements Initializable {
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
-			stageDialog.setResizable(false); // Redimencionavel.
-			stageDialog.initOwner(stagePai); // Stage pai da janela.
-			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
+			stageDialog.setResizable(false); 
+			stageDialog.initOwner(stagePai); 
+			stageDialog.initModality(Modality.WINDOW_MODAL); 
 			stageDialog.showAndWait();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -633,7 +626,7 @@ public class LanQuitadoController implements Initializable {
 			try {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
-				// Limpando Item de Pagamento
+
 				itemPagamentoService.limparItemPagamentoPorIdLan(lan);
 				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
 				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);
@@ -645,7 +638,7 @@ public class LanQuitadoController implements Initializable {
 
 				itemService.excluir(lan, desp);
 				despesaService.excluir(desp);
-				// Carregar TableView do Lançamento
+
 				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText()));
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 				tbDespesa.setItems(obsListaDespesaTbView);
@@ -728,7 +721,6 @@ public class LanQuitadoController implements Initializable {
 				Lancamento lan = new Lancamento();
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
 
-				// Limpando Item de Pagamento
 				itemPagamentoService.excluir(lan.getId(), desp.getTipoPag().getId());
 				List<ItemPagamento> listaPagamento = itemPagamentoService.listarPorId(lan.getId());
 				obsListaItemTipoPag = FXCollections.observableArrayList(listaPagamento);

@@ -1,5 +1,4 @@
 package bd;
-// BANCO DE DADOS.
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,16 +11,14 @@ import java.util.Properties;
 
 public class BD {
 
-	// CONEXÃO
 	private static Connection conector = null;
 
-	// ABRIR CONEXÃO
 	public static Connection abrirConexao() {
 		if (conector == null) {
 			try {
 				Properties prop = carregarPropriedade();
-				String url = prop.getProperty("dburl"); // (dburl) - Dentro do arquivo (db.properties).
-				conector = DriverManager.getConnection(url, prop); // Conectar no banco.
+				String url = prop.getProperty("dburl");
+				conector = DriverManager.getConnection(url, prop);
 			} catch (SQLException ex) {
 				throw new BDException(ex.getMessage());
 			}
@@ -29,7 +26,6 @@ public class BD {
 		return conector;
 	}
 
-	// FECHAR CONEXÃO.
 	public static void fecharConexão() {
 		if (conector != null) {
 			try {
@@ -40,8 +36,6 @@ public class BD {
 		}
 	}
 
-	// CARREGAR PROPRIEDADE - Que estão no arquivo (db.properties) dentro da pasta
-	// raiz.
 	private static Properties carregarPropriedade() {
 		try (FileInputStream fileInputStream = new FileInputStream("db.properties")) {
 
@@ -53,9 +47,8 @@ public class BD {
 		}
 	}
 
-	// FECHAMENTO STATEMENT - Para evitar a necessidade de ficar realizando o Try-Catch toda vez.
 	public static void fecharStatement(Statement statement) {
-		if(statement != null) {
+		if (statement != null) {
 			try {
 				statement.close();
 			} catch (SQLException ex) {
@@ -63,10 +56,9 @@ public class BD {
 			}
 		}
 	}
-	
-	// FECHAMENTO ResultSet - Mesmo princípio do Statement.
+
 	public static void fecharResultSet(ResultSet resultSet) {
-		if(resultSet != null) {
+		if (resultSet != null) {
 			try {
 				resultSet.close();
 			} catch (SQLException ex) {

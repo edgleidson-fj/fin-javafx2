@@ -22,29 +22,28 @@ import model.servico.UsuarioService;
 public class Main extends Application {
 
 	private static Scene mainScene;
-	private Integer prazo = 20220201; 
-	private int dias = 0;
+	private Integer pz = 20220201;
+	private int d = 0;
 	private int x = 0;
 
 	@Override
-	public void start(Stage primaryStage) {			
-		expiracao();		
+	public void start(Stage primaryStage) {
+		expiracao();
 		bd();
 		if (x == 1) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
 				ScrollPane scrollPane = loader.load();
 
-				// Código para deixar ScrollPane ajustado a janela.
-				scrollPane.setFitToHeight(true); // Altura.
-				scrollPane.setFitToWidth(true); // Largura.
+				scrollPane.setFitToHeight(true);
+				scrollPane.setFitToWidth(true);
 
 				mainScene = new Scene(scrollPane);
 				primaryStage.setScene(mainScene);
 				primaryStage.setTitle("Minhas Despesas");
 				primaryStage.setResizable(false);
 				primaryStage.show();
-				//bd();
+				// bd();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -54,7 +53,6 @@ public class Main extends Application {
 		}
 	}
 
-	// Pegar MainScene da classe, para disponibilizar para outras classes.
 	public static Scene pegarMainScene() {
 		return mainScene;
 	}
@@ -64,15 +62,15 @@ public class Main extends Application {
 	}
 
 	public void expiracao() {
-		Date hoje = new Date();
+		Date h = new Date();
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-		String diaHoje = fmt.format(hoje);
-		Integer numeroDiaHoje = Utils.stringParaInteiro(diaHoje);
-		if (numeroDiaHoje < prazo) {
+		String dh = fmt.format(h);
+		Integer ndh = Utils.stringParaInteiro(dh);
+		if (ndh < pz) {
 			x = 1;
-			dias = prazo - numeroDiaHoje;
-			if (dias <= 5) {
-				Alertas.mostrarAlertaBloqueio("Atenção!", "Bloqueio em " + dias + " dia(s).",
+			d = pz - ndh;
+			if (d <= 5) {
+				Alertas.mostrarAlertaBloqueio("Atenção!", "Bloqueio em " + d + " dia(s).",
 						"Favor entrar em contato para regularização." + "\n Ou clique no botão(OK) para continuar.",
 						AlertType.INFORMATION);
 			}
@@ -81,47 +79,45 @@ public class Main extends Application {
 
 	public void bd() {
 		try {
-		UsuarioService usuarioService = new UsuarioService();
-		Usuario usuarioEntidade = new Usuario();
-		usuarioEntidade.setLogado("N");
-		usuarioService.logadoN(usuarioEntidade);
+			UsuarioService usuarioService = new UsuarioService();
+			Usuario usuarioEntidade = new Usuario();
+			usuarioEntidade.setLogado("N");
+			usuarioService.logadoN(usuarioEntidade);
 
-		StatusService statusService = new StatusService();
-		Status statusEntidade = new Status();
-		statusEntidade.setId(1);
-		statusEntidade.setNome("EM ABERTO");
-		statusService.salvar(statusEntidade);
-		statusEntidade.setId(2);
-		statusEntidade.setNome("PAGO");
-		statusService.salvar(statusEntidade);
-		statusEntidade.setId(3);
-		statusEntidade.setNome("VENCIDO");
-		statusService.salvar(statusEntidade);
-		statusEntidade.setId(4);
-		statusEntidade.setNome("CANCELADO");
-		statusService.salvar(statusEntidade);
-		}
-		catch(Exception e) {
+			StatusService statusService = new StatusService();
+			Status statusEntidade = new Status();
+			statusEntidade.setId(1);
+			statusEntidade.setNome("EM ABERTO");
+			statusService.salvar(statusEntidade);
+			statusEntidade.setId(2);
+			statusEntidade.setNome("PAGO");
+			statusService.salvar(statusEntidade);
+			statusEntidade.setId(3);
+			statusEntidade.setNome("VENCIDO");
+			statusService.salvar(statusEntidade);
+			statusEntidade.setId(4);
+			statusEntidade.setNome("CANCELADO");
+			statusService.salvar(statusEntidade);
+		} catch (Exception e) {
 			BDConfigDialogForm();
 		}
 	}
-		
-	//Configuração do Banco de Dados.
-			public void BDConfigDialogForm() {
-				try {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/BDConfigDialogFormView.fxml"));
-					Pane painel = loader.load();					
-			
-					Stage stageDialog = new Stage();
-					stageDialog.setTitle("Banco de Dados");
-					stageDialog.setScene(new Scene(painel));
-					stageDialog.setResizable(false); // Redimencionavel.
-					stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
-					stageDialog.showAndWait();
-				} catch (IOException ex) {
-					ex.printStackTrace();
-					Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
-				}
-			}	
+
+	public void BDConfigDialogForm() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/BDConfigDialogFormView.fxml"));
+			Pane painel = loader.load();
+
+			Stage stageDialog = new Stage();
+			stageDialog.setTitle("Banco de Dados");
+			stageDialog.setScene(new Scene(painel));
+			stageDialog.setResizable(false);
+			stageDialog.initModality(Modality.WINDOW_MODAL);
+			stageDialog.showAndWait();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar View", ex.getMessage(), AlertType.ERROR);
+		}
+	}
 
 }

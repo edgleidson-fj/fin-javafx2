@@ -167,14 +167,13 @@ public class LanConfigController implements Initializable {
 						double desc = Utils.stringParaDouble(0 + txtDescontoIndividual.getText());
 						if (desc < (preco * qtde)) {
 
-		// Lancamento
 		Lancamento obj = new Lancamento();
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
 		obj.setReferencia(txtReferencia.getText());
 		obj.setTotal((total));
 		lancamentoService.atualizar(obj);
 		txtId.setText(String.valueOf(obj.getId()));
-		// Despesa
+
 		Despesa desp = new Despesa();
 		desp.setNome(txtItem.getText());
 		desp.setQuantidade(Utils.stringParaInteiro(txtQuantidade.getText()));
@@ -187,21 +186,21 @@ public class LanConfigController implements Initializable {
 		desp.setPrecoBruto(valorUnid * quantidade);
 		desp.setPrecoTotal((valorUnid * quantidade) - descontoIndividual);
 		despesaService.salvar(desp);
-		// Item
+
 		Item item = new Item();
 		item.setLancamento(obj);
 		item.setDespesa(desp);
 		itemService.salvar(item);
-		// Total
+
 		total += desp.getPrecoTotal();
 		lbTotal.setText(String.format("%.2f", total));
 		obj.setId(Utils.stringParaInteiro(txtId.getText()));
-		// Limpando os campos
+		
 		txtItem.setText("");
 		txtQuantidade.setText(String.valueOf(1));
 		txtPrecoUnid.setText(String.valueOf(0.00));
 		txtDescontoIndividual.setText(String.valueOf(0.00));
-		// Carregar TableView do Lançamento
+		
 		List<Despesa> listaDespesa = despesaService.listarPorId(obj.getId());
 		obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 		tbDespesa.setItems(obsListaDespesaTbView);
@@ -367,7 +366,7 @@ public class LanConfigController implements Initializable {
 		colunaDespNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		colunaDespQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 		colunaDespValorUnid.setCellValueFactory(new PropertyValueFactory<>("precoUnid"));
-		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);// Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaDespValorUnid, 2);
 		colunaDespValorBruto.setCellValueFactory(new PropertyValueFactory<>("precoBruto"));
 		Utils.formatTableColumnValorDecimais(colunaDespValorBruto, 2);
 		colunaDespDesconto.setCellValueFactory(new PropertyValueFactory<>("descontoIndividual"));
@@ -416,7 +415,6 @@ public class LanConfigController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
 
-			// Pegando segundo parametro dos onMenuItem()
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {
@@ -480,9 +478,9 @@ public class LanConfigController implements Initializable {
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
-			stageDialog.setResizable(false); // Redimencionavel.
-			stageDialog.initOwner(stagePai); // Stage pai da janela.
-			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
+			stageDialog.setResizable(false); 
+			stageDialog.initOwner(stagePai); 
+			stageDialog.initModality(Modality.WINDOW_MODAL); 
 			stageDialog.showAndWait();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -538,7 +536,6 @@ public class LanConfigController implements Initializable {
 				setGraphic(button);
 				button.setOnAction(event -> removerDespesa(obj));
 				setStyle("-fx-color: #FA8072");
-				//setStyle("-fx-color: #FA8072; -fx-font-weight: bold");
 		}
 		});
 	}
@@ -563,7 +560,7 @@ public class LanConfigController implements Initializable {
 				lan.setId(Utils.stringParaInteiro(txtId.getText()));
 				itemService.excluir(lan, desp);
 				despesaService.excluir(desp);
-				// Carregar TableView do Lançamento
+				
 				List<Despesa> listaDespesa = despesaService.listarPorId(Utils.stringParaInteiro(txtId.getText()));
 				obsListaDespesaTbView = FXCollections.observableArrayList(listaDespesa);
 				tbDespesa.setItems(obsListaDespesaTbView);
@@ -571,7 +568,6 @@ public class LanConfigController implements Initializable {
 				carregarValores();
 				lan.setTotal(Utils.stringParaDouble(lbTotal.getText()));
 				lancamentoService.atualizar(lan);
-				//total = soma;
 				carregarTableView();
 			} catch (BDIntegrityException ex) {
 				Alertas.mostrarAlerta("Erro ao remover objeto", null, ex.getMessage(), AlertType.ERROR);

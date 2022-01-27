@@ -8,10 +8,8 @@ import model.entidade.Lancamento;
 public class ItemPagamentoPK implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	//(name = "lancamento_id")
 	private Lancamento lancamento;
 	
-	//(name = "tipoPag_id")
 	private TipoPag tipoPag;
 	
 	public Lancamento getLancamento() {

@@ -98,7 +98,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		colunaLanId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaLanRef.setCellValueFactory(new PropertyValueFactory<>("referencia"));
 		colunaLanValor.setCellValueFactory(new PropertyValueFactory<>("total"));
-		Utils.formatTableColumnValorDecimais(colunaLanValor, 2); // Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaLanValor, 2); 
 		colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 		renderizarColunas();
 	}
@@ -151,9 +151,9 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
-			stageDialog.setResizable(false); // Redimencionavel.
-			stageDialog.initOwner(stagePai); // Stage pai da janela.
-			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
+			stageDialog.setResizable(false); 
+			stageDialog.initOwner(stagePai); 
+			stageDialog.initModality(Modality.WINDOW_MODAL); 
 			stageDialog.showAndWait();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -210,7 +210,6 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	}	
 	
 	private void renderizarColunas() {
-		// Status.
 		colunaStatus.setCellFactory(column -> {
 			return new TableCell<Lancamento, Status>() {
 				@Override

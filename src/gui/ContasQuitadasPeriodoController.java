@@ -127,7 +127,7 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		colunaLanId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaLanRef.setCellValueFactory(new PropertyValueFactory<>("referencia"));
 		colunaLanValor.setCellValueFactory(new PropertyValueFactory<>("total"));
-		Utils.formatTableColumnValorDecimais(colunaLanValor, 2); // Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaLanValor, 2); 
 		colunaLanDesconto.setCellValueFactory(new PropertyValueFactory<>("desconto"));
 		Utils.formatTableColumnValorDecimais(colunaLanDesconto, 2);
 		colunaLanAcrescimo.setCellValueFactory(new PropertyValueFactory<>("acrescimo"));
@@ -153,9 +153,9 @@ public class ContasQuitadasPeriodoController implements Initializable {
 			Stage stageDialog = new Stage();
 			stageDialog.setTitle("");
 			stageDialog.setScene(new Scene(painel));
-			stageDialog.setResizable(false); // Redimencionavel.
-			stageDialog.initOwner(stagePai); // Stage pai da janela.
-			stageDialog.initModality(Modality.WINDOW_MODAL); // Impedir o acesso de outras janela.
+			stageDialog.setResizable(false); 
+			stageDialog.initOwner(stagePai); 
+			stageDialog.initModality(Modality.WINDOW_MODAL);
 			stageDialog.showAndWait();
 		} catch (IOException ex) {
 			ex.printStackTrace();

@@ -1,5 +1,5 @@
 package gui;
-//LanQuitado.
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
@@ -176,7 +176,6 @@ public class EditarDespesaDialogFormController implements Initializable{
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
 
-			// Pegando segundo parametro dos onMenuItem()
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {

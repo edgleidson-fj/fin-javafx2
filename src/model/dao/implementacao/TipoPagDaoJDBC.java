@@ -21,7 +21,6 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 
 	private Connection connection;
 
-	// Força injeção de dependencia (Connection) dentro da Classe.
 	public TipoPagDaoJDBC(Connection connection) {
 		this.connection = connection;
 	}
@@ -40,9 +39,9 @@ public class TipoPagDaoJDBC implements TipoPagDao {
 			int linhasAfetadas = ps.executeUpdate();
 
 			if (linhasAfetadas > 0) {
-				ResultSet rs = ps.getGeneratedKeys(); // ID gerado no Insert.
+				ResultSet rs = ps.getGeneratedKeys(); 
 				if (rs.next()) {
-					int id = rs.getInt(1); // ID do Insert.
+					int id = rs.getInt(1); 
 					obj.setId(id);
 				}
 				BD.fecharResultSet(rs);

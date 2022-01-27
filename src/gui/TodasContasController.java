@@ -114,7 +114,7 @@ public class TodasContasController implements Initializable {
 		colunaLanId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colunaLanRef.setCellValueFactory(new PropertyValueFactory<>("referencia"));
 		colunaLanValor.setCellValueFactory(new PropertyValueFactory<>("total"));
-		Utils.formatTableColumnValorDecimais(colunaLanValor, 2); // Formatar com(0,00)
+		Utils.formatTableColumnValorDecimais(colunaLanValor, 2); 
 		colunaLanDesconto.setCellValueFactory(new PropertyValueFactory<>("desconto"));
 		Utils.formatTableColumnValorDecimais(colunaLanDesconto, 2);
 		colunaLanAcrescimo.setCellValueFactory(new PropertyValueFactory<>("acrescimo"));
@@ -130,7 +130,6 @@ public class TodasContasController implements Initializable {
 		criarBotaoConfig();	
 	}
 
-	//Buscando Lançamento por ID.
 	public void carregarTableViewID(Integer id) {			
 		if(id != null) {
 		List<Lancamento> unicoResultado = lancamentoService.buscarLanPorId(id);		
@@ -155,7 +154,6 @@ public class TodasContasController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(novoVBox);
 
-			// Pegando segundo parametro dos onMenuItem()
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 		} catch (IOException ex) {
@@ -209,7 +207,6 @@ public class TodasContasController implements Initializable {
 	}
 
 	private void renderizarColunas() {
-		// Status.
 		colunaStatus.setCellFactory(column -> {
 			return new TableCell<Lancamento, Status>() {
 				@Override
