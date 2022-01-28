@@ -9,22 +9,22 @@ import seguranca.Criptografia;
 public class Email {
 
 	public static void envio(Usuario obj, int x) {
-		Criptografia c = new Criptografia();
-
-		String meuEmail = "@gmail.com";
-		String minhaSenha = "minhaSenha";
-
-		SimpleEmail email = new SimpleEmail();
-		email.setHostName("smtp.gmail.com");
-		email.setSmtpPort(465);
-		email.setAuthenticator(new DefaultAuthenticator(meuEmail, minhaSenha));
-		email.setSSLOnConnect(true);
-
 		try {
-			email.setFrom(meuEmail);
-			email.setSubject("Minhas Despesas APP");
+			Criptografia c = new Criptografia();
+			String e = CredencialEmail.email();
+			String s = CredencialEmail.senha();
+			String emailApp = c.descriptografar(e);
+			String senhaApp = c.descriptografar(s);
+
+			SimpleEmail email = new SimpleEmail();
+			email.setHostName("smtp.gmail.com"); 
+			email.setSmtpPort(465); 
+			email.setAuthenticator(new DefaultAuthenticator(emailApp, senhaApp));
+			email.setSSLOnConnect(true);
+			email.setFrom(emailApp);
+			email.setSubject("Minhas Despesas APP"); 
 			if (x == 1) {
-				email.setMsg(
+				email.setMsg( 
 						"USUÁRIO CADASTRADO COM SUCESSO" + "\n\nNome: " + c.descriptografar(obj.getNome()) + "\nEmail: "
 								+ c.descriptografar(obj.getEmail()) + "\nSenha: " + c.descriptografar(obj.getSenha()));
 			} else {
@@ -33,9 +33,9 @@ public class Email {
 								+ c.descriptografar(obj.getEmail()) + "\nSenha: " + c.descriptografar(obj.getSenha()));
 			}
 			email.addTo(c.descriptografar(obj.getEmail()));
-			email.send();
-		} catch (Exception e) {
-			e.printStackTrace();
+			email.send(); 
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
