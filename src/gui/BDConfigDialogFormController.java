@@ -49,7 +49,7 @@ public class BDConfigDialogFormController implements Initializable {
 	}
 
 	public void criarTxt() {
-		try (FileWriter fileWrite = new FileWriter("C:\\App - FinJFX\\db.properties", false);
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\db.properties", false);
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 
@@ -63,7 +63,7 @@ public class BDConfigDialogFormController implements Initializable {
 
 	public void apagarTxt() {
 		try {
-			Path path = Path.of("C:\\App - FinJFX\\db.properties");
+			Path path = Path.of("C:\\Minhas Despesas App\\db.properties");
 			Files.delete(path);
 		} catch (IOException e) {
 			e.printStackTrace();

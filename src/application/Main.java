@@ -22,10 +22,10 @@ import model.servico.UsuarioService;
 public class Main extends Application {
 
 	private static Scene mainScene;
-	private Integer pz = 20220201;
+	private Integer pz = 20220605;
 	private int d = 0;
 	private int x = 0;
-
+	
 	@Override
 	public void start(Stage primaryStage) {
 		expiracao();
