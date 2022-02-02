@@ -15,4 +15,8 @@ public class MensagemService {
 	public void atualizar(Mensagem obj) {
 		dao.atualizar(obj);		
 	}
+	
+	public void situacao(Mensagem obj) {
+		dao.situacao(obj);		
+	}
 }

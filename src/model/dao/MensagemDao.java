@@ -6,4 +6,5 @@ public interface MensagemDao {
 
 	Mensagem buscarPorId(Integer id);	
 	void atualizar(Mensagem obj);
+	void situacao(Mensagem obj);
 }

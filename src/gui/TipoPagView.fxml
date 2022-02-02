@@ -53,7 +53,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1">
+                        <TextField fx:id="txtId" editable="false" visible="false" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets right="2.0" />
                            </GridPane.margin></TextField>

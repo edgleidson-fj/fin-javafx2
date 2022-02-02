@@ -16,16 +16,14 @@ public class MensagemDaoJDBC implements MensagemDao {
 
 	public MensagemDaoJDBC(Connection connection) {
 		this.connection = connection;
-	}	
-	
+	}
+
 	@Override
 	public Mensagem buscarPorId(Integer id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement(
-					"SELECT * FROM mensagem " 
-							+ "WHERE Id = ? ");
+			ps = connection.prepareStatement("SELECT * FROM mensagem " + "WHERE Id = ? ");
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
@@ -37,25 +35,42 @@ public class MensagemDaoJDBC implements MensagemDao {
 				return obj;
 			}
 			return null;
-		} 
-		catch (SQLException ex) {
+		} catch (SQLException ex) {
 			throw new BDException(ex.getMessage());
-		} 
-		finally {
+		} finally {
 			BD.fecharStatement(ps);
 			BD.fecharResultSet(rs);
 		}
 	}
-	
+
 	@Override
 	public void atualizar(Mensagem obj) {
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement(
-					"UPDATE mensagem " 
+			"UPDATE mensagem " 
 			+ "SET mostrar = ? " 
 			+ "WHERE id = ? ");
 			ps.setString(1, obj.getMostrar());
+			ps.setInt(2, obj.getId());
+			ps.executeUpdate();
+		} catch (SQLException ex) {
+			new BDException(ex.getMessage());
+		} finally {
+			BD.fecharStatement(ps);
+		}
+	}
+
+	@Override
+	public void situacao(Mensagem obj) {
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(
+			"UPDATE mensagem "
+			+ "SET descricao = ?, "
+			+ "mostrar ='' " 
+			+ "WHERE id = ? ");
+			ps.setString(1, obj.getDescricao());
 			ps.setInt(2, obj.getId());
 			ps.executeUpdate();
 		} catch (SQLException ex) {
