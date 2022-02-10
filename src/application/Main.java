@@ -25,20 +25,18 @@ import seguranca.Criptografia;
 public class Main extends Application {
 
 	private static Scene mainScene;
-	private Integer pz = 20220605;
-	private int d = 0;
 	private int sitBd;
-
+	private Integer ndh;
+		
 	@Override
 	public void start(Stage primaryStage) {
 		Date h = new Date();
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy");
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMM");
 		String dh = fmt.format(h);
-		Integer ndh = Utils.stringParaInteiro(dh);
+		ndh = Utils.stringParaInteiro(dh);
 		sitA();
-		exp();
-		bd();
-		if (sitBd == ndh) {
+		//bd();	
+		if (sitBd >= ndh) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
 				ScrollPane scrollPane = loader.load();
@@ -51,12 +49,13 @@ public class Main extends Application {
 				primaryStage.setTitle("Minhas Despesas");
 				primaryStage.setResizable(false);
 				primaryStage.show();
-				// bd();
+				bd();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		} else {
-			Alertas.mostrarAlertaBloqueio("Atenção!", "Bloqueado.", "Favor entrar em contato para regularização.",
+			sitB(); 
+			Alertas.mostrarAlertaBloqueio("Nome do App", "Licença expirada!", "Favor entrar em contato (xx)xxxxx-xxxx para reativação.",
 					AlertType.ERROR);
 		}
 	}
@@ -68,24 +67,7 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
-	public void exp() {
-		Date h = new Date();
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-		String dh = fmt.format(h);
-		Integer ndh = Utils.stringParaInteiro(dh);
-		if (ndh < pz) {
-			d = pz - ndh;
-			if (d <= 5) {
-				Alertas.mostrarAlertaBloqueio("Atenção!", "Bloqueio em " + d + " dia(s).",
-						"Favor entrar em contato para regularização." + "\n Ou clique no botão(OK) para continuar.",
-						AlertType.INFORMATION);
-			}
-		} else {
-			sitB();
-		}
-	}
-
+	
 	public void bd() {
 		try {
 			UsuarioService usuarioService = new UsuarioService();
@@ -137,11 +119,12 @@ public class Main extends Application {
 		sitBd = Utils.stringParaInteiro(c.descriptografar(msg.getDescricao()));
 	}
 
-	public void sitB() {
+	public void sitB() {		
+		ndh += 135210 -(sitBd -= 1);
 		Mensagem msg = new Mensagem();
 		msg.setId(2);
 		msg.setDescricao(
-				"105240431265734231232371569880889502145512202462019880088903225233273253211498808893421150125");
+				"705240"+ndh+"73453123237176975012950218951220"+sitBd+"201321981720522"+sitBd+ndh+"3211498801000331150125");
 		MensagemService msgService = new MensagemService();
 		msgService.situacao(msg);
 	}

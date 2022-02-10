@@ -79,7 +79,7 @@ public class UsuarioController implements Initializable {
 						service.logado(entidade);
 						Email.envio(entidade, x);
 						atualizarPropriaView(entidade, "/gui/ContasEmAbertoMesAtualView.fxml");
-						Alertas.mostrarAlerta("Cadastro realizado com sucesso!", "Email enviado para "+c.descriptografar(entidade.getEmail()), "Observação: Se não localizar o email, favor verificar o email informado ou conexão de internet.", AlertType.INFORMATION);
+						Alertas.mostrarAlerta("Cadastro realizado com sucesso!", "Email enviado para "+c.descriptografar(entidade.getEmail()), "OBSERVAÇÃO: \nSe não estiver localizando o email, favor verificar: \n- Caixa de Spam;\n- O email informado no sistema; \n- Conexão de internet.", AlertType.INFORMATION);
 					} else {
 						Alertas.mostrarAlerta("Atenção!", "Cadastro inválido.", "CPF: "+txtCPF.getText()+" já existe no sistema.",
 								AlertType.WARNING);
@@ -94,7 +94,7 @@ public class UsuarioController implements Initializable {
 					service.atualizar(entidade);
 					Email.envio(entidade, x);
 					atualizarPropriaView(entidade, "/gui/UsuarioView.fxml");
-					Alertas.mostrarAlerta("Atualização realizado com sucesso!", "Email enviado para "+c.descriptografar(entidade.getEmail()), "Observação: Se não localizar o email, favor verificar o email informado ou conexão de internet.", AlertType.INFORMATION);
+					Alertas.mostrarAlerta("Atualização realizado com sucesso!", "Email enviado para "+c.descriptografar(entidade.getEmail()), "OBSERVAÇÃO: \nSe não estiver localizando o email, favor verificar: \n- Caixa de Spam;\n- O email informado no sistema; \n- Conexão de internet.", AlertType.INFORMATION);
 				}
 			} else {
 				Alertas.mostrarAlerta("Atenção!", "Campo(s) em branco", null, AlertType.INFORMATION);
