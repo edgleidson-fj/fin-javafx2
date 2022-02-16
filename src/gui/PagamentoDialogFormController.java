@@ -88,6 +88,16 @@ public class PagamentoDialogFormController implements Initializable {
 	@FXML
 	private Label lbAcrescimoTxt;
 	@FXML
+	private Label lbDesconto2;
+	@FXML
+	private Label lbAcrescimo2;
+	@FXML
+	private Label lbIndividual;
+	@FXML
+	private Label lbGlobal;
+	@FXML
+	private Label lbFaturaOuParcelado;
+	@FXML
 	private TableView<Despesa> tbDespesa;
 	@FXML
 	private TableColumn<Despesa, String> colunaDespNome;
@@ -123,7 +133,7 @@ public class PagamentoDialogFormController implements Initializable {
 	private ObservableList<ItemPagamento> obsListaItemTipoPag;
 
 	double descGlobal, acrescimo, total, descInd;
-
+	
 	@FXML
 	public void onBtItemPagamento(ActionEvent evento) {
 		Locale.setDefault(Locale.US);
@@ -284,7 +294,8 @@ public class PagamentoDialogFormController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarComboBoxTipoPag();
-		inicializarNodes();
+		inicializarNodes();		
+		lbFaturaOuParcelado.setVisible(false);
 	}
 
 	private void inicializarNodes() {
@@ -317,7 +328,8 @@ public class PagamentoDialogFormController implements Initializable {
 		Date hoje = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		txtDataHoje.setText(sdf.format(hoje));
-		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));
+		lbAcrescimo.setText(String.format("%.2f", lancamentoEntidade.getAcrescimo()));		
+		faturaOuParcela();
 	}
 
 	public void carregarTableView() {
@@ -485,5 +497,26 @@ public class PagamentoDialogFormController implements Initializable {
 			btItemPagamento.setDisable(false);
 			cmbTipoPag.setDisable(false);
 		}
+	}	
+	
+	public void faturaOuParcela() {
+		lbFaturaOuParcelado.setText("Obs: \nSe precisar ajustar o valor da Parcela ou Fatura \npor favor acesse CONFIG.");
+		String tipo = lancamentoEntidade.getTipo();
+		if(tipo.equals("F") || tipo.equals("P")) {
+			lbAcrescimo.setVisible(false);
+			lbAcrescimoTxt.setVisible(false);
+			lbDescontoTxt.setVisible(false);
+			lbDescontoIndividual.setVisible(false);
+			lbDescontoGlobal.setVisible(false);
+			lbDesconto2.setVisible(false);
+			lbAcrescimo2.setVisible(false);
+			lbIndividual.setVisible(false);
+			lbGlobal.setVisible(false);
+			lbFaturaOuParcelado.setVisible(true);
+			txtDesconto.setVisible(false);
+			txtAcrescimo.setVisible(false);
+			btDescontoOuAcrescimo.setVisible(false);			
+		}
 	}
+	
 }

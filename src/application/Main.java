@@ -30,12 +30,7 @@ public class Main extends Application {
 		
 	@Override
 	public void start(Stage primaryStage) {
-		Date h = new Date();
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMM");
-		String dh = fmt.format(h);
-		ndh = Utils.stringParaInteiro(dh);
-		sitA();
-		//bd();	
+		parametro();
 		if (sitBd >= ndh) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
@@ -48,14 +43,13 @@ public class Main extends Application {
 				primaryStage.setScene(mainScene);
 				primaryStage.setTitle("Minhas Despesas");
 				primaryStage.setResizable(false);
-				primaryStage.show();
-				bd();
+				primaryStage.show();				
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		} else {
 			sitB(); 
-			Alertas.mostrarAlertaBloqueio("Nome do App", "Licença expirada!", "Favor entrar em contato (xx)xxxxx-xxxx para reativação.",
+			Alertas.mostrarAlertaBloqueio("Minhas Despesas App", "Licença expirada!", "Favor entrar em contato (xx)xxxxx-xxxx para renovação da licença.",
 					AlertType.ERROR);
 		}
 	}
@@ -90,7 +84,7 @@ public class Main extends Application {
 			statusEntidade.setNome("CANCELADO");
 			statusService.salvar(statusEntidade);
 		} catch (Exception e) {
-			BDConfigDialogForm();
+			BDConfigDialogForm(); 
 		}
 	}
 
@@ -112,20 +106,30 @@ public class Main extends Application {
 	}
 
 	public void sitA() {
+		try {
 		Criptografia c = new Criptografia();
 		Mensagem msg = new Mensagem();
 		MensagemService msgService = new MensagemService();
 		msg = msgService.buscarPorId(2);
 		sitBd = Utils.stringParaInteiro(c.descriptografar(msg.getDescricao()));
+		} catch (Exception e) {
+		}
 	}
 
 	public void sitB() {		
-		ndh += 135210 -(sitBd -= 1);
 		Mensagem msg = new Mensagem();
 		msg.setId(2);
-		msg.setDescricao(
-				"705240"+ndh+"73453123237176975012950218951220"+sitBd+"201321981720522"+sitBd+ndh+"3211498801000331150125");
+		msg.setDescricao("As4euryh9ndmsloie4pr43nDbUTxsfg2ej98oat78FEhf2d7ssRv5kgliu");
 		MensagemService msgService = new MensagemService();
 		msgService.situacao(msg);
+	}
+	
+	public void parametro() {
+		Date h = new Date();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMM");
+		String dh = fmt.format(h);
+		ndh = Utils.stringParaInteiro(dh);
+		sitA(); 
+		bd();	
 	}
 }

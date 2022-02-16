@@ -92,6 +92,11 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
+                  <Label fx:id="lbValidade" layoutX="32.0" layoutY="409.0" text="Validade">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
                </children>
                <VBox.margin>
                   <Insets />

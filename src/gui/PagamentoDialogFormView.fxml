@@ -82,8 +82,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="266.0" layoutY="306.0" text="Individual" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="327.0" />
-            <Label layoutX="334.0" layoutY="306.0" text="Acréscimo" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="315.0">
+            <Label fx:id="lbIndividual" layoutX="266.0" layoutY="306.0" text="Individual" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="327.0" />
+            <Label fx:id="lbAcrescimo2" layoutX="334.0" layoutY="306.0" text="Acréscimo" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="315.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
@@ -100,14 +100,19 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="156.0" layoutY="333.0" text="Global" AnchorPane.leftAnchor="113.0" AnchorPane.topAnchor="327.0" />
+            <Label fx:id="lbGlobal" layoutX="156.0" layoutY="333.0" text="Global" AnchorPane.leftAnchor="113.0" AnchorPane.topAnchor="327.0" />
             <Label fx:id="lbDescontoGlobal" layoutX="208.0" layoutY="325.0" text="0.00" AnchorPane.leftAnchor="113.0" AnchorPane.topAnchor="340.0" />
-            <Label layoutX="146.0" layoutY="333.0" text="Desconto" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="314.0">
+            <Label fx:id="lbDesconto2" layoutX="146.0" layoutY="333.0" text="Desconto" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="314.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <TextField fx:id="txtDataHoje" editable="false" layoutX="400.0" layoutY="15.0" prefHeight="25.0" prefWidth="92.0" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="43.0" />
+            <Label fx:id="lbFaturaOuParcelado" layoutX="37.0" layoutY="306.0" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="280.0">
+               <font>
+                  <Font name="System Bold Italic" size="10.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>
