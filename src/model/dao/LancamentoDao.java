@@ -15,7 +15,6 @@ public interface LancamentoDao {
 	List<Lancamento> buscarContasQuitadoMesAtual();
 	List<Lancamento> buscarTudoEmAberto();
 	List<Lancamento> buscarContasAPagarMesAtual();
-	List<Lancamento> buscarContasEmAbertoPeriodo(String dataInicial, String dataFinal);
 	void cancelar(Lancamento obj);
 	void confirmarLanQuitado(Lancamento obj);
 	void confirmarLanAPagar(Lancamento obj);

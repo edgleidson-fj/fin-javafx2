@@ -26,9 +26,6 @@ public class LancamentoService {
 	public List<Lancamento> buscarContasQuitadoMesAtual(){
 		return dao.buscarContasQuitadoMesAtual();
 	}	
-	public List<Lancamento> buscarContasEmAbertoPeriodo(String dataInicial, String dataFinal){
-		return dao.buscarContasEmAbertoPeriodo(dataInicial, dataFinal);
-	}
 	public void salvar(Lancamento obj) {
 		dao.inserir(obj);
 	}	

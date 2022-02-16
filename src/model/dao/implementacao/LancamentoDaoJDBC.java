@@ -454,51 +454,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				BD.fecharStatement(ps);
 				BD.fecharResultSet(rs);
 			}
-			}	
-		
-		@Override
-		public List<Lancamento> buscarContasEmAbertoPeriodo(String dataInicial, String dataFinal) {
-			PreparedStatement ps = null;
-			ResultSet rs = null;
-			try {
-				ps = connection.prepareStatement(
-						"SELECT * FROM lancamento "
-						+ "INNER JOIN status s "
-						+ "ON lancamento.status_id = s.id "
-						+ "INNER JOIN Usuario u "			
-						+ "ON u.usuarioId = lancamento.usuario_Id "
-						+ "WHERE u.logado = 'S' "
-						+ "AND data >=  '"+dataInicial+"' "
-						+ "AND data <= '"+dataFinal+"' "
-						+ "AND (status_id = 1 "
-						+ "OR status_id = 3) "
-						+ "ORDER BY data ASC");  
-				rs = ps.executeQuery();
-				List<Lancamento> lista = new ArrayList<>();				
-				while (rs.next()) {
-					Status status = new Status();
-					status.setId(rs.getInt("s.id"));
-					status.setNome(rs.getString("s.nome"));
-					Lancamento obj = new Lancamento();
-					obj.setData(new java.util.Date(rs.getTimestamp("data").getTime()));
-					obj.setId(rs.getInt("id"));
-					obj.setReferencia(rs.getString("referencia"));
-					obj.setTotal(rs.getDouble("total"));
-					obj.setDesconto(rs.getDouble("desconto"));
-					obj.setAcrescimo(rs.getDouble("acrescimo"));
-					obj.setObs(rs.getString("obs"));
-					obj.setTipo(rs.getString("tipo"));
-					obj.setStatus(status);
-					lista.add(obj);
-				}
-				return lista;
-			} catch (SQLException ex) {
-				throw new BDException(ex.getMessage());
-			} finally {
-				BD.fecharStatement(ps);
-				BD.fecharResultSet(rs);
-			}
-		}
+			}			
 		
 		@Override
 		public void cancelamentoAutomatico(Lancamento obj) {
@@ -736,7 +692,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					ResultSet rs = null;
 					try {
 						ps = connection.prepareStatement(
-								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, s.id, s.nome FROM Lancamento l "
+								"SELECT distinct(l.id), l.referencia, l.data, l.total, l.acrescimo, l.desconto, l.obs, l.tipo, s.id, s.nome FROM Lancamento l "
 								+ "INNER JOIN Status s "
 								+ "ON l.status_id = s.id "
 								+ "INNER JOIN Usuario u "
@@ -785,7 +741,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 				
 					ps = connection.prepareStatement(
 							"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
-									+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+									+ "lancamento.desconto, lancamento.total, lancamento.obs, lancamento.tipo, "
 									+ "s.id, s.nome FROM lancamento  " 
 									+ "INNER JOIN Status s "						
 									+ "ON lancamento.status_id = s.id "
@@ -836,7 +792,7 @@ public class LancamentoDaoJDBC implements LancamentoDao {
 					try {
 						ps = connection.prepareStatement(
 								"SELECT distinct(lancamento.id), lancamento.referencia, lancamento.data, lancamento.acrescimo, "
-								+ "lancamento.desconto, lancamento.total, lancamento.obs, "
+								+ "lancamento.desconto, lancamento.total, lancamento.obs, lancamento.tipo, "
 								+ " s.id, s.nome FROM lancamento  "
 								+ "INNER JOIN status s "
 								+ "ON lancamento.status_id = s.id "
