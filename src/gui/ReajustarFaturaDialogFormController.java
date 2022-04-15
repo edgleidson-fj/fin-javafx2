@@ -82,7 +82,7 @@ public class ReajustarFaturaDialogFormController implements Initializable {
 			controller.setItemService(new ItemService());
 			controller.setItem(new Item());
 			controller.setItemPagamentoService(new ItemPagamentoService());
-			controller.carregarData();
+			controller.carregarData();						
 			controller.carregarTableView();
 			Alertas.mostrarAlerta("Reajuste realizado com sucesso!", 
 					"Todos lançamentos ("+lancamentoEntidade.getReferencia()+") que estão EM ABERTO, serão reajustados.",
@@ -130,7 +130,8 @@ public class ReajustarFaturaDialogFormController implements Initializable {
 		txtNome.setText(despesaEntidade.getNome());
 		txtPrecoUnid.setText(String.valueOf(despesaEntidade.getPrecoUnid()));
 		itemValorAnterior = despesaEntidade.getPrecoUnid();
-		txtPrecoUnid.setText("");
+		txtPrecoUnid.setText("");		
+		data = lancamentoEntidade.getData();
 	}
 
 	private synchronized <T> void carregarView(String caminhoDaView, Consumer<T> acaoDeInicializacao) {
@@ -160,9 +161,8 @@ public class ReajustarFaturaDialogFormController implements Initializable {
 			x.getReferencia();			
 			novoTotal =  x.getTotal()- itemValorAnterior;
 			x.setTotal(novoTotal);
-			data = x.getData();
 			itemService.excluir(x, despesaEntidade);
-			lancamentoService.reajustarValorTotal(x);
+			lancamentoService.reajustarValorTotal(x);			
 		}
 	}
 

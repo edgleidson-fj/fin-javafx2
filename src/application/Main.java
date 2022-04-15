@@ -49,7 +49,7 @@ public class Main extends Application {
 			}
 		} else {
 			sitB(); 
-			Alertas.mostrarAlertaBloqueio("Minhas Despesas App", "Licença expirada!", "Favor entrar em contato (xx)xxxxx-xxxx para renovação da licença.",
+			Alertas.mostrarAlertaBloqueio("Minhas Despesas App", "Licença expirada!", "Favor entrar em contato (99)99999-9999 para renovação da licença.",
 					AlertType.ERROR);
 		}
 	}
