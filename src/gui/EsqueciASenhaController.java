@@ -25,6 +25,9 @@ import model.entidade.Usuario;
 import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
+import seguranca.Criptografia2;
+import seguranca.Criptografia3;
+import seguranca.Criptografia4;
 
 public class EsqueciASenhaController implements Initializable {
 
@@ -64,10 +67,13 @@ public class EsqueciASenhaController implements Initializable {
 					try {
 						Usuario user = null;
 						Criptografia c = new Criptografia();
+						Criptografia2 c2 = new Criptografia2();
+						Criptografia3 c3 = new Criptografia3();
+						Criptografia4 c4 = new Criptografia4();
 						String nome = c.criptografia(txtNome.getText());
-						String cpf = c.criptografia(txtCPF.getText());
-						String email = c.criptografia(txtEmail.getText());
-						String novaSenha = c.criptografia(txtNovaSenha.getText());
+						String cpf = c2.criptografia(txtCPF.getText());
+						String email = c4.criptografia(txtEmail.getText());
+						String novaSenha = c3.criptografia(txtNovaSenha.getText());
 						entidade.setNome(nome);
 						entidade.setCpf(cpf);
 						entidade.setEmail(email);

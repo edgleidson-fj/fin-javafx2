@@ -1,6 +1,6 @@
 package seguranca;
-//Nome
-public class Criptografia implements GatilhoCriptografia {
+//Email
+public class Criptografia4 implements GatilhoCriptografia {
 
 	@Override
 	public String criptografia(String textoParaCriptografar) {
@@ -8,10 +8,10 @@ public class Criptografia implements GatilhoCriptografia {
 		String a = sb.reverse().toString();
 		StringBuilder sc = new StringBuilder(a);
 
-		String p = sc.insert(1, "ErluiIlChJkLucaPoStaJAc").toString();
-		p = sc.insert(0, "GbRPHAáwiyzoUSoKBFhlpeswWryZA").toString();
-		p = sc.insert(p.length() - 1, "maqzhbijckdrebnmlDsbcNqu").toString();
-		p = sc.insert(p.length(), "Brunoawhernan").toString();
+	  	String p = sc.insert(1, "yahoo@fgjrbol@uoews_gh@").toString();
+	  	p = sc.insert(0, "news@123_sdgbol@mkfldyahoo@2a").toString();
+	   	p = sc.insert(p.length() - 1, "uol@_@345hotmail@56_@bol").toString();
+   	  	p = sc.insert(p.length(), "@uol3h5hxmail").toString();
 		return p;
 	}
 

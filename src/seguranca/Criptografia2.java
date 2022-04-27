@@ -1,6 +1,6 @@
 package seguranca;
-//Nome
-public class Criptografia implements GatilhoCriptografia {
+//CPF
+public class Criptografia2 implements GatilhoCriptografia {
 
 	@Override
 	public String criptografia(String textoParaCriptografar) {
@@ -8,10 +8,10 @@ public class Criptografia implements GatilhoCriptografia {
 		String a = sb.reverse().toString();
 		StringBuilder sc = new StringBuilder(a);
 
-		String p = sc.insert(1, "ErluiIlChJkLucaPoStaJAc").toString();
-		p = sc.insert(0, "GbRPHAáwiyzoUSoKBFhlpeswWryZA").toString();
-		p = sc.insert(p.length() - 1, "maqzhbijckdrebnmlDsbcNqu").toString();
-		p = sc.insert(p.length(), "Brunoawhernan").toString();
+		String p = sc.insert(1, "19078490123785645612235").toString();		
+		p = sc.insert(0, "31045678890521345684501345687").toString();
+		p = sc.insert(p.length() - 1, "012478542056489833245670").toString();
+		p = sc.insert(p.length(), "1090702849371").toString();
 		return p;
 	}
 

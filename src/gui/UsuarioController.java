@@ -27,6 +27,9 @@ import model.entidade.Usuario;
 import model.servico.LancamentoService;
 import model.servico.UsuarioService;
 import seguranca.Criptografia;
+import seguranca.Criptografia2;
+import seguranca.Criptografia3;
+import seguranca.Criptografia4;
 import smtp.Email;
 
 public class UsuarioController implements Initializable {
@@ -66,6 +69,7 @@ public class UsuarioController implements Initializable {
 
 	public void onBtSalvar() {
 		Criptografia c = new Criptografia();
+		Criptografia2 c2 = new Criptografia2();		
 		try {
 			if (!txtNome.getText().equals("") & !txtEmail.getText().equals("") & !txtCPF.getText().equals("")
 					& !txtSenha.getText().equals("")) {
@@ -75,7 +79,7 @@ public class UsuarioController implements Initializable {
 						x = 1;
 						entidade.setLogado("S");
 						service.salvar(entidade);
-						entidade.setCpf(c.criptografia(txtCPF.getText()));
+						entidade.setCpf(c2.criptografia(txtCPF.getText()));
 						service.logado(entidade);
 						Email.envio(entidade, x);
 						atualizarPropriaView(entidade, "/gui/ContasEmAbertoMesAtualView.fxml");
@@ -128,6 +132,9 @@ public class UsuarioController implements Initializable {
 
 	public Usuario dadosDoCampoDeTexto() {
 		Criptografia c = new Criptografia();
+		Criptografia2 c2 = new Criptografia2();
+		Criptografia3 c3 = new Criptografia3();
+		Criptografia4 c4 = new Criptografia4();
 		service.logado(entidade);
 		Boolean validarCPF = BR.validarCPF(txtCPF.getText());
 		if (validarCPF.booleanValue() == true) { 
@@ -139,9 +146,9 @@ public class UsuarioController implements Initializable {
 					Usuario obj = new Usuario();
 					obj.setId(Utils.stringParaInteiro(txtId.getText()));
 					obj.setNome(c.criptografia(txtNome.getText()));
-					obj.setSenha(c.criptografia(txtSenha.getText()));
-					obj.setEmail(c.criptografia(txtEmail.getText()));
-					obj.setCpf(c.criptografia(txtCPF.getText()));
+					obj.setSenha(c3.criptografia(txtSenha.getText()));
+					obj.setEmail(c4.criptografia(txtEmail.getText()));
+					obj.setCpf(c2.criptografia(txtCPF.getText()));
 					double tetoGasto = Utils.stringParaDouble(0 + txtTetoGastos.getText());
 					obj.setTetoGasto(tetoGasto);
 					VerificarCPF();					
@@ -176,11 +183,14 @@ public class UsuarioController implements Initializable {
 
 			if (u.getLogado().equals("S")) { 
 				Criptografia c = new Criptografia();
+				Criptografia2 c2 = new Criptografia2();
+				Criptografia3 c3 = new Criptografia3();
+				Criptografia4 c4 = new Criptografia4();
 				txtId.setText(String.valueOf(u.getId()));
 				txtNome.setText(c.descriptografar(u.getNome()));
-				txtEmail.setText(c.descriptografar(u.getEmail()));
-				txtCPF.setText(c.descriptografar(u.getCpf()));
-				txtSenha.setText(c.descriptografar(u.getSenha()));
+				txtEmail.setText(c4.descriptografar(u.getEmail()));
+				txtCPF.setText(c2.descriptografar(u.getCpf()));
+				txtSenha.setText(c3.descriptografar(u.getSenha()));
 				if (u.getTetoGasto() > 0) {
 					txtTetoGastos.setText(String.format("%.2f", +u.getTetoGasto()));
 				} else {
@@ -243,11 +253,11 @@ public class UsuarioController implements Initializable {
 	}
 
 	public void VerificarCPF() {
-		Criptografia c = new Criptografia();
+		Criptografia2 c2 = new Criptografia2();
 		List<Usuario> lista = service.buscarTodos();
 		for (Usuario u : lista) {
 			u.getCpf();
-			if (c.criptografia(txtCPF.getText()).equals(u.getCpf())) {
+			if (c2.criptografia(txtCPF.getText()).equals(u.getCpf())) {
 				CPFexiste = "S";
 			}
 		}

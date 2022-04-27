@@ -40,7 +40,8 @@ import model.servico.LancamentoService;
 import model.servico.MensagemService;
 import model.servico.TipoPagService;
 import model.servico.UsuarioService;
-import seguranca.Criptografia;
+import seguranca.Criptografia2;
+import seguranca.Criptografia3;
 
 public class MainViewController implements Initializable {
 
@@ -477,11 +478,12 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onBtConfirmar(ActionEvent evento) {
-		Criptografia c = new Criptografia();
-		String cpf = c.criptografia(txtCPF.getText());
+		Criptografia2 c2 = new Criptografia2();
+		Criptografia3 c3 = new Criptografia3();
+		String cpf = c2.criptografia(txtCPF.getText());
 		String senha = "";
 		if (!txtSenha.getText().equals("")) {
-			senha = c.criptografia(txtSenha.getText());
+			senha = c3.criptografia(txtSenha.getText());
 		}
 		usuarioEntidade.setNome(cpf);
 		usuarioEntidade.setSenha(senha);
