@@ -1,16 +1,23 @@
 package gui;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.util.Alertas;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -50,6 +57,8 @@ public class ConsultaPorRankController implements Initializable {
 	private Label lbMesAtual;
 	@FXML
 	private Label lbAnoAtual;
+	@FXML
+	private Button btGerarExcel;
 		
 	public void setDespesaService(DespesaService service) {
 		this.service = service;
@@ -64,7 +73,7 @@ public class ConsultaPorRankController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		inicializarComportamento();
+		inicializarComportamento();		
 	}
 
 	private void inicializarComportamento() {
@@ -89,13 +98,13 @@ public class ConsultaPorRankController implements Initializable {
 		carregarUsuarioLogado();
 		List<Despesa> lista = service.consultaPorRankDespesaMesAtual(usuarioId);
 		obsLista = FXCollections.observableArrayList(lista);
-		tableViewDespesa.setItems(obsLista);
-
+		tableViewDespesa.setItems(obsLista);	
+				
 		List<Despesa> listaAnoAtual = service.consultaPorRankDespesaAnoAtual(usuarioId);
 		obsListaAnoAtual = FXCollections.observableArrayList(listaAnoAtual);
 		tableViewDespesaAnoAtual.setItems(obsListaAnoAtual);
 		pegarMesEAnoAtual();
-	}
+	}	
 
 	public void pegarMesEAnoAtual() {
 		Calendar datahoje = Calendar.getInstance();
@@ -158,6 +167,66 @@ public class ConsultaPorRankController implements Initializable {
 				usuarioId = u.getId();
 			}
 		}
+	}	
+	
+	
+	@FXML
+	public void onBtGerarExcelMes() {	
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas("+lbMesAtual.getText()+").xls", false);//False->Cria novo
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("RANKING DE DESPESAS DE "+lbMesAtual.getText()+" / "+lbAnoAtual.getText()+"\r");
+			printWrite.append("\rDespesa\t Qtde\t Valor ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		for (Despesa tab : obsLista) {  
+			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas("+lbMesAtual.getText()+").xls", true);//True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+	     				     		
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(tab.getNome());
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getQuantidade().toString()+" .");
+				printWrite.append("\t");
+				printWrite.append(tab.getPrecoTotal().toString());				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	     }	
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
 	}
-
+	
+	
+	@FXML
+	public void onBtGerarExcelAno() {	
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas("+lbAnoAtual.getText()+").xls", false); //False->Cria novo
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("RANKING DE DESPESAS DE "+lbAnoAtual.getText()+"\r");
+			printWrite.append("\rDespesa\t Qtde\t Valor ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		for (Despesa tab : obsListaAnoAtual) {
+			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas("+lbAnoAtual.getText()+").xls", true); //True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+				     				     		
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(tab.getNome());
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getQuantidade().toString()+" .");
+				printWrite.append("\t");
+				printWrite.append(tab.getPrecoTotal().toString());	
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	     }	
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
 }

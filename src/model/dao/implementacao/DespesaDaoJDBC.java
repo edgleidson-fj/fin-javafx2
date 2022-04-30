@@ -160,7 +160,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 				d.setPrecoTotal(rs.getDouble("sum(d.precoTotal)"));
 				d.setNome(rs.getString("nome"));
 				d.setQuantidade(rs.getInt("count(d.nome)"));
-				lista.add(d);
+				lista.add(d);				
 			}
 			rs.close();
 			ps.close();
@@ -172,7 +172,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 			BD.fecharResultSet(rs);
 		}
 	}
-
+	
 	public List<Despesa> consultaPorRankDespesaAnoAtual(Integer id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -210,8 +210,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 			BD.fecharStatement(ps);
 			BD.fecharResultSet(rs);
 		}
-	}
-	
+	}	
 	
 	@Override
 	public void rateioDesconto(Despesa obj) {
@@ -251,5 +250,6 @@ public class DespesaDaoJDBC implements DespesaDao {
 		} finally {
 			BD.fecharStatement(ps);
 		}
-	}
+	}	
+	
 }

@@ -48,6 +48,11 @@
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
+            <Button fx:id="btGerarExcel" layoutX="666.0" layoutY="463.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

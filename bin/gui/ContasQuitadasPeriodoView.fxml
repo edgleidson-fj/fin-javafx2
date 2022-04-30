@@ -43,6 +43,11 @@
                </font>
             </Label>
             <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="218.0" layoutY="55.0" prefHeight="25.0" prefWidth="236.0" promptText="Referência ou item" AnchorPane.topAnchor="50.0" />
+            <Button fx:id="btGerarExcel" layoutX="701.0" layoutY="445.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
          <VBox.margin>
             <Insets />

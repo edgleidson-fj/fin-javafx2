@@ -1,6 +1,9 @@
 package gui;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -51,6 +54,8 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	@FXML
 	private Button btConsultar;
 	@FXML
+	private Button btGerarExcel;
+	@FXML
 	private TableView<Lancamento> tbLancamento;
 	@FXML
 	private TableColumn<Lancamento, Integer> colunaLanId;
@@ -78,6 +83,8 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
 	}
+	
+	Date d1, d2;
 
 	@FXML
 	public void onConsulta(ActionEvent evento) {
@@ -85,9 +92,9 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		String refOuDespesa = txtConsultaReferenciaOuDespesa.getText();
 		
 		Instant instant1 = Instant.from(datePickerDataInicial.getValue().atStartOfDay(ZoneId.systemDefault()));		
-		Date d1 = (Date.from(instant1));		
+		d1 = (Date.from(instant1));		
 		Instant instant2 = Instant.from(datePickerDataFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
-		Date d2 = (Date.from(instant2));
+		d2 = (Date.from(instant2));
 		Utils.formatDatePicker(datePickerDataInicial, "dd/MM/yyyy");
 		Utils.formatDatePicker(datePickerDataFinal, "dd/MM/yyyy");
 
@@ -189,4 +196,40 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		lancamentoService.cancelamentoAutomatico(lancamentoEntidade);
 		lancamentoService.vencimentoAutomatico(lancamentoEntidade);
 	}
+	
+	
+	@FXML
+	public void onBtGerarExcel() {
+		SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+		String dataInicial = fmt.format(d1);
+		String dataFinal = fmt.format(d2);
+		
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".xls", false);//False->Cria novo
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("\tQUITADOS DE "+dataInicial+" ATÉ "+dataFinal+"\r");
+			printWrite.append("\rData\t Referência\t Total ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		for (Lancamento tab : obsListaLancamentoTbView) {  
+			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".xls", true);//True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+	     		
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(sdf.format(tab.getData())+" .");
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getReferencia());
+				printWrite.append("\t");
+				printWrite.append(tab.getTotal().toString());				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	     }	
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
 }

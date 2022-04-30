@@ -1,7 +1,11 @@
 package gui;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,16 +34,20 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
 import model.entidade.Status;
+import model.entidade.Usuario;
 import model.entidade.ItemPagamento;
 import model.servico.DespesaService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
+import model.servico.UsuarioService;
 import model.servico.ItemPagamentoService;
 
 public class ContasEmAbertoMesAtualController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade;
 
 	@FXML
 	private TableView<Lancamento> tbLancamento;
@@ -65,6 +73,8 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private TextField txtConsultaReferenciaOuDespesa;
 	@FXML 
 	private Button btConsultaIDReferenciaOuDespesa;
+	@FXML
+	private Button btGerarExcel;
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	
@@ -233,6 +243,23 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		});
 	}	
 	
+	public void carregarUsuarioLogado() {
+		if (usuarioEntidade == null) {
+			System.out.println("entidade nulo");
+		}
+		if (usuarioService == null) {
+			System.out.println("service nulo");
+		}
+		List<Usuario> lista = usuarioService.buscarTodos();
+		for (Usuario u : lista) {
+			u.getLogado();
+
+			if (u.getLogado().equals("S")) {
+				usuarioId = u.getId();
+			}
+		}
+	}	
+	
 	public void pegarMesAtual() {
 		Calendar datahoje = Calendar.getInstance();
 		int mesAtual = datahoje.get(Calendar.MONTH) + 1;
@@ -276,4 +303,36 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 			break;
 		}
 	}
+	
+	
+	@FXML
+	public void onBtGerarExcel() {	
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\EmAberto"+lbMes.getText()+".xls", false);//False->Cria novo
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("\tEM ABERTO "+lbMes.getText()+"\r");
+			printWrite.append("\rVencimento\t Referência\t Total ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		for (Lancamento tab : obsListaLancamentoTbView) {  
+			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\EmAberto"+lbMes.getText()+".xls", true);//True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+	     		
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(sdf.format(tab.getData())+" .");
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getReferencia());
+				printWrite.append("\t");
+				printWrite.append(tab.getTotal().toString());				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	     }	
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
 }

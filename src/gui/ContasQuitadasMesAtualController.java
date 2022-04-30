@@ -1,7 +1,11 @@
 package gui;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -68,6 +72,8 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	private TextField txtConsultaReferenciaOuDespesa;
 	@FXML
 	private Button btConsultaIDReferenciaOuDespesa;
+	@FXML
+	private Button btGerarExcel;
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	private ObservableList<Lancamento> obsListaLancamentoTbViewAux;
@@ -254,6 +260,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 			break;
 		}
 	}
+	
 
 	public void carregarUsuarioLogado() {
 		if (usuarioEntidade == null) {
@@ -281,9 +288,39 @@ public class ContasQuitadasMesAtualController implements Initializable {
 					lbMsgTetoDeGastos.setText("Atenção! \nFalta R$ " + String.format("%.2f", valorComparativo)
 							+ " para atingir o seu teto de gasto mensal.");
 				}
-
 			}
 		}
+	}
+	
+	
+	@FXML
+	public void onBtGerarExcel() {	
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados"+lbMes.getText()+".xls", false);//False->Cria novo
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("\tQUITADOS "+lbMes.getText()+"\r");
+			printWrite.append("\rData\t Referência\t Total ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		for (Lancamento tab : obsListaLancamentoTbView) {  
+			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados"+lbMes.getText()+".xls", true);//True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+	     		
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(sdf.format(tab.getData())+" .");
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getReferencia());
+				printWrite.append("\t");
+				printWrite.append(tab.getTotal().toString());				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	     }	
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
 	}
 
 }
