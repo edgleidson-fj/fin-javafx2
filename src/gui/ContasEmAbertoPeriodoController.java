@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import application.Main;
 import gui.util.Alertas;
 import gui.util.Utils;
+import impressora.Imprimir;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,6 +61,10 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 	private Button btConsultar;
 	@FXML
 	private Button btGerarExcel;
+	@FXML
+	private Button btGerarTxt;
+	@FXML
+	private Button btImprimir;
 	@FXML
 	private TableView<Lancamento> tbLancamento;
 	@FXML
@@ -294,4 +299,69 @@ public class ContasEmAbertoPeriodoController implements Initializable {
 	     }	
 		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
 	}
+	
+	
+	@FXML
+	public void onBtGerarTxt() {
+		SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+		String dataInicial = fmt.format(d1);
+		String dataFinal = fmt.format(d2);
+		
+		try (FileWriter fileWrite = new FileWriter(
+				"C:\\Minhas Despesas App\\Arquivos Excel\\EmAberto_"+dataInicial+"_Ate_"+dataFinal+".csv", false); // False->Cria
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("EM ABERTO DE "+dataInicial+" ATÉ "+dataFinal+"\r");
+			printWrite.append("\rDespesa\t Qtde\t Valor ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (Lancamento tab : obsListaLancamentoTbView) {
+			try (FileWriter fileWrite = new FileWriter(
+					"C:\\Minhas Despesas App\\Arquivos Excel\\EmAberto_"+dataInicial+"_Ate_"+dataFinal+".csv", true); // True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(sdf.format(tab.getData())+" .");
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getReferencia());
+				printWrite.append("\t");
+				printWrite.append(tab.getTotal().toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
+	
+	public void onBtImprimir() {
+		SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+		String dataInicial = fmt.format(d1);
+		String dataFinal = fmt.format(d2);
+		String diretorio = "C:/Minhas Despesas App/Temp/EmAberto_"+dataInicial+"_Ate_"+dataFinal+".txt";
+
+		try (FileWriter fileWrite = new FileWriter(diretorio, true);
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("\r\tEM ABERTO DE "+dataInicial+" ATÉ "+dataFinal+"\r");
+			for (Lancamento tab : obsListaLancamentoTbView) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(sdf.format(tab.getData())+" .");
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getReferencia());
+				printWrite.append("\t");
+				printWrite.append(tab.getTotal().toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}				
+		Imprimir.imprimirArquivo(diretorio);
+	}	
+	
 }

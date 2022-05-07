@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
@@ -113,7 +114,15 @@ public class MainViewController implements Initializable {
 	int id;
 
 	@FXML
-	public void onMenuItemSair(ActionEvent evento) {
+	public void onMenuItemSair(ActionEvent evento) {						
+		File pasta = new File("C:\\Minhas Despesas App\\Temp");    
+		File[] arquivos = pasta.listFiles();
+		
+		for(File arquivo : arquivos) {
+		    if(arquivo.getName().endsWith("txt")) {
+		        arquivo.delete();
+		    }
+		}		
 		usuarioEntidade.setLogado("N");
 		Platform.exit();
 	}
@@ -371,9 +380,11 @@ public class MainViewController implements Initializable {
 					Usuario user = new Usuario();
 					user.setId(u.getId());
 					user.setNome(u.getNome());
+					controller.setUsuario(user);
+					controller.setUsuarioService(new UsuarioService());
 					controller.rotinasAutomaticas();
 					controller.carregarTableView();
-					controller.carregarUsuarioLogado();
+					controller.carregarUsuarioLogado();					
 				});
 				logado = "S";
 			}
@@ -397,7 +408,7 @@ public class MainViewController implements Initializable {
 					Usuario user = new Usuario();
 					user.setId(u.getId());
 					user.setNome(u.getNome());
-					controller.rotinasAutomaticas();
+					controller.rotinasAutomaticas();					
 				});
 				logado = "S";
 			}

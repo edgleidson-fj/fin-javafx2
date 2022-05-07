@@ -48,9 +48,19 @@
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btGerarExcel" layoutX="666.0" layoutY="463.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <Button fx:id="btGerarExcel" layoutX="666.0" layoutY="463.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="145.0">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="btImprimir" layoutX="460.0" layoutY="512.0" mnemonicParsing="false" onAction="#onBtImprimir" stylesheets="@zBotaoImprimir.css" text="Imprimir" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="btGerarTxt" layoutX="325.0" layoutY="504.0" mnemonicParsing="false" onAction="#onBtGerarTxt" text="Texto" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="90.0">
+               <font>
+                  <Font name="System Bold" size="10.0" />
                </font>
             </Button>
          </children>

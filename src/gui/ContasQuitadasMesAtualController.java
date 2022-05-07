@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import gui.util.Alertas;
 import gui.util.Utils;
+import impressora.Imprimir;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,6 +75,10 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	private Button btConsultaIDReferenciaOuDespesa;
 	@FXML
 	private Button btGerarExcel;
+	@FXML
+	private Button btGerarTxt;
+	@FXML
+	private Button btImprimir;
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	private ObservableList<Lancamento> obsListaLancamentoTbViewAux;
@@ -298,7 +303,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados"+lbMes.getText()+".xls", false);//False->Cria novo
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
-			printWrite.append("\tQUITADOS "+lbMes.getText()+"\r");
+			printWrite.append("\tCONTAS QUITADAS DE "+lbMes.getText()+"\r");
 			printWrite.append("\rData\t Referência\t Total ");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -322,5 +327,62 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	     }	
 		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
 	}
+	
+	
+	@FXML
+	public void onBtGerarTxt() {
+		try (FileWriter fileWrite = new FileWriter(
+				"C:\\Minhas Despesas App\\Arquivos Excel\\Quitados(" + lbMes.getText() + ").csv", false); // False->Cria
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("CONTAS QUITADAS DE " + lbMes.getText() + "\r");
+			printWrite.append("\rDespesa\t Qtde\t Valor ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (Lancamento tab : obsListaLancamentoTbView) {
+			try (FileWriter fileWrite = new FileWriter(
+					"C:\\Minhas Despesas App\\Arquivos Excel\\Quitados(" + lbMes.getText() + ").csv", true); // True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(sdf.format(tab.getData())+" .");
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getReferencia());
+				printWrite.append("\t");
+				printWrite.append(tab.getTotal().toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
+	
+	public void onBtImprimir() {
+		String diretorio = "C:/Minhas Despesas App/Temp/Quitado_"+lbMes.getText()+".txt";
+
+		try (FileWriter fileWrite = new FileWriter(diretorio, true);
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("\r\tCONTAS QUITADAS DE "+lbMes.getText()+ "\r");
+			for (Lancamento tab : obsListaLancamentoTbView) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	     		printWrite.append("\r"); //Linha
+				printWrite.append(sdf.format(tab.getData())+" .");
+				printWrite.append("\t"); //Coluna
+				printWrite.append(tab.getReferencia());
+				printWrite.append("\t");
+				printWrite.append(tab.getTotal().toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}				
+		Imprimir.imprimirArquivo(diretorio);
+	}	
 
 }

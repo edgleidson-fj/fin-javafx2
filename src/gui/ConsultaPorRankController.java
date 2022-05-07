@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import application.Main;
 import gui.util.Alertas;
 import gui.util.Utils;
+import impressora.Imprimir;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -59,7 +60,17 @@ public class ConsultaPorRankController implements Initializable {
 	private Label lbAnoAtual;
 	@FXML
 	private Button btGerarExcel;
-		
+	@FXML
+	private Button btGerarExcelAno;
+	@FXML
+	private Button btGerarTxt;
+	@FXML
+	private Button btGerarTxtAno;
+	@FXML
+	private Button btImprimir;
+	@FXML
+	private Button btImprimirAno;
+
 	public void setDespesaService(DespesaService service) {
 		this.service = service;
 	}
@@ -67,13 +78,14 @@ public class ConsultaPorRankController implements Initializable {
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
+
 	public void setUsuario(Usuario usuarioEntidade) {
 		this.usuarioEntidade = usuarioEntidade;
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		inicializarComportamento();		
+		inicializarComportamento();
 	}
 
 	private void inicializarComportamento() {
@@ -81,12 +93,12 @@ public class ConsultaPorRankController implements Initializable {
 		tableColumnValorTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(tableColumnValorTotal, 2);
 		tableColumnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
-		
+
 		tableColumnNomeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnValorTotalAnoAtual.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 		Utils.formatTableColumnValorDecimais(tableColumnValorTotalAnoAtual, 2);
 		tableColumnQuantidadeAnoAtual.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
-		
+
 		Stage stage = (Stage) Main.pegarMainScene().getWindow();
 		tableViewDespesa.prefHeightProperty().bind(stage.heightProperty());
 	}
@@ -98,13 +110,13 @@ public class ConsultaPorRankController implements Initializable {
 		carregarUsuarioLogado();
 		List<Despesa> lista = service.consultaPorRankDespesaMesAtual(usuarioId);
 		obsLista = FXCollections.observableArrayList(lista);
-		tableViewDespesa.setItems(obsLista);	
-				
+		tableViewDespesa.setItems(obsLista);
+
 		List<Despesa> listaAnoAtual = service.consultaPorRankDespesaAnoAtual(usuarioId);
 		obsListaAnoAtual = FXCollections.observableArrayList(listaAnoAtual);
 		tableViewDespesaAnoAtual.setItems(obsListaAnoAtual);
 		pegarMesEAnoAtual();
-	}	
+	}
 
 	public void pegarMesEAnoAtual() {
 		Calendar datahoje = Calendar.getInstance();
@@ -151,7 +163,7 @@ public class ConsultaPorRankController implements Initializable {
 			break;
 		}
 	}
-	
+
 	public void carregarUsuarioLogado() {
 		if (usuarioEntidade == null) {
 			System.out.println("entidade nulo");
@@ -167,66 +179,172 @@ public class ConsultaPorRankController implements Initializable {
 				usuarioId = u.getId();
 			}
 		}
+	}
+	
+
+	@FXML
+	public void onBtGerarExcelMes() {
+		try (FileWriter fileWrite = new FileWriter(
+				"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbMesAtual.getText() + ").xls", false); // False->Cria
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("RANKING DE DESPESAS DE " + lbMesAtual.getText() + " / " + lbAnoAtual.getText() + "\r");
+			printWrite.append("\rDespesa\t Qtde\t Valor ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (Despesa tab : obsLista) {
+			try (FileWriter fileWrite = new FileWriter(
+					"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbMesAtual.getText() + ").xls", true); // True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+				printWrite.append("\r"); // Linha
+				printWrite.append(tab.getNome());
+				printWrite.append("\t"); // Coluna
+				printWrite.append(tab.getQuantidade().toString() + " .");
+				printWrite.append("\t");
+				printWrite.append(tab.getPrecoTotal().toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
+
+	@FXML
+	public void onBtGerarExcelAno() {
+		try (FileWriter fileWrite = new FileWriter(
+				"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbAnoAtual.getText() + ").xls", false); // False->Cria
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("RANKING DE DESPESAS DE " + lbAnoAtual.getText() + "\r");
+			printWrite.append("\rDespesa\t Qtde\t Valor ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (Despesa tab : obsListaAnoAtual) {
+			try (FileWriter fileWrite = new FileWriter(
+					"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbAnoAtual.getText() + ").xls", true); // True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+				printWrite.append("\r"); // Linha
+				printWrite.append(tab.getNome());
+				printWrite.append("\t"); // Coluna
+				printWrite.append(tab.getQuantidade().toString() + " .");
+				printWrite.append("\t");
+				printWrite.append(tab.getPrecoTotal().toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
+	
+	@FXML
+	public void onBtGerarTxtMes() {
+		try (FileWriter fileWrite = new FileWriter(
+				"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbMesAtual.getText() + ").csv", false); // False->Cria
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("RANKING DE DESPESAS DE " + lbMesAtual.getText() + " / " + lbAnoAtual.getText() + "\r");
+			printWrite.append("\rDespesa\t Qtde\t Valor ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (Despesa tab : obsLista) {
+			try (FileWriter fileWrite = new FileWriter(
+					"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbMesAtual.getText() + ").csv", true); // True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+				printWrite.append("\r"); // Linha
+				printWrite.append(tab.getNome());
+				printWrite.append("\t"); // Coluna
+				printWrite.append(tab.getQuantidade().toString() + " .");
+				printWrite.append("\t");
+				printWrite.append(tab.getPrecoTotal().toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
+
+	@FXML
+	public void onBtGerarTxtAno() {
+		try (FileWriter fileWrite = new FileWriter(
+				"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbAnoAtual.getText() + ").csv", false); // False->Cria
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("RANKING DE DESPESAS DE " + lbAnoAtual.getText() + "\r");
+			printWrite.append("\rDespesa\t Qtde\t Valor ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (Despesa tab : obsListaAnoAtual) {
+			try (FileWriter fileWrite = new FileWriter(
+					"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbAnoAtual.getText() + ").csv", true); // True->Adiciona
+					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+				printWrite.append("\r"); // Linha
+				printWrite.append(tab.getNome());
+				printWrite.append("\t"); // Coluna
+				printWrite.append(tab.getQuantidade().toString() + " .");
+				printWrite.append("\t");
+				printWrite.append(tab.getPrecoTotal().toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+	}
+	
+	
+	public void onBtImprimirMes() {
+		String diretorio = "C:/Minhas Despesas App/Temp/Ranking_"+lbMesAtual.getText()+".txt";
+
+		try (FileWriter fileWrite = new FileWriter(diretorio, true);
+				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
+				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
+			printWrite.append("\r\tRANKING DE DESPESAS DE "+lbMesAtual.getText()+" / "+ lbAnoAtual.getText() + "\r");
+			for (Despesa tab : obsLista) {
+				printWrite.append("\r"); // Linha
+				printWrite.append(tab.getNome()+"___");
+				printWrite.append("R$ "+tab.getPrecoTotal().toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}				
+		Imprimir.imprimirArquivo(diretorio);
 	}	
 	
-	
-	@FXML
-	public void onBtGerarExcelMes() {	
-		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas("+lbMesAtual.getText()+").xls", false);//False->Cria novo
+
+	public void onBtImprimirAno() {
+		String diretorio = "C:/Minhas Despesas App/Temp/Ranking_"+lbAnoAtual.getText()+".txt";
+
+		try (FileWriter fileWrite = new FileWriter(diretorio, true);
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
-			printWrite.append("RANKING DE DESPESAS DE "+lbMesAtual.getText()+" / "+lbAnoAtual.getText()+"\r");
-			printWrite.append("\rDespesa\t Qtde\t Valor ");
+			printWrite.append("\r\tRANKING DE DESPESAS DE " + lbAnoAtual.getText() + "\r");
+			for (Despesa tab : obsListaAnoAtual) {
+				printWrite.append("\r"); // Linha
+				printWrite.append(tab.getNome()+"___");
+				printWrite.append("R$ "+tab.getPrecoTotal().toString());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		
-		for (Despesa tab : obsLista) {  
-			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas("+lbMesAtual.getText()+").xls", true);//True->Adiciona
-					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
-					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
-	     				     		
-	     		printWrite.append("\r"); //Linha
-				printWrite.append(tab.getNome());
-				printWrite.append("\t"); //Coluna
-				printWrite.append(tab.getQuantidade().toString()+" .");
-				printWrite.append("\t");
-				printWrite.append(tab.getPrecoTotal().toString());				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	     }	
-		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
-	}
-	
-	
-	@FXML
-	public void onBtGerarExcelAno() {	
-		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas("+lbAnoAtual.getText()+").xls", false); //False->Cria novo
-				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
-				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
-			printWrite.append("RANKING DE DESPESAS DE "+lbAnoAtual.getText()+"\r");
-			printWrite.append("\rDespesa\t Qtde\t Valor ");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		for (Despesa tab : obsListaAnoAtual) {
-			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas("+lbAnoAtual.getText()+").xls", true); //True->Adiciona
-					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
-					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
-				     				     		
-	     		printWrite.append("\r"); //Linha
-				printWrite.append(tab.getNome());
-				printWrite.append("\t"); //Coluna
-				printWrite.append(tab.getQuantidade().toString()+" .");
-				printWrite.append("\t");
-				printWrite.append(tab.getPrecoTotal().toString());	
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	     }	
-		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
-	}
-	
+		}				
+		Imprimir.imprimirArquivo(diretorio);
+	}	
+
 }

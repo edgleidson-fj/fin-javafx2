@@ -17,6 +17,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JReport"/>
 	<classpathentry kind="lib" path="C:/_DESENVOLVIMENTO/Java/Biblioteca/Email/commons-email-1.5.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -48,6 +49,16 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCSV">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/_DESENVOLVIMENTO/Java/Biblioteca/Relatório em Jasper Reports/jasperreports-6.19.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/_DESENVOLVIMENTO/Java/Biblioteca/Relatório em Jasper Reports/jasperreports-functions-6.19.1.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

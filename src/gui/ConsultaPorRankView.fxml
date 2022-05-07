@@ -51,14 +51,33 @@
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
-                  <Button fx:id="btGerarExcel1" mnemonicParsing="false" onAction="#onBtGerarExcelAno" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="325.0">
+                  <Button fx:id="btGerarExcelAno" mnemonicParsing="false" onAction="#onBtGerarExcelAno" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="325.0">
                      <font>
-                        <Font name="System Bold" size="12.0" />
+                        <Font name="System Bold" size="10.0" />
                      </font></Button>
-                  <Button fx:id="btGerarExcel" layoutX="307.0" layoutY="320.0" mnemonicParsing="false" onAction="#onBtGerarExcelMes" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.rightAnchor="335.0" AnchorPane.topAnchor="325.0">
+                  <Button fx:id="btGerarExcel" layoutX="307.0" layoutY="320.0" mnemonicParsing="false" onAction="#onBtGerarExcelMes" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="325.0">
                      <font>
-                        <Font name="System Bold" size="12.0" />
+                        <Font name="System Bold" size="10.0" />
                      </font></Button>
+                  <Button fx:id="btImprimirAno" layoutX="546.0" layoutY="325.0" mnemonicParsing="false" onAction="#onBtImprimirAno" stylesheets="@zBotaoImprimir.css" text="Imprimir" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="325.0">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font></Button>
+                  <Button fx:id="btGerarTxtAno" layoutX="510.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtGerarTxtAno" text="Texto" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="325.0">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btGerarTxt" layoutX="529.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtGerarTxtMes" text="Texto" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="325.0">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btImprimir" layoutX="266.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtImprimirMes" stylesheets="@zBotaoImprimir.css" text="Imprimir" AnchorPane.rightAnchor="335.0" AnchorPane.topAnchor="325.0">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </children>
