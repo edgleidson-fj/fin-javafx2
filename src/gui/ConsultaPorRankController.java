@@ -28,6 +28,7 @@ import model.entidade.Despesa;
 import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.UsuarioService;
+import smtp.Email;
 
 public class ConsultaPorRankController implements Initializable {
 
@@ -70,15 +71,17 @@ public class ConsultaPorRankController implements Initializable {
 	private Button btImprimir;
 	@FXML
 	private Button btImprimirAno;
+	@FXML
+	private Button btIEnviaEmailMes;
+	@FXML
+	private Button btIEnviaEmailAno;
 
 	public void setDespesaService(DespesaService service) {
 		this.service = service;
 	}
-
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
-
 	public void setUsuario(Usuario usuarioEntidade) {
 		this.usuarioEntidade = usuarioEntidade;
 	}
@@ -164,7 +167,7 @@ public class ConsultaPorRankController implements Initializable {
 		}
 	}
 
-	public void carregarUsuarioLogado() {
+	public void carregarUsuarioLogado() {		
 		if (usuarioEntidade == null) {
 			System.out.println("entidade nulo");
 		}
@@ -177,6 +180,7 @@ public class ConsultaPorRankController implements Initializable {
 
 			if (u.getLogado().equals("S")) {
 				usuarioId = u.getId();
+				usuarioEntidade = u;				
 			}
 		}
 	}
@@ -185,7 +189,7 @@ public class ConsultaPorRankController implements Initializable {
 	@FXML
 	public void onBtGerarExcelMes() {
 		try (FileWriter fileWrite = new FileWriter(
-				"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbMesAtual.getText() + ").xls", false); // False->Cria
+				"C:\\Minhas Despesas App\\Relatorios\\Rank_Despesas(" + lbMesAtual.getText() + ").xls", false); // False->Cria
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("RANKING DE DESPESAS DE " + lbMesAtual.getText() + " / " + lbAnoAtual.getText() + "\r");
@@ -196,7 +200,7 @@ public class ConsultaPorRankController implements Initializable {
 
 		for (Despesa tab : obsLista) {
 			try (FileWriter fileWrite = new FileWriter(
-					"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbMesAtual.getText() + ").xls", true); // True->Adiciona
+					"C:\\Minhas Despesas App\\Relatorios\\Rank_Despesas(" + lbMesAtual.getText() + ").xls", true); // True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 				printWrite.append("\r"); // Linha
@@ -204,20 +208,20 @@ public class ConsultaPorRankController implements Initializable {
 				printWrite.append("\t"); // Coluna
 				printWrite.append(tab.getQuantidade().toString() + " .");
 				printWrite.append("\t");
-				printWrite.append(tab.getPrecoTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getPrecoTotal()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!",
-				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+				"Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 
 	@FXML
 	public void onBtGerarExcelAno() {
 		try (FileWriter fileWrite = new FileWriter(
-				"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbAnoAtual.getText() + ").xls", false); // False->Cria
+				"C:\\Minhas Despesas App\\Relatorios\\Rank_Despesas(" + lbAnoAtual.getText() + ").xls", false); // False->Cria
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("RANKING DE DESPESAS DE " + lbAnoAtual.getText() + "\r");
@@ -228,7 +232,7 @@ public class ConsultaPorRankController implements Initializable {
 
 		for (Despesa tab : obsListaAnoAtual) {
 			try (FileWriter fileWrite = new FileWriter(
-					"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbAnoAtual.getText() + ").xls", true); // True->Adiciona
+					"C:\\Minhas Despesas App\\Relatorios\\Rank_Despesas(" + lbAnoAtual.getText() + ").xls", true); // True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 				printWrite.append("\r"); // Linha
@@ -236,20 +240,20 @@ public class ConsultaPorRankController implements Initializable {
 				printWrite.append("\t"); // Coluna
 				printWrite.append(tab.getQuantidade().toString() + " .");
 				printWrite.append("\t");
-				printWrite.append(tab.getPrecoTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getPrecoTotal()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!",
-				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+				"Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 	
 	@FXML
 	public void onBtGerarTxtMes() {
 		try (FileWriter fileWrite = new FileWriter(
-				"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbMesAtual.getText() + ").csv", false); // False->Cria
+				"C:\\Minhas Despesas App\\Relatorios\\Rank_Despesas(" + lbMesAtual.getText() + ").csv", false); // False->Cria
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("RANKING DE DESPESAS DE " + lbMesAtual.getText() + " / " + lbAnoAtual.getText() + "\r");
@@ -260,7 +264,7 @@ public class ConsultaPorRankController implements Initializable {
 
 		for (Despesa tab : obsLista) {
 			try (FileWriter fileWrite = new FileWriter(
-					"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbMesAtual.getText() + ").csv", true); // True->Adiciona
+					"C:\\Minhas Despesas App\\Relatorios\\Rank_Despesas(" + lbMesAtual.getText() + ").csv", true); // True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 				printWrite.append("\r"); // Linha
@@ -268,20 +272,20 @@ public class ConsultaPorRankController implements Initializable {
 				printWrite.append("\t"); // Coluna
 				printWrite.append(tab.getQuantidade().toString() + " .");
 				printWrite.append("\t");
-				printWrite.append(tab.getPrecoTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getPrecoTotal()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
-				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+		Alertas.mostrarAlerta(null, "Arquivo CSV gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 
 	@FXML
 	public void onBtGerarTxtAno() {
 		try (FileWriter fileWrite = new FileWriter(
-				"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbAnoAtual.getText() + ").csv", false); // False->Cria
+				"C:\\Minhas Despesas App\\Relatorios\\Rank_Despesas(" + lbAnoAtual.getText() + ").csv", false); // False->Cria
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("RANKING DE DESPESAS DE " + lbAnoAtual.getText() + "\r");
@@ -292,7 +296,7 @@ public class ConsultaPorRankController implements Initializable {
 
 		for (Despesa tab : obsListaAnoAtual) {
 			try (FileWriter fileWrite = new FileWriter(
-					"C:\\Minhas Despesas App\\Arquivos Excel\\Rank_Despesas(" + lbAnoAtual.getText() + ").csv", true); // True->Adiciona
+					"C:\\Minhas Despesas App\\Relatorios\\Rank_Despesas(" + lbAnoAtual.getText() + ").csv", true); // True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 				printWrite.append("\r"); // Linha
@@ -300,13 +304,13 @@ public class ConsultaPorRankController implements Initializable {
 				printWrite.append("\t"); // Coluna
 				printWrite.append(tab.getQuantidade().toString() + " .");
 				printWrite.append("\t");
-				printWrite.append(tab.getPrecoTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getPrecoTotal()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
-				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+		Alertas.mostrarAlerta(null, "Arquivo CSV gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 	
@@ -320,7 +324,7 @@ public class ConsultaPorRankController implements Initializable {
 			for (Despesa tab : obsLista) {
 				printWrite.append("\r"); // Linha
 				printWrite.append(tab.getNome()+"___");
-				printWrite.append("R$ "+tab.getPrecoTotal().toString());
+				printWrite.append("R$ "+String.format("%.2f",tab.getPrecoTotal()));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -339,12 +343,42 @@ public class ConsultaPorRankController implements Initializable {
 			for (Despesa tab : obsListaAnoAtual) {
 				printWrite.append("\r"); // Linha
 				printWrite.append(tab.getNome()+"___");
-				printWrite.append("R$ "+tab.getPrecoTotal().toString());
+				printWrite.append("R$ "+String.format("%.2f",tab.getPrecoTotal()));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}				
 		Imprimir.imprimirArquivo(diretorio);
+	}	
+	
+	
+	public void onBtEnviarEmailMes() {					
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("********** RANKING DE DESPESAS REFERENTE AO MÊS "+lbMesAtual.getText()+" DE "+lbAnoAtual.getText()+" **********\n\r");		
+		Double total = 0.0;
+		for(Despesa tab : obsLista) {
+			strBuilder.append("--> "+tab.getNome()+ "  R$ "+String.format("%.2f",tab.getPrecoTotal())+"\n");
+			total += tab.getPrecoTotal();
+		}	
+		strBuilder.append("\r\n_________________\n");
+		strBuilder.append("TOTAL  R$ "+String.format("%.2f",total)+"\n");
+		String msg = strBuilder.toString();		
+		Email.envio2(usuarioEntidade, msg);		
+	}	
+	
+	
+	public void onBtEnviarEmailAno() {					
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("********** RANKING DE DESPESAS REFERENTE AO ANO "+lbAnoAtual.getText()+" **********\n\r");		
+		Double total = 0.0;
+		for(Despesa tab : obsListaAnoAtual) {
+			strBuilder.append("--> "+tab.getNome()+ "  R$ "+String.format("%.2f",tab.getPrecoTotal())+"\n");
+			total += tab.getPrecoTotal();
+		}	
+		strBuilder.append("\r\n_________________\n");
+		strBuilder.append("TOTAL  R$ "+String.format("%.2f",total)+"\n");
+		String msg = strBuilder.toString();
+		Email.envio2(usuarioEntidade, msg);		
 	}	
 
 }

@@ -42,17 +42,22 @@
                </font>
             </Label>
             <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="218.0" layoutY="45.0" prefHeight="25.0" prefWidth="236.0" promptText="Referência ou item" AnchorPane.topAnchor="50.0" />
-            <Button fx:id="btGerarExcel" layoutX="654.0" layoutY="476.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="145.0">
+            <Button fx:id="btGerarExcel" layoutX="654.0" layoutY="476.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="117.0">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
-            <Button fx:id="btGerarTxt" layoutX="361.0" layoutY="481.0" mnemonicParsing="false" onAction="#onBtGerarTxt" text="Texto" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="90.0">
+            <Button fx:id="btGerarTxt" layoutX="361.0" layoutY="481.0" mnemonicParsing="false" onAction="#onBtGerarTxt" text="CSV" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="80.0">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
             <Button fx:id="btImprimir" layoutX="520.0" layoutY="481.0" mnemonicParsing="false" onAction="#onBtImprimir" stylesheets="@zBotaoImprimir.css" text="Imprimir" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="btEnviarEmail" layoutX="492.0" layoutY="482.0" mnemonicParsing="false" onAction="#onBtEnviarEmail" stylesheets="@zBotaoEmail.css" text="Email" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="160.0">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>

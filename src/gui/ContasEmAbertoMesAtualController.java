@@ -42,6 +42,7 @@ import model.servico.ItemPagamentoService;
 import model.servico.LancamentoService;
 import model.servico.TipoPagService;
 import model.servico.UsuarioService;
+import smtp.Email;
 
 public class ContasEmAbertoMesAtualController implements Initializable {
 
@@ -80,6 +81,8 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	private Button btGerarTxt;
 	@FXML
 	private Button btImprimir;
+	@FXML
+	private Button btEnviarEmail;
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	
@@ -132,7 +135,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		criarBotaoPagar();
 		carregarSomaTotal();
 		pegarMesAtual();
-		}
+	}
 	
 	public void carregarSomaTotal() {
 		Double soma = 0.0;
@@ -267,6 +270,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 
 			if (u.getLogado().equals("S")) {
 				usuarioId = u.getId();
+				usuarioEntidade = u;
 			}
 		}
 	}	
@@ -318,7 +322,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 	
 	@FXML
 	public void onBtGerarExcel() {	
-		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\EmAberto"+lbMes.getText()+".xls", false);//False->Cria novo
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Relatorios\\EmAberto"+lbMes.getText()+".xls", false);//False->Cria novo
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("\tCONTAS EM ABERTO DE "+lbMes.getText()+"\r");
@@ -328,7 +332,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 		}
 		
 		for (Lancamento tab : obsListaLancamentoTbView) {  
-			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\EmAberto"+lbMes.getText()+".xls", true);//True->Adiciona
+			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Relatorios\\EmAberto"+lbMes.getText()+".xls", true);//True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 	     		
@@ -338,19 +342,19 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());				
+				printWrite.append(String.format("%.2f",tab.getTotal()));				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 	     }	
-		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 	
 	@FXML
 	public void onBtGerarTxt() {
 		try (FileWriter fileWrite = new FileWriter(
-				"C:\\Minhas Despesas App\\Arquivos Excel\\EmAberto(" + lbMes.getText() + ").csv", false); // False->Cria
+				"C:\\Minhas Despesas App\\Relatorios\\EmAberto(" + lbMes.getText() + ").csv", false); // False->Cria
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("CONTAS EM ABERTO DE " + lbMes.getText() + "\r");
@@ -361,7 +365,7 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			try (FileWriter fileWrite = new FileWriter(
-					"C:\\Minhas Despesas App\\Arquivos Excel\\EmAberto(" + lbMes.getText() + ").csv", true); // True->Adiciona
+					"C:\\Minhas Despesas App\\Relatorios\\EmAberto(" + lbMes.getText() + ").csv", true); // True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 				
@@ -371,13 +375,13 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getTotal()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
-				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+		Alertas.mostrarAlerta(null, "Arquivo CSV gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 	
@@ -395,12 +399,28 @@ public class ContasEmAbertoMesAtualController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getTotal()));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}				
 		Imprimir.imprimirArquivo(diretorio);
+	}	
+	
+	
+	public void onBtEnviarEmail() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("********** LANÇAMENTOS EM ABERTO DE "+lbMes.getText()+" **********\n\r");		
+		Double total = 0.0;
+		for(Lancamento tab : obsListaLancamentoTbView) {
+			strBuilder.append("--> "+sdf.format(tab.getData())+"  "+tab.getReferencia()+ "  (R$ "+String.format("%.2f",tab.getTotal())+")\n");
+			total += tab.getTotal();
+		}	
+		strBuilder.append("\r\n_________________\n");
+		strBuilder.append("TOTAL  R$ "+String.format("%.2f",total)+"\n");
+		String msg = strBuilder.toString();
+		Email.envio2(usuarioEntidade, msg);		
 	}	
 	
 }

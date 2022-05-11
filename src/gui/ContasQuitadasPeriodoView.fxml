@@ -43,7 +43,7 @@
                </font>
             </Label>
             <TextField fx:id="txtConsultaReferenciaOuDespesa" layoutX="218.0" layoutY="55.0" prefHeight="25.0" prefWidth="236.0" promptText="Referência ou item" AnchorPane.topAnchor="50.0" />
-            <Button fx:id="btGerarExcel" layoutX="701.0" layoutY="445.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="145.0">
+            <Button fx:id="btGerarExcel" layoutX="701.0" layoutY="445.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="117.0">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
@@ -53,7 +53,12 @@
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
-            <Button fx:id="btGerarTxt" layoutX="604.0" layoutY="441.0" mnemonicParsing="false" onAction="#onBtGerarTxt" text="Texto" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="90.0">
+            <Button fx:id="btGerarTxt" layoutX="604.0" layoutY="441.0" mnemonicParsing="false" onAction="#onBtGerarTxt" text="CSV" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="btEnviarEmail" layoutX="634.0" layoutY="466.0" mnemonicParsing="false" onAction="#onBtEnviarEmail" stylesheets="@zBotaoEmail.css" text="Email" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="160.0">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>

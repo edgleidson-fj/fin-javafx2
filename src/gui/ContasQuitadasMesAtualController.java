@@ -39,6 +39,7 @@ import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
 import model.servico.LancamentoService;
 import model.servico.UsuarioService;
+import smtp.Email;
 
 public class ContasQuitadasMesAtualController implements Initializable {
 
@@ -79,6 +80,8 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	private Button btGerarTxt;
 	@FXML
 	private Button btImprimir;
+	@FXML
+	private Button btEnviarEmail;
 
 	private ObservableList<Lancamento> obsListaLancamentoTbView;
 	private ObservableList<Lancamento> obsListaLancamentoTbViewAux;
@@ -277,6 +280,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		List<Usuario> lista = usuarioService.buscarTodos();
 		for (Usuario u : lista) {
 			u.getLogado();
+			usuarioEntidade = u;
 
 			if (u.getLogado().equals("S")) {
 				Double tetoGasto = u.getTetoGasto();
@@ -300,7 +304,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 	
 	@FXML
 	public void onBtGerarExcel() {	
-		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados"+lbMes.getText()+".xls", false);//False->Cria novo
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Relatorios\\Quitados"+lbMes.getText()+".xls", false);//False->Cria novo
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("\tCONTAS QUITADAS DE "+lbMes.getText()+"\r");
@@ -310,7 +314,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 		}
 		
 		for (Lancamento tab : obsListaLancamentoTbView) {  
-			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados"+lbMes.getText()+".xls", true);//True->Adiciona
+			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Relatorios\\Quitados"+lbMes.getText()+".xls", true);//True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 	     		
@@ -320,19 +324,19 @@ public class ContasQuitadasMesAtualController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());				
+				printWrite.append(String.format("%.2f",tab.getTotal()));				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 	     }	
-		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 	
 	@FXML
 	public void onBtGerarTxt() {
 		try (FileWriter fileWrite = new FileWriter(
-				"C:\\Minhas Despesas App\\Arquivos Excel\\Quitados(" + lbMes.getText() + ").csv", false); // False->Cria
+				"C:\\Minhas Despesas App\\Relatorios\\Quitados(" + lbMes.getText() + ").csv", false); // False->Cria
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("CONTAS QUITADAS DE " + lbMes.getText() + "\r");
@@ -343,7 +347,7 @@ public class ContasQuitadasMesAtualController implements Initializable {
 
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			try (FileWriter fileWrite = new FileWriter(
-					"C:\\Minhas Despesas App\\Arquivos Excel\\Quitados(" + lbMes.getText() + ").csv", true); // True->Adiciona
+					"C:\\Minhas Despesas App\\Relatorios\\Quitados(" + lbMes.getText() + ").csv", true); // True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 				
@@ -353,13 +357,13 @@ public class ContasQuitadasMesAtualController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getTotal()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
-				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+		Alertas.mostrarAlerta(null, "Arquivo CSV gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 	
@@ -377,12 +381,28 @@ public class ContasQuitadasMesAtualController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getTotal()));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}				
 		Imprimir.imprimirArquivo(diretorio);
+	}	
+	
+	
+	public void onBtEnviarEmail() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("********** LANÇAMENTOS QUITADOS DE "+lbMes.getText()+" **********\n\r");		
+		Double total = 0.0;
+		for(Lancamento tab : obsListaLancamentoTbView) {
+			strBuilder.append("--> "+sdf.format(tab.getData())+"  "+tab.getReferencia()+ "  (R$ "+String.format("%.2f",tab.getTotal())+")\n");
+			total += tab.getTotal();
+		}	
+		strBuilder.append("\r\n_________________\n");
+		strBuilder.append("TOTAL  R$ "+String.format("%.2f",total)+"\n");
+		String msg = strBuilder.toString();
+		Email.envio2(usuarioEntidade, msg);		
 	}	
 
 }

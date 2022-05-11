@@ -48,7 +48,7 @@
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btGerarExcel" layoutX="666.0" layoutY="463.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="145.0">
+            <Button fx:id="btGerarExcel" layoutX="666.0" layoutY="463.0" mnemonicParsing="false" onAction="#onBtGerarExcel" stylesheets="@zBotaoExcel.css" text="Excel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="117.0">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
@@ -58,7 +58,12 @@
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
-            <Button fx:id="btGerarTxt" layoutX="325.0" layoutY="504.0" mnemonicParsing="false" onAction="#onBtGerarTxt" text="Texto" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="90.0">
+            <Button fx:id="btGerarTxt" layoutX="325.0" layoutY="504.0" mnemonicParsing="false" onAction="#onBtGerarTxt" text="CSV" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="btEnviarEmail" layoutX="449.0" layoutY="512.0" mnemonicParsing="false" onAction="#onBtEnviarEmail" stylesheets="@zBotaoEmail.css" text="Email" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="160.0">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>

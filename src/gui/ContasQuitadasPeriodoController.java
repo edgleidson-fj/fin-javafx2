@@ -37,14 +37,19 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entidade.Lancamento;
+import model.entidade.Usuario;
 import model.servico.DespesaService;
 import model.servico.ItemPagamentoService;
 import model.servico.LancamentoService;
+import model.servico.UsuarioService;
+import smtp.Email;
 
 public class ContasQuitadasPeriodoController implements Initializable {
 
 	private LancamentoService lancamentoService;
 	private Lancamento lancamentoEntidade;
+	private UsuarioService usuarioService;
+	private Usuario usuarioEntidade;
 
 	@FXML
 	private DatePicker datePickerDataInicial;
@@ -60,6 +65,8 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	private Button btGerarTxt;
 	@FXML
 	private Button btImprimir;
+	@FXML
+	private Button btEnviarEmail;
 	@FXML
 	private TableView<Lancamento> tbLancamento;
 	@FXML
@@ -84,9 +91,14 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	public void setLancamentoService(LancamentoService lancamentoService) {
 		this.lancamentoService = lancamentoService;
 	}
-
 	public void setLancamento(Lancamento lancamentoEntidade) {
 		this.lancamentoEntidade = lancamentoEntidade;
+	}
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+	public void setUsuario(Usuario usuarioEntidade) {
+		this.usuarioEntidade = usuarioEntidade;
 	}
 	
 	Date d1, d2;
@@ -203,13 +215,32 @@ public class ContasQuitadasPeriodoController implements Initializable {
 	}
 	
 	
+	public void carregarUsuarioLogado() {
+		if (usuarioEntidade == null) {
+			System.out.println("entidade nulo");
+		}
+		if (usuarioService == null) {
+			System.out.println("service nulo");
+		}
+		List<Usuario> lista = usuarioService.buscarTodos();
+		for (Usuario u : lista) {
+			u.getLogado();
+
+			if (u.getLogado().equals("S")) {
+				//usuarioId = u.getId();
+				usuarioEntidade = u;
+			}
+		}
+	}	
+	
+	
 	@FXML
 	public void onBtGerarExcel() {
 		SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
 		String dataInicial = fmt.format(d1);
 		String dataFinal = fmt.format(d2);
 		
-		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".xls", false);//False->Cria novo
+		try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Relatorios\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".xls", false);//False->Cria novo
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("\tQUITADOS DE "+dataInicial+" ATÉ "+dataFinal+"\r");
@@ -219,7 +250,7 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		}
 		
 		for (Lancamento tab : obsListaLancamentoTbView) {  
-			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Arquivos Excel\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".xls", true);//True->Adiciona
+			try (FileWriter fileWrite = new FileWriter("C:\\Minhas Despesas App\\Relatorios\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".xls", true);//True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 	     		
@@ -229,12 +260,12 @@ public class ContasQuitadasPeriodoController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());				
+				printWrite.append(String.format("%.2f",tab.getTotal()));				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 	     }	
-		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+		Alertas.mostrarAlerta(null, "Excel gerado com sucesso!", "Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 	
@@ -245,7 +276,7 @@ public class ContasQuitadasPeriodoController implements Initializable {
 		String dataFinal = fmt.format(d2);
 		
 		try (FileWriter fileWrite = new FileWriter(
-				"C:\\Minhas Despesas App\\Arquivos Excel\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".csv", false); // False->Cria
+				"C:\\Minhas Despesas App\\Relatorios\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".csv", false); // False->Cria
 				BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 				PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 			printWrite.append("QUITADOS DE "+dataInicial+" ATÉ "+dataFinal+"\r");
@@ -256,7 +287,7 @@ public class ContasQuitadasPeriodoController implements Initializable {
 
 		for (Lancamento tab : obsListaLancamentoTbView) {
 			try (FileWriter fileWrite = new FileWriter(
-					"C:\\Minhas Despesas App\\Arquivos Excel\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".csv", true); // True->Adiciona
+					"C:\\Minhas Despesas App\\Relatorios\\Quitados_"+dataInicial+"_Ate_"+dataFinal+".csv", true); // True->Adiciona
 					BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 					PrintWriter printWrite = new PrintWriter(bufferWrite);) {
 				
@@ -266,13 +297,13 @@ public class ContasQuitadasPeriodoController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getTotal()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		Alertas.mostrarAlerta(null, "Arquivo de texto gerado com sucesso!",
-				"Salvo no diretório: \nC:/Minhas Despesas App/Arquivos Excel/*", AlertType.INFORMATION);
+		Alertas.mostrarAlerta(null, "Arquivo CSV gerado com sucesso!",
+				"Salvo no diretório: \nC:/Minhas Despesas App/Relatorios/*", AlertType.INFORMATION);
 	}
 	
 	
@@ -293,12 +324,30 @@ public class ContasQuitadasPeriodoController implements Initializable {
 				printWrite.append("\t"); //Coluna
 				printWrite.append(tab.getReferencia());
 				printWrite.append("\t");
-				printWrite.append(tab.getTotal().toString());
+				printWrite.append(String.format("%.2f",tab.getTotal()));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}				
 		Imprimir.imprimirArquivo(diretorio);
+	}	
+	
+	
+	public void onBtEnviarEmail() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String dataInicial = sdf.format(d1);
+		String dataFinal = sdf.format(d2);
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("********** LANÇAMENTOS QUITADOS DE "+dataInicial+" ATÉ "+dataFinal+" **********\n\r");		
+		Double total = 0.0;
+		for(Lancamento tab : obsListaLancamentoTbView) {
+			strBuilder.append("--> "+sdf.format(tab.getData())+"  "+tab.getReferencia()+ "  (R$ "+String.format("%.2f",tab.getTotal())+")\n");
+			total += tab.getTotal();
+		}	
+		strBuilder.append("\r\n_________________\n");
+		strBuilder.append("TOTAL  R$ "+String.format("%.2f",total)+"\n");
+		String msg = strBuilder.toString();
+		Email.envio2(usuarioEntidade, msg);		
 	}	
 	
 }

@@ -283,6 +283,7 @@ public class MainViewController implements Initializable {
 					controller.setDespesaService(new DespesaService());
 					Usuario user = new Usuario();
 					user.setId(usuarioId);
+					user.setNome(userNome);
 					controller.setUsuario(user);
 					controller.setUsuarioService(new UsuarioService());
 					controller.carregarTableView();
@@ -334,7 +335,13 @@ public class MainViewController implements Initializable {
 				carregarView("/gui/ContasQuitadasPeriodoView.fxml", (ContasQuitadasPeriodoController controller) -> {
 					controller.setLancamentoService(new LancamentoService());
 					controller.setLancamento(new Lancamento());
+					Usuario user = new Usuario();
+					user.setId(u.getId());
+					user.setNome(u.getNome());
+					controller.setUsuario(user);
+					controller.setUsuarioService(new UsuarioService());
 					controller.rotinasAutomaticas();
+					controller.carregarUsuarioLogado();	
 				});
 				logado = "S";
 			}
@@ -408,7 +415,10 @@ public class MainViewController implements Initializable {
 					Usuario user = new Usuario();
 					user.setId(u.getId());
 					user.setNome(u.getNome());
-					controller.rotinasAutomaticas();					
+					controller.setUsuario(user);
+					controller.setUsuarioService(new UsuarioService());
+					controller.rotinasAutomaticas();
+					controller.carregarUsuarioLogado();
 				});
 				logado = "S";
 			}
@@ -519,8 +529,11 @@ public class MainViewController implements Initializable {
 			carregarView("/gui/ContasEmAbertoMesAtualView.fxml", (ContasEmAbertoMesAtualController controller) -> {
 				controller.setLancamentoService(new LancamentoService());
 				controller.setLancamento(new Lancamento());
+				controller.setUsuario(user);
+				controller.setUsuarioService(new UsuarioService());
 				controller.rotinasAutomaticas();
 				controller.carregarTableView();
+				controller.carregarUsuarioLogado();
 			});
 
 			Mensagem msg = new Mensagem();
